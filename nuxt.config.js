@@ -35,8 +35,19 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/axios'
   ],
+
+  serverMiddleware: [
+    { path: '/test', handler: '~/api/test.js' }
+  ],
+
+  // Axios module configuration
+  // See https://axios.nuxtjs.org/options
+  axios: {
+    baseURL: process.env.baseURL || 'http://localhost:3000'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
