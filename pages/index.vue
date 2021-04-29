@@ -28,7 +28,24 @@
 </template>
 
 <script>
-export default {}
+export default {
+  async created () {
+    await this.callAPITest()
+  },
+  methods: {
+    async callAPITest () {
+      try {
+        console.log('callAPITest ~ ')
+        // console.log(`            ~ `)
+        const res = await this.$axios.$get('/test/')
+        console.log('            ~ res => ', res)
+      } catch (e) {
+        console.log('            ~ e => ', e)
+        console.log('            ~ e.response => ', e.response)
+      }
+    }
+  }
+}
 </script>
 
 <style>
