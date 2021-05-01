@@ -22,6 +22,9 @@
         >
           GitHub
         </a>
+        <nuxt-link :to="{path: '/error'}" class="button--grey">
+          /error로 이동
+        </nuxt-link>
       </div>
     </div>
   </div>
