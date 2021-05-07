@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="wrapper">
+    <BaseHeader />
     <Nuxt />
   </div>
 </template>
