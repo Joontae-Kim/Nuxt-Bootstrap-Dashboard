@@ -16,6 +16,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'no-console': 'off',
-    'no-empty': 'error'
+    'no-empty': 'error',
+    'singleline-html-element-content-newline': 'off'
   }
 }
