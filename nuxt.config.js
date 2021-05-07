@@ -43,7 +43,8 @@ export default {
 
   bootstrapVue: {
     bootstrapCSS: false, // Or `css: false`
-    bootstrapVueCSS: false // Or `bvCSS: false`
+    bootstrapVueCSS: false, // Or `bvCSS: false`
+    icons: true
   },
 
   serverMiddleware: [
