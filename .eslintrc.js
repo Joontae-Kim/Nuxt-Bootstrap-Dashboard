@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-empty': 'error',
-    'singleline-html-element-content-newline': 'off'
+    'singleline-html-element-content-newline': 'off',
+    'vue/singleline-html-element-content-newline': 'off'
   }
 }
