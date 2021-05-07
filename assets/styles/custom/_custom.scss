@@ -1,0 +1,9 @@
+@import '_variables';
+@import 'sidebar';
+@import 'content';
+
+.wrapper {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
