@@ -2,8 +2,18 @@
 @import 'sidebar';
 @import 'content';
 
+body {
+  background-color: #fafbfe;
+}
+
 .wrapper {
   height: 100%;
   overflow: hidden;
   width: 100%;
+}
+
+.cursor {
+  &-pointer {
+    cursor: pointer;
+  }
 }
