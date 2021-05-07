@@ -1,5 +1,24 @@
 .content-page {
-  margin-left: $sidebar-width;
   overflow: hidden;
   min-height: 100vh;
+
+  @include media-breakpoint-down(lg) {
+    width: 100%;
+
+    &.collapsed {
+      z-index: 0;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    transition: margin-left .5s ease;
+
+    &:not(.collapsed) {
+      margin-left: 0;
+    }
+    
+    &.collapsed {
+      margin-left: $sidebar-width;
+    }
+  }
 }

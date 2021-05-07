@@ -1,8 +1,56 @@
 .sidebar {
-  width: $sidebar-width;
-  z-index: 10;
-  bottom: 0;
-  position: fixed;
+  height: 100%;
+  z-index: 1;
   top: 0;
-  box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%)
+  bottom: 0;
+  box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
+  transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  overflow-x: hidden;
+  background: #313a46;
+
+  @include media-breakpoint-down(md) {
+    position: absolute;
+  }
+
+  @include media-breakpoint-up(lg) {
+    position: fixed;
+  }
+
+  &:not(.collapsed) {
+    width: $sidebar-width;
+  }
+
+  &.collapsed {
+    width: 0;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.95rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: $gray-700;
+    transition: color 0.3s;
+    white-space: nowrap;
+
+    &:hover,
+    &.active {
+      color: $white;
+    }
+  }
+
+  &__close svg {
+    color: $gray-500;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $gray-100;
+    }
+  }
 }
