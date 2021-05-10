@@ -49,11 +49,16 @@ export default {
 
   serverMiddleware: [
     { path: '/test', handler: '~/api/test.js' },
-    { path: '/error', handler: '~/api/error.js' }
+    { path: '/error', handler: '~/api/error.js' },
+    { path: '/over', handler: '~/api/over.js' }
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    analyze: process.env.NODE_ENV === 'development'
+    analyze: {
+      analyzerMode: 'server',
+      analyzerHost: '0',
+      openAnalyzer: true
+    }
   }
 }
