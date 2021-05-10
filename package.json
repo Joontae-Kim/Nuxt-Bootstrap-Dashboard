@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development nuxt",
+    "dev": "nodemon --watch api --exec \"NODE_ENV=development nuxt\"",
     "build": "nuxt build",
     "analyze": "nuxt build --analyze",
     "start": "nuxt start",
