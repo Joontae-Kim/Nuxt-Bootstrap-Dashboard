@@ -10,13 +10,13 @@
     </div>
     <div class="sidebar__body py-2">
       <b-nav vertical class="w-100">
-        <b-nav-item :to="{ path: '/overview' }" exact exact-active-class="active">
+        <b-nav-item to="/overview" exact-active-class="active">
           Overview
         </b-nav-item>
-        <b-nav-item exact exact-active-class="active">
+        <b-nav-item exact-active-class="active">
           Link
         </b-nav-item>
-        <b-nav-item exact exact-active-class="active">
+        <b-nav-item exact-active-class="active">
           Another Link
         </b-nav-item>
       </b-nav>
