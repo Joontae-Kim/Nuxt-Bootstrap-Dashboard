@@ -18,6 +18,7 @@ module.exports = {
     'no-console': 'off',
     'no-empty': 'error',
     'singleline-html-element-content-newline': 'off',
-    'vue/singleline-html-element-content-newline': 'off'
+    'vue/singleline-html-element-content-newline': 'off',
+    quotes: ['off', 'single']
   }
 }
