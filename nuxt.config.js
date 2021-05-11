@@ -3,7 +3,7 @@ export default {
   head: {
     title: 'nuxt-bootstrap-dashboard',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ko'
     },
     meta: [
       { charset: 'utf-8' },
@@ -22,11 +22,24 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios'
+    '~/plugins/axios',
+    '~/plugins/formatCurrency'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  // components: true,
+  components: {
+    dirs: [
+      {
+        path: '~/components/base',
+        prefix: 'base'
+      },
+      {
+        path: '~/components/dashboard',
+        prefix: 'dash'
+      }
+    ]
+  },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -45,6 +58,11 @@ export default {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
     icons: true
+  },
+
+  pageTransition: {
+    name: 'fade',
+    mode: 'out-in'
   },
 
   serverMiddleware: [
