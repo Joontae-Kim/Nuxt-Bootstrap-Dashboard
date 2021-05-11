@@ -1,9 +1,9 @@
 <template>
   <div class="wrapper">
-    <Sidebar :collapsed="collapsedSidebar" @toggleSidebar="collapsed" />
+    <dash-sidebar :collapsed="collapsedSidebar" @toggleSidebar="collapsed" />
     <div :class="['content-page', { collapsed: !collapsedSidebar }]">
-      <DashboardHeader @toggleSidebar="collapsed" />
-      <div class="content p-2">
+      <dash-header @toggleSidebar="collapsed" />
+      <div class="content py-3">
         <Nuxt />
       </div>
     </div>
@@ -12,8 +12,10 @@
 
 <script>
 export default {
+  name: 'Dashboard',
   data: () => ({
-    collapsedSidebar: false
+    collapsedSidebar: false,
+    isChildPending: true
   }),
   watch: {},
   created () {},
