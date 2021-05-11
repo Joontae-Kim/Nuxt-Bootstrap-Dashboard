@@ -18,8 +18,8 @@ const index = (req, res, next) => {
       rate: randomIndex(1, 15, false)
     }
     const channels = { organic: randomIndex(30, 50) }
-    channels.direct = randomIndex(1, channels.organic)
-    channels.social = randomIndex(1, channels.direct)
+    channels.direct = randomIndex(10, channels.organic)
+    channels.social = randomIndex(10, channels.direct)
     channels.paid = 100 - channels.social - channels.direct - channels.organic
     const visitbyNotification = { push: randomIndex(30, 50) }
     visitbyNotification.email = randomIndex(10, visitbyNotification.push)
@@ -32,7 +32,7 @@ const index = (req, res, next) => {
       channels,
       visitbyNotification,
       sales: createSerialRandom(20, 40, 7),
-      evnetRank: randomEventSet(5)
+      eventRank: randomEventSet(5)
     })
   } catch (e) {
     res.status(400).send({ message: e.message })
