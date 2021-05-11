@@ -13,8 +13,8 @@
         <b-nav-item to="/overview" exact-active-class="active">
           Overview
         </b-nav-item>
-        <b-nav-item exact-active-class="active">
-          Link
+        <b-nav-item to="/event" exact-active-class="active">
+          Event
         </b-nav-item>
         <b-nav-item exact-active-class="active">
           Another Link
@@ -26,7 +26,6 @@
 
 <script>
 export default {
-  name: 'SideBar',
   props: {
     collapsed: {
       type: Boolean,
