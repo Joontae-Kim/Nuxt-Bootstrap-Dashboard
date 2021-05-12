@@ -2,11 +2,18 @@
   <b-card no-body class="dsCard overflow-hidden shadow-sm p-3" border-variant="light">
     <template v-if="icon || useicon">
       <b-row no-gutters>
-        <b-col cols="auto" class="flex-grow-1">
+        <b-col cols="10" class="flex-grow-1">
           <p class="dsCard__title">{{ title }}</p>
-          <slot />
+          <!-- <slot /> -->
+          <b-row no-gutters>
+            <b-col cols>
+              <div class="dsCard__index">{{ index }}</div>
+              <div class="text-success dsCard__subIndex mb-1">+ {{ rate }}%</div>
+              <div class="dsCard__guide">{{ guide }}</div>
+            </b-col>
+          </b-row>
         </b-col>
-        <b-col cols="auto" class="flex-grow-0">
+        <b-col cols="2" class="float-end">
           <template v-if="icon">
             <b-icon
               :icon="icon"
@@ -53,6 +60,27 @@ export default {
       required: false,
       default: (iconProps) => {
         return (typeof iconProps === 'undefined') ? false : iconProps
+      }
+    },
+    index: {
+      type: String,
+      required: false,
+      default: (indexProps) => {
+        return (typeof indexProps === 'undefined') ? 'index' : indexProps
+      }
+    },
+    rate: {
+      type: [Number, String],
+      required: false,
+      default: (rateProps) => {
+        return (typeof rateProps === 'undefined') ? 'rate' : rateProps
+      }
+    },
+    guide: {
+      type: String,
+      required: false,
+      default: (guideProps) => {
+        return (typeof guideProps === 'undefined') ? 'Since last month' : guideProps
       }
     }
   }
