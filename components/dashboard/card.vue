@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body class="dsCard overflow-hidden shadow-sm p-3" border-variant="light">
+  <b-card no-body :class="['dsCard overflow-hidden shadow-sm', icon || useicon ? 'p-3' : 'pt-3 px-3']" border-variant="light">
     <template v-if="icon || useicon">
       <b-row no-gutters>
         <b-col cols="10" class="flex-grow-1">
@@ -63,14 +63,14 @@ export default {
       }
     },
     index: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: (indexProps) => {
         return (typeof indexProps === 'undefined') ? 'index' : indexProps
       }
     },
     rate: {
-      type: [Number, String],
+      type: [String, Number],
       required: false,
       default: (rateProps) => {
         return (typeof rateProps === 'undefined') ? 'rate' : rateProps
