@@ -18,8 +18,8 @@ function createSerialRandom (min, max, count) {
         ? max - min
         : serial[loop - 1]
     let random = randomIndex(contrary, max)
-    if (loop !== 0 && Math.abs(random - serial[loop - 1]) >= 7) {
-      random = randomIndex(serial[loop - 1], serial[loop - 1] + 4)
+    if (loop !== 0 && Math.abs(random - serial[loop - 1]) >= 8) {
+      random = randomIndex(serial[loop - 1], serial[loop - 1] + 6)
     }
     serial.push(random)
     loop++

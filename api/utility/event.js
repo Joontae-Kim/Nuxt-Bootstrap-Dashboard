@@ -15,32 +15,23 @@ const eventNameSet = [
   'The Recommened React.js Bootstrap Template in Febrary 2021'
 ]
 
-// const eventPrototype = {
-//   name: '',
-//   views: 0,
-//   sales: 0,
-//   bounce: 0
-// }
-
-function createEventSet () {
-  const set = eventNameSet.reduce((set, name, n) => {
-    set.push({
-      name,
-      views: randomIndex(50, 400),
-      sales: randomIndex(100, 300),
-      bounce: randomIndex(20, 100)
-    })
-    return set
-  }, [])
-  return set
-}
- 
 function randomEventSet (count) {
   const eventSet = createEventSet()
   return getRandomArray(eventSet, count)
 }
 
+function createEventSet () {
+  const set = eventNameSet.reduce((set, name, n) => {
+    const views = randomIndex(200, 400)
+    const bounce = randomIndex(20, 60)
+    const sales = views * (bounce / 100)
+    set.push({ name, views, bounce: Math.floor(bounce), sales: Math.floor(sales) })
+    return set
+  }, [])
+  return set
+}
+
 module.exports = {
-  createEventSet,
-  randomEventSet
+  randomEventSet,
+  createEventSet
 }
