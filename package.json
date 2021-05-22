@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch api --exec \"NODE_ENV=development nuxt\"",
+    "dev": "nodemon --watch mixins --watch api --exec \"NODE_ENV=development nuxt\"",
     "build": "nuxt build",
     "analyze": "nuxt build --analyze",
     "start": "nuxt start",
@@ -14,11 +14,16 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
+    "@nuxtjs/moment": "^1.6.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "chart.js": "^2.9.4",
+    "chartjs-plugin-datalabels": "^1.0.0",
     "core-js": "^3.9.1",
+    "dayjs": "^1.10.4",
     "express": "^4.17.1",
-    "nuxt": "^2.15.3"
+    "nuxt": "^2.15.3",
+    "vue-chartjs": "^3.5.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^6.0.0",
