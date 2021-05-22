@@ -1,39 +1,51 @@
 const { randomIndex, createSerialRandom } = require('../utility/createRandom')
 const { randomEventSet } = require('../utility/event')
+const { getStartOfMonth, createDateArray } = require('../utility/dates')
+const { mergeSalesAndDate } = require('../utility/sales')
 
 const index = (req, res, next) => {
   try {
     const total = {
-      visitor: randomIndex(100000, 300000),
+      visits: randomIndex(10000, 30000),
       rate: randomIndex(20, 50, false)
     }
-    const newVisitor = {
-      visitor: randomIndex(1000, 5000),
+    const newUser = {
+      users: randomIndex(50, 100),
+      rate: randomIndex(10, 30, false)
+    }
+    const activeUser = {
+      users: randomIndex(100, 200),
       rate: randomIndex(10, 30, false)
     }
     const shareDesktop = randomIndex(30, 40)
     const share = { desktop: shareDesktop, mobile: 100 - shareDesktop }
-    const viewsPerMinute = {
-      views: randomIndex(150, 500),
-      rate: randomIndex(1, 15, false)
-    }
-    const channels = { organic: randomIndex(30, 50) }
-    channels.direct = randomIndex(10, channels.organic)
-    channels.social = randomIndex(10, channels.direct)
-    channels.paid = 100 - channels.social - channels.direct - channels.organic
-    const visitbyNotification = { push: randomIndex(30, 50) }
-    visitbyNotification.email = randomIndex(10, visitbyNotification.push)
-    visitbyNotification.direct = 100 - visitbyNotification.push - visitbyNotification.email
-    res.send({
-      total,
-      newVisitor,
-      share,
-      viewsPerMinute,
-      channels,
-      visitbyNotification,
-      sales: createSerialRandom(20, 40, 7),
-      eventRank: randomEventSet(5)
-    })
+    const channels = { organic: randomIndex(35, 30) }
+    channels.direct = randomIndex(20, 25)
+    channels.social = randomIndex(20, 25)
+    channels.paid = 100 - (channels.social + channels.direct + channels.organic)
+    const visitbyNotification = { push: randomIndex(15, 25) }
+    visitbyNotification.sns = randomIndex(15, 25)
+    visitbyNotification.email = randomIndex(15, 20)
+    visitbyNotification.link = randomIndex(15, 20)
+    visitbyNotification.ads = 100 - (visitbyNotification.push + visitbyNotification.sns + visitbyNotification.email + visitbyNotification.link)
+    const dataArrStart = getStartOfMonth()
+    const [sales, dates] = [createSerialRandom(20, 40, 30), createDateArray(dataArrStart, new Date())]
+
+    setTimeout(() => {
+      res.send({
+        total,
+        newUser,
+        activeUser,
+        share,
+        channels,
+        visitbyNotification,
+        sales: {
+          list: mergeSalesAndDate(sales, dates),
+          maxSales: Math.max.apply(null, sales)
+        },
+        eventRank: randomEventSet(5)
+      })
+    }, 1500)
   } catch (e) {
     res.status(400).send({ message: e.message })
   }
