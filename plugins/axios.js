@@ -1,6 +1,6 @@
 export default function ({ $axios, redirect }) {
   // Set baseURL
-  $axios.setBaseURL(process.env.baseURL || 'http://localhost:3000')
+  // $axios.setBaseURL(process.env.baseURL || 'http://localhost:3000')
 
   // Add Interceptor
   $axios.onError((error) => {
