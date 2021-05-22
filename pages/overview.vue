@@ -1,81 +1,157 @@
 <template>
   <b-container fluid>
-    <b-row class="mb-3">
-      <b-col cols="6" md="3">
-        <dash-card
-          title="Total Visitor"
-          icon="people-fill"
-          :index="totalVistor.visitor"
-          :rate="totalVistor.rate"
-        />
+    <b-row class="mb-4">
+      <b-col cols md="6">
+        <b-row>
+          <b-col cols md="6" class="mb-4">
+            <dash-card
+              title="Total visits"
+              icon="people-fill"
+              :index="totalVists.visits"
+              :rate="totalVists.rate"
+            />
+          </b-col>
+          <b-col cols md="6" class="mb-4">
+            <dash-card
+              title="New Users"
+              :index="newUsers.users"
+              :rate="newUsers.rate"
+              useicon
+            >
+              <template #icon>
+                <b-iconstack font-scale="2.3">
+                  <b-icon stacked icon="square-fill" variant="info" />
+                  <b-icon
+                    stacked
+                    icon="plus"
+                    variant="light"
+                    scale="0.5"
+                    shift-h="-4"
+                  />
+                  <b-icon
+                    stacked
+                    icon="people-fill"
+                    variant="light"
+                    scale="0.5"
+                    shift-h="3"
+                  />
+                </b-iconstack>
+              </template>
+            </dash-card>
+          </b-col>
+          <b-col cols md="6" class="mb-4 mb-md-0">
+            <dash-card
+              title="Active Users"
+              icon="people-fill"
+              :index="activeUsers.users"
+              :rate="totalVists.rate"
+            />
+          </b-col>
+          <b-col cols md="6" class="mb-4 mb-md-0">
+            <dash-card title="Traffic Share" class="h-100">
+              <b-row no-gutters>
+                <b-col cols>
+                  <PieChart
+                    canvas-id="traffic-share-chart"
+                    :data="shares"
+                    :height="99"
+                    :width="100"
+                    :custom-opt="{responsive: false}"
+                    :data-label-opt="{ color: '#fff' }"
+                    use-data-label
+                    class="h-100"
+                  />
+                </b-col>
+                <b-col cols class="pl-2">
+                  <div :style="{ color: 'rgb(54, 162, 235)', fontSize: '0.8rem' }">
+                    <b-icon icon="display-fill" font-scale="1" class="mr-1" />
+                    DeskTop
+                  </div>
+                  <div :style="{ color: 'rgb(255, 99, 132)', fontSize: '0.8rem' }">
+                    <b-icon icon="phone-fill" font-scale="1" class="mr-1" />
+                    Mobile
+                  </div>
+                </b-col>
+              </b-row>
+            </dash-card>
+          </b-col>
+        </b-row>
       </b-col>
-      <b-col cols="6" md="3">
-        <dash-card
-          title="New Visotores & Users"
-          :index="newVistor.visitor"
-          :rate="newVistor.rate"
-          useicon
-        >
-          <template #icon>
-            <b-iconstack font-scale="2.3">
-              <b-icon stacked icon="square-fill" variant="info" />
-              <b-icon
-                stacked
-                icon="plus"
-                variant="light"
-                scale="0.5"
-                shift-h="-4"
+      <b-col cols md="6">
+        <dash-card title="Sales" class="mb-4 mb-md-0 h-100">
+          <b-row id="sales-chart-wrapper" align-v="center" class="h-100">
+            <b-col cols>
+              <LineChart
+                class="h-100"
+                canvas-id="sales-chart"
+                :data="sales"
+                :custom-opt="{ responsive: true }"
+                :y-max="salesMax"
+                tooltip
               />
-              <b-icon
-                stacked
-                icon="people-fill"
-                variant="light"
-                scale="0.5"
-                shift-h="3"
-              />
-            </b-iconstack>
-          </template>
+            </b-col>
+          </b-row>
         </dash-card>
       </b-col>
-      <b-col cols="6" md="3">
-        <dash-card title="Traffic Share">
-          {{ shares }}
-          <BarChart :data="barChartData" :height="400" />
+    </b-row>
+    <b-row class="mb-4">
+      <b-col cols md="6" class="mb-4 mb-md-0">
+        <dash-card title="Traffic Channels" class="h-100">
+          <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
+            <b-col cols>
+              <BarChart
+                class="h-100"
+                canvas-id="trafficChannel-chart"
+                :data="channels"
+                :custom-opt="{ responsive: true }"
+                tooltip
+              />
+            </b-col>
+          </b-row>
         </dash-card>
       </b-col>
-      <b-col cols="6" md="3">
-        <dash-card title="Views Per Minute">
-          {{ viewsPerMinute }}
+      <b-col cols md="6">
+        <dash-card title="Visit by Notification" class="h-100">
+          <b-row no-gutters align-v="center" class="h-100">
+            <b-col cols md="6">
+              <PolarArea
+                canvas-id="noti-chart"
+                :data="noti"
+                :custom-opt="{ responsive: true }"
+                :data-label-opt="{ color: '#fff' }"
+                use-data-label
+                tooltip
+              />
+            </b-col>
+            <b-col cols md="6">
+              <!-- {{ noti }} -->
+              <i>legend</i>
+            </b-col>
+          </b-row>
         </dash-card>
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols md="4" class="mb-3">
-        <dash-card title="Channels">
-          {{ channels }}
-        </dash-card>
-      </b-col>
-      <b-col cols md="8" class="mb-3">
-        <dash-card title="Visit by Notification">
-          <slot>
-            {{ noti }}
-          </slot>
-        </dash-card>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col cols md="6">
-        <dash-card title="Sales Value">
-          <slot>
-            {{ sales }}
-          </slot>
-        </dash-card>
-      </b-col>
-      <b-col cols md="6">
-        <dash-card title="Event Rank">
-          <slot>
-            {{ eventRank }}
-          </slot>
+      <b-col cols md="12">
+        <dash-card title="Top 5 Event" class="h-100">
+          <b-table
+            :sort-by.sync="eventRankSortBy"
+            :sort-desc.sync="eventRanksortDesc"
+            :items="eventRank"
+            :fields="eventRankField"
+            head-variant="light"
+            responsive="sm"
+            hover
+          >
+            <template #cell(bounce)="data">
+              {{ data.value }} %
+            </template>
+
+            <template #cell(sales)="data">
+              $ {{ data.value }} <small>({{ data.item.saleRate }} %)</small>
+              <b-progress height="2px" :value="data.item.saleRate" max="50" />
+            </template>
+          </b-table>
         </dash-card>
       </b-col>
     </b-row>
@@ -83,94 +159,138 @@
 </template>
 
 <script>
-// import DoughnutChart from '~/components/chart/pie'
 
 export default {
-  // components: {
-  //   DoughnutChart
-  // },
   layout: 'dashboard',
   data: () => ({
-    totalVistor: null,
-    newVistor: null,
-    shares: null,
-    viewsPerMinute: null,
-    channels: null,
-    noti: null,
-    sales: null,
-    eventRank: null,
-    barChartData: {
-      labels: [
-        "2019-06",
-        "2019-07",
-        "2019-08",
-        "2019-09",
-        "2019-10",
-        "2019-11",
-        "2019-12",
-        "2020-01",
-        "2020-02",
-        "2020-03"
-      ],
-      datasets: [
-        {
-          label: "Visualizaciones",
-          data: [2, 1, 16, 3, 4, 5, 0, 0, 4, 12, 2],
-          backgroundColor: "rgba(20, 255, 0, 0.3)",
-          borderColor: "rgba(100, 255, 0, 1)",
-          borderWidth: 2
-        }
-      ]
-    }
+    res: null,
+    totalVists: {},
+    newUsers: {},
+    activeUsers: {},
+    shares: {},
+    channels: {},
+    noti: {},
+    sales: {},
+    salesMax: null,
+    eventRank: [],
+    eventRankSortBy: 'sales',
+    eventRanksortDesc: true,
+    eventRankField: [
+      {
+        label: 'Name',
+        key: 'name',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap w-50 text-gray-600'
+      },
+      {
+        label: 'Views',
+        key: 'views',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: 'Bounce (%)',
+        key: 'bounce',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: 'Sales',
+        key: 'sales',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap w-25 text-gray-600'
+      }
+    ]
   }),
   async fetch () {
     console.log(`fetch ~ `)
-    // console.log(`          ~ `)
+    // console.log(`      ~ `)
     const res = await this.$axios.$get('/over/')
+    this.res = res
     console.log(`      ~ res => `, res)
-    this.totalVistor = { ...res.total, visitor: this.formatNumber(res.total.visitor) }
-    this.newVistor = { ...res.newVisitor, visitor: this.formatNumber(res.newVisitor.visitor) }
+    this.totalVists = { ...res.total, visits: this.formatNumber(res.total.visits) }
+    this.newUsers = { ...res.newUser, users: this.formatNumber(res.newUser.users) }
+    this.activeUsers = { ...res.activeUser, users: this.formatNumber(res.activeUser.users) }
     this.shares = {
       labels: Object.keys(res.share),
       datasets: [{
         data: Object.values(res.share),
         backgroundColor: [
           'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
-        ],
-        hoverOffset: 4
+          'rgb(54, 162, 235)'
+        ]
       }]
     }
-    this.viewsPerMinute = res.visitbyNotification
-    this.channels = res.channels
-    this.noti = res.viewsPerMinute
-    this.sales = res.sales
-    this.eventRank = res.eventRank
+    this.channels = {
+      labels: Object.keys(res.channels),
+      datasets: [{
+        data: Object.values(res.channels),
+        backgroundColor: ["rgba(220, 53, 69, 0.85)", "rgba(111, 66, 193, 0.85)", "rgba(23, 162, 184, 0.85)", "rgba(0, 123, 255, 0.85)"],
+        barPercentage: 0.3
+      }]
+    }
+    this.noti = {
+      labels: Object.keys(res.visitbyNotification),
+      datasets: [{
+        data: Object.values(res.visitbyNotification),
+        backgroundColor: [
+          '#ff6384',
+          '#36a2eb',
+          '#cc65fe',
+          '#ffce56'
+        ]
+      }]
+    }
+    this.sales = {
+      datasets: [{
+        label: 'Sales:',
+        backgroundColor: 'red',
+        borderColor: 'red',
+        fill: false,
+        data: this.$createChartData.line(res.sales.list)
+      }]
+    }
+    this.salesMax = res.sales.maxSales
+
+    const eventRankTotalSales = res.eventRank.reduce((tt, t) => {
+      tt += t.sales
+      return tt
+    }, 0)
+    this.eventRank = res.eventRank.reduce((ranks, ele) => {
+      const rate = Number((ele.sales / eventRankTotalSales) * 100).toFixed(2)
+      ranks.push({ ...ele, saleRate: Number(rate) })
+      return ranks
+    }, [])
+
     // return res
-    console.log(`          ~ fetch done`)
+    console.log(`      ~ this.$fetchState.pending => ${this.$fetchState.pending}`)
+    console.log(`      ~ fetch done`)
   },
   watch: {
-    // '$fetchState.pending' (state) {
-    // }
+    '$fetchState.pending': {
+      immediate: true,
+      handler (state) {
+        console.log('$fetchState.pending ~ ')
+        // console.log('                    ~ ')
+        console.log('                    ~ state => ', state)
+        if (typeof state !== 'undefined') {
+          this.$nuxt.$emit('pageLoading', state)
+        }
+      }
+    }
+  },
+  created () {
+    console.log(`overview ~ created`)
   },
   mounted () {
     console.log(`overview ~ mounted`)
     // console.log(`         ~ `)
   },
-  methods: {
-    async callAPI () {
-      try {
-        console.log('callAPITest ~ ')
-        // console.log(`            ~ `)
-        const res = await this.$axios.$get('/over/')
-        console.log('            ~ res => ', res)
-      } catch (e) {
-        console.log('            ~ e => ', e)
-        console.log('            ~ e.response => ', e.response)
-      }
-    }
-  }
+  methods: {}
 }
 </script>
 
