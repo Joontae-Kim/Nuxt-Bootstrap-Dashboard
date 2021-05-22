@@ -23,6 +23,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/axios',
+    '~/plugins/chartjs',
+    '~/plugins/createChartData',
     '~/plugins/formatCurrency'
   ],
 
@@ -37,14 +39,16 @@ export default {
       {
         path: '~/components/dashboard',
         prefix: 'dash'
-      }
+      },
+      '~/components/chart'
     ]
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/moment'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
