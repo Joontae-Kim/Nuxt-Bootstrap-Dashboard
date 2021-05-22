@@ -58,6 +58,10 @@ export default {
     '@nuxtjs/axios'
   ],
 
+  axios: {
+    baseURL: process.env.baseURL || 'http://localhost:3000' // Used as fallback if no runtime config is provided
+  },
+
   bootstrapVue: {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
