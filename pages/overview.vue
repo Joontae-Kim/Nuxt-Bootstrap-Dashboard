@@ -51,7 +51,7 @@
             <dash-card title="Traffic Share" class="h-100">
               <b-row no-gutters>
                 <b-col cols>
-                  <PieChart
+                  <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
                     :height="99"
@@ -59,7 +59,7 @@
                     :custom-opt="{responsive: false}"
                     :data-label-opt="{ color: '#fff' }"
                     use-data-label
-                    class="h-100"
+                    class="h-100 pb-3"
                   />
                 </b-col>
                 <b-col cols class="pl-2">
@@ -80,13 +80,13 @@
       <b-col cols md="6">
         <dash-card title="Sales" class="mb-4 mb-md-0 h-100">
           <b-row id="sales-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols>
-              <LineChart
-                class="h-100"
+            <b-col cols class="h-100 chart__container-sm">
+              <LazyLineChart
                 canvas-id="sales-chart"
                 :data="sales"
                 :custom-opt="{ responsive: true }"
                 :y-max="salesMax"
+                class="pb-3"
                 tooltip
               />
             </b-col>
@@ -98,10 +98,10 @@
       <b-col cols md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols>
-              <BarChart
-                class="h-100"
+            <b-col cols class="vh-100 chart__container">
+              <LazyBarChart
                 canvas-id="trafficChannel-chart"
+                class="pb-3"
                 :data="channels"
                 :custom-opt="{ responsive: true }"
                 tooltip
@@ -112,9 +112,9 @@
       </b-col>
       <b-col cols md="6">
         <dash-card title="Visit by Notification" class="h-100">
-          <b-row no-gutters align-v="center" class="h-100">
-            <b-col cols md="6">
-              <PolarArea
+          <b-row id="noti-chart-wrapper" align-v="center" class="h-100">
+            <b-col cols md="6" class="vh-100 chart__container">
+              <LazyPolarArea
                 canvas-id="noti-chart"
                 :data="noti"
                 :custom-opt="{ responsive: true }"
@@ -207,11 +207,8 @@ export default {
     ]
   }),
   async fetch () {
-    console.log(`fetch ~ `)
-    // console.log(`      ~ `)
     const res = await this.$axios.$get('/over/')
     this.res = res
-    console.log(`      ~ res => `, res)
     this.totalVists = { ...res.total, visits: this.formatNumber(res.total.visits) }
     this.newUsers = { ...res.newUser, users: this.formatNumber(res.newUser.users) }
     this.activeUsers = { ...res.activeUser, users: this.formatNumber(res.activeUser.users) }
@@ -265,31 +262,20 @@ export default {
       ranks.push({ ...ele, saleRate: Number(rate) })
       return ranks
     }, [])
-
     // return res
-    console.log(`      ~ this.$fetchState.pending => ${this.$fetchState.pending}`)
-    console.log(`      ~ fetch done`)
   },
   watch: {
     '$fetchState.pending': {
       immediate: true,
       handler (state) {
-        console.log('$fetchState.pending ~ ')
-        // console.log('                    ~ ')
-        console.log('                    ~ state => ', state)
         if (typeof state !== 'undefined') {
           this.$nuxt.$emit('pageLoading', state)
         }
       }
     }
   },
-  created () {
-    console.log(`overview ~ created`)
-  },
-  mounted () {
-    console.log(`overview ~ mounted`)
-    // console.log(`         ~ `)
-  },
+  created () {},
+  mounted () {},
   methods: {}
 }
 </script>

@@ -1,7 +1,5 @@
 <template>
-  <div :style="{'position: relative; height:30vh; width:50vw': option.responsive}">
-    <canvas :id="canvasId" v-bind="{width, height}" class="pb-3" />
-  </div>
+  <canvas :id="canvasId" v-bind="{width, height}" />
 </template>
 <script>
 import defaultProps from "../../mixins/chart/defaultProps"

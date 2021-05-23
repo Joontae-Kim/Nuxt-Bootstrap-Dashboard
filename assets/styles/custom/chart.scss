@@ -1,0 +1,15 @@
+.chart {
+  &__container {
+    position: relative;
+    margin: auto;
+    max-height: 250px;
+  }
+
+  @include media-breakpoint-down(md) {
+    &__container-sm {
+      position: relative;
+      margin: auto;
+      max-height: 250px;
+    }
+  }
+}
