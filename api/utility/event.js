@@ -1,37 +1,306 @@
-import { randomIndex, getRandomArray } from './createRandom'
+const { randomDate } = require('../utility/dates')
+const { randomIndex, getRandomArray } = require('./createRandom')
+
+/**
+ * Event Data Property
+ * title
+ * publishedAt
+ * modifiedAt
+ * openAt
+ * closedAt
+ * eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`]
+ * {
+    title: ,
+    publishedAt: ,
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`]
+  }
+ */
 
 const eventNameSet = [
-  '2021\'s Best Bootstrap Themes Top 10',
-  '2021\'s Best Bootstrap Premium Themes',
-  '5 Best Bootstrap Corporate Theme',
-  'Free Bootstrap Theme Best 10',
-  'Vue.js Bootstrap Template Best 10',
-  'React.js Bootstrap Template Best 10',
-  'Bootstrap Business Theme Best 10',
-  'Bestselleing Bootstrap Template',
-  '35+ Responsive Bootstrap Themes SALE',
-  'The Newest Bootstrap Template in Febrary 2021',
-  'The Recommened Vue.js Bootstrap Template in Febrary 2021',
-  'The Recommened React.js Bootstrap Template in Febrary 2021'
+  {
+    title: '2020\'s Best 100+ Bootstrap Themes',
+    publishedAt: randomDate(new Date(2020, 11, 15), new Date(2020, 11, 30)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: ['Theme & Template', 'Recommended', 'Hottest']
+  },
+  {
+    title: '2020\'s Best 100+ Bootstrap Premium Themes',
+    publishedAt: randomDate(new Date(2020, 12, 1), new Date(2020, 12, 20)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: 'Ranking 50 Bootstrap Corporate and Landing Theme & Template',
+    publishedAt: randomDate(new Date(2020, 12, 1), new Date(2020, 12, 20)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '150+ Free Bootstrap Theme',
+    publishedAt: randomDate(new Date(2021, 2, 5), new Date(2021, 2, 15)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Recommended`]
+  },
+  {
+    title: 'Popular Free Vue.js Bootstrap Template',
+    publishedAt: randomDate(new Date(2021, 1, 5), new Date(2021, 1, 15)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Recommended`]
+  },
+  {
+    title: 'Popular Free React.js Bootstrap Template',
+    publishedAt: randomDate(new Date(2021, 1, 5), new Date(2021, 1, 15)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Hottest`]
+  },
+  {
+    title: 'Popular Free Angular.js Bootstrap Template Best 10',
+    publishedAt: randomDate(new Date(2021, 1, 5), new Date(2021, 1, 15)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Hottest`]
+  },
+  {
+    title: 'Material Design Bootstrap Business and Landing Theme & Template',
+    publishedAt: randomDate(new Date(2021, 1, 25), new Date(2021, 2, 25)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Recommended`]
+  },
+  {
+    title: 'Bootstrap CMS Theme and Template 100 with Bargains',
+    publishedAt: randomDate(new Date(2021, 2, 25), new Date(2021, 3, 25)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Recommended`]
+  },
+  {
+    title: '80+ Bootstrap Admin Dashboard and Landing Page with Bargains',
+    publishedAt: randomDate(new Date(2021, 2, 25), new Date(2021, 3, 25)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Theme & Template`, `Recommended`]
+  },
+  {
+    title: '2020\' Bestselleing Ranking 100 Bootstrap Template',
+    publishedAt: randomDate(new Date(2021, 1, 10), new Date(2021, 1, 18)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '2021\' 30+ Newest Responsive Bootstrap Material Design Themes',
+    publishedAt: randomDate(new Date(2021, 2, 25), new Date(2021, 2, 29)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Newest`]
+  },
+  {
+    title: '2021\'s ~ 2Q The Newest Bootstrap E-Commerce Template',
+    publishedAt: randomDate(new Date(2021, 5, 18), new Date(2021, 5, 25)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Newest`]
+  },
+  {
+    title: '2021\'s Febrary Newest Vue.js Bootstrap Template',
+    publishedAt: randomDate(new Date(2020, 12, 15), new Date(2020, 12, 20)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Newest`]
+  },
+  {
+    title: '2021\'s March Recommened React.js Bootstrap Template',
+    publishedAt: randomDate(new Date(2020, 12, 15), new Date()),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Theme & Template`, `Recommended`]
+  },
+  {
+    title: '150+ Popular Admin Dashboard & WebApp Responsive Template',
+    publishedAt: randomDate(new Date(), new Date()),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Hottest`]
+  },
+  {
+    title: '2020\'s Recommened React.js Bootstrap Responsive Design Template',
+    publishedAt: randomDate(new Date(2020, 12, 20), new Date(2021, 1, 20)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Recommended`]
+  },
+  {
+    title: '2021\'s 150+ Ranking WebApp Responsive Template',
+    publishedAt: randomDate(new Date(2021, 3, 2), new Date(2021, 3, 9)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: 'Newest Multipurpose Template + UI Kit in April 2021',
+    publishedAt: randomDate(new Date(2021, 3, 17), new Date(2021, 3, 19)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Newest`, `Recommended`]
+  },
+  {
+    title: 'Updated Application UI Kit in 2021',
+    publishedAt: randomDate(new Date(2021, 4, 23), new Date(2021, 4, 29)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Recommended`]
+  },
+  {
+    title: 'Newest Portfolio & Agency Template in May 2021 - updated weekly',
+    publishedAt: randomDate(new Date(2021, 4, 10), new Date(2021, 4, 17)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Package`, `Theme & Template`, `Newest`]
+  },
+  {
+    title: '2021\'s Best Selling Multipurpose E-Commerce Template - updated weekly',
+    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '2021\'s Best Selling Free Bootstrap Landing Pages for small Business - updated weekly',
+    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '2021\'s Best Selling Primium Bootstrap Landing Pages for small Business - updated weekly',
+    publishedAt: randomDate(new Date(), new Date()),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '2021\'s Best Selling Multipurpose E-Commerce Template - updated weekly',
+    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '2021\'s Best Selling Free Responsive Website UI Kit - updated weekly',
+    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  },
+  {
+    title: '2021\'s Best Selling Primium Responsive Website UI Kit - updated weekly',
+    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
+  }
 ]
 
-function randomEventSet (count) {
-  const eventSet = createEventSet()
-  return getRandomArray(eventSet, count)
+// const eventDescriptionSet = [
+//   'Nisi ultrices sapien etiam. Facilisis nibh luctus vulputate volutpat platea. Pretium ullamcorper ultricies, mus fringilla vel vehicula curae;.',
+//   'Bibendum elit facilisis conubia magna ante duis habitasse vel ornare orci natoque vestibulum ac luctus habitasse velit vestibulum.',
+//   'Laoreet. Libero felis a cubilia feugiat conubia ornare iaculis ipsum viverra hac eget purus neque torquent nonummy Porta potenti litora vel senectus.',
+//   'Aptent proin dictumst curae; torquent iaculis lacus natoque sollicitudin. Fringilla. At eu consectetuer dictum lobortis euismod commodo justo sagittis sollicitudin facilisis augue.',
+//   'Nascetur, donec class morbi quisque leo enim cras per vel tempor posuere dignissim est dolor dis Quis primis morbi ad augue pede.',
+//   'Interdum orci condimentum vestibulum pellentesque iaculis dignissim scelerisque Cum et.',
+//   'Tortor libero nascetur convallis pharetra Iaculis ligula fusce. In ac, nibh dui.',
+//   'Metus taciti hendrerit molestie est sed, volutpat lorem. Sodales euismod aptent per sem. Etiam augue netus aenean. Ligula cum accumsan.',
+//   'Nisl blandit, eros. Ullamcorper consectetuer natoque. Primis aliquet nisl ligula senectus nunc molestie curae; malesuada nec convallis.',
+//   'Class fusce ut porta quis eleifend nonummy. Platea non magna non posuere nonummy eros enim.',
+//   'Scelerisque non lectus libero faucibus fames eleifend nulla vitae etiam at. Condimentum per parturient purus adipiscing augue tempor quisque urna. Sociosqu. Suspendisse felis. Per.'
+// ]
+
+function randomEventSet (count = 'full') {
+  count = count === 'full' ? eventNameSet.length : count
+  const randomSet = getRandomArray(eventNameSet, count)
+  return createEventSet(randomSet)
 }
 
-function createEventSet () {
-  const set = eventNameSet.reduce((set, name, n) => {
+function createEventSet (eventset) {
+  const set = eventset.reduce((set, event) => {
     const views = randomIndex(200, 400)
     const bounce = randomIndex(20, 60)
     const sales = views * (bounce / 100)
-    set.push({ name, views, bounce: Math.floor(bounce), sales: Math.floor(sales) })
+    set.push({ name: event.title, views, bounce: Math.floor(bounce), sales: Math.floor(sales) })
     return set
   }, [])
   return set
 }
 
+function createEventDateProperty (event) {
+  const dayjs = require('dayjs')
+  const [randomOpenWeight, randomEndWeight] = [randomIndex(15, 20), randomIndex(2, 3)]
+  event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day').format('YYYY-MM-DD')
+  const [closedStart, closedEnd] = [
+    dayjs(event.openAt).add(1, 'M').$d,
+    dayjs(event.openAt).add(randomEndWeight, 'M').$d
+  ]
+  const [views, bounce] = [randomIndex(200, 400), randomIndex(20, 60)]
+  const sales = views * (bounce / 100)
+  event.closedAt = randomDate(new Date(closedStart), new Date(closedEnd))
+  event = { ...event, views, bounce: Math.floor(bounce), sales: Math.floor(sales), item: [] }
+  return event
+}
+
+function createEventFullSet () {
+  return new Promise((resolve, reject) => {
+    try {
+      const createdEventSet = eventNameSet.reduce((set, event) => {
+        const processed = createEventDateProperty(event)
+        set.push(processed)
+        return set
+      }, [])
+      resolve(createdEventSet)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
   randomEventSet,
-  createEventSet
+  createEventSet,
+  createEventFullSet
 }
