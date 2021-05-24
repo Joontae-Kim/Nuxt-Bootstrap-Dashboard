@@ -76,7 +76,8 @@ export default {
   serverMiddleware: [
     { path: '/test', handler: '~/api/test.js' },
     { path: '/error', handler: '~/api/error.js' },
-    { path: '/over', handler: '~/api/over.js' }
+    { path: '/over', handler: '~/api/over.js' },
+    { path: '/api/event', handler: '~/api/event.js' }
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
