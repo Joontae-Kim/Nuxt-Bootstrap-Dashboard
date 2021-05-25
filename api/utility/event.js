@@ -1,7 +1,9 @@
 const { v4: uuidv4 } = require('uuid')
 const FuzzySearch = require('fuzzy-search')
-const { randomDate } = require('../utility/dates')
+const { ErrorHandler } = require('../utility/error')
+const { randomDate, dateFormmter } = require('../utility/dates')
 const { randomIndex, getRandomArray } = require('./createRandom')
+
 /**
  * Event Data Property
  * title
@@ -273,6 +275,7 @@ function createEventSet (eventset) {
 function createEventDateProperty (event) {
   const dayjs = require('dayjs')
   event._id = uuidv4()
+  event.modifiedAt = event.publishedAt
   const [randomOpenWeight, randomEndWeight] = [randomIndex(15, 20), randomIndex(2, 3)]
   event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day').format('YYYY-MM-DD')
   const [closedStart, closedEnd] = [
@@ -386,9 +389,79 @@ function searchEvent (eventSet, query) {
   })
 }
 
+function createNewEvent (newEvent) {
+  // {
+  //   title: ,
+  //   publishedAt: ,
+  //   modifiedAt: null,
+  //   openAt: null,
+  //   closedAt: null,
+  //   eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`]
+  // }
+  const _newEvent = {
+    title: null,
+    publishedAt: null,
+    modifiedAt: null,
+    openAt: null,
+    closedAt: null,
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`]
+  }
+
+  for (const [key] of Object.entries(_newEvent)) {
+    _newEvent[key] = newEvent[key] ? newEvent[key] : _newEvent[key]
+  }
+
+  if (!_newEvent.publishedAt) {
+    _newEvent.publishedAt = dateFormmter(new Date())
+    _newEvent.modifiedAt = _newEvent.publishedAt
+  }
+  _newEvent._id = uuidv4()
+
+  return _newEvent
+}
+
+function updateEventElement (ex, updating) {
+  return new Promise((resolve, reject) => {
+    const updated = Object.assign({}, ex)
+
+    for (const [key] of Object.entries(updated)) {
+      updated[key] = updating[key] || updated[key]
+    }
+
+    if (updated.openAt) {
+      const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+      const dayjs = require('dayjs')
+      dayjs.extend(isSameOrAfter)
+      const isPassed = dayjs(updated.openAt).isSameOrAfter(updated.publishedAt, 'day')
+      if (!isPassed) {
+        reject(new ErrorHandler(400, 'Bad_Request', 'openAt', 'validate'))
+      }
+    }
+
+    if (updated.openAt && updated.closedAt) {
+      if (!!updated.eventType && !updated.eventType.length) {
+        reject(new ErrorHandler(404, 'Not_Found', 'eventType', 'validate'))
+      }
+
+      const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+      const dayjs = require('dayjs')
+      dayjs.extend(isSameOrAfter)
+      const isPassed = dayjs(updated.closedAt).isSameOrAfter(updated.openAt, 'day')
+      if (!isPassed) {
+        reject(new ErrorHandler(400, 'Bad_Request', 'closedAt', 'validate'))
+      }
+    }
+
+    updated.modifiedAt = dateFormmter(new Date(), 'YYYY-MM-DD hh:mm:ss')
+    resolve(updated)
+  })
+}
+
 module.exports = {
   randomEventSet,
   createEventSet,
   createEventFullSet,
-  searchEvent
+  searchEvent,
+  createNewEvent,
+  updateEventElement
 }
