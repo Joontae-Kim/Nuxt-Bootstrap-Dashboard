@@ -1,6 +1,7 @@
+const { v4: uuidv4 } = require('uuid')
+const FuzzySearch = require('fuzzy-search')
 const { randomDate } = require('../utility/dates')
 const { randomIndex, getRandomArray } = require('./createRandom')
-
 /**
  * Event Data Property
  * title
@@ -271,6 +272,7 @@ function createEventSet (eventset) {
 
 function createEventDateProperty (event) {
   const dayjs = require('dayjs')
+  event._id = uuidv4()
   const [randomOpenWeight, randomEndWeight] = [randomIndex(15, 20), randomIndex(2, 3)]
   event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day').format('YYYY-MM-DD')
   const [closedStart, closedEnd] = [
@@ -299,8 +301,94 @@ function createEventFullSet () {
   })
 }
 
+function compareType (targetType, typeSet) {
+  const ttSet = new Set(targetType)
+  for (const tt of ttSet) {
+    if (typeSet.has(tt)) {
+      return true
+    }
+  }
+  return false
+}
+
+function searchEvent (eventSet, query) {
+  return new Promise((resolve, reject) => {
+    try {
+      let searched = eventSet
+      if (query.title) {
+        const searchedTitleRes = new FuzzySearch(eventSet, ['title', query.title], {
+          caseSensitive: true
+        })
+        searched = searchedTitleRes.haystack
+      }
+
+      if (searched.length && query.type && query.type.length) {
+        const typeQuerySet = new Set(query.type)
+        searched = searched.reduce((typeSearched, event) => {
+          if (event.eventType.length) {
+            const isIncludes = compareType(event.eventType, typeQuerySet)
+            if (isIncludes) {
+              typeSearched.push(event)
+            }
+          }
+          return typeSearched
+        }, [])
+      }
+
+      if (searched.length && query.publishedAt) {
+        const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
+        const dayjs = require('dayjs')
+        dayjs.extend(isSameOrBefore)
+        searched = searched.reduce((publishedAtSearched, event) => {
+          if (event.publishedAt) {
+            const isPassed = dayjs(query.publishedAt).isSameOrBefore(event.publishedAt, 'day')
+            if (isPassed) {
+              publishedAtSearched.push(event)
+            }
+          }
+          return publishedAtSearched
+        }, [])
+      }
+
+      if (searched.length && query.openAt) {
+        const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
+        const dayjs = require('dayjs')
+        dayjs.extend(isSameOrBefore)
+        searched = searched.reduce((openAtSearched, event) => {
+          if (event.openAt) {
+            const isPassed = dayjs(query.openAt).isSameOrBefore(event.openAt, 'day')
+            if (isPassed) {
+              openAtSearched.push(event)
+            }
+          }
+          return openAtSearched
+        }, [])
+      }
+
+      if (searched.length && query.closedAt) {
+        const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+        const dayjs = require('dayjs')
+        dayjs.extend(isSameOrAfter)
+        searched = searched.reduce((closedAtSearched, event) => {
+          if (event.closedAt) {
+            const isPassed = dayjs(query.closedAt).isSameOrAfter(event.closedAt, 'day')
+            if (isPassed) {
+              closedAtSearched.push(event)
+            }
+          }
+          return closedAtSearched
+        }, [])
+      }
+      resolve(searched)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
   randomEventSet,
   createEventSet,
-  createEventFullSet
+  createEventFullSet,
+  searchEvent
 }
