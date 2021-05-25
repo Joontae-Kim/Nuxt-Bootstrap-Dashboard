@@ -5,4 +5,6 @@ const eventCtrl = require('../api/controller/event.ctrl')
 
 app.get('/', ash(eventCtrl.index))
 
+app.get('/:id', ash(eventCtrl.getEvent))
+
 module.exports = app
