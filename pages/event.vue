@@ -2,21 +2,27 @@
   <b-container fluid>
     <b-row>
       <b-col cols>
-        {{ res }}
+        {{ events }}
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
   name: 'Event',
   layout: 'dashboard',
-  data: () => ({
-    res: {}
-  }),
+  data: () => ({}),
   async fetch () {
-    this.res = await this.$axios.$get('/api/event')
+    const res = await this.$axios.$get('/api/event')
+    this.$store.commit('events/add', res)
+  },
+  computed: {
+    ...mapGetters({
+      events: 'events/getEvents'
+    })
   },
   watch: {
     '$fetchState.pending': {
