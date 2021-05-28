@@ -277,7 +277,7 @@ function createEventDateProperty (event) {
   event._id = uuidv4()
   event.modifiedAt = event.publishedAt
   const [randomOpenWeight, randomEndWeight] = [randomIndex(15, 20), randomIndex(2, 3)]
-  event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day').format('YYYY-MM-DD')
+  event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day') // `.format('YYYY-MM-DD')
   const [closedStart, closedEnd] = [
     dayjs(event.openAt).add(1, 'M').$d,
     dayjs(event.openAt).add(randomEndWeight, 'M').$d

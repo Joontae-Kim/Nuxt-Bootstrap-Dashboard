@@ -26,7 +26,7 @@ function createDateArray (start = new Date(), end = null, count = 29) {
  * i.e.) console.log(randomDate(new Date(2012, 0, 1), new Date()));
  */
 
-function randomDate (start, end = new Date(), formatter = true, format = 'YYYY-MM-DD') {
+function randomDate (start, end = new Date(), formatter = false, format = 'YYYY-MM-DD') {
   let date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
   if (formatter) {
     date = dayjs(date).format(format)
