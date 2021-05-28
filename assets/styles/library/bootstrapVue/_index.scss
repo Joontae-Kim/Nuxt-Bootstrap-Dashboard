@@ -7,6 +7,9 @@
 @import "_variables";
 @import "bootstrap-vue/src/utilities";
 
+// Mixin on Custom
+@import "./blocks/mixins/icon-emphasis";
+
 // General styling needed for special form controls
 @import "bootstrap-vue/src/custom-controls";
 
@@ -15,4 +18,8 @@
 @import "components/_components";
 
 // Include custom SCSS for icons
-@import "bootstrap-vue/src/icons/index";
+// @import "bootstrap-vue/src/icons/index";
+
+// Custom
+// Include custom SCSS for icons
+@import "./blocks/icons";
