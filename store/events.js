@@ -1,3 +1,5 @@
+import { transformMultiEvent } from '../lib/event.lib'
+
 export const state = () => ({
   list: []
 })
@@ -19,11 +21,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async nuxtServerInit ({ commit }, { app }) {
-    console.log(`nuxtServerInit ~ `)
-    // console.log(`               ~ `)
-    const eventsRes = await app.$axios.$get('/api/event')
-    console.log(`               ~ eventsRes => `, eventsRes)
-    commit('add', eventsRes)
+  async DISPATCH_ADD ({ commit }, events) {
+    const transformed = await transformMultiEvent(events)
+    commit('add', transformed)
   }
 }
