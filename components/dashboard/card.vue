@@ -30,7 +30,7 @@
       <slot name="footer" />
     </template>
     <template v-else>
-      <b-row no-gutters>
+      <b-row v-if="useTitle && title" no-gutters>
         <p class="dsCard__title">{{ title }}</p>
       </b-row>
       <slot />
@@ -45,7 +45,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      required: false,
       default: 'title'
     },
     useicon: {
@@ -81,6 +81,13 @@ export default {
       required: false,
       default: (guideProps) => {
         return (typeof guideProps === 'undefined') ? 'Since last month' : guideProps
+      }
+    },
+    useTitle: {
+      type: Boolean,
+      required: false,
+      default: (useTitleProps) => {
+        return (typeof useTitleProps === 'undefined') ? true : useTitleProps
       }
     }
   }
