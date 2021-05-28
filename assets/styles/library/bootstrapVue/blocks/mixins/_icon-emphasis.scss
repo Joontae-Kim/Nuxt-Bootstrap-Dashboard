@@ -1,0 +1,17 @@
+// stylelint-disable declaration-no-important
+
+// Icons
+
+@mixin icon-emphasis-variant($parent, $color, $ignore-warning: false) {
+  @if $emphasized-link-hover-darken-percentage != 0 {
+    #{$parent} {
+      fill: $color;
+      
+      @include hover-focus() {
+        fill: darken($color, $emphasized-link-hover-darken-percentage) !important;
+      }
+    }
+  }
+  // Only text with Typography
+  // @include deprecate("`text-emphasis-variant()`", "v4.4.0", "v5", $ignore-warning);
+}
