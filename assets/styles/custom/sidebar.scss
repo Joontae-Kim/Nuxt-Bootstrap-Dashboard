@@ -9,7 +9,7 @@
   background: #313a46;
 
   @include media-breakpoint-down(md) {
-    position: absolute;
+    position: fixed;
   }
 
   @include media-breakpoint-up(lg) {
