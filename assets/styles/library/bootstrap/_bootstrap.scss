@@ -9,7 +9,8 @@
 @import "_variables";
 @import "_mixins";
 @import "bootstrap/scss/_root";
-@import "bootstrap/scss/_reboot";
+// @import "bootstrap/scss/_reboot";
+@import "./blocks/_reboot"; // Custom
 @import "bootstrap/scss/_type";
 // @import "bootstrap/scss/_images";
 // @import "bootstrap/scss/_code";
