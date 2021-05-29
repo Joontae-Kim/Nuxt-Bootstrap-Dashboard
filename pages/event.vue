@@ -32,7 +32,7 @@
     </b-row>
     <b-row class="mb-4">
       <b-col cols>
-        <dash-card :use-title="false" no-padding>
+        <dash-card id="event-table" :use-title="false" no-padding no-overflow>
           <b-row align-v="center" class="flex-column flex-md-row mt-3 mb-4 px-3">
             <b-col cols class="mb-3 mb-md-0">
               <div class="d-flex justify-content-end justify-content-md-start align-items-center">
@@ -44,7 +44,7 @@
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
                 <b-form-input aria-label="Search" class="w-100 w-md-50 mr-2" />
-                <b-btn variant="light">
+                <b-btn v-b-toggle.collapse-1 variant="light">
                   <b-icon
                     icon="filter"
                     font-scale="0.95"
@@ -56,6 +56,9 @@
               </div>
             </b-col>
           </b-row>
+          <b-collapse id="collapse-1">
+            <event-filter />
+          </b-collapse>
           <b-row>
             <b-col cols class="overflow-auto">
               <b-table
@@ -215,7 +218,18 @@ export default {
   beforeDestroy () {
     this.$store.commit('events/add', null)
   },
-  methods: {}
+  methods: {
+    onSubmit () {
+      console.log(`onSubmit ~ `)
+      // console.log(`         ~ `)
+      console.log(`         ~ this.form => `, this.form)
+    },
+    onReset () {
+      console.log(`onReset ~ `)
+      // console.log(`        ~ `)
+      console.log(`        ~ `)
+    }
+  }
 }
 </script>
 
