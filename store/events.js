@@ -15,7 +15,7 @@ export const mutations = {
     if (Array.isArray(newList)) {
       state.list = state.list.concat(newList)
     } else {
-      state.list = newList
+      state.list = !newList ? [] : newList
     }
   }
 }
