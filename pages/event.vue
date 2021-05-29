@@ -32,10 +32,10 @@
     </b-row>
     <b-row class="mb-4">
       <b-col cols>
-        <dash-card :use-title="false" class="p-3">
-          <b-row align-v="center">
-            <b-col cols>
-              <div class="d-flex align-items-center">
+        <dash-card :use-title="false" no-padding>
+          <b-row align-v="center" class="flex-column flex-md-row mt-3 mb-4 px-3">
+            <b-col cols class="mb-3 mb-md-0">
+              <div class="d-flex justify-content-end justify-content-md-start align-items-center">
                 <span class="mr-2">Display</span>
                 <b-form-select v-model="selected" :options="options" class="mr-1 w-auto" size="sm" />
                 <span>events</span>
@@ -43,7 +43,7 @@
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
-                <b-form-input aria-label="Search" class="w-50 mr-2" />
+                <b-form-input aria-label="Search" class="w-100 w-md-50 mr-2" />
                 <b-btn variant="light">
                   <b-icon
                     icon="filter"
@@ -66,9 +66,28 @@
                 head-variant="light"
                 responsive
                 hover
+                class="eventTable"
               >
                 <template #cell(index)="data">
                   {{ data.index + 1 }}
+                </template>
+
+                <template #cell(title)="data">
+                  <div class="h6 mb-3">
+                    <div class="text-gray-700 mb-1">
+                      {{ data.value }}
+                    </div>
+                    <div class="text-gray-600 small">
+                      <div>{{ data.item._id }}</div>
+                    </div>
+                  </div>
+                  <div class="text-gray-600 small mt-3">
+                    <div>Created at {{ data.item.publishedAt }}</div>
+                  </div>
+                </template>
+
+                <template #cell(duration)="data">
+                  {{ data.item.openAt }} / {{ data.item.closedAt }}
                 </template>
 
                 <template #cell(sales)="data">
@@ -126,48 +145,49 @@ export default {
         key: 'title',
         sortable: true,
         thClass: '',
-        tdClass: 'w-100 text-gray-600'
+        tdClass: 'eventTable__column-title align-middle'
       },
       {
         label: 'Open',
         key: 'openAt',
         sortable: true,
-        thClass: 'text-nowrap',
-        tdClass: 'text-nowrap w-50 text-gray-600'
+        thClass: '',
+        tdClass: 'align-middle text-gray-700 text-nowrap'
       },
       {
         label: 'Close',
         key: 'closedAt',
         sortable: true,
-        thClass: 'text-nowrap',
-        tdClass: 'text-nowrap w-50 text-gray-600'
+        thClass: '',
+        tdClass: 'align-middle text-gray-700 text-nowrap'
       },
       {
         label: 'Views',
         key: 'views',
         sortable: true,
-        thClass: 'text-nowrap',
-        tdClass: 'text-nowrap w-50 text-gray-600'
+        thClass: '',
+        tdClass: 'align-middle text-gray-700'
       },
       {
         label: 'Bounce',
         key: 'bounce',
         sortable: true,
-        thClass: 'text-nowrap',
-        tdClass: 'text-nowrap w-50 text-gray-600'
+        thClass: '',
+        tdClass: 'align-middle text-gray-700'
       },
       {
         label: 'Sales',
         key: 'sales',
         sortable: true,
-        thClass: 'text-nowrap',
-        tdClass: 'text-nowrap w-50 text-gray-600'
+        thClass: '',
+        tdClass: 'align-middle text-gray-700'
       },
       {
         label: 'Actions',
         key: 'actions',
         sortable: false,
-        tdClass: 'align-middle text-center'
+        thClass: 'text-center',
+        tdClass: 'w-50 align-middle text-center'
       }
     ]
   }),
@@ -192,10 +212,13 @@ export default {
   },
   created () {},
   mounted () {},
+  beforeDestroy () {
+    this.$store.commit('events/add', null)
+  },
   methods: {}
 }
 </script>
 
-<style>
-
+<style lang="scss">
+@import '../assets/styles/custom/eventTable.scss';
 </style>
