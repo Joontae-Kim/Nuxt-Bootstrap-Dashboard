@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body :class="['dsCard overflow-hidden shadow-sm', icon || useicon ? 'p-3' : 'pt-3 px-3']" border-variant="light">
+  <b-card no-body :class="['dsCard overflow-hidden shadow-sm', cardPadding]" border-variant="light">
     <template v-if="icon || useicon">
       <b-row no-gutters>
         <b-col cols="10" class="flex-grow-1">
@@ -89,6 +89,22 @@ export default {
       default: (useTitleProps) => {
         return (typeof useTitleProps === 'undefined') ? true : useTitleProps
       }
+    },
+    noPadding: {
+      type: Boolean,
+      required: false,
+      default: (noPaddingProps) => {
+        return (typeof noPaddingProps === 'undefined') ? false : noPaddingProps
+      }
+    }
+  },
+  computed: {
+    cardPadding () {
+      return this.noPadding
+        ? 'p-0'
+        : this.icon || this.useicon
+          ? 'p-3'
+          : 'pt-3 px-3'
     }
   }
 }
