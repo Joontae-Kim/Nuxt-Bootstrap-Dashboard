@@ -3,9 +3,12 @@ export default {
     async searchEvent (query) {
       const querys = {}
       for (const [key, value] of Object.entries(query)) {
-        console.log(`${key}: ${value}`)
-        if (value) {
-          querys[key] = value
+        if (value !== null) {
+          if (typeof value === 'string') {
+            querys[key] = value
+          } else if (Array.isArray(value) && value.length) {
+            querys[key] = value.join(',')
+          }
         }
       }
       const queryRes = await this.$axios.$get('/api/event/', { params: querys })
