@@ -91,41 +91,95 @@
         </b-form-row>
         <b-form-row>
           <b-col cols="12" md="4">
-            <b-form-group
-              id="filter-group-views"
-              label="Views"
-              label-for="filter-views"
-            >
-              <b-form-spinbutton
-                id="filter-views"
-                v-model="form.views"
-                v-bind="formSpinBtnConfig"
-              />
-            </b-form-group>
+            <b-form-row class="align-items-end">
+              <b-col cols>
+                <b-form-group
+                  id="filter-group-views"
+                  label="Views"
+                  label-for="filter-views"
+                >
+                  <b-form-spinbutton
+                    id="filter-views"
+                    v-model="form.views"
+                    v-bind="formSpinBtnConfig"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col cols="auto" class="mb-3">
+                <b-form-select
+                  id="filter-viewsCondition"
+                  v-model="form.viewsCondition"
+                  title="View Condition"
+                  :options="viewsConditionSet"
+                />
+              </b-col>
+            </b-form-row>
           </b-col>
           <b-col cols="12" md="4">
-            <b-form-group
-              id="filter-group-bounce"
-              label="Bounce"
-              label-for="filter-bounce"
-            >
-              <b-form-spinbutton
-                id="filter-bounce"
-                v-model="form.bounce"
-                v-bind="formSpinBtnConfig"
-              />
-            </b-form-group>
+            <b-form-row class="align-items-end">
+              <b-col>
+                <b-form-group
+                  id="filter-group-bounce"
+                  label="Bounce"
+                  label-for="filter-bounce"
+                >
+                  <b-form-spinbutton
+                    id="filter-bounce"
+                    v-model="form.bounce"
+                    v-bind="formSpinBtnConfig"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col cols="auto" class="mb-3">
+                <b-form-select
+                  id="filter-bounceCondition"
+                  v-model="form.bounceCondition"
+                  title="Bounce Condition"
+                  :options="bounceConditionSet"
+                />
+              </b-col>
+            </b-form-row>
           </b-col>
           <b-col cols="12" md="4">
+            <b-form-row class="align-items-end">
+              <b-col>
+                <b-form-group
+                  id="filter-group-sales"
+                  label="Sales"
+                  label-for="filter-sales"
+                >
+                  <b-form-spinbutton
+                    id="filter-sales"
+                    v-model="form.sales"
+                    v-bind="formSpinBtnConfig"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col cols="auto" class="mb-3">
+                <b-form-select
+                  id="filter-salesCondition"
+                  v-model="form.salesCondition"
+                  title="Sales Condition"
+                  :options="salesConditionSet"
+                />
+              </b-col>
+            </b-form-row>
+          </b-col>
+        </b-form-row>
+        <b-form-row>
+          <b-col cols>
             <b-form-group
-              id="filter-group-sales"
-              label="Sales"
-              label-for="filter-sales"
+              id="filter-group-eventType"
+              v-slot="{ ariaDescribedby }"
+              label="Event Type"
+              label-for="filter-eventType"
             >
-              <b-form-spinbutton
-                id="filter-sales"
-                v-model="form.sales"
-                v-bind="formSpinBtnConfig"
+              <b-form-checkbox-group
+                id="filter-eventType"
+                v-model="form.eventType"
+                :options="eventTypeOpt"
+                :aria-describedby="ariaDescribedby"
+                name="filter-eventType-chckbx"
               />
             </b-form-group>
           </b-col>
@@ -147,6 +201,11 @@
 
 <script>
 import searchEvent from '~/mixins/event/searchEvent'
+const conditionOpts = [
+  { value: 'st', text: '>=' },
+  { value: 'eq', text: '=' },
+  { value: 'gt', text: '<=' }
+]
 
 const filterForm = {
   title: null,
@@ -154,9 +213,13 @@ const filterForm = {
   publishedAt: null,
   openAt: null,
   closedAt: null,
-  views: null,
-  bounce: null,
-  sales: null
+  views: 0,
+  bounce: 0,
+  sales: 0,
+  viewsCondition: 'gt',
+  bounceCondition: 'gt',
+  salesCondition: 'gt',
+  eventType: []
 }
 
 export default {
@@ -166,10 +229,21 @@ export default {
   ],
   data: () => ({
     form: Object.assign({}, filterForm),
+    viewsConditionSet: conditionOpts,
+    bounceConditionSet: conditionOpts,
+    salesConditionSet: conditionOpts,
+    eventTypeOpt: [
+      { text: 'Recommended', value: 'Recommended' },
+      { text: 'Theme & Template', value: 'Theme & Template' },
+      { text: 'Hottest', value: 'Hottest' },
+      { text: 'Package', value: 'Package' },
+      { text: 'Bargains', value: 'Bargains' },
+      { text: 'Newest', value: 'Newest' }
+    ],
     formSpinBtnConfig: {
       step: 25,
-      min: "0",
-      max: "1000",
+      min: 0,
+      max: 1000,
       placeholder: "0"
     }
   }),
