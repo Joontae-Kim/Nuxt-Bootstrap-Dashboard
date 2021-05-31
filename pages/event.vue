@@ -97,13 +97,24 @@
                 </template>
 
                 <template #cell(title)="data">
-                  <div class="h6 mb-3">
+                  <div class="h6 mb-2">
                     <div class="text-gray-700 mb-1">
                       {{ data.value }}
                     </div>
                     <div class="text-gray-600 small">
                       <div>{{ data.item._id }}</div>
                     </div>
+                  </div>
+                  <div class="mb-3">
+                    <b-badge
+                      v-for="label in data.item.eventType"
+                      :key="`event-${data.index}-label-${label}`"
+                      class="mr-1 mb-1 px-2 py-1"
+                      variant="secondary"
+                      pill
+                    >
+                      {{ label }}
+                    </b-badge>
                   </div>
                   <div class="text-gray-600 small mt-3">
                     <div>Created at {{ data.item.publishedAt }}</div>
