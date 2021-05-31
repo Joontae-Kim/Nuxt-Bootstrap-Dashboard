@@ -5,14 +5,14 @@
         <dash-card :use-title="false" class="p-3">
           <b-row align-v="center">
             <b-col cols>
-              <b-btn title="Add new Event" variant="primary">
+              <b-btn title="Add new Event" variant="primary" :disabled="isSearching">
                 <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
                 <span>Add Event</span>
               </b-btn>
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
-                <b-btn class="mr-2" variant="light">
+                <b-btn class="mr-2" variant="light" :disabled="isSearching">
                   <b-icon
                     icon="arrow-clockwise"
                     font-scale="0.95"
@@ -21,7 +21,7 @@
                     shift-v="2"
                   />
                 </b-btn>
-                <b-btn variant="danger">
+                <b-btn variant="danger" :disabled="isSearching">
                   <b-icon icon="trash" font-scale="0.9" aria-hidden="true" aria-label="Delete selected event" shift-v="2" />
                 </b-btn>
               </div>
@@ -37,14 +37,22 @@
             <b-col cols class="mb-3 mb-md-0">
               <div class="d-flex justify-content-end justify-content-md-start align-items-center">
                 <span class="mr-2">Display</span>
-                <b-form-select v-model="selected" :options="options" class="mr-1 w-auto" size="sm" />
+                <b-form-select v-model="selected" :options="options" class="mr-1 w-auto" size="sm" :disabled="isSearching" />
                 <span>events</span>
               </div>
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
-                <b-form-input aria-label="Search" class="w-100 w-md-50 mr-2" />
-                <b-btn v-b-toggle.collapse-1 variant="light">
+                <b-form-input
+                  v-model="searchingTitle"
+                  class="w-100 w-md-50 mr-2"
+                  placeholder="Enter event title"
+                  aria-label="Search"
+                  :disabled="isSearching"
+                  @keyup.enter="simpleSearch"
+                />
+                <!-- @keyup.enter="" -->
+                <b-btn v-b-toggle.collapse-1 variant="light" :disabled="isSearching">
                   <b-icon
                     icon="filter"
                     font-scale="0.95"
@@ -57,7 +65,7 @@
             </b-col>
           </b-row>
           <b-collapse id="collapse-1">
-            <event-filter />
+            <event-filter @setSearchingState="getSearchingState" />
           </b-collapse>
           <b-row>
             <b-col cols class="overflow-auto">
@@ -69,8 +77,21 @@
                 head-variant="light"
                 responsive
                 hover
+                show-empty
                 class="eventTable"
+                :busy="isSearching"
               >
+                <template #table-busy>
+                  <div class="text-center my-4">
+                    <b-spinner class="align-middle" />
+                    <strong>Loading...</strong>
+                  </div>
+                </template>
+
+                <template #empty="scope">
+                  <div class="mt-3 mb-1 text-gray-600 text-center">{{ scope.emptyText }}</div>
+                </template>
+
                 <template #cell(index)="data">
                   {{ data.index + 1 }}
                 </template>
@@ -125,11 +146,17 @@
 
 <script>
 import { mapGetters } from "vuex"
+import searchEvent from '~/mixins/event/searchEvent'
 
 export default {
   name: 'Event',
+  mixins: [
+    searchEvent
+  ],
   layout: 'dashboard',
   data: () => ({
+    isSearching: false,
+    searchingTitle: null,
     selected: 15,
     options: [
       { text: 15, value: 15 },
@@ -142,7 +169,13 @@ export default {
       SortDesc: true
     },
     eventField: [
-      'index',
+      {
+        label: 'Index',
+        key: 'index',
+        sortable: true,
+        thClass: '',
+        tdClass: 'text-center'
+      },
       {
         label: 'Title',
         key: 'title',
@@ -219,15 +252,19 @@ export default {
     this.$store.commit('events/add', null)
   },
   methods: {
-    onSubmit () {
-      console.log(`onSubmit ~ `)
-      // console.log(`         ~ `)
-      console.log(`         ~ this.form => `, this.form)
+    getSearchingState (state) {
+      this.isSearching = state
     },
-    onReset () {
-      console.log(`onReset ~ `)
-      // console.log(`        ~ `)
-      console.log(`        ~ `)
+    async simpleSearch () {
+      try {
+        this.isSearching = true
+        const searchRes = await this.searchEvent({ title: this.searchingTitle })
+        this.$store.dispatch('events/DISPATCH_SET', searchRes.list)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.isSearching = false
+      }
     }
   }
 }

@@ -60,7 +60,7 @@
             >
               <b-form-datepicker
                 id="filter-open"
-                v-model="form.open"
+                v-model="form.openAt"
                 boundary="window"
                 no-close-on-select
                 today-button
@@ -78,7 +78,7 @@
             >
               <b-form-datepicker
                 id="filter-close"
-                v-model="form.closed"
+                v-model="form.closedAt"
                 boundary="window"
                 no-close-on-select
                 today-button
@@ -146,12 +146,14 @@
 </template>
 
 <script>
+import searchEvent from '~/mixins/event/searchEvent'
+
 const filterForm = {
   title: null,
   id: null,
   publishedAt: null,
-  open: null,
-  closed: null,
+  openAt: null,
+  closedAt: null,
   views: null,
   bounce: null,
   sales: null
@@ -159,6 +161,9 @@ const filterForm = {
 
 export default {
   name: 'EventFilter',
+  mixins: [
+    searchEvent
+  ],
   data: () => ({
     form: Object.assign({}, filterForm),
     formSpinBtnConfig: {
@@ -169,23 +174,27 @@ export default {
     }
   }),
   methods: {
-    onSubmit () {
-      console.log(`onSubmit ~ `)
-      // console.log(`         ~ `)
-      console.log(`         ~ this.form => `, this.form)
+    async onSubmit () {
+      try {
+        const queryRes = await this.searchEvent(this.form)
+        this.$store.dispatch('events/DISPATCH_SET', queryRes.list)
+        this.$emit('setSearchingState', false)
+      } catch (err) {
+        console.log(`         ~ err => `, err)
+      }
     },
     onReset () {
       this.form = Object.assign({}, filterForm)
     },
     openDateDisabled (ymd, date) {
-      return !this.form.closed || this.form.closed === ''
+      return !this.form.closedAt || this.form.closedAt === ''
         ? false
-        : this.form.closed <= ymd
+        : this.form.closedAt <= ymd
     },
     closeDateDisabled (ymd, date) {
-      return !this.form.open || this.form.open === ''
+      return !this.form.openAt || this.form.openAt === ''
         ? false
-        : this.form.open > ymd
+        : this.form.openAt > ymd
     }
   }
 }
