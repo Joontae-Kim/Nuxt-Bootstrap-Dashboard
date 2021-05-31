@@ -1,4 +1,4 @@
-const { createEventFullSet, searchEvent, createNewEvent, updateEventElement } = require('../utility/event')
+const { createEventFullSet, searchEvent, createNewEvent, updateEventElement } = require('../lib/event')
 const delay = require('../utility/delayResponse')
 const { ErrorHandler } = require('../utility/error')
 
@@ -19,7 +19,28 @@ const index = async (req, res, next) => {
       if (reqQuery.publishedAt) { query.publishedAt = reqQuery.publishedAt }
       if (reqQuery.openAt) { query.openAt = reqQuery.openAt }
       if (reqQuery.closedAt) { query.closedAt = reqQuery.closedAt }
-      if (reqQuery.type) { query.type = reqQuery.type.split(',').map(type => type.trim()) }
+      if (reqQuery.eventType) { query.type = reqQuery.eventType.split(',').map(type => type.trim()) }
+
+      if (reqQuery.views) {
+        query.views = { value: reqQuery.views }
+        if (reqQuery.viewsCondition) {
+          query.views.condition = reqQuery.viewsCondition
+        }
+      }
+
+      if (reqQuery.bounce) {
+        query.bounce = { value: reqQuery.bounce }
+        if (reqQuery.bounceCondition) {
+          query.bounce.condition = reqQuery.bounceCondition
+        }
+      }
+
+      if (reqQuery.sales) {
+        query.sales = { value: reqQuery.sales }
+        if (reqQuery.salesCondition) {
+          query.sales.condition = reqQuery.salesCondition
+        }
+      }
       list = await searchEvent(eventSet, query)
     }
     res.status(200).send({ list })
@@ -68,6 +89,7 @@ const updateEvent = async (req, res, next) => {
 
 const deleteEvent = async (req, res, next) => {
   try {
+    await delay()
     const eventIdx = eventSet.findIndex(event => event._id.toString() === req.params.id)
     if (eventIdx < 0) {
       return next(new ErrorHandler('404', 'Not_Found'))
