@@ -1,5 +1,5 @@
 const { randomIndex, createSerialRandom } = require('../utility/createRandom')
-const { randomEventSet } = require('../utility/event')
+const { randomEventSet } = require('../lib/event')
 const { getStartOfMonth, createDateArray } = require('../utility/dates')
 const { mergeSalesAndDate } = require('../utility/sales')
 
