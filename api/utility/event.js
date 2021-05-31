@@ -319,10 +319,10 @@ function searchEvent (eventSet, query) {
     try {
       let searched = eventSet
       if (query.title) {
-        const searchedTitleRes = new FuzzySearch(eventSet, ['title', query.title], {
+        const titleSearcher = new FuzzySearch(eventSet, ['title'], {
           caseSensitive: true
         })
-        searched = searchedTitleRes.haystack
+        searched = titleSearcher.search(query.title)
       }
 
       if (searched.length && query.type && query.type.length) {
