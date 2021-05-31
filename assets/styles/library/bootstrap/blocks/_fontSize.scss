@@ -1,0 +1,4 @@
+// $font-sizes
+@each $index, $size in $font-sizes {
+  .fs-#{$index} { font-size: $size !important; }
+}
