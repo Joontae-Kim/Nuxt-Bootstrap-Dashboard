@@ -1,6 +1,7 @@
 <template>
   <b-container fluid>
-    <b-row class="mb-2">
+    <!-- more than tablet ratio -->
+    <b-row class="d-none d-md-flex mb-2">
       <b-col cols>
         <dash-card :use-title="false" class="p-3">
           <b-row align-v="center">
@@ -28,7 +29,7 @@
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
-                <b-btn class="mr-2" variant="light" :disabled="isSearching" @click="refresh">
+                <b-btn title="Refresh Page" class="mr-2" variant="light" :disabled="isSearching" @click="refresh">
                   <b-icon
                     icon="arrow-clockwise"
                     font-scale="0.95"
@@ -37,8 +38,127 @@
                     shift-v="2"
                   />
                 </b-btn>
-                <b-btn variant="danger" :disabled="isSearching">
-                  <b-icon icon="trash" font-scale="0.9" aria-hidden="true" aria-label="Delete selected event" shift-v="2" />
+                <b-btn
+                  title="Delete selected event rows"
+                  variant="danger"
+                  :disabled="isSearching || !selectedEvent.length"
+                  class="mr-2"
+                  @click="deleteAll"
+                >
+                  <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
+                    <b-icon stacked icon="layout-three-columns" rotate="90" />
+                    <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
+                    <b-icon
+                      stacked
+                      icon="check"
+                      shift-v="-8"
+                      shift-h="6"
+                      variant="danger"
+                    />
+                  </b-iconstack>
+                  <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                </b-btn>
+                <b-btn
+                  title="Clear selected event rows"
+                  variant="secondary"
+                  :disabled="isSearching || !selectedEvent.length"
+                >
+                  <b-icon
+                    icon="layout-three-columns"
+                    rotate="90"
+                    font-scale="0.99"
+                    aria-hidden="true"
+                    aria-label="Clear selected event rows"
+                    shift-v="2"
+                  />
+                </b-btn>
+              </div>
+            </b-col>
+          </b-row>
+        </dash-card>
+      </b-col>
+    </b-row>
+    <!-- smaller than tablet ratio -->
+    <b-row class="d-flex d-md-none mb-2">
+      <b-col cols>
+        <dash-card :use-title="false" class="p-3">
+          <b-row align-v="center">
+            <b-col cols>
+              <b-overlay
+                :show="isCreating"
+                rounded
+                opacity="0.6"
+                spinner-small
+                spinner-variant="primary"
+                class="d-inline-block"
+                @hidden="onHidden"
+              >
+                <b-btn
+                  ref="createBtn"
+                  title="Add new Event"
+                  variant="primary"
+                  size="sm"
+                  :disabled="isCreating || isSearching"
+                  @click="createNewEvent"
+                >
+                  <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
+                  <span>Add Event</span>
+                </b-btn>
+              </b-overlay>
+            </b-col>
+            <b-col cols>
+              <div class="d-flex align-items-center justify-content-end">
+                <b-btn
+                  title="Refresh Page"
+                  class="mr-2"
+                  variant="light"
+                  size="sm"
+                  :disabled="isSearching"
+                  @click="refresh"
+                >
+                  <b-icon
+                    icon="arrow-clockwise"
+                    font-scale="0.95"
+                    aria-hidden="true"
+                    aria-label="Refresh"
+                    shift-v="2"
+                  />
+                </b-btn>
+                <b-btn
+                  title="Delete selected event rows"
+                  variant="danger"
+                  size="sm"
+                  :disabled="isSearching || !selectedEvent.length"
+                  class="mr-2"
+                  @click="deleteAll"
+                >
+                  <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
+                    <b-icon stacked icon="layout-three-columns" rotate="90" />
+                    <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
+                    <b-icon
+                      stacked
+                      icon="check"
+                      shift-v="-8"
+                      shift-h="6"
+                      variant="danger"
+                    />
+                  </b-iconstack>
+                  <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                </b-btn>
+                <b-btn
+                  title="Clear selected event rows"
+                  variant="secondary"
+                  size="sm"
+                  :disabled="isSearching || !selectedEvent.length"
+                >
+                  <b-icon
+                    icon="layout-three-columns"
+                    rotate="90"
+                    font-scale="0.99"
+                    aria-hidden="true"
+                    aria-label="Clear selected event rows"
+                    shift-v="2"
+                  />
                 </b-btn>
               </div>
             </b-col>
@@ -86,16 +206,19 @@
           <b-row>
             <b-col cols class="overflow-auto">
               <b-table
+                :busy="isSearching"
                 :sort-by.sync="eventTableOpt.SortBy"
                 :sort-desc.sync="eventTableOpt.SortDesc"
                 :items="events"
                 :fields="eventField"
+                select-mode="multi"
                 head-variant="light"
                 responsive
                 hover
                 show-empty
+                selectable
                 class="eventTable"
-                :busy="isSearching"
+                @row-selected="onRowSelected"
               >
                 <template #table-busy>
                   <div class="text-center my-4">
@@ -154,11 +277,11 @@
                 </template>
 
                 <template #cell(actions)>
-                  <b-btn variant="link" class="text-decoration-none p-0 mr-2 shadow-none">
-                    <b-icon icon="trash" scale="1.0" class="icon-danger" />
+                  <b-btn variant="link" class="text-decoration-none mr-2 `p-0 shadow-none">
+                    <b-icon icon="pencil-square" scale="1.0" class="icon-secondary" />
                   </b-btn>
                   <b-btn variant="link" class="text-decoration-none p-0 shadow-none">
-                    <b-icon icon="pencil-square" scale="1.0" class="icon-secondary" />
+                    <b-icon icon="trash" scale="1.0" class="icon-danger" />
                   </b-btn>
                 </template>
               </b-table>
@@ -189,6 +312,7 @@ export default {
     isSearching: false,
     isCreating: false,
     searchingTitle: null,
+    selectedEvent: [],
     selected: 15,
     options: [
       { text: 15, value: 15 },
@@ -308,12 +432,19 @@ export default {
         this.isSearching = false
       }
     },
+    deleteAll () {
+      console.log(`deleteAll ~ `)
+      // console.log(`          ~ `)
+    },
     onHidden () {
       // Return focus to the button once hidden
       this.$refs.createBtn.focus()
     },
     async refresh () {
       await this.$fetch()
+    },
+    onRowSelected (items) {
+      this.selectedEvent = items
     }
   }
 }
