@@ -1,6 +1,7 @@
 const { createEventFullSet, searchEvent, createNewEvent, updateEventElement } = require('../lib/event')
 const delay = require('../utility/delayResponse')
 const { ErrorHandler } = require('../utility/error')
+const { sortByDate } = require('../utility/dates')
 
 let eventSet = []
 ;(async function () {
@@ -43,6 +44,7 @@ const index = async (req, res, next) => {
       }
       list = await searchEvent(eventSet, query)
     }
+    list = await sortByDate(list, 'openAt')
     res.status(200).send({ list })
   } catch (e) {
     next(e)
@@ -62,10 +64,10 @@ const getEvent = async (req, res, next) => {
 
 const createEvent = async (req, res, next) => {
   try {
+    await delay(2000)
     const newEvent = createNewEvent(req.body)
-    eventSet.push(newEvent)
-    await delay()
-    res.status(200).send({ newEvent, list: eventSet })
+    eventSet.unshift(newEvent)
+    res.status(200).send({ list: eventSet })
   } catch (e) {
     next(e)
   }

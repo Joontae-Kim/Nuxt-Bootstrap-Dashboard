@@ -420,6 +420,9 @@ function createNewEvent (newEvent) {
   //   openAt: null,
   //   closedAt: null,
   //   eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`]
+  //   views: 0,
+  //   bounce: 0,
+  //   sales: 0
   // }
   const _newEvent = {
     title: null,
@@ -427,7 +430,10 @@ function createNewEvent (newEvent) {
     modifiedAt: null,
     openAt: null,
     closedAt: null,
-    eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`]
+    eventType: [`Bargains`, `Package`, `Theme & Template`, `Newest`, `Hottest`, `Recommended`],
+    views: 0,
+    bounce: 0,
+    sales: 0
   }
 
   for (const [key] of Object.entries(_newEvent)) {

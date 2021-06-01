@@ -5,10 +5,26 @@
         <dash-card :use-title="false" class="p-3">
           <b-row align-v="center">
             <b-col cols>
-              <b-btn title="Add new Event" variant="primary" :disabled="isSearching">
-                <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
-                <span>Add Event</span>
-              </b-btn>
+              <b-overlay
+                :show="isCreating"
+                rounded
+                opacity="0.6"
+                spinner-small
+                spinner-variant="primary"
+                class="d-inline-block"
+                @hidden="onHidden"
+              >
+                <b-btn
+                  ref="createBtn"
+                  title="Add new Event"
+                  variant="primary"
+                  :disabled="isCreating || isSearching"
+                  @click="createNewEvent"
+                >
+                  <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
+                  <span>Add Event</span>
+                </b-btn>
+              </b-overlay>
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
@@ -121,8 +137,12 @@
                   </div>
                 </template>
 
-                <template #cell(duration)="data">
-                  {{ data.item.openAt }} / {{ data.item.closedAt }}
+                <template #cell(openAt)="data">
+                  {{ data.value || '-' }}
+                </template>
+
+                <template #cell(closedAt)="data">
+                  {{ data.value || '-' }}
                 </template>
 
                 <template #cell(sales)="data">
@@ -167,6 +187,7 @@ export default {
   layout: 'dashboard',
   data: () => ({
     isSearching: false,
+    isCreating: false,
     searchingTitle: null,
     selected: 15,
     options: [
@@ -176,7 +197,7 @@ export default {
       { text: 100, value: 100 }
     ],
     eventTableOpt: {
-      SortBy: 'sales',
+      SortBy: 'openAt',
       SortDesc: true
     },
     eventField: [
@@ -266,6 +287,16 @@ export default {
     getSearchingState (state) {
       this.isSearching = state
     },
+    async createNewEvent () {
+      this.isCreating = true
+      const newEventRes = await this.$axios.post('/api/event', {
+        title: 'new Bootstrap Event'
+      })
+      const { list } = newEventRes.data
+      this.eventTableOpt.SortBy = null
+      this.$store.dispatch('events/DISPATCH_SET', list)
+      this.isCreating = false
+    },
     async simpleSearch () {
       try {
         this.isSearching = true
@@ -276,6 +307,10 @@ export default {
       } finally {
         this.isSearching = false
       }
+    },
+    onHidden () {
+      // Return focus to the button once hidden
+      this.$refs.createBtn.focus()
     }
   }
 }

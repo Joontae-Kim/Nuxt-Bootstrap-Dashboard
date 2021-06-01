@@ -38,9 +38,21 @@ function dateFormmter (date, format = 'YYYY-MM-DD') {
   return dayjs(date).format(format)
 }
 
+function sortByDate (array, property) {
+  return new Promise((resolve, reject) => {
+    try {
+      const sorted = array.sort((a, b) => b[property] - a[property])
+      resolve(sorted)
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 module.exports = {
   createDateArray,
   getStartOfMonth,
   randomDate,
-  dateFormmter
+  dateFormmter,
+  sortByDate
 }
