@@ -28,7 +28,7 @@
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
-                <b-btn class="mr-2" variant="light" :disabled="isSearching">
+                <b-btn class="mr-2" variant="light" :disabled="isSearching" @click="refresh">
                   <b-icon
                     icon="arrow-clockwise"
                     font-scale="0.95"
@@ -261,7 +261,7 @@ export default {
   }),
   async fetch () {
     const res = await this.$axios.$get('/api/event')
-    await this.$store.dispatch('events/DISPATCH_ADD', res.list)
+    await this.$store.dispatch('events/DISPATCH_SET', res.list)
   },
   computed: {
     ...mapGetters({
@@ -311,6 +311,9 @@ export default {
     onHidden () {
       // Return focus to the button once hidden
       this.$refs.createBtn.focus()
+    },
+    async refresh () {
+      await this.$fetch()
     }
   }
 }
