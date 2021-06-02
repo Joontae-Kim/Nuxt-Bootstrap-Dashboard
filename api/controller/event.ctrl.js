@@ -1,4 +1,4 @@
-const { createEventFullSet, searchEvent, createNewEvent, updateEventElement } = require('../lib/event')
+const { createEventFullSet, searchEvent, createNewEvent, updateEventElement, deleteEventElement } = require('../lib/event')
 const delay = require('../utility/delayResponse')
 const { ErrorHandler } = require('../utility/error')
 const { sortByDate } = require('../utility/dates')
@@ -92,13 +92,11 @@ const updateEvent = async (req, res, next) => {
 const deleteEvent = async (req, res, next) => {
   try {
     await delay()
-    const eventIdx = eventSet.findIndex(event => event._id.toString() === req.params.id)
-    if (eventIdx < 0) {
-      return next(new ErrorHandler('404', 'Not_Found'))
-    } else {
-      eventSet.splice(eventIdx, 1)
-    }
-    res.status(200).send({ eventSet })
+    const { single, deleting } = req.body
+    const _deleting = single ? [deleting] : deleting
+    const deletedEventSet = await deleteEventElement(eventSet, _deleting)
+    eventSet = deletedEventSet
+    res.status(200).send({ list: deletedEventSet })
   } catch (e) {
     next(e)
   }
