@@ -17,7 +17,7 @@ app.put('/:id',
   ash(eventCtrl.updateEvent)
 )
 
-app.delete('/:id',
+app.delete('/',
   ash(eventCtrl.deleteEvent)
 )
 

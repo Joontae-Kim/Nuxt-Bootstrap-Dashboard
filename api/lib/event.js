@@ -486,11 +486,26 @@ function updateEventElement (ex, updating) {
   })
 }
 
+function deleteEventElement (array, deleting, eleProperty = '_id') {
+  return new Promise((resolve, reject) => {
+    try {
+      const eleIdx = array.findIndex(ele => deleting.includes(ele[eleProperty].toString()))
+      if (eleIdx >= 0) {
+        array.splice(eleIdx, 1)
+      }
+      resolve(array)
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 module.exports = {
   randomEventSet,
   createEventSet,
   createEventFullSet,
   searchEvent,
   createNewEvent,
-  updateEventElement
+  updateEventElement,
+  deleteEventElement
 }
