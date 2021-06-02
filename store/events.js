@@ -7,6 +7,9 @@ export const state = () => ({
 export const getters = {
   getEvents: (state) => {
     return state.list
+  },
+  getTotalEventCount: (state) => {
+    return state.list.length
   }
 }
 

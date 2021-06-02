@@ -151,7 +151,7 @@
             <b-col cols class="mb-3 mb-md-0">
               <div class="d-flex justify-content-end justify-content-md-start align-items-center">
                 <span class="mr-2">Display</span>
-                <b-form-select v-model="selected" :options="options" class="mr-1 w-auto" size="sm" :disabled="isSearching" />
+                <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" size="sm" :disabled="isSearching" />
                 <span>events</span>
               </div>
             </b-col>
@@ -181,6 +181,15 @@
           <b-collapse id="collapse-1">
             <event-filter @setSearchingState="getSearchingState" />
           </b-collapse>
+          <b-row align-h="end" class="d-none d-md-flex px-3">
+            <b-col cols="auto">
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="totalEvent"
+                :per-page="perPage"
+              />
+            </b-col>
+          </b-row>
           <b-row>
             <b-col cols class="overflow-auto">
               <b-table
@@ -189,13 +198,15 @@
                 :sort-desc.sync="eventTableOpt.SortDesc"
                 :items="events"
                 :fields="eventField"
+                :per-page="perPage"
+                :current-page="currentPage"
                 select-mode="multi"
                 head-variant="light"
                 responsive
                 hover
                 show-empty
                 selectable
-                class="eventTable"
+                class="eventTable border-bottom"
                 @row-selected="onRowSelected"
               >
                 <template #table-busy>
@@ -265,6 +276,15 @@
               </b-table>
             </b-col>
           </b-row>
+          <b-row align-h="center">
+            <b-col cols="auto">
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="totalEvent"
+                :per-page="perPage"
+              />
+            </b-col>
+          </b-row>
         </dash-card>
       </b-col>
     </b-row>
@@ -297,8 +317,9 @@ export default {
     isDeleting: false,
     searchingTitle: null,
     selectedEvent: [],
-    selected: 15,
-    options: [
+    perPage: 15,
+    currentPage: 1,
+    perPageOpt: [
       { text: 15, value: 15 },
       { text: 30, value: 30 },
       { text: 45, value: 45 },
@@ -373,7 +394,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      events: 'events/getEvents'
+      events: 'events/getEvents',
+      totalEvent: 'events/getTotalEventCount'
     }),
     globalDisabled () {
       return this.isSearching || this.isCreating || this.isDeleting
