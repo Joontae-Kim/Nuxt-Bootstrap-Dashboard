@@ -1,119 +1,44 @@
 <template>
   <b-container fluid>
-    <!-- more than tablet ratio -->
-    <b-row class="d-none d-md-flex mb-2">
+    <b-row class="mb-2">
       <b-col cols>
         <dash-card :use-title="false" class="p-3">
           <b-row align-v="center">
             <b-col cols>
-              <b-overlay
-                :show="isCreating"
-                rounded
-                opacity="0.6"
-                spinner-small
-                spinner-variant="primary"
-                class="d-inline-block"
-                @hidden="onHidden"
-              >
+              <button-overlay class="d-none d-md-inline-block" :show="isCreating" button-ref="createBtn">
                 <b-btn
                   ref="createBtn"
                   title="Add new Event"
                   variant="primary"
-                  :disabled="isCreating || isSearching"
+                  :disabled="globalDisabled"
                   @click="createNewEvent"
                 >
                   <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
                   <span>Add Event</span>
                 </b-btn>
-              </b-overlay>
-            </b-col>
-            <b-col cols>
-              <div class="d-flex align-items-center justify-content-end">
-                <b-btn title="Refresh Page" class="mr-2" variant="light" :disabled="isSearching" @click="refresh">
-                  <b-icon
-                    icon="arrow-clockwise"
-                    font-scale="0.95"
-                    aria-hidden="true"
-                    aria-label="Refresh"
-                    shift-v="2"
-                  />
-                </b-btn>
+              </button-overlay>
+              <button-overlay class="d-inline-block d-md-none" :show="isCreating" button-ref="createBtn-xs">
                 <b-btn
-                  title="Delete selected event rows"
-                  variant="danger"
-                  :disabled="isSearching || !selectedEvent.length"
-                  class="mr-2"
-                  @click="deleteAll"
-                >
-                  <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
-                    <b-icon stacked icon="layout-three-columns" rotate="90" />
-                    <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
-                    <b-icon
-                      stacked
-                      icon="check"
-                      shift-v="-8"
-                      shift-h="6"
-                      variant="danger"
-                    />
-                  </b-iconstack>
-                  <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
-                </b-btn>
-                <b-btn
-                  title="Clear selected event rows"
-                  variant="secondary"
-                  :disabled="isSearching || !selectedEvent.length"
-                >
-                  <b-icon
-                    icon="layout-three-columns"
-                    rotate="90"
-                    font-scale="0.99"
-                    aria-hidden="true"
-                    aria-label="Clear selected event rows"
-                    shift-v="2"
-                  />
-                </b-btn>
-              </div>
-            </b-col>
-          </b-row>
-        </dash-card>
-      </b-col>
-    </b-row>
-    <!-- smaller than tablet ratio -->
-    <b-row class="d-flex d-md-none mb-2">
-      <b-col cols>
-        <dash-card :use-title="false" class="p-3">
-          <b-row align-v="center">
-            <b-col cols>
-              <b-overlay
-                :show="isCreating"
-                rounded
-                opacity="0.6"
-                spinner-small
-                spinner-variant="primary"
-                class="d-inline-block"
-                @hidden="onHidden"
-              >
-                <b-btn
-                  ref="createBtn"
+                  ref="createBtn-xs"
                   title="Add new Event"
                   variant="primary"
                   size="sm"
-                  :disabled="isCreating || isSearching"
+                  :disabled="globalDisabled"
                   @click="createNewEvent"
                 >
                   <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
                   <span>Add Event</span>
                 </b-btn>
-              </b-overlay>
+              </button-overlay>
             </b-col>
             <b-col cols>
               <div class="d-flex align-items-center justify-content-end">
                 <b-btn
                   title="Refresh Page"
-                  class="mr-2"
+                  class="d-inline-block d-md-none mr-2"
                   variant="light"
                   size="sm"
-                  :disabled="isSearching"
+                  :disabled="globalDisabled"
                   @click="refresh"
                 >
                   <b-icon
@@ -124,32 +49,85 @@
                     shift-v="2"
                   />
                 </b-btn>
+                <b-btn title="Refresh Page" class="d-none d-md-inline-block mr-2" variant="light" :disabled="globalDisabled" @click="refresh">
+                  <b-icon
+                    icon="arrow-clockwise"
+                    font-scale="0.95"
+                    aria-hidden="true"
+                    aria-label="Refresh"
+                    shift-v="2"
+                  />
+                </b-btn>
+                <button-overlay :show="isDeleting" button-ref="deleteAllBtn" class="d-none d-md-inline-block" spinner-variant="danger">
+                  <b-btn
+                    ref="deleteAllBtn"
+                    title="Delete selected event rows"
+                    variant="danger"
+                    :disabled="globalDisabled || !selectedEvent.length"
+                    class="mr-2"
+                    @click="deleteAll"
+                  >
+                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
+                      <b-icon stacked icon="layout-three-columns" rotate="90" />
+                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
+                      <b-icon
+                        stacked
+                        icon="check"
+                        shift-v="-8"
+                        shift-h="6"
+                        variant="danger"
+                      />
+                    </b-iconstack>
+                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                  </b-btn>
+                </button-overlay>
+                <button-overlay :show="isDeleting" button-ref="deleteAllBtn-xs" class="d-inline-block d-md-none" spinner-variant="danger">
+                  <b-btn
+                    ref="deleteAllBtn-xs"
+                    title="Delete selected event rows"
+                    variant="danger"
+                    size="sm"
+                    :disabled="globalDisabled || !selectedEvent.length"
+                    class="mr-2"
+                    @click="deleteAll"
+                  >
+                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
+                      <b-icon stacked icon="layout-three-columns" rotate="90" />
+                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
+                      <b-icon
+                        stacked
+                        icon="check"
+                        shift-v="-8"
+                        shift-h="6"
+                        variant="danger"
+                      />
+                    </b-iconstack>
+                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                  </b-btn>
+                </button-overlay>
                 <b-btn
-                  title="Delete selected event rows"
-                  variant="danger"
-                  size="sm"
-                  :disabled="isSearching || !selectedEvent.length"
-                  class="mr-2"
-                  @click="deleteAll"
+                  title="Clear selected event rows"
+                  variant="secondary"
+                  class="d-none d-md-inline-block"
+                  :disabled="globalDisabled || !selectedEvent.length"
+                  @click="clearDeletingList"
                 >
-                  <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
-                    <b-icon stacked icon="layout-three-columns" rotate="90" />
-                    <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
-                    <b-icon
-                      stacked
-                      icon="check"
-                      shift-v="-8"
-                      shift-h="6"
-                      variant="danger"
-                    />
-                  </b-iconstack>
-                  <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                  <b-icon
+                    icon="layout-three-columns"
+                    rotate="90"
+                    font-scale="0.99"
+                    aria-hidden="true"
+                    aria-label="Clear selected event rows"
+                    shift-v="2"
+                  />
                 </b-btn>
                 <b-btn
                   title="Clear selected event rows"
                   variant="secondary"
+                  class="d-inline-block d-md-none"
                   size="sm"
-                  :disabled="isSearching || !selectedEvent.length"
+                  :disabled="globalDisabled || !selectedEvent.length"
+                  @click="clearDeletingList"
                 >
                   <b-icon
                     icon="layout-three-columns"
@@ -307,10 +285,16 @@ export default {
   mixins: [
     searchEvent
   ],
+  provide () {
+    return {
+      parentRef: this.$refs
+    }
+  },
   layout: 'dashboard',
   data: () => ({
     isSearching: false,
     isCreating: false,
+    isDeleting: false,
     searchingTitle: null,
     selectedEvent: [],
     selected: 15,
@@ -390,7 +374,10 @@ export default {
   computed: {
     ...mapGetters({
       events: 'events/getEvents'
-    })
+    }),
+    globalDisabled () {
+      return this.isSearching || this.isCreating || this.isDeleting
+    }
   },
   watch: {
     '$fetchState.pending': {
@@ -425,20 +412,37 @@ export default {
       try {
         this.isSearching = true
         const searchRes = await this.searchEvent({ title: this.searchingTitle })
-        this.$store.dispatch('events/DISPATCH_SET', searchRes.list)
+        await this.$store.dispatch('events/DISPATCH_SET', searchRes.list)
       } catch (err) {
         console.log(err)
       } finally {
         this.isSearching = false
       }
     },
-    deleteAll () {
-      console.log(`deleteAll ~ `)
-      // console.log(`          ~ `)
+    async deleteAll () {
+      try {
+        this.isDeleting = true
+        if (this.selectedEvent.length) {
+          const deletingEvent = this.selectedEvent.map(event => event._id)
+          const deletedRes = await this.$axios.delete('/api/event/', {
+            data: { single: false, deleting: deletingEvent }
+          })
+          const { list } = deletedRes.data
+          await this.$store.dispatch('events/DISPATCH_SET', list)
+        }
+      } catch (err) {
+        console.log(`          ~ err => `, err)
+        console.log(`          ~ err.message => `, err.message)
+      } finally {
+        this.isDeleting = false
+      }
     },
-    onHidden () {
+    clearDeletingList () {
+      this.selectedEvent = []
+    },
+    onHidden (refName) {
       // Return focus to the button once hidden
-      this.$refs.createBtn.focus()
+      this.$refs[refName].focus()
     },
     async refresh () {
       await this.$fetch()
