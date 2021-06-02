@@ -23,6 +23,17 @@ export const mutations = {
     } else {
       state.list = !newList ? [] : newList
     }
+  },
+  update (state, updating) {
+    const eventIdx = state.list.findIndex(event => event._id === updating.id)
+    if (eventIdx !== -1) {
+      state.list[eventIdx] = {
+        ...state.list[eventIdx],
+        ...updating.content
+      }
+    } else {
+      state.list = state.list.splice(eventIdx, 1)
+    }
   }
 }
 

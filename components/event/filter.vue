@@ -2,6 +2,7 @@
   <b-row>
     <b-col cols>
       <b-form
+        :aria-disabled="disabled"
         class="p-3 mb-4 mx-3 border bg-light rounded"
         @submit.prevent="onSubmit"
         @reset="onReset"
@@ -17,6 +18,7 @@
                 id="filter-title"
                 v-model="form.title"
                 placeholder="Enter event title"
+                :disabled="disabled"
               />
             </b-form-group>
           </b-col>
@@ -30,6 +32,7 @@
                 id="filter-id"
                 v-model="form.id"
                 placeholder="Enter event id"
+                :disabled="disabled"
               />
             </b-form-group>
           </b-col>
@@ -47,6 +50,7 @@
                 today-button
                 reset-button
                 :hide-header="true"
+                :disabled="disabled"
               />
             </b-form-group>
           </b-col>
@@ -67,6 +71,7 @@
                 reset-button
                 :hide-header="true"
                 :date-disabled-fn="openDateDisabled"
+                :disabled="disabled"
               />
             </b-form-group>
           </b-col>
@@ -85,6 +90,7 @@
                 reset-button
                 :hide-header="true"
                 :date-disabled-fn="closeDateDisabled"
+                :disabled="disabled"
               />
             </b-form-group>
           </b-col>
@@ -102,6 +108,7 @@
                     id="filter-views"
                     v-model="form.views"
                     v-bind="formSpinBtnConfig"
+                    :disabled="disabled"
                   />
                 </b-form-group>
               </b-col>
@@ -111,6 +118,7 @@
                   v-model="form.viewsCondition"
                   title="View Condition"
                   :options="viewsConditionSet"
+                  :disabled="disabled"
                 />
               </b-col>
             </b-form-row>
@@ -127,6 +135,7 @@
                     id="filter-bounce"
                     v-model="form.bounce"
                     v-bind="formSpinBtnConfig"
+                    :disabled="disabled"
                   />
                 </b-form-group>
               </b-col>
@@ -136,6 +145,7 @@
                   v-model="form.bounceCondition"
                   title="Bounce Condition"
                   :options="bounceConditionSet"
+                  :disabled="disabled"
                 />
               </b-col>
             </b-form-row>
@@ -152,6 +162,7 @@
                     id="filter-sales"
                     v-model="form.sales"
                     v-bind="formSpinBtnConfig"
+                    :disabled="disabled"
                   />
                 </b-form-group>
               </b-col>
@@ -161,6 +172,7 @@
                   v-model="form.salesCondition"
                   title="Sales Condition"
                   :options="salesConditionSet"
+                  :disabled="disabled"
                 />
               </b-col>
             </b-form-row>
@@ -180,16 +192,17 @@
                 :options="eventTypeOpt"
                 :aria-describedby="ariaDescribedby"
                 name="filter-eventType-chckbx"
+                :disabled="disabled"
               />
             </b-form-group>
           </b-col>
         </b-form-row>
         <b-form-row>
           <b-col cols class="text-right">
-            <b-btn type="submit" variant="primary">
+            <b-btn type="submit" variant="primary" :disabled="disabled" class="mr-2">
               Submit
             </b-btn>
-            <b-btn type="reset" variant="danger">
+            <b-btn type="reset" variant="danger" :disabled="disabled">
               Reset
             </b-btn>
           </b-col>
@@ -227,6 +240,13 @@ export default {
   mixins: [
     searchEvent
   ],
+  props: {
+    disabled: {
+      required: true,
+      type: Boolean,
+      default: false
+    }
+  },
   data: () => ({
     form: Object.assign({}, filterForm),
     viewsConditionSet: conditionOpts,
