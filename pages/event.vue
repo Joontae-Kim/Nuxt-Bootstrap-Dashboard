@@ -151,7 +151,7 @@
             <b-col cols class="mb-3 mb-md-0">
               <div class="d-flex justify-content-end justify-content-md-start align-items-center">
                 <span class="mr-2">Display</span>
-                <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" size="sm" :disabled="isSearching" />
+                <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" size="sm" :disabled="globalDisabled" />
                 <span>events</span>
               </div>
             </b-col>
@@ -162,11 +162,10 @@
                   class="w-100 w-md-50 mr-2"
                   placeholder="Enter event title"
                   aria-label="Search"
-                  :disabled="isSearching"
+                  :disabled="globalDisabled"
                   @keyup.enter="simpleSearch"
                 />
-                <!-- @keyup.enter="" -->
-                <b-btn v-b-toggle.collapse-1 variant="light" :disabled="isSearching">
+                <b-btn v-b-toggle.collapse-1 variant="light" :disabled="globalDisabled">
                   <b-icon
                     icon="filter"
                     font-scale="0.95"
@@ -179,7 +178,7 @@
             </b-col>
           </b-row>
           <b-collapse id="collapse-1">
-            <event-filter @setSearchingState="getSearchingState" />
+            <event-filter :disabled="globalDisabled" @setSearchingState="getSearchingState" />
           </b-collapse>
           <b-row align-h="end" class="d-none d-md-flex px-3">
             <b-col cols="auto">
@@ -187,12 +186,14 @@
                 v-model="currentPage"
                 :total-rows="totalEvent"
                 :per-page="perPage"
+                :disabled="globalDisabled"
               />
             </b-col>
           </b-row>
           <b-row>
             <b-col cols class="overflow-auto">
               <b-table
+                ref="eventTable"
                 :busy="isSearching"
                 :sort-by.sync="eventTableOpt.SortBy"
                 :sort-desc.sync="eventTableOpt.SortDesc"
@@ -265,13 +266,26 @@
                   {{ data.value }} %
                 </template>
 
-                <template #cell(actions)>
-                  <b-btn variant="link" class="text-decoration-none mr-2 `p-0 shadow-none">
+                <template #cell(actions)="data">
+                  <b-btn variant="link" class="text-decoration-none mr-2 p-0 shadow-none" :disabled="globalDisabled || data.item.isDeleting">
                     <b-icon icon="pencil-square" scale="1.0" class="icon-secondary" />
                   </b-btn>
-                  <b-btn variant="link" class="text-decoration-none p-0 shadow-none">
-                    <b-icon icon="trash" scale="1.0" class="icon-danger" />
-                  </b-btn>
+                  <button-overlay
+                    :show="data.item.isDeleting"
+                    :button-ref="`btn-${data.item._id}-delete`"
+                    spinner-variant="danger"
+                    :disabled="globalDisabled || data.item.isDeleting"
+                  >
+                    <b-btn
+                      :ref="`btn-${data.item._id}-delete`"
+                      variant="link"
+                      class="text-decoration-none p-0 shadow-none"
+                      :disabled="globalDisabled || data.item.isDeleting"
+                      @click="deleteEvent(data.item._id)"
+                    >
+                      <b-icon icon="trash" scale="1.0" class="icon-danger" />
+                    </b-btn>
+                  </button-overlay>
                 </template>
               </b-table>
             </b-col>
@@ -282,6 +296,7 @@
                 v-model="currentPage"
                 :total-rows="totalEvent"
                 :per-page="perPage"
+                :disabled="globalDisabled"
               />
             </b-col>
           </b-row>
@@ -315,6 +330,7 @@ export default {
     isSearching: false,
     isCreating: false,
     isDeleting: false,
+    isDeletingEvent: false,
     searchingTitle: null,
     selectedEvent: [],
     perPage: 15,
@@ -398,7 +414,7 @@ export default {
       totalEvent: 'events/getTotalEventCount'
     }),
     globalDisabled () {
-      return this.isSearching || this.isCreating || this.isDeleting
+      return this.isSearching || this.isCreating || this.isDeleting || this.isDeletingEvent
     }
   },
   watch: {
@@ -459,12 +475,25 @@ export default {
         this.isDeleting = false
       }
     },
+    async deleteEvent (id) {
+      try {
+        this.isDeletingEvent = true
+        this.$store.commit('events/update', { id, content: { isDeleting: true } })
+        this.$refs.eventTable.refresh()
+        const deletedRes = await this.$axios.delete('/api/event/', {
+          data: { single: true, deleting: id }
+        })
+        const { list } = deletedRes.data
+        await this.$store.dispatch('events/DISPATCH_SET', list)
+      } catch (err) {
+        console.log(`            ~ err => `, err)
+        console.log(`            ~ err.message => `, err.message)
+      } finally {
+        this.isDeletingEvent = false
+      }
+    },
     clearDeletingList () {
       this.selectedEvent = []
-    },
-    onHidden (refName) {
-      // Return focus to the button once hidden
-      this.$refs[refName].focus()
     },
     async refresh () {
       await this.$fetch()
