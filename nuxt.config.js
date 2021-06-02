@@ -34,6 +34,7 @@ export default {
   // components: true,
   components: {
     dirs: [
+      '~/components',
       {
         path: '~/components/base',
         prefix: 'base'
