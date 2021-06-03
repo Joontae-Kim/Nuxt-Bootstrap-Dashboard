@@ -49,10 +49,17 @@ function sortByDate (array, property) {
   })
 }
 
+function isPassed (date) {
+  const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+  dayjs.extend(isSameOrAfter)
+  return dayjs().isSameOrAfter(date, 'day')
+}
+
 module.exports = {
   createDateArray,
   getStartOfMonth,
   randomDate,
   dateFormmter,
-  sortByDate
+  sortByDate,
+  isPassed
 }
