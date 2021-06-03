@@ -267,7 +267,12 @@
                 </template>
 
                 <template #cell(actions)="data">
-                  <b-btn variant="link" class="text-decoration-none mr-2 p-0 shadow-none" :disabled="globalDisabled || data.item.isDeleting">
+                  <b-btn
+                    :to="{ name: 'event-id', params: { id: data.item._id } }"
+                    variant="link"
+                    class="text-decoration-none mr-2 p-0 shadow-none"
+                    :disabled="globalDisabled || data.item.isDeleting"
+                  >
                     <b-icon icon="pencil-square" scale="1.0" class="icon-secondary" />
                   </b-btn>
                   <button-overlay
@@ -506,5 +511,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/custom/eventTable.scss';
+@import '../../assets/styles/custom/eventTable.scss';
 </style>
