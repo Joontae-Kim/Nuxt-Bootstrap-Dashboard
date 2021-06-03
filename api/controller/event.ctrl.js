@@ -1,4 +1,4 @@
-const { createEventFullSet, searchEvent, createNewEvent, updateEventElement, deleteEventElement } = require('../lib/event')
+const { createEventFullSet, searchEvent, createNewEvent, updateEventElement, deleteEventElement, createEventDetail, getRelativeEvent } = require('../lib/event')
 const delay = require('../utility/delayResponse')
 const { ErrorHandler } = require('../utility/error')
 const { sortByDate } = require('../utility/dates')
@@ -53,10 +53,17 @@ const index = async (req, res, next) => {
 
 const getEvent = async (req, res, next) => {
   try {
-    let searched = eventSet.find(event => event._id.toString() === req.params.id)
-    if (searched === undefined) { searched = null }
+    const searched = eventSet.find(event => event._id.toString() === req.params.id)
+    if (searched === undefined) {
+      return next(new ErrorHandler('404', 'Not_Found'))
+    }
     await delay()
-    res.status(200).send({ event: searched })
+    const _event = Object.assign({}, searched)
+    const event = await createEventDetail(_event)
+    if (event.eventType.length) {
+      event.relative = await getRelativeEvent(eventSet, event.eventType)
+    }
+    res.status(200).send({ event })
   } catch (e) {
     next(e)
   }

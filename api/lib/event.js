@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require('uuid')
 const FuzzySearch = require('fuzzy-search')
 const { ErrorHandler } = require('../utility/error')
-const findArrayByOperator = require('../utility/findArray')
-const { randomDate, dateFormmter } = require('../utility/dates')
-const { randomIndex, getRandomArray } = require('../utility/createRandom')
+const findArray = require('../utility/findArray')
+const { randomDate, dateFormmter, isPassed } = require('../utility/dates')
+const { randomIndex, getRandomArray, createSerialRandom } = require('../utility/createRandom')
 
 /**
  * Event Data Property
@@ -385,20 +385,20 @@ function searchEvent (eventSet, query) {
       }
 
       if (searched.length && query.views) {
-        searched = findArrayByOperator.Search(searched, query.views.condition, 'views', query.views.value)
+        searched = findArray.Search(searched, query.views.condition, 'views', query.views.value)
       }
 
       if (searched.length && query.bounce) {
-        searched = findArrayByOperator.Search(searched, query.bounce.condition, 'bounce', query.bounce.value)
+        searched = findArray.Search(searched, query.bounce.condition, 'bounce', query.bounce.value)
       }
 
       if (searched.length && query.sales) {
-        searched = findArrayByOperator.Search(searched, query.sales.condition, 'sales', query.sales.value)
+        searched = findArray.Search(searched, query.sales.condition, 'sales', query.sales.value)
       }
 
       if (searched.length && query.type) {
         searched = searched.reduce((typeSearched, event) => {
-          const isIncludes = findArrayByOperator.partialInclude(query.type, event.eventType)
+          const isIncludes = findArray.partialInclude(query.type, event.eventType)
           if (isIncludes) {
             typeSearched.push(event)
           }
@@ -500,6 +500,69 @@ function deleteEventElement (array, deleting, eleProperty = '_id') {
   })
 }
 
+function createEventDetail (event) {
+  return new Promise((resolve, reject) => {
+    try {
+      const dayjs = require('dayjs')
+      if (event.openAt && event.closedAt) {
+        event.isOpened = isPassed(event.openAt)
+        event.isClosed = isPassed(event.closedAt)
+        if (event.isOpened) {
+          const startDay = dayjs(event.closedAt)
+          const duration = startDay.diff(event.openAt, 'day')
+          event.duration = duration
+          const serialDuration = duration > 6 ? 7 : duration
+          const [bounceSerial, viewsSerial, salesSerial] = [[event.bounce], [event.views], [event.sales]]
+          if (serialDuration - 1 > 1) {
+            const _bounces = createSerialRandom(20, event.bounce, serialDuration - 1)
+            const _views = createSerialRandom(event.views <= 100 ? 50 : Math.abs(event.views - 100), event.views, serialDuration - 1)
+            bounceSerial.unshift(..._bounces)
+            viewsSerial.unshift(..._views)
+            const _sales = new Array(serialDuration - 1).fill(null).map((ele, s) => Number((viewsSerial[s] * (bounceSerial[s] / 100)).toFixed(2)))
+            salesSerial.unshift(..._sales)
+          }
+          event.bounce = bounceSerial
+          event.views = viewsSerial
+          event.sales = salesSerial
+        }
+      } else {
+        event.isOpened = !event.openAt ? false : isPassed(event.openAt)
+        event.isClosed = !event.closedAt ? false : isPassed(event.closedAt)
+        event.duration = null
+        event.bounce = null
+        event.views = null
+        event.sales = null
+      }
+
+      resolve(event)
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+function getRelativeEvent (events, eventType) {
+  return new Promise((resolve, reject) => {
+    try {
+      const relative = events.reduce((rel, event) => {
+        const isRelative = findArray.partialInclude(eventType, event.eventType)
+        if (isRelative) {
+          rel.push({
+            title: event.title,
+            openAt: event.openAt,
+            closedAt: event.closedAt,
+            eventType: event.eventType
+          })
+        }
+        return rel
+      }, [])
+      resolve(relative) 
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 module.exports = {
   randomEventSet,
   createEventSet,
@@ -507,5 +570,7 @@ module.exports = {
   searchEvent,
   createNewEvent,
   updateEventElement,
-  deleteEventElement
+  deleteEventElement,
+  createEventDetail,
+  getRelativeEvent
 }
