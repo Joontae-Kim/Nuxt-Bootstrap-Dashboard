@@ -278,19 +278,20 @@ function createEventDateProperty (event) {
   event._id = uuidv4()
   event.modifiedAt = event.publishedAt
   const [randomOpenWeight, randomEndWeight] = [randomIndex(15, 20), randomIndex(2, 3)]
-  event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day') // `.format('YYYY-MM-DD')
+  event.openAt = dayjs(event.publishedAt).add(randomOpenWeight, 'day').$d // `.format('YYYY-MM-DD')
   const [closedStart, closedEnd] = [
     dayjs(event.openAt).add(1, 'M').$d,
     dayjs(event.openAt).add(randomEndWeight, 'M').$d
   ]
   let [views, bounce, sales] = new Array(3).fill(null)
-  const isStarted = isPassed(event.openAt.$d)
+  const isStarted = isPassed(event.openAt)
   if (isStarted) {
     [views, bounce] = [randomIndex(200, 400), randomIndex(20, 60)]
     sales = views * (bounce / 100)
   }
   event.closedAt = randomDate(new Date(closedStart), new Date(closedEnd))
-  event = { ...event, views: !views ? 0 : views, bounce: Math.floor(bounce), sales: Math.floor(sales), item: [] }
+  views = !views ? 0 : views
+  event = { ...event, views, bounce: Math.floor(bounce), sales: Math.floor(sales), item: [] }
   return event
 }
 
@@ -456,9 +457,9 @@ function createNewEvent (newEvent) {
 function updateEventElement (ex, updating) {
   return new Promise((resolve, reject) => {
     const updated = Object.assign({}, ex)
-
-    for (const [key] of Object.entries(updated)) {
-      updated[key] = updating[key] || updated[key]
+    const editableField = ['title', 'eventType', 'openAt', 'closedAt']
+    for (const field of editableField) {
+      updated[field] = updating[field] || updated[field]
     }
 
     if (updated.openAt) {
@@ -485,7 +486,7 @@ function updateEventElement (ex, updating) {
       }
     }
 
-    updated.modifiedAt = dateFormmter(new Date(), 'YYYY-MM-DD hh:mm:ss')
+    updated.modifiedAt = new Date()
     resolve(updated)
   })
 }
@@ -512,9 +513,7 @@ function createEventDetail (event) {
         event.isOpened = isPassed(event.openAt)
         event.isClosed = isPassed(event.closedAt)
         if (event.isOpened) {
-          const startDay = dayjs(event.closedAt)
-          const duration = startDay.diff(event.openAt, 'day')
-          event.duration = duration
+          const duration = dayjs(event.closedAt).diff(event.openAt, 'day')
           const serialDuration = duration > 6 ? 7 : duration
           const [bounceSerial, viewsSerial, salesSerial] = [[event.bounce], [event.views], [event.sales]]
           if (serialDuration - 1 > 1) {
@@ -532,10 +531,12 @@ function createEventDetail (event) {
       } else {
         event.isOpened = !event.openAt ? false : isPassed(event.openAt)
         event.isClosed = !event.closedAt ? false : isPassed(event.closedAt)
-        event.duration = null
         event.bounce = null
         event.views = null
         event.sales = null
+      }
+      if (event.closedAt && event.openAt) {
+        event.duration = dayjs(event.closedAt).diff(event.openAt, 'day')
       }
       resolve(event)
     } catch (err) {
