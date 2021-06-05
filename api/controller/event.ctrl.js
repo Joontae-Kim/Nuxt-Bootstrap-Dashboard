@@ -88,9 +88,16 @@ const updateEvent = async (req, res, next) => {
       return next(new ErrorHandler('404', 'Not_Found'))
     } else {
       let updatingEvent = eventSet[eventIdx]
-      eventSet[eventIdx] = updatingEvent = await updateEventElement(updatingEvent, req.body)
+      eventSet[eventIdx] = updatingEvent = await updateEventElement(updatingEvent, req.body.data)
     }
-    res.status(200).send({ event: eventSet[eventIdx] })
+
+    // Search the latest updated event
+    const _event = Object.assign({}, eventSet[eventIdx])
+    const event = await createEventDetail(_event)
+    if (event.eventType.length) {
+      event.relative = await getRelativeEvent(eventSet, event.eventType)
+    }
+    res.status(200).send({ event })
   } catch (e) {
     next(e)
   }

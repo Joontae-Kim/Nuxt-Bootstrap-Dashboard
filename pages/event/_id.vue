@@ -49,7 +49,7 @@
                   </b-col>
                 </b-form-row>
                 <b-form-row>
-                  <b-col cols="12" md="6">
+                  <b-col cols="12" md>
                     <b-form-group
                       id="form-group-open"
                       label="Open Date"
@@ -60,7 +60,7 @@
                         v-model="information.openAt"
                         :state="formState.openAt"
                         boundary="window"
-                        :disabled="eventOpen.status"
+                        :disabled="eventOpen.status || disabled"
                         no-close-on-select
                         today-button
                         reset-button
@@ -69,7 +69,7 @@
                       />
                     </b-form-group>
                   </b-col>
-                  <b-col cols="12" md="6">
+                  <b-col cols="12" md>
                     <b-form-group
                       id="form-group-close"
                       label="Close Date"
@@ -80,12 +80,27 @@
                         v-model="information.closedAt"
                         :state="formState.closedAt"
                         boundary="window"
-                        :disabled="eventOpen.status"
+                        :disabled="eventOpen.status || disabled"
                         no-close-on-select
                         today-button
                         reset-button
                         :hide-header="true"
                         :date-disabled-fn="closeDateDisabled"
+                      />
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="12" md>
+                    <b-form-group
+                      id="form-group-duration"
+                      label="Duration (based on Saved Date)"
+                      label-for="form-duration"
+                    >
+                      <b-form-input
+                        id="form-duration"
+                        :value="durationText"
+                        readonly
+                        disabled
+                        trim
                       />
                     </b-form-group>
                   </b-col>
@@ -110,11 +125,13 @@
                     </b-form-group>
                   </b-col>
                 </b-form-row>
-                <b-form-row>
+                <b-form-row class="mt-3">
                   <b-col cols class="text-right">
-                    <b-btn variant="dark" :disabled="disabledIngoreButton" @click="ignoreOpened">Ignore Already opened</b-btn>
+                    <b-btn variant="dark" :disabled="disabledIngoreButton || disabled" @click="ignoreOpened">Ignore Already opened</b-btn>
                     <b-btn variant="danger" :disabled="!isUpdated || disabled" @click="reset">Reset</b-btn>
-                    <b-btn variant="primary" :disabled="!isUpdated || disabled" @click="save">Save</b-btn>
+                    <button-overlay :show="isSaving" button-ref="saveButton">
+                      <b-btn ref="saveButton" variant="primary" :disabled="!isUpdated || disabled" @click="save">Save</b-btn>
+                    </button-overlay>
                   </b-col>
                 </b-form-row>
               </b-form>
@@ -140,6 +157,9 @@
     </b-row>
     <b-row>
       <b-col cols>
+        relative count {{ relative.length }}
+      </b-col>
+      <b-col cols>
         relative <pre>{{ relative }}</pre>
       </b-col>
     </b-row>
@@ -148,9 +168,15 @@
 
 <script>
 import dayjs from "dayjs"
+import { generateEventDurationObject, generateEventDate } from "~/lib/event.lib"
 
 export default {
   name: 'EventDetailed',
+  provide () {
+    return {
+      parentRef: this.$refs
+    }
+  },
   layout: 'dashboard',
   middleware: [
     'check-renderer'
@@ -167,24 +193,12 @@ export default {
       }
       return {
         isServerRender: renderServer,
-        event: res.event,
         id: event._id,
         information: info,
         information_clone: Object.assign({}, info),
-        eventOpen: {
-          date: dayjs(info.openAt).format('YYYY-MM-DD'),
-          status: event.isOpened,
-          days: !event.openAt ? 0 : dayjs(new Date()).diff(event.openAt, 'day')
-        },
-        eventClose: {
-          date: dayjs(info.closedAt).format('YYYY-MM-DD'),
-          status: event.isClosed,
-          days: !event.closedAt ? 0 : dayjs(new Date()).diff(event.closedAt, 'day')
-        },
-        eventDate: {
-          publishedAt: dayjs(event.publishedAt).format('YYYY-MM-DD hh:mm'),
-          modifiedAt: dayjs(event.modifiedAt).format('YYYY-MM-DD hh:mm')
-        },
+        eventOpen: generateEventDurationObject(event.isOpened, event.openAt),
+        eventClose: generateEventDurationObject(event.isClosed, event.closedAt),
+        eventDate: generateEventDate(event.publishedAt, event.modifiedAt),
         duration: event.duration,
         views: event.views,
         bounce: event.bounce,
@@ -245,6 +259,10 @@ export default {
     },
     disabledIngoreButton () {
       return !this.eventOpen.status
+    },
+    durationText () {
+      const dayFix = this.duration > 1 ? 'days' : 'day'
+      return `${this.duration} ${dayFix}`
     }
   },
   watch: {
@@ -265,13 +283,10 @@ export default {
     },
     'information.eventType': {
       handler (updated) {
-        this.isUpdated = this.information_clone.eventType !== updated
+        const updatedString = [...updated].sort().toString()
+        this.isUpdated = [...this.information_clone.eventType].sort().toString() !== updatedString
       }
     }
-    // openBadgeText () {
-    //   const status = null
-    //   const days = null
-    // }
   },
   created () {},
   mounted () {
@@ -347,20 +362,52 @@ export default {
         }
       }
 
-      if (this.information.openAt && this.information.closedAt && !this.information.eventType.length) {
-        this.formState.eventType = false
-        return false
+      if (this.information.openAt && this.information.closedAt) {
+        const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+        dayjs.extend(isSameOrAfter)
+        const isPassed = dayjs().isSameOrAfter(this.information.openAt, 'day')
+        if (isPassed && !this.information.eventType.length) {
+          this.formState.eventType = false
+          return false
+        }
       }
+      return true
     },
-    save () {
-      console.log('save ~ ')
-      // console.log('     ~ ')
-      this.initializeFormState()
-      console.log('     ~ this.information => ', this.information)
-      const validated = this.validateForm(this.isUpdated)
-      console.log('     ~ validated => ', validated)
-      if (validated) {
-        console.log(`     ~ this.information => `, this.information)
+    async save () {
+      try {
+        this.isSaving = true
+        this.initializeFormState()
+        const validated = this.validateForm(this.isUpdated)
+        if (validated) {
+          const updated = await this.$axios.put(`/api/event/${this.id}`, {
+            data: {
+              title: this.information.title,
+              eventType: this.information.eventType,
+              openAt: this.information.openAt,
+              closedAt: this.information.closedAt
+            }
+          })
+          const _event = updated.data.event
+          const _info = {
+            title: _event.title,
+            openAt: !_event.openAt ? null : _event.openAt,
+            closedAt: !_event.closedAt ? null : _event.closedAt,
+            eventType: _event.eventType
+          }
+          this.information = _info
+          this.information_clone = Object.assign({}, _info)
+          this.eventOpen = generateEventDurationObject(_event.isOpened, _event.openAt)
+          this.eventClose = generateEventDurationObject(_event.isClosed, _event.closedAt)
+          this.eventDate = generateEventDate(_event.publishedAt, _event.modifiedAt)
+          const extraField = ['duration', 'views', 'bounce', 'sales', 'relative']
+          for (const field of extraField) {
+            this[field] = _event[field]
+          }
+        }
+      } catch (err) {
+        console.log('     ~ err => ', err)
+      } finally {
+        this.isSaving = false
       }
     },
     reset () {
