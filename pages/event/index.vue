@@ -308,11 +308,6 @@
         </dash-card>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col cols>
-        {{ events }}
-      </b-col>
-    </b-row>
   </b-container>
 </template>
 
