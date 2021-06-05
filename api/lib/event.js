@@ -283,10 +283,14 @@ function createEventDateProperty (event) {
     dayjs(event.openAt).add(1, 'M').$d,
     dayjs(event.openAt).add(randomEndWeight, 'M').$d
   ]
-  const [views, bounce] = [randomIndex(200, 400), randomIndex(20, 60)]
-  const sales = views * (bounce / 100)
+  let [views, bounce, sales] = new Array(3).fill(null)
+  const isStarted = isPassed(event.openAt.$d)
+  if (isStarted) {
+    [views, bounce] = [randomIndex(200, 400), randomIndex(20, 60)]
+    sales = views * (bounce / 100)
+  }
   event.closedAt = randomDate(new Date(closedStart), new Date(closedEnd))
-  event = { ...event, views, bounce: Math.floor(bounce), sales: Math.floor(sales), item: [] }
+  event = { ...event, views: !views ? 0 : views, bounce: Math.floor(bounce), sales: Math.floor(sales), item: [] }
   return event
 }
 
@@ -533,7 +537,6 @@ function createEventDetail (event) {
         event.views = null
         event.sales = null
       }
-
       resolve(event)
     } catch (err) {
       reject(err)
@@ -556,7 +559,7 @@ function getRelativeEvent (events, eventType) {
         }
         return rel
       }, [])
-      resolve(relative) 
+      resolve(relative)
     } catch (err) {
       reject(err)
     }
