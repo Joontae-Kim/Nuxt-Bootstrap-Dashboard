@@ -523,7 +523,6 @@ function createEventDetail (event) {
           const [bounceSerial, viewsSerial, salesSerial] = [[event.bounce], [event.views], [event.sales]]
           if (serialDuration - 1 > 1) {
             const _bounces = createSerialRandom(20, event.bounce, serialDuration - 1, false, 2)
-            console.log('_bounces: ', _bounces)
             const _views = createSerialRandom(event.views <= 100 ? 50 : Math.abs(event.views - 50), event.views, serialDuration - 1)
             bounceSerial.unshift(..._bounces)
             viewsSerial.unshift(..._views)
