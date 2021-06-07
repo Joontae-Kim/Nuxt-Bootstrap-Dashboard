@@ -32,6 +32,9 @@
     <template v-else>
       <b-row v-if="useTitle && title" no-gutters>
         <p class="dsCard__title">{{ title }}</p>
+        <div class="ml-auto">
+          <slot name="header-right" />
+        </div>
       </b-row>
       <slot />
       <slot name="footer" />
