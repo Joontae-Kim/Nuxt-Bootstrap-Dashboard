@@ -1,12 +1,12 @@
 <template>
   <b-container fluid>
-    <event-status
+    <LazyEventStatus
       v-bind="{ eventDate }"
       :open="eventOpen"
       :close="eventClose"
       class="mb-4"
     />
-    <b-row>
+    <b-row class="mb-4">
       <b-col cols>
         <dash-card title="Information" no-overflow class="pb-3">
           <b-row>
@@ -140,21 +140,13 @@
         </dash-card>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col cols>
-        views <pre>{{ views }}</pre>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col cols>
-        bounce <pre>{{ bounce }}</pre>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col cols>
-        sales <pre>{{ sales }}</pre>
-      </b-col>
-    </b-row>
+    <LazyEventPerformanceIndex
+      :event-opened="eventOpen.status"
+      :index="{ views, bounce, sales }"
+      :index-key="['Views', 'Bounce', 'Sales']"
+      :index-icon="{ views: 'eye-fill', bounce: 'arrow-up-right-circle-fill', sales: 'credit-card-fill' }"
+      :index-dates="indexDates"
+    />
     <b-row>
       <b-col cols>
         relative count {{ relative.length }}
@@ -183,8 +175,11 @@ export default {
   ],
   async asyncData ({ params, $axios, renderServer }) {
     try {
+      console.log(`asyncData ~ `)
+      // console.log(`          ~ `)
       const res = await $axios.$get(`/api/event/${params.id}`)
       const event = res.event
+      console.log(`          ~ event => `, event)
       const info = {
         title: event.title,
         openAt: !event.openAt ? null : event.openAt,
@@ -203,6 +198,7 @@ export default {
         views: event.views,
         bounce: event.bounce,
         sales: event.sales,
+        indexDates: event.indexDates,
         relative: event.relative
       }
     } catch (err) {
@@ -231,6 +227,7 @@ export default {
     views: [],
     bounce: [],
     sales: [],
+    indexDates: [],
     relative: [],
     eventTypeOpt: [
       { text: 'Recommended', value: 'Recommended' },
@@ -401,7 +398,13 @@ export default {
           this.eventDate = generateEventDate(_event.publishedAt, _event.modifiedAt)
           const extraField = ['duration', 'views', 'bounce', 'sales', 'relative']
           for (const field of extraField) {
-            this[field] = _event[field]
+            if (typeof field === 'string') {
+              this[field] = _event[field]
+            } else {
+              const resKey = Object.keys(field)[0]
+              const dataKey = Object.values(field)[0]
+              this[resKey] = _event[dataKey]
+            }
           }
         }
       } catch (err) {
