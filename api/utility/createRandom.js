@@ -8,7 +8,7 @@ function randomIndex (min, max, isFloor = true, decimalDigit = 2) {
   return Number(random)
 }
 
-function createSerialRandom (min, max, count) {
+function createSerialRandom (min, max, count, isFloor = true, decimalDigit = 2) {
   const serial = []
   let loop = 0
   while (loop < count) {
@@ -17,9 +17,9 @@ function createSerialRandom (min, max, count) {
       : serial[loop - 1] === max || max - serial[loop - 1] <= 10
         ? max - min
         : serial[loop - 1]
-    let random = randomIndex(contrary, max)
+    let random = randomIndex(contrary, max, isFloor, decimalDigit)
     if (loop !== 0 && Math.abs(random - serial[loop - 1]) >= 8) {
-      random = randomIndex(serial[loop - 1], serial[loop - 1] + 6)
+      random = randomIndex(serial[loop - 1], serial[loop - 1] + 6, isFloor, decimalDigit)
     }
     serial.push(random)
     loop++
