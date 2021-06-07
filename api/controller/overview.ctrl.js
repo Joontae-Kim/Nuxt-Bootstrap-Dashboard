@@ -1,7 +1,6 @@
 const { randomIndex, createSerialRandom } = require('../utility/createRandom')
 const { randomEventSet } = require('../lib/event')
-const { getStartOfMonth, createDateArray } = require('../utility/dates')
-const { mergeSalesAndDate } = require('../utility/sales')
+const { getStartOfMonth, createDateArray, mergeWithDate } = require('../utility/dates')
 
 const index = (req, res, next) => {
   try {
@@ -40,7 +39,7 @@ const index = (req, res, next) => {
         channels,
         visitbyNotification,
         sales: {
-          list: mergeSalesAndDate(sales, dates),
+          list: mergeWithDate(dates, sales),
           maxSales: Math.max.apply(null, sales)
         },
         eventRank: randomEventSet(5)
