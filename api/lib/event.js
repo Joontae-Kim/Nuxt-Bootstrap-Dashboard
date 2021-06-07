@@ -393,10 +393,6 @@ function searchEvent (eventSet, query) {
         searched = findArray.Search(searched, query.views.condition, 'views', query.views.value)
       }
 
-      if (searched.length && query.bounce) {
-        searched = findArray.Search(searched, query.bounce.condition, 'bounce', query.bounce.value)
-      }
-
       if (searched.length && query.sales) {
         searched = findArray.Search(searched, query.sales.condition, 'sales', query.sales.value)
       }

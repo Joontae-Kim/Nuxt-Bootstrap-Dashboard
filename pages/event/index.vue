@@ -262,10 +262,6 @@
                   $ {{ data.value }}
                 </template>
 
-                <template #cell(bounce)="data">
-                  {{ data.value }} %
-                </template>
-
                 <template #cell(actions)="data">
                   <b-btn
                     :to="{ name: 'event-id', params: { id: data.item._id } }"
@@ -377,13 +373,6 @@ export default {
       {
         label: 'Views',
         key: 'views',
-        sortable: true,
-        thClass: '',
-        tdClass: 'align-middle text-gray-700'
-      },
-      {
-        label: 'Bounce',
-        key: 'bounce',
         sortable: true,
         thClass: '',
         tdClass: 'align-middle text-gray-700'

@@ -96,7 +96,7 @@
           </b-col>
         </b-form-row>
         <b-form-row>
-          <b-col cols="12" md="4">
+          <b-col cols="12" md="6">
             <b-form-row class="align-items-end">
               <b-col cols>
                 <b-form-group
@@ -123,34 +123,7 @@
               </b-col>
             </b-form-row>
           </b-col>
-          <b-col cols="12" md="4">
-            <b-form-row class="align-items-end">
-              <b-col>
-                <b-form-group
-                  id="filter-group-bounce"
-                  label="Bounce"
-                  label-for="filter-bounce"
-                >
-                  <b-form-spinbutton
-                    id="filter-bounce"
-                    v-model="form.bounce"
-                    v-bind="formSpinBtnConfig"
-                    :disabled="disabled"
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="auto" class="mb-3">
-                <b-form-select
-                  id="filter-bounceCondition"
-                  v-model="form.bounceCondition"
-                  title="Bounce Condition"
-                  :options="bounceConditionSet"
-                  :disabled="disabled"
-                />
-              </b-col>
-            </b-form-row>
-          </b-col>
-          <b-col cols="12" md="4">
+          <b-col cols="12" md="6">
             <b-form-row class="align-items-end">
               <b-col>
                 <b-form-group
@@ -227,10 +200,8 @@ const filterForm = {
   openAt: null,
   closedAt: null,
   views: 0,
-  bounce: 0,
   sales: 0,
   viewsCondition: 'gt',
-  bounceCondition: 'gt',
   salesCondition: 'gt',
   eventType: []
 }
@@ -250,7 +221,6 @@ export default {
   data: () => ({
     form: Object.assign({}, filterForm),
     viewsConditionSet: conditionOpts,
-    bounceConditionSet: conditionOpts,
     salesConditionSet: conditionOpts,
     eventTypeOpt: [
       { text: 'Recommended', value: 'Recommended' },
