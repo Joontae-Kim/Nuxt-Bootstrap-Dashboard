@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 const FuzzySearch = require('fuzzy-search')
 const { ErrorHandler } = require('../utility/error')
 const findArray = require('../utility/findArray')
-const { randomDate, dateFormmter, isPassed } = require('../utility/dates')
+const { randomDate, dateFormmter, isPassed, createDateArray, mergeWithDate } = require('../utility/dates')
 const { randomIndex, getRandomArray, createSerialRandom } = require('../utility/createRandom')
 
 /**
@@ -509,34 +509,35 @@ function createEventDetail (event) {
   return new Promise((resolve, reject) => {
     try {
       const dayjs = require('dayjs')
+      const detailedProppery = { isOpened: false, isClosed: false, indexDates: [] }
+      event = {
+        ...event,
+        ...detailedProppery
+      }
       if (event.openAt && event.closedAt) {
         event.isOpened = isPassed(event.openAt)
         event.isClosed = isPassed(event.closedAt)
         if (event.isOpened) {
-          const duration = dayjs(event.closedAt).diff(event.openAt, 'day')
-          const serialDuration = duration > 6 ? 7 : duration
+          event.duration = dayjs(event.closedAt).diff(event.openAt, 'day')
+          const serialDuration = event.duration > 6 ? 7 : event.duration
           const [bounceSerial, viewsSerial, salesSerial] = [[event.bounce], [event.views], [event.sales]]
           if (serialDuration - 1 > 1) {
-            const _bounces = createSerialRandom(20, event.bounce, serialDuration - 1)
-            const _views = createSerialRandom(event.views <= 100 ? 50 : Math.abs(event.views - 100), event.views, serialDuration - 1)
+            const _bounces = createSerialRandom(20, event.bounce, serialDuration - 1, false, 2)
+            console.log('_bounces: ', _bounces)
+            const _views = createSerialRandom(event.views <= 100 ? 50 : Math.abs(event.views - 50), event.views, serialDuration - 1)
             bounceSerial.unshift(..._bounces)
             viewsSerial.unshift(..._views)
             const _sales = new Array(serialDuration - 1).fill(null).map((ele, s) => Number((viewsSerial[s] * (bounceSerial[s] / 100)).toFixed(2)))
             salesSerial.unshift(..._sales)
           }
+          const eventPerformanceDays = event.duration > 7 ? 7 : event.duration
           event.bounce = bounceSerial
           event.views = viewsSerial
           event.sales = salesSerial
+          event.indexDates = createDateArray(new Date(), null, eventPerformanceDays)
         }
       } else {
-        event.isOpened = !event.openAt ? false : isPassed(event.openAt)
-        event.isClosed = !event.closedAt ? false : isPassed(event.closedAt)
-        event.bounce = null
-        event.views = null
-        event.sales = null
-      }
-      if (event.closedAt && event.openAt) {
-        event.duration = dayjs(event.closedAt).diff(event.openAt, 'day')
+        event = { ...event, sales: null, views: null, bounce: null }
       }
       resolve(event)
     } catch (err) {
