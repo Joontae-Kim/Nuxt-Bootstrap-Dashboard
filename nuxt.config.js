@@ -43,11 +43,8 @@ export default {
         path: '~/components/dashboard',
         prefix: 'dash'
       },
-      {
-        path: '~/components/event',
-        prefix: 'event'
-      },
-      '~/components/chart'
+      '~/components/chart',
+      '~/components/common'
     ]
   },
 

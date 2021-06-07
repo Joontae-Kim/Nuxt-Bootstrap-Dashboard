@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'BtnOverlay',
+  name: 'ButtonOverlay',
   inject: ['parentRef'],
   props: {
     show: {
