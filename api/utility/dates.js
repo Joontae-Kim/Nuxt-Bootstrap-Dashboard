@@ -1,5 +1,4 @@
 const dayjs = require('dayjs')
-// const { randomIndex } = require('./createRandom');
 
 function getStartOfMonth (unit = 'month') {
   return dayjs().startOf(unit).$d
@@ -13,7 +12,8 @@ function createDateArray (start = new Date(), end = null, count = 29) {
   } else {
     dateArray.push(dayjs(start).format('YYYY-MM-DD'))
   }
-  for (let d = 1; d <= count; d++) {
+
+  for (let d = 1; d < count; d++) {
     const date = dayjs().subtract(d, 'day').format('YYYY-MM-DD')
     dateArray.push(date)
   }
@@ -55,11 +55,22 @@ function isPassed (date) {
   return dayjs().isSameOrAfter(date, 'day')
 }
 
+function mergeWithDate (dates, values) {
+  const merged = dates.reduce((mergedValues, date, d) => {
+    if (values[d]) {
+      mergedValues.push({ [date]: values[d] })
+    }
+    return mergedValues
+  }, [])
+  return merged
+}
+
 module.exports = {
   createDateArray,
   getStartOfMonth,
   randomDate,
   dateFormmter,
   sortByDate,
-  isPassed
+  isPassed,
+  mergeWithDate
 }
