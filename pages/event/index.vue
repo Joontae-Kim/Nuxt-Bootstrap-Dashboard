@@ -309,10 +309,14 @@
 
 <script>
 import { mapGetters } from "vuex"
+import eventFilter from '~/components/event/filter'
 import searchEvent from '~/mixins/event/searchEvent'
 
 export default {
   name: 'Event',
+  components: {
+    eventFilter
+  },
   mixins: [
     searchEvent
   ],
