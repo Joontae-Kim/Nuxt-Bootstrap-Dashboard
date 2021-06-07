@@ -29,13 +29,6 @@ const index = async (req, res, next) => {
         }
       }
 
-      if (reqQuery.bounce) {
-        query.bounce = { value: reqQuery.bounce }
-        if (reqQuery.bounceCondition) {
-          query.bounce.condition = reqQuery.bounceCondition
-        }
-      }
-
       if (reqQuery.sales) {
         query.sales = { value: reqQuery.sales }
         if (reqQuery.salesCondition) {
