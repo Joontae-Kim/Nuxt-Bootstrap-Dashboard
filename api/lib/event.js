@@ -3,9 +3,10 @@ const FuzzySearch = require('fuzzy-search')
 const { ErrorHandler } = require('../utility/error')
 const findArray = require('../utility/findArray')
 const { randomDate, dateFormmter, isPassed, createDateArray } = require('../utility/dates')
-const { randomIndex, getRandomArray, createSerialRandom } = require('../utility/createRandom')
+const { randomIndex, getRandomArray, createSerialRandomByUnique } = require('../utility/createRandom')
 const { eventNameSet } = require('../utility/event.collection')
-
+const viewsRange = { min: 1000, max: 3000 }
+const salesRange = { min: 400, max: 900 }
 /**
  * Event Data Property
  * title
@@ -46,9 +47,9 @@ function randomEventSet (count = 'full') {
 
 function createEventSet (eventset) {
   const set = eventset.reduce((set, event) => {
-    const views = randomIndex(200, 400)
+    const views = randomIndex(viewsRange.min, viewsRange.max)
     const bounce = randomIndex(20, 60)
-    const sales = views * (bounce / 100)
+    const sales = randomIndex(salesRange.min, salesRange.max)
     set.push({ name: event.title, views, bounce: Math.floor(bounce), sales: Math.floor(sales) })
     return set
   }, [])
@@ -65,15 +66,18 @@ function createEventDateProperty (event) {
     dayjs(event.openAt).add(1, 'M').$d,
     dayjs(event.openAt).add(randomEndWeight, 'M').$d
   ]
-  let [views, bounce, sales] = new Array(3).fill(null)
+  let [views, bounce, sales] = new Array(3).fill(0)
   const isStarted = isPassed(event.openAt)
   if (isStarted) {
-    [views, bounce] = [randomIndex(200, 400), randomIndex(20, 60)]
-    sales = views * (bounce / 100)
+    [views, bounce, sales] = [
+      randomIndex(viewsRange.min, viewsRange.max),
+      randomIndex(20, 60),
+      randomIndex(salesRange.min, salesRange.max)
+    ]
   }
   event.closedAt = randomDate(new Date(closedStart), new Date(closedEnd))
   views = !views ? 0 : views
-  event = { ...event, views, bounce: Math.floor(bounce), sales: Math.floor(sales), item: [] }
+  event = { ...event, views, bounce: Math.floor(bounce), sales, item: [] }
   return event
 }
 
@@ -297,21 +301,26 @@ function createEventDetail (event) {
         event.isClosed = isPassed(event.closedAt)
         if (event.isOpened) {
           event.duration = dayjs(event.closedAt).diff(event.openAt, 'day')
-          const serialDuration = event.duration > 6 ? 7 : event.duration
-          const [bounceSerial, viewsSerial, salesSerial] = [[event.bounce], [event.views], [event.sales]]
-          if (serialDuration - 1 > 1) {
-            const _bounces = createSerialRandom(20, event.bounce, serialDuration - 1, false, 2)
-            const _views = createSerialRandom(event.views <= 100 ? 50 : Math.abs(event.views - 50), event.views, serialDuration - 1)
-            bounceSerial.unshift(..._bounces)
-            viewsSerial.unshift(..._views)
-            const _sales = new Array(serialDuration - 1).fill(null).map((ele, s) => Number((viewsSerial[s] * (bounceSerial[s] / 100)).toFixed(2)))
-            salesSerial.unshift(..._sales)
-          }
           const eventPerformanceDays = event.duration > 7 ? 7 : event.duration
-          event.bounce = bounceSerial
-          event.views = viewsSerial
-          event.sales = salesSerial
+          event.sales = {
+            rate: event.duration > 7 ? randomIndex(8, 10, false) : 0,
+            total: event.sales
+          }
+          const { min: salesMin, max: salesMax, weekly: salesWeekly } = getPerformanceRandomRange(event.sales.total, event.sales.rate, 7)
+          event.sales.value = createSerialRandomByUnique(salesMin, salesMax, salesWeekly)
+          event.sales.weekly = salesWeekly
+          event.views = {
+            rate: event.duration > 7 ? randomIndex(3, 10, false) : 0,
+            total: event.views
+          }
+          const { min: viewsMin, max: viewsMax, weekly: viewsWeekly } = getPerformanceRandomRange(event.views.total, event.views.rate, 7)
+          event.views.value = createSerialRandomByUnique(viewsMin, viewsMax, viewsWeekly)
+          event.views.weekly = viewsWeekly
           event.indexDates = createDateArray(new Date(), null, eventPerformanceDays)
+        } else {
+          const zeroindex = { rate: 0, total: 0 }
+          event.sales = zeroindex
+          event.views = zeroindex
         }
       } else {
         event = { ...event, sales: null, views: null, bounce: null }
@@ -321,6 +330,16 @@ function createEventDetail (event) {
       reject(err)
     }
   })
+}
+
+function getPerformanceRandomRange (unique, share, count) {
+  const weekly = unique * (share / 100)
+  const weeeklyAvg = weekly / count
+  const uniqueDigitUnit = Math.floor(weeeklyAvg).toString().length
+  let min = Math.floor(Math.floor(weeeklyAvg) / Math.pow(10, uniqueDigitUnit - 1))
+  min = min < 2 ? min : (min * Math.pow(10, uniqueDigitUnit - 1)) - Math.pow(10, uniqueDigitUnit - 1)
+  const max = Math.round(weeeklyAvg)
+  return { min, max, weekly }
 }
 
 function getRelativeEvent (events, eventType) {
