@@ -84,55 +84,37 @@ export default {
   beforeDestroy () {},
   methods: {
     renderChart () {
-      const ctx = document.getElementById(this.canvasId).getContext('2d')
+      try {
+        const ctx = document.getElementById(this.canvasId).getContext('2d')
 
-      if (!this.useDataLabel) {
-        this.option.plugins.datalabels = false
-      } else {
-        this.option.plugins.datalabels = this.dataLabelOpt
+        if (!this.useDataLabel) {
+          this.option.plugins.datalabels = false
+        } else {
+          this.option.plugins.datalabels = this.dataLabelOpt
+        }
+
+        if (!this.tooltip) {
+          this.option.tooltips.enabled = false
+        } else {
+          this.option.tooltips = { enabled: true, ...this.tooltip }
+        }
+
+        const options = {
+          legend: {
+            display: this.legendView
+          },
+          ...this.option,
+          ...this.customOpt
+        }
+
+        this.$chartjs.createChart(ctx, {
+          type: this.type,
+          data: this.data,
+          options
+        })
+      } catch (err) {
+        console.log(`            ~ err => `, err)
       }
-
-      if (!this.tooltip) {
-        this.option.tooltips.enabled = false
-      } else {
-        this.option.tooltips = { enabled: true, ...this.tooltip }
-      }
-
-      const options = {
-        legend: {
-          display: this.legendView
-        },
-        ...this.option,
-        ...this.customOpt
-      }
-
-      // if (options.responsive) {
-      //   options.onResize = function (arg) {
-      //     if (arg.config.options.responsive) {
-      //       const chartWarp = document.getElementById(`${arg.canvas.id}-wrapper`)
-      //       if (chartWarp) {
-      //         const wrapheight = chartWarp.offsetHeight
-      //         document.getElementById(arg.canvas.id).style.height = `${wrapheight}px`
-      //       }
-      //     }
-      //   }
-      // }
-
-      this.$chartjs.createChart(ctx, {
-        type: this.type,
-        data: this.data,
-        options
-      })
-
-      // if (options.responsive) {
-      //   this.$nextTick(() => {
-      //     const chartWarp = document.getElementById(`${this.canvasId}-wrapper`)
-      //     if (chartWarp) {
-      //       const wrapheight = chartWarp.offsetHeight
-      //       document.getElementById(this.canvasId).style.height = `${wrapheight}px`
-      //     }
-      //   })
-      // }
     }
   }
 }
