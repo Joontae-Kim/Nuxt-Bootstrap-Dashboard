@@ -2,9 +2,8 @@
   <b-card no-body :class="['dsCard shadow-sm', { 'overflow-hidden': !noOverflow }, cardPadding]" border-variant="light">
     <template v-if="icon || useicon">
       <b-row no-gutters>
-        <b-col cols="10" class="flex-grow-1">
+        <b-col class="flex-grow-1">
           <p class="dsCard__title">{{ title }}</p>
-          <!-- <slot /> -->
           <b-row no-gutters>
             <b-col cols>
               <div class="dsCard__index">{{ index }}</div>
@@ -13,7 +12,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col cols="2" class="float-end">
+        <b-col col class="flex-grow-0">
           <template v-if="icon">
             <b-icon
               :icon="icon"
