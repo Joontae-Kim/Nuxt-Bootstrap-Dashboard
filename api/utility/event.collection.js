@@ -117,7 +117,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s ~ 2Q The Newest Bootstrap E-Commerce Template',
-    publishedAt: randomDate(new Date(2021, 5, 18), new Date(2021, 5, 25)),
+    publishedAt: randomDate(new Date(2021, 3, 18), new Date(2021, 3, 25)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -133,7 +133,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s March Recommened React.js Bootstrap Template',
-    publishedAt: randomDate(new Date(2020, 12, 15), new Date()),
+    publishedAt: randomDate(new Date(2021, 2, 15), new Date(2021, 2, 24)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -141,7 +141,7 @@ export const eventNameSet = [
   },
   {
     title: '150+ Popular Admin Dashboard & WebApp Responsive Template',
-    publishedAt: randomDate(new Date(), new Date()),
+    publishedAt: randomDate(new Date(2021, 1, 11), new Date(2021, 2, 1)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -157,7 +157,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s 150+ Ranking WebApp Responsive Template',
-    publishedAt: randomDate(new Date(2021, 3, 2), new Date(2021, 3, 9)),
+    publishedAt: randomDate(new Date(2021, 2, 2), new Date(2021, 4, 9)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -165,7 +165,7 @@ export const eventNameSet = [
   },
   {
     title: 'Newest Multipurpose Template + UI Kit in April 2021',
-    publishedAt: randomDate(new Date(2021, 3, 17), new Date(2021, 3, 19)),
+    publishedAt: randomDate(new Date(2021, 2, 17), new Date(2021, 3, 17)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -173,7 +173,7 @@ export const eventNameSet = [
   },
   {
     title: 'Updated Application UI Kit in 2021',
-    publishedAt: randomDate(new Date(2021, 4, 23), new Date(2021, 4, 29)),
+    publishedAt: randomDate(new Date(2021, 3, 23), new Date(2021, 3, 29)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -181,7 +181,7 @@ export const eventNameSet = [
   },
   {
     title: 'Newest Portfolio & Agency Template in May 2021 - updated weekly',
-    publishedAt: randomDate(new Date(2021, 4, 10), new Date(2021, 4, 17)),
+    publishedAt: randomDate(new Date(2021, 3, 10), new Date(2021, 3, 17)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -189,7 +189,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s Best Selling Multipurpose E-Commerce Template - updated weekly',
-    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    publishedAt: randomDate(new Date(2021, 3, 20), new Date(2021, 3, 27)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -197,7 +197,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s Best Selling Free Bootstrap Landing Pages for small Business - updated weekly',
-    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    publishedAt: randomDate(new Date(2021, 1, 20), new Date(2021, 1, 30)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -205,15 +205,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s Best Selling Primium Bootstrap Landing Pages for small Business - updated weekly',
-    publishedAt: randomDate(new Date(), new Date()),
-    modifiedAt: null,
-    openAt: null,
-    closedAt: null,
-    eventType: [`Bargains`, `Package`, `Theme & Template`, `Hottest`, `Recommended`]
-  },
-  {
-    title: '2021\'s Best Selling Multipurpose E-Commerce Template - updated weekly',
-    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    publishedAt: randomDate(new Date(2021, 3, 1), new Date(2021, 3, 8)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
@@ -221,7 +213,7 @@ export const eventNameSet = [
   },
   {
     title: '2021\'s Best Selling Free Responsive Website UI Kit - updated weekly',
-    publishedAt: randomDate(new Date(2021, 5, 20), new Date(2021, 5, 27)),
+    publishedAt: randomDate(new Date(2021, 5, 14), new Date(2021, 5, 19)),
     modifiedAt: null,
     openAt: null,
     closedAt: null,
