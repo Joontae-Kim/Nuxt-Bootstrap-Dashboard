@@ -66,18 +66,23 @@ function createEventDateProperty (event) {
     dayjs(event.openAt).add(1, 'M').$d,
     dayjs(event.openAt).add(randomEndWeight, 'M').$d
   ]
-  let [views, bounce, sales] = new Array(3).fill(0)
+  event.closedAt = randomDate(new Date(closedStart), new Date(closedEnd))
+
+  // Compute Event Index Property (sales, views)
+  const randomIndexObj = { views: 0, sales: 0 }
   const isStarted = isPassed(event.openAt)
   if (isStarted) {
-    [views, bounce, sales] = [
-      randomIndex(viewsRange.min, viewsRange.max),
-      randomIndex(20, 60),
-      randomIndex(salesRange.min, salesRange.max)
-    ]
+    randomIndexObj.views = randomIndex(viewsRange.min, viewsRange.max)
+    randomIndexObj.sales = randomIndex(salesRange.min, salesRange.max)
+    const isClosed = isPassed(event.closedAt)
+    const totalDuration = dayjs(event.closedAt).diff(event.openAt, 'day')
+    const sinceNow = isClosed ? totalDuration : dayjs(new Date()).diff(event.openAt, 'day')
+    let eventOpenPercentage = (sinceNow / totalDuration)
+    eventOpenPercentage = Number(eventOpenPercentage.toFixed(2))
+    randomIndexObj.views = Math.floor(randomIndexObj.views * eventOpenPercentage)
+    randomIndexObj.sales = Math.floor(randomIndexObj.sales * eventOpenPercentage)
   }
-  event.closedAt = randomDate(new Date(closedStart), new Date(closedEnd))
-  views = !views ? 0 : views
-  event = { ...event, views, bounce: Math.floor(bounce), sales, item: [] }
+  event = { ...event, ...randomIndexObj, item: [] }
   return event
 }
 
