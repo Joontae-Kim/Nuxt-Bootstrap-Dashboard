@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col cols>
-      <dash-card title="Status" class="pb-3">
+      <dash-card title="Duration" class="pb-3">
         <b-row>
           <b-col cols>
             <h5 :class="titleClass">Created At</h5>
