@@ -1,5 +1,12 @@
 <template>
   <b-container fluid>
+    <template v-if="eventOpen.status">
+      <client-only>
+        <SalesAnalytics
+          v-bind="{ views, sales, dates: indexDates }"
+        />
+      </client-only>
+    </template>
     <LazyEventStatus
       v-bind="{ eventDate }"
       :open="eventOpen"
@@ -140,13 +147,21 @@
         </dash-card>
       </b-col>
     </b-row>
-    <LazyEventPerformanceIndex
-      :event-opened="eventOpen.status"
-      :index="{ views, bounce, sales }"
-      :index-key="['Views', 'Bounce', 'Sales']"
-      :index-icon="{ views: 'eye-fill', bounce: 'arrow-up-right-circle-fill', sales: 'credit-card-fill' }"
-      :index-dates="indexDates"
-    />
+    <template v-if="!eventOpen.status">
+      <b-row class="mb-4">
+        <b-col cols>
+          <dash-card
+            :use-title="false"
+            class="pb-3 bg-warning fs-5 font-weight-bold text-gray-800 text-center"
+          >
+            Performance will be measured when the event is open.
+          </dash-card>
+        </b-col>
+      </b-row>
+      <SalesAnalytics
+        v-bind="{ views, sales }"
+      />
+    </template>
     <b-row>
       <b-col cols>
         relative count {{ relative.length }}
@@ -164,6 +179,13 @@ import { generateEventDurationObject, generateEventDate } from "~/lib/event.lib"
 
 export default {
   name: 'EventDetailed',
+  components: {
+    SalesAnalytics: () => {
+      if (process.client) {
+        return import('../../components/event/details/salesAnalytics.vue')
+      }
+    }
+  },
   provide () {
     return {
       parentRef: this.$refs
@@ -175,11 +197,8 @@ export default {
   ],
   async asyncData ({ params, $axios, renderServer }) {
     try {
-      console.log(`asyncData ~ `)
-      // console.log(`          ~ `)
       const res = await $axios.$get(`/api/event/${params.id}`)
       const event = res.event
-      console.log(`          ~ event => `, event)
       const info = {
         title: event.title,
         openAt: !event.openAt ? null : event.openAt,
@@ -196,7 +215,6 @@ export default {
         eventDate: generateEventDate(event.publishedAt, event.modifiedAt),
         duration: event.duration,
         views: event.views,
-        bounce: event.bounce,
         sales: event.sales,
         indexDates: event.indexDates,
         relative: event.relative
@@ -225,7 +243,6 @@ export default {
       days: null
     },
     views: [],
-    bounce: [],
     sales: [],
     indexDates: [],
     relative: [],
@@ -396,16 +413,8 @@ export default {
           this.eventOpen = generateEventDurationObject(_event.isOpened, _event.openAt)
           this.eventClose = generateEventDurationObject(_event.isClosed, _event.closedAt)
           this.eventDate = generateEventDate(_event.publishedAt, _event.modifiedAt)
-          const extraField = ['duration', 'views', 'bounce', 'sales', 'relative']
-          for (const field of extraField) {
-            if (typeof field === 'string') {
-              this[field] = _event[field]
-            } else {
-              const resKey = Object.keys(field)[0]
-              const dataKey = Object.values(field)[0]
-              this[resKey] = _event[dataKey]
-            }
-          }
+          this.duration = _event.duration
+          this.relative = _event.relative
         }
       } catch (err) {
         console.log('     ~ err => ', err)
