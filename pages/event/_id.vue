@@ -8,6 +8,7 @@
       </client-only>
       <b-row class="mb-4">
         <TrafficSoureces v-bind="{ traffic }" />
+        <VisitorsAnalytics v-bind="{ visitors }" />
       </b-row>
     </template>
     <LazyEventStatus
@@ -188,6 +189,9 @@ export default {
     },
     TrafficSoureces: () => {
       if (process.client) { return import('../../components/event/details/trafficSoureces') }
+    },
+    VisitorsAnalytics: () => {
+      if (process.client) { return import('../../components/event/details/visitorsAnalytics.vue') }
     }
   },
   provide () {
@@ -223,6 +227,7 @@ export default {
         views: event.views,
         sales: event.sales,
         traffic: event.traffic,
+        visitors: event.visitor,
         indexDates: event.indexDates,
         relative: event.relative
       }
@@ -252,6 +257,7 @@ export default {
     views: [],
     sales: [],
     traffic: {},
+    visitors: {},
     indexDates: [],
     relative: [],
     eventTypeOpt: [
