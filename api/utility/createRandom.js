@@ -1,5 +1,6 @@
 function randomIndex (min, max, isFloor = true, decimalDigit = 2) {
-  let random = (Math.random() * (max - min + 1)) + min
+  const floatWeight = max > 1 ? 1 : 0
+  let random = (Math.random() * (max - min + floatWeight)) + min
   if (isFloor) {
     random = Math.floor(random)
   } else {

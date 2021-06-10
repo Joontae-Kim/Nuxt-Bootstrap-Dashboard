@@ -307,6 +307,8 @@ function createEventDetail (event) {
         if (event.isOpened) {
           event.duration = dayjs(event.closedAt).diff(event.openAt, 'day')
           const eventPerformanceDays = event.duration > 7 ? 7 : event.duration
+
+          // compute event sales
           event.sales = {
             rate: event.duration > 7 ? randomIndex(8, 10, false) : 0,
             total: event.sales
@@ -314,6 +316,8 @@ function createEventDetail (event) {
           const { min: salesMin, max: salesMax, weekly: salesWeekly } = getPerformanceRandomRange(event.sales.total, event.sales.rate, 7)
           event.sales.value = createSerialRandomByUnique(salesMin, salesMax, salesWeekly)
           event.sales.weekly = salesWeekly
+
+          // compute event views
           event.views = {
             rate: event.duration > 7 ? randomIndex(3, 10, false) : 0,
             total: event.views
@@ -322,10 +326,21 @@ function createEventDetail (event) {
           event.views.value = createSerialRandomByUnique(viewsMin, viewsMax, viewsWeekly)
           event.views.weekly = viewsWeekly
           event.indexDates = createDateArray(new Date(), null, eventPerformanceDays)
+
+          // compute event traffic
+          const eventViews = event.views.total
+          const channels = {
+            organic: Math.floor(eventViews * randomIndex(0.3, 0.4, false, 2)),
+            direct: Math.floor(eventViews * randomIndex(0.3, 0.33, false, 2)),
+            social: Math.floor(eventViews * randomIndex(0.2, 0.3, false, 2))
+          }
+          channels.paid = eventViews - (channels.social + channels.direct + channels.organic)
+          event.traffic = channels
         } else {
           const zeroindex = { rate: 0, total: 0 }
           event.sales = zeroindex
           event.views = zeroindex
+          event.traffic = zeroindex
         }
       } else {
         event = { ...event, sales: null, views: null, bounce: null }
