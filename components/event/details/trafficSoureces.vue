@@ -1,5 +1,5 @@
 <template>
-  <b-col cols md="6">
+  <b-col cols md="6" class="mb-4 mb-md-0">
     <dash-card
       title="Total Views"
       class="pb-3"
@@ -57,7 +57,6 @@ export default {
       ]
       let colorIdx = 1
       for (const [key, value] of Object.entries(this.traffic)) {
-        console.log(`${key}: ${value}`)
         const rest = total - value
         datasets.push({
           data: [rest, value],
