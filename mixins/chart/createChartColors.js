@@ -4,7 +4,7 @@ export default {
     colors: [
       { label: 'red', hex: '#f44336', rgba: 'rgba(244, 67, 54, 1)' },
       { label: 'pink', hex: '#e91e63', rgba: 'rgba(233, 30, 99, 1)' },
-      { label: 'purple', hex: '#9c27b0', rgba: 'rgba(233, 30, 99, 1)' },
+      { label: 'purple', hex: '#9c27b0', rgba: 'rgba(155, 39, 175, 1)' },
       { label: 'indigo', hex: '#3f51b5', rgba: 'rgba(63, 81, 181, 1)' },
       { label: 'blue', hex: '#2196f3', rgba: 'rgba(33, 150, 243, 1)' },
       { label: 'teal', hex: '#009688', rgba: 'rgba(0, 150, 136, 1)' },
