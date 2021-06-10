@@ -328,6 +328,7 @@ function createEventDetail (event) {
           event.indexDates = createDateArray(new Date(), null, eventPerformanceDays)
 
           // compute event traffic
+          // channels = { organic: 0, direct: 0, social: 0, paid: 0 }
           const eventViews = event.views.total
           const channels = {
             organic: Math.floor(eventViews * randomIndex(0.3, 0.4, false, 2)),
@@ -336,11 +337,22 @@ function createEventDetail (event) {
           }
           channels.paid = eventViews - (channels.social + channels.direct + channels.organic)
           event.traffic = channels
+
+          // compute event view users
+          // visitor = { direct: 0, social: 0, visitors: 0, total: 0 }
+          const visitor = {
+            direct: Math.floor(eventViews * randomIndex(0.4, 0.5, false, 2)),
+            social: Math.floor(eventViews * randomIndex(0.3, 0.35, false, 2))
+          }
+          visitor.visitors = Math.floor(eventViews - visitor.direct - visitor.social)
+          visitor.total = Object.values(visitor).reduce((total, index) => total + index, 0)
+          event.visitor = visitor
         } else {
           const zeroindex = { rate: 0, total: 0 }
           event.sales = zeroindex
           event.views = zeroindex
           event.traffic = zeroindex
+          event.visitor = { users: 0, visitors: 0, total: 0 }
         }
       } else {
         event = { ...event, sales: null, views: null, bounce: null }
