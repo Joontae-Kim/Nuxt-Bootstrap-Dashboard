@@ -6,6 +6,9 @@
           v-bind="{ views, sales, dates: indexDates }"
         />
       </client-only>
+      <b-row class="mb-4">
+        <TrafficSoureces v-bind="{ traffic }" />
+      </b-row>
     </template>
     <LazyEventStatus
       v-bind="{ eventDate }"
@@ -181,9 +184,10 @@ export default {
   name: 'EventDetailed',
   components: {
     SalesAnalytics: () => {
-      if (process.client) {
-        return import('../../components/event/details/salesAnalytics.vue')
-      }
+      if (process.client) { return import('../../components/event/details/salesAnalytics.vue') }
+    },
+    TrafficSoureces: () => {
+      if (process.client) { return import('../../components/event/details/trafficSoureces') }
     }
   },
   provide () {
@@ -197,6 +201,8 @@ export default {
   ],
   async asyncData ({ params, $axios, renderServer }) {
     try {
+      console.log(`asyncData ~ `)
+      // console.log(`          ~ `)
       const res = await $axios.$get(`/api/event/${params.id}`)
       const event = res.event
       const info = {
@@ -216,6 +222,7 @@ export default {
         duration: event.duration,
         views: event.views,
         sales: event.sales,
+        traffic: event.traffic,
         indexDates: event.indexDates,
         relative: event.relative
       }
@@ -244,6 +251,7 @@ export default {
     },
     views: [],
     sales: [],
+    traffic: {},
     indexDates: [],
     relative: [],
     eventTypeOpt: [
