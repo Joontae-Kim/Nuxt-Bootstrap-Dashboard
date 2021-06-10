@@ -2,18 +2,19 @@ export default {
   name: "createChartColors",
   data: () => ({
     colors: [
-      { label: 'red', value: '#f44336' },
-      { label: 'pink', value: '#e91e63' },
-      { label: 'purple', value: '#e91e63' },
-      { label: 'indigo', value: '#e91e63' },
-      { label: 'blue', value: '#e91e63' },
-      { label: 'teal', value: '#e91e63' },
-      { label: 'green', value: '#4caf50' },
-      { label: 'yellow', value: '#ffeb3b' },
-      { label: 'orange', value: '#ff9800' },
-      { label: 'brown', value: '#795548' },
-      { label: 'dark', value: '#212121' },
-      { label: 'gray', value: '#9e9e9e' }
+      { label: 'red', hex: '#f44336', rgba: 'rgba(244, 67, 54, 1)' },
+      { label: 'pink', hex: '#e91e63', rgba: 'rgba(233, 30, 99, 1)' },
+      { label: 'purple', hex: '#9c27b0', rgba: 'rgba(233, 30, 99, 1)' },
+      { label: 'indigo', hex: '#3f51b5', rgba: 'rgba(63, 81, 181, 1)' },
+      { label: 'blue', hex: '#2196f3', rgba: 'rgba(33, 150, 243, 1)' },
+      { label: 'teal', hex: '#009688', rgba: 'rgba(0, 150, 136, 1)' },
+      { label: 'green', hex: '#4caf50', rgba: 'rgba(0, 150, 136, 1)' },
+      { label: 'yellow', hex: '#ffeb3b', rgba: 'rgba(255, 235, 59, 1)' },
+      { label: 'orange', hex: '#ff9800', rgba: 'rgba(255, 152, 0, 1)' },
+      { label: 'brown', hex: '#795548', rgba: 'rgba(121, 85, 72, 1)' },
+      { label: 'dark', hex: '#212121', rgba: 'rgba(33, 33, 33, 1)' },
+      { label: 'gray', hex: '#9e9e9e', rgba: 'rgba(158, 158, 158, 1)' },
+      { label: 'placeholder', hex: '#ced4da', rgba: 'rgba(206, 212, 218, 1)' }
     ]
   }),
   created () {},
@@ -48,7 +49,7 @@ export default {
     findColor (variant) {
       const color = this.colors.find(color => color.label === variant)
       if (color === undefined) {
-        return { label: 'gray', value: '#9e9e9e' }
+        return { label: 'gray', hex: '#9e9e9e' }
       } else {
         return color
       }
