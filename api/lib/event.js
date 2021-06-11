@@ -380,12 +380,7 @@ function getRelativeEvent (events, eventType) {
       const relative = events.reduce((rel, event) => {
         const isRelative = findArray.partialInclude(eventType, event.eventType)
         if (isRelative) {
-          rel.push({
-            title: event.title,
-            openAt: event.openAt,
-            closedAt: event.closedAt,
-            eventType: event.eventType
-          })
+          rel.push(event)
         }
         return rel
       }, [])
