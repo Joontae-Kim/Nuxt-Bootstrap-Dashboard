@@ -29,8 +29,8 @@
       <slot name="footer" />
     </template>
     <template v-else>
-      <b-row v-if="useTitle && title" no-gutters>
-        <p class="dsCard__title">{{ title }}</p>
+      <b-row v-if="useTitle && title" :class="headClass" no-gutters align-v="center">
+        <p :class="['dsCard__title', { 'mb-0': table }]">{{ title }}</p>
         <div class="ml-auto">
           <slot name="header-right" />
         </div>
@@ -105,11 +105,23 @@ export default {
       default: (noPaddingProps) => {
         return (typeof noPaddingProps === 'undefined') ? false : noPaddingProps
       }
+    },
+    table: {
+      type: Boolean,
+      required: false,
+      default: (tableProps) => {
+        return (typeof tableProps === 'undefined') ? false : tableProps
+      }
     }
   },
   computed: {
+    headClass () {
+      return this.table
+        ? 'p-3'
+        : false
+    },
     cardPadding () {
-      return this.noPadding
+      return this.noPadding || this.table
         ? 'p-0'
         : this.icon || this.useicon
           ? 'p-3'

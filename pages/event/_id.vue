@@ -166,14 +166,10 @@
         v-bind="{ views, sales }"
       />
     </template>
-    <b-row>
-      <b-col cols>
-        relative count {{ relative.length }}
-      </b-col>
-      <b-col cols>
-        relative <pre>{{ relative }}</pre>
-      </b-col>
-    </b-row>
+    <RelativeEvents
+      :types="information_clone.eventType"
+      :relatives="relative"
+    />
   </b-container>
 </template>
 
@@ -192,6 +188,9 @@ export default {
     },
     VisitorsAnalytics: () => {
       if (process.client) { return import('../../components/event/details/visitorsAnalytics.vue') }
+    },
+    RelativeEvents: () => {
+      if (process.client) { return import('~/components/event/details/relativeEvents') }
     }
   },
   provide () {
@@ -205,8 +204,6 @@ export default {
   ],
   async asyncData ({ params, $axios, renderServer }) {
     try {
-      console.log(`asyncData ~ `)
-      // console.log(`          ~ `)
       const res = await $axios.$get(`/api/event/${params.id}`)
       const event = res.event
       const info = {
