@@ -1,5 +1,8 @@
 <template>
   <b-container fluid>
+    <b-row class="mb-4">
+      <EventStatics />
+    </b-row>
     <b-row class="mb-2">
       <b-col cols>
         <dash-card :use-title="false" class="p-3">
@@ -178,7 +181,7 @@
             </b-col>
           </b-row>
           <b-collapse id="collapse-1">
-            <event-filter :disabled="globalDisabled" @setSearchingState="getSearchingState" />
+            <Eventfilter :disabled="globalDisabled" @setSearchingState="getSearchingState" />
           </b-collapse>
           <b-row align-h="end" class="d-none d-md-flex px-3">
             <b-col cols="auto">
@@ -309,13 +312,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import eventFilter from '~/components/event/filter'
 import searchEvent from '~/mixins/event/searchEvent'
 
 export default {
   name: 'Event',
   components: {
-    eventFilter
+    EventStatics: () => import('~/components/event/statics.vue'),
+    Eventfilter: () => import('~/components/event/filter.vue')
   },
   mixins: [
     searchEvent
