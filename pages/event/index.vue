@@ -1,8 +1,6 @@
 <template>
   <b-container fluid>
-    <b-row class="mb-4">
-      <EventStatics />
-    </b-row>
+    <EventStatics />
     <b-row class="mb-2">
       <b-col cols>
         <dash-card :use-title="false" class="p-3">
