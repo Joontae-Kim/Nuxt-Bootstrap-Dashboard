@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 const FuzzySearch = require('fuzzy-search')
 const { ErrorHandler } = require('../utility/error')
 const findArray = require('../utility/findArray')
-const { randomDate, dateFormmter, isPassed, createDateArray } = require('../utility/dates')
+const { randomDate, dateFormmter, isPassed, createDateArray, queryByDate } = require('../utility/dates')
 const { randomIndex, getRandomArray, createSerialRandomByUnique } = require('../utility/createRandom')
 const { eventNameSet } = require('../utility/event.collection')
 const viewsRange = { min: 1000, max: 3000 }
@@ -151,12 +151,10 @@ function searchEvent (eventSet, query) {
       }
 
       if (searched.length && query.openAt) {
-        const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
-        const dayjs = require('dayjs')
-        dayjs.extend(isSameOrBefore)
+        const openAtQuery = !query.openAtQuery ? 'futrue' : query.openAtQuery
         searched = searched.reduce((openAtSearched, event) => {
           if (event.openAt) {
-            const isPassed = dayjs(query.openAt).isSameOrBefore(event.openAt, 'day')
+            const isPassed = queryByDate(openAtQuery, query.openAt, event.openAt, 'day')
             if (isPassed) {
               openAtSearched.push(event)
             }
@@ -166,12 +164,10 @@ function searchEvent (eventSet, query) {
       }
 
       if (searched.length && query.closedAt) {
-        const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
-        const dayjs = require('dayjs')
-        dayjs.extend(isSameOrAfter)
+        const closedAtQuery = !query.closedAtQuery ? 'futrue' : query.closedAtQuery
         searched = searched.reduce((closedAtSearched, event) => {
           if (event.closedAt) {
-            const isPassed = dayjs(query.closedAt).isSameOrAfter(event.closedAt, 'day')
+            const isPassed = queryByDate(closedAtQuery, query.closedAt, event.closedAt, 'day')
             if (isPassed) {
               closedAtSearched.push(event)
             }
