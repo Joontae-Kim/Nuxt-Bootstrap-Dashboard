@@ -109,9 +109,30 @@ const deleteEvent = async (req, res, next) => {
   }
 }
 
+const getStatics = async (req, res, next) => {
+  try {
+    await delay()
+    const staticRes = { rate: 0, upcoming: 0 }
+    if (req.query.openAt) {
+      const rateSearched = await searchEvent(eventSet, { openAt: req.query.openAt, openAtQuery: 'same' })
+      staticRes.rate = rateSearched.length
+    }
+
+    if (req.query.upcomingDate) {
+      const upcomingSearched = await searchEvent(eventSet, { openAt: req.query.upcomingDate, openAtQuery: 'future' })
+      staticRes.upcoming = upcomingSearched.length
+    }
+
+    res.status(200).send({ total: eventSet.length, ...staticRes })
+  } catch (e) {
+    next(e)
+  }
+}
+
 module.exports = {
   index,
   getEvent,
+  getStatics,
   createEvent,
   updateEvent,
   deleteEvent
