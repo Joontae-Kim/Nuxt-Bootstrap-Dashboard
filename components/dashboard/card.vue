@@ -7,7 +7,9 @@
           <b-row no-gutters>
             <b-col cols>
               <div class="dsCard__index">{{ index }}</div>
-              <div class="text-success dsCard__subIndex mb-1">+ {{ rate }}%</div>
+              <div v-show="rate" class="text-success dsCard__subIndex mb-1">
+                <slot name="rate">+ {{ rate }}%</slot>
+              </div>
               <div class="dsCard__guide">{{ guide }}</div>
             </b-col>
           </b-row>
@@ -72,10 +74,10 @@ export default {
       }
     },
     rate: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       required: false,
       default: (rateProps) => {
-        return (typeof rateProps === 'undefined') ? 'rate' : rateProps
+        return (typeof rateProps === 'undefined') ? null : rateProps
       }
     },
     guide: {
