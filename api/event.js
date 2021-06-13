@@ -4,7 +4,10 @@ const ash = require('express-async-handler')
 const eventCtrl = require('./controller/event.ctrl')
 const eventMdwr = require('./middleware/event.mdwr')
 const { handleError } = require('./utility/error')
+
 app.get('/', ash(eventCtrl.index))
+
+app.get('/statics', ash(eventCtrl.getStatics))
 
 app.get('/:id', ash(eventCtrl.getEvent))
 
