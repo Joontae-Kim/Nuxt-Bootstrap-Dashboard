@@ -1,4 +1,8 @@
 const dayjs = require('dayjs')
+const isSameOrBefore = require('dayjs/plugin/isSameOrBefore')
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrAfter)
 
 function getStartOfMonth (unit = 'month') {
   return dayjs().startOf(unit).$d
@@ -50,8 +54,6 @@ function sortByDate (array, property) {
 }
 
 function isPassed (date) {
-  const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
-  dayjs.extend(isSameOrAfter)
   return dayjs().isSameOrAfter(date, 'day')
 }
 
@@ -65,6 +67,17 @@ function mergeWithDate (dates, values) {
   return merged
 }
 
+function queryByDate (query, target, comparison, unit = 'day') {
+  switch (query) {
+    case 'future':
+      return dayjs(target).isSameOrBefore(comparison, unit)
+    case 'same':
+      return dayjs(target).isSame(comparison, unit)
+    case 'past':
+      return dayjs(target).isSameOrAfter(comparison, unit)
+  }
+}
+
 module.exports = {
   createDateArray,
   getStartOfMonth,
@@ -72,5 +85,6 @@ module.exports = {
   dateFormmter,
   sortByDate,
   isPassed,
-  mergeWithDate
+  mergeWithDate,
+  queryByDate
 }
