@@ -1,5 +1,11 @@
 <template>
   <b-container fluid>
+    <LazyEventStatus
+      v-bind="{ eventDate }"
+      :open="eventOpen"
+      :close="eventClose"
+      class="mb-4"
+    />
     <template v-if="eventOpen.status">
       <client-only>
         <SalesAnalytics
@@ -11,12 +17,6 @@
         <VisitorsAnalytics v-bind="{ visitors }" />
       </b-row>
     </template>
-    <LazyEventStatus
-      v-bind="{ eventDate }"
-      :open="eventOpen"
-      :close="eventClose"
-      class="mb-4"
-    />
     <b-row class="mb-4">
       <b-col cols>
         <dash-card title="Information" no-overflow class="pb-3">
