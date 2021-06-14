@@ -12,7 +12,7 @@
         <template #footer>
           <b-row class="border-top h-100" align-v="center">
             <b-col cols>
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center justify-content-between py-3 py-md-0">
                 <div class="dsCard__guide">At</div>
                 <div class="small font-italic text-gray-600 text-right">
                   {{ now }}
