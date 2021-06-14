@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col cols class="overflow-auto">
+    <b-col cols>
       <dash-card title="Relative Events" no-padding no-overflow table>
         <template #header-right>
           <div class="d-flex justify-content-end justify-content-md-start align-items-center">
@@ -226,8 +226,10 @@
 
               <template #cell(title)="data">
                 <div class="h6 mb-2">
-                  <div class="text-gray-700 mb-1">
-                    {{ data.value }}
+                  <div class="mb-1">
+                    <NuxtLink :to="{ name: 'event-id', params: { id: data.item._id } }" class="text-decoration-none text-gray-800">
+                      {{ data.value }}
+                    </NuxtLink>
                   </div>
                   <div class="text-gray-600 small">
                     <div>{{ data.item._id }}</div>
