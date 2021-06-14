@@ -227,7 +227,7 @@
               <template #cell(title)="data">
                 <div class="h6 mb-2">
                   <div class="mb-1">
-                    <NuxtLink :to="{ name: 'event-id', params: { id: data.item._id } }" class="text-decoration-none text-gray-800">
+                    <NuxtLink :to="{ params: { id: data.item._id } }" class="text-decoration-none text-gray-800">
                       {{ data.value }}
                     </NuxtLink>
                   </div>
