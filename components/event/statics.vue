@@ -1,7 +1,27 @@
 <template>
   <b-row class="mb-4">
     <b-col cols md="4" class="mb-4 mb-md-0">
-      <dash-card title="Total Event" icon="house-door-fill" :index="totalEvent" class="h-100" />
+      <dash-card
+        title="Total Event"
+        icon="house-door-fill"
+        :index="totalEvent"
+        :guide="null"
+        class="h-100 pt-3 px-3"
+        no-padding
+      >
+        <template #footer>
+          <b-row class="border-top h-100" align-v="center">
+            <b-col cols>
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="dsCard__guide">At</div>
+                <div class="small font-italic text-gray-600 text-right">
+                  {{ now }}
+                </div>
+              </div>
+            </b-col>
+          </b-row>
+        </template>
+      </dash-card>
     </b-col>
     <b-col cols md="4" class="mb-4 mb-md-0">
       <dash-card
@@ -104,7 +124,11 @@ export default {
       console.log('                  ~ err.message => ', err.message)
     }
   },
-  computed: {},
+  computed: {
+    now () {
+      return dayjs().format('YYYY-MM-DD hh:mm:ss A')
+    }
+  },
   watch: {},
   created () {},
   mounted () {},
