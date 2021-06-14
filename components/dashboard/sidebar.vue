@@ -13,7 +13,7 @@
         <b-nav-item to="/overview" exact-active-class="active">
           Overview
         </b-nav-item>
-        <b-nav-item to="/event" exact-active-class="active">
+        <b-nav-item to="/event" active-class="active">
           Event
         </b-nav-item>
         <b-nav-item exact-active-class="active">
