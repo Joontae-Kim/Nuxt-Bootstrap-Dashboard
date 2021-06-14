@@ -1,47 +1,81 @@
 <template>
   <b-row>
-    <b-col cols>
-      <dash-card title="Duration" class="pb-3">
+    <b-col cols md="4" class="mb-4 mb-md-0">
+      <dash-card title="Created" class="pb-3 h-100">
         <b-row>
           <b-col cols>
-            <h5 :class="titleClass">Created At</h5>
-            <div class="text-gray-800 fs-6">{{ eventDate.publishedAt }}</div>
-            <div class="text-gray-800">
-              <span class="fs-6">{{ eventDate.modifiedAt }}</span>
-              <span class="small font-italic">(Modified)</span>
+            <div class="">
+              <b-iconstack font-scale="1.15" shift-v="2" class="mr-1">
+                <b-icon stacked icon="circle-fill" class="text-gray-500" />
+                <b-icon stacked icon="house-door-fill" scale="0.6" variant="white" />
+              </b-iconstack>
+              <span class="fs-4 text-gray-700 font-italic">
+                {{ eventDate.publishedAt }}
+              </span>
+            </div>
+            <div class="">
+              <b-iconstack font-scale="1.15" shift-v="2" class="mr-1">
+                <b-icon stacked icon="circle-fill" class="text-gray-500" />
+                <b-icon stacked icon="pencil-fill" scale="0.5" variant="white" />
+              </b-iconstack>
+              <span class="fs-4 text-gray-700 font-italic">
+                {{ eventDate.modifiedAt }}
+              </span>
             </div>
           </b-col>
+        </b-row>
+      </dash-card>
+    </b-col>
+    <b-col cols md="4" class="mb-4 mb-md-0">
+      <dash-card title="Open" class="h-100">
+        <b-row>
           <b-col cols>
-            <h5 :class="titleClass">Open</h5>
             <div :class="dateClass" style="margin-bottom: -.2rem;">{{ openStatus.date }}</div>
             <div :class="dDateClass" style="">
               <strong class="text-gray-700"> {{ openStatus.daysLabel }} </strong>
               <span class="text-gray-600">from now</span>
             </div>
-            <b-badge
-              :variant="openStatus.badgeVariant"
-              class="font-weight-normal fs-6 text-white"
-              pill
-            >
-              {{ openStatus.label }}
-            </b-badge>
           </b-col>
+        </b-row>
+        <template #footer>
+          <b-row class="mb-3">
+            <b-col cols>
+              <b-badge
+                :variant="openStatus.badgeVariant"
+                class="font-weight-normal text-white small"
+                pill
+              >
+                {{ openStatus.label }}
+              </b-badge>
+            </b-col>
+          </b-row>
+        </template>
+      </dash-card>
+    </b-col>
+    <b-col cols md="4">
+      <dash-card title="Close" class="h-100">
+        <b-row>
           <b-col cols>
-            <h5 :class="titleClass">Close</h5>
             <div :class="dateClass" style="margin-bottom: -.2rem;">{{ closeStatus.date }}</div>
             <div :class="dDateClass" style="">
               <strong class="text-gray-700"> {{ closeStatus.daysLabel }} </strong>
               <span class="text-gray-600">from now</span>
             </div>
-            <b-badge
-              :variant="closeStatus.badgeVariant"
-              :class="dBadgeClass"
-              pill
-            >
-              {{ closeStatus.label }}
-            </b-badge>
           </b-col>
         </b-row>
+        <template #footer>
+          <b-row class="mb-3">
+            <b-col cols>
+              <b-badge
+                :variant="closeStatus.badgeVariant"
+                :class="[dBadgeClass, 'small']"
+                pill
+              >
+                {{ closeStatus.label }}
+              </b-badge>
+            </b-col>
+          </b-row>
+        </template>
       </dash-card>
     </b-col>
   </b-row>
@@ -76,8 +110,8 @@ export default {
   data: () => ({
     titleClass: 'text-gray-600',
     dateClass: 'font-italic fs-4 text-gray-700',
-    dDateClass: 'font-italic small mb-3',
-    dBadgeClass: 'font-weight-normal fs-6 text-white'
+    dDateClass: 'font-italic small mb-2',
+    dBadgeClass: 'font-weight-normal text-white'
   }),
   computed: {
     openStatus () {

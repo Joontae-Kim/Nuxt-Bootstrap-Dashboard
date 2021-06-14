@@ -1,8 +1,8 @@
 <template>
   <b-row class="mb-4">
-    <b-col cols md="4">
+    <b-col cols md="4" class="mb-4 mb-md-0">
       <b-row no-gutters class="flex-column">
-        <b-col cols class="mb-md-4">
+        <b-col cols class="mb-4">
           <dash-card
             title="Total Views"
             class="pb-3"
