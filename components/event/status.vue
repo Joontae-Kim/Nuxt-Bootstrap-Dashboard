@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col cols md="4" class="mb-4 mb-md-0">
-      <dash-card title="Created" class="pb-3 h-100">
+      <dash-card title="Date Created" class="pb-3 h-100">
         <b-row>
           <b-col cols>
             <div class="">
