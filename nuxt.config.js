@@ -81,7 +81,8 @@ export default {
     bodyParser.json(),
     { path: '/test', handler: '~/api/test.js' },
     { path: '/over', handler: '~/api/over.js' },
-    { path: '/api/event', handler: '~/api/event.js' }
+    { path: '/api/event', handler: '~/api/event.js' },
+    { path: '/api/users', handler: '~/api/users.js' }
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
