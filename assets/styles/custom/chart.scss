@@ -2,7 +2,7 @@
   &__container {
     position: relative;
     margin: auto;
-    max-height: 250px;
+    min-height: 250px;
   }
 
   @include media-breakpoint-down(md) {
