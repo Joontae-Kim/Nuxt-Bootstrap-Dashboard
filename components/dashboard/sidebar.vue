@@ -16,6 +16,9 @@
         <b-nav-item to="/event" active-class="active">
           Event
         </b-nav-item>
+        <b-nav-item to="/users" active-class="active">
+          Users
+        </b-nav-item>
         <b-nav-item exact-active-class="active">
           Another Link
         </b-nav-item>
