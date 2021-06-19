@@ -37,7 +37,8 @@ function resamplingUserCollection (users) {
   })
 }
 
-export async function createUserCollection (count = 30) {
+const usersMaximum = 60
+export async function createUserCollection (count = usersMaximum) {
   const randomUsers = await axios('https://random-data-api.com/api/users/random_user', {
     params: { size: count }
   })
