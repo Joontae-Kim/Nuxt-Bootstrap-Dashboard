@@ -20,7 +20,7 @@ export default {
           ticks: {
             beginAtZero: true,
             stepSize: 5,
-            padding: 25
+            padding: 10
           }
         }]
       }
