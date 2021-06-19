@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express()
+const ash = require('express-async-handler')
 const { createUserCollection } = require('../api/utility/users.collection')
 const usersCtrl = require('./controller/users.ctrl.js')
 let newUserCount = 0
 
 app.use(async (req, res, next) => {
   newUserCount = !app.locals.users
-    ? 30
+    ? 60
     : newUserCount === 0
       ? 0
       : newUserCount - app.locals.users.length
@@ -22,5 +23,7 @@ app.use(async (req, res, next) => {
 })
 
 app.get('/', usersCtrl.index)
+
+app.get('/statics', ash(usersCtrl.statics))
 
 module.exports = app
