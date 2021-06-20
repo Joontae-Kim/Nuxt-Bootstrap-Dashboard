@@ -1,3 +1,5 @@
+import { transformMultiUsers } from "../lib/users.lib"
+
 export const state = () => ({
   list: []
 })
@@ -33,8 +35,8 @@ export const mutations = {
 }
 
 export const actions = {
-  DISPATCH_SET ({ commit }, users) {
-    // const transformed = await transformMultiEvent(events)
-    commit('set', users)
+  async DISPATCH_SET ({ commit }, users) {
+    const transformed = await transformMultiUsers(users)
+    commit('set', transformed)
   }
 }
