@@ -20,7 +20,6 @@
         </b-col>
         <b-col cols>
           <dash-card title="Group by Status" class="h-100" table>
-            <!-- {{ grouping }} -->
             <b-list-group class="rounded-0" flush>
               <b-list-group-item class="d-flex align-items-center">
                 <div class="w-50 text-gray-800 font-weight-bold">
