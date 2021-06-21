@@ -16,15 +16,17 @@
             />
           </template>
           <b-row class="px-3 mb-4" no-gutters align-v="center">
-            <b-col cols md="6">
-              <span class="d-none d-md-inline mr-2">Display</span>
-              <b-form-select
-                v-model="perPage"
-                :options="perPageOpt"
-                class="mr-1 w-auto"
-                size="sm"
-                :disabled="isTableBusy"
-              />
+            <b-col cols md="6" class="mb-3 mb-md-0">
+              <div class="d-flex align-items-center justify-content-end justify-content-md-start">
+                <span class="mr-2 text-gray-700">Display</span>
+                <b-form-select
+                  v-model="perPage"
+                  :options="perPageOpt"
+                  class="mr-1 w-auto"
+                  size="sm"
+                  :disabled="isTableBusy"
+                />
+              </div>
             </b-col>
             <b-col cols md="6">
               <div class="d-flex align-items-center justify-content-end">
@@ -79,13 +81,12 @@
                 :per-page="perPage"
                 :current-page="currentPage"
                 head-variant="light"
-                responsive
-                hover
-                show-empty
-                selectable
                 :busy="isTableBusy"
                 :disabled="globalDisabled || isSearchingUsername"
                 class="border-bottom"
+                responsive
+                show-empty
+                hover
               >
                 <template #table-busy>
                   <div class="text-center my-4">
@@ -135,8 +136,7 @@
                 :total-rows="users.length"
                 :per-page="perPage"
                 :disabled="isTableBusy"
-                class="mb-0"
-                align="right"
+                class="mb-0 justify-content-center justify-content-md-end"
               />
             </b-col>
           </b-row>
@@ -214,11 +214,11 @@ export default {
         label: 'Billing Information',
         key: 'billing',
         sortable: true,
-        thClass: 'text-wrap',
+        thClass: 'text-nowrap w-50',
         tdClass: 'text-wrap text-gray-600'
       },
       {
-        label: 'Payment (credit card)',
+        label: 'Payment',
         key: 'payment',
         sortable: true,
         thClass: 'text-nowrap',
