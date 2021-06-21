@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { randomIndex } = require('../utility/createRandom')
+const { usersSample } = require('../utility/users.sample.collection')
 const { randomDate } = require('./dates')
 
 function resamplingUserCollection (users) {
@@ -25,6 +26,12 @@ function resamplingUserCollection (users) {
         resampleUser.payment = userProps.subscription.payment_method
         resampleUser.lastSignedin = randomDate(new Date(2021, 2, 16), new Date(2021, 6, 1))
       }
+
+      if (userProps.address) {
+        const address = userProps.address
+        userProps.address.full = `${address.street_address} ${address.street_name} ${address.city} ${address.state} ${address.country} ${address.zip_code}`
+      }
+
       resampleUser.createdAt = createdAt
       resampleUser.modifiedAt = createdAt
       resampleUser.status = status
@@ -39,9 +46,13 @@ function resamplingUserCollection (users) {
 
 const usersMaximum = 60
 export async function createUserCollection (count = usersMaximum) {
-  const randomUsers = await axios('https://random-data-api.com/api/users/random_user', {
-    params: { size: count }
-  })
-  const resamplingUsers = await resamplingUserCollection(randomUsers.data)
-  return resamplingUsers
+  if (process.env.NODE_ENV === 'development') {
+    return usersSample
+  } else {
+    const randomUsers = await axios('https://random-data-api.com/api/users/random_user', {
+      params: { size: count }
+    })
+    const resamplingUsers = await resamplingUserCollection(randomUsers.data)
+    return resamplingUsers
+  }
 }

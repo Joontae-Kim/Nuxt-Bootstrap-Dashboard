@@ -1,11 +1,28 @@
-const { createUsersTraffic } = require('../lib/users')
+const { createUsersTraffic, searchUser } = require('../lib/users')
 const { randomIndex } = require('../utility/createRandom')
 const delay = require('../utility/delayResponse')
 
 const index = async (req, res, next) => {
   try {
     await delay()
-    res.status(200).send({ list: req.app.locals.users })
+    let users = {}
+    if (!Object.keys(req.query).length) {
+      users = req.app.locals.users
+    } else {
+      const [reqQuery, query] = [req.query, {}]
+      if (reqQuery.id) { query.id = reqQuery.id }
+      if (reqQuery.uid) { query.uid = reqQuery.uid }
+      if (reqQuery.username) { query.username = reqQuery.username }
+      if (reqQuery.email) { query.email = reqQuery.email }
+      if (reqQuery.address) { query.address = reqQuery.address }
+      if (reqQuery.phoneNumber) { query.phone_number = reqQuery.phoneNumber }
+      if (reqQuery.creditCard) { query.cardNumber = reqQuery.creditCard }
+      if (reqQuery.payment) { query.payment = reqQuery.payment.split(',').map(payment => payment.trim()) }
+      if (reqQuery.authentication) { query.authentication = reqQuery.authentication.split(',').map(auth => auth.trim()) }
+      if (reqQuery.status) { query.status = reqQuery.status.split(',').map(status => status.trim()) }
+      users = await searchUser(req.app.locals.users, query)
+    }
+    res.status(200).send({ list: users })
   } catch (err) {
     next(err)
   }
