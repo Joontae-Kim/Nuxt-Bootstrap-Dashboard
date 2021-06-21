@@ -34,19 +34,19 @@ const findArrayByOperator = (() => {
 
   function byST (array, property, value) {
     return array.filter((item) => {
-      return item[property] <= value
+      return item[property].toString() <= value.toString()
     })
   }
 
   function byEQ (array, property, value) {
     return array.filter((item) => {
-      return item[property] === value
+      return item[property].toString() === value.toString()
     })
   }
 
   function byGT (array, property, value) {
     return array.filter((item) => {
-      return item[property] >= value
+      return item[property].toString() >= value.toString()
     })
   }
 
