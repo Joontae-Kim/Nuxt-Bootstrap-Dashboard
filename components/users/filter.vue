@@ -8,7 +8,7 @@
         @reset="onReset"
       >
         <b-form-row>
-          <b-col cols="12" md="4">
+          <b-col cols="6" md="4">
             <b-form-group
               id="filter-group-id"
               label="Id"
@@ -22,7 +22,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="12" md="4">
+          <b-col cols="6" md="4">
             <b-form-group
               id="filter-group-uid"
               label="UID"
@@ -36,7 +36,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols md="4">
+          <b-col cols="12" md="4">
             <b-form-group
               id="filter-group-username"
               label="Name"
@@ -52,7 +52,7 @@
           </b-col>
         </b-form-row>
         <b-form-row>
-          <b-col cols md="4">
+          <b-col cols="6" md="4">
             <b-form-group
               id="filter-group-email"
               label="E-mail"
@@ -66,7 +66,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols md="4">
+          <b-col cols="6" md="4">
             <b-form-group
               id="filter-group-phoneNumber"
               label="Phone Number"
