@@ -8,22 +8,16 @@ export const getters = {
   getUsers: (state) => {
     return state.list
   },
-  getUsersCount: (state) => {
-    return state.list.length
-  },
-  getActiveUsersCount: (state) => {
-    return state.list.filter(user => user.status === 'Active').length
-  },
-  groupByStatus: (state) => {
-    if (state.list.length) {
-      return state.list.reduce((grouping, user) => {
-        const group = user.status.replace(/ /g, "_")
-        if (!grouping[group]) { grouping[group] = 0 }
-        grouping[group] += 1
-        return grouping
-      }, {})
+  getUserPaymentList: (state) => {
+    if (!state.list.length) {
+      return []
     } else {
-      return {}
+      return state.list.reduce((payments, user) => {
+        if (user.payment && !payments.includes(user.payment)) {
+          payments.push(user.payment)
+        }
+        return payments
+      }, [])
     }
   }
 }

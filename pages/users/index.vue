@@ -9,13 +9,13 @@
               v-model="currentPage"
               :total-rows="users.length"
               :per-page="perPage"
-              :disabled="globalDisabled"
+              :disabled="isTableBusy"
               class="mb-0"
               align="right"
               size="sm"
             />
           </template>
-          <b-row class="px-3 pb-3" no-gutters align-v="center">
+          <b-row class="px-3 mb-4" no-gutters align-v="center">
             <b-col cols md="6">
               <span class="d-none d-md-inline mr-2">Display</span>
               <b-form-select
@@ -23,7 +23,7 @@
                 :options="perPageOpt"
                 class="mr-1 w-auto"
                 size="sm"
-                :disabled="globalDisabled"
+                :disabled="isTableBusy"
               />
             </b-col>
             <b-col cols md="6">
@@ -38,27 +38,22 @@
                   class="w-100 w-md-50 mr-2"
                   @keyup.enter="simpleSearch"
                 />
-                <button-overlay
-                  :show="isSearching"
-                  button-ref="btn-filter"
-                  :disabled="isSearching"
-                >
-                  <b-btn ref="btn-filter" v-b-toggle.collapse-filter variant="light" :disabled="globalDisabled || isSearchingUsername" class="mr-2">
-                    <b-icon
-                      icon="filter"
-                      font-scale="0.95"
-                      aria-hidden="true"
-                      aria-label="Filter"
-                      shift-v="2"
-                    />
-                  </b-btn>
-                </button-overlay>
+                <b-btn ref="btn-filter" v-b-toggle.collapse-filter variant="secondary" :disabled="globalDisabled || isSearchingUsername" class="mr-2">
+                  <b-icon
+                    icon="filter"
+                    font-scale="0.95"
+                    aria-hidden="true"
+                    aria-label="Filter"
+                    shift-v="2"
+                  />
+                </b-btn>
                 <button-overlay
                   :show="isResetting"
                   button-ref="btn-reset"
                   :disabled="globalDisabled"
+                  spinner-variant="danger"
                 >
-                  <b-btn ref="btn-reset" variant="light" :disabled="globalDisabled" @click="refresh">
+                  <b-btn ref="btn-reset" variant="danger" :disabled="globalDisabled" @click="refresh">
                     <b-icon
                       icon="arrow-clockwise"
                       font-scale="0.95"
@@ -71,6 +66,9 @@
               </div>
             </b-col>
           </b-row>
+          <b-collapse id="collapse-filter">
+            <UsersFilter :disabled="globalDisabled" @setSearchingState="getSearchingState" @setResetFormState="getResetFormState" />
+          </b-collapse>
           <b-row>
             <b-col cols>
               <b-table
@@ -93,7 +91,7 @@
                   <div class="text-center my-4">
                     <b-spinner class="align-middle" />
                     <strong v-show="isSearching || isSearchingUsername">Searching...</strong>
-                    <strong v-show="isResetting">Loading...</strong>
+                    <strong v-show="isResetting || isResettingForm">Loading...</strong>
                   </div>
                 </template>
 
@@ -136,7 +134,7 @@
                 v-model="currentPage"
                 :total-rows="users.length"
                 :per-page="perPage"
-                :disabled="globalDisabled"
+                :disabled="isTableBusy"
                 class="mb-0"
                 align="right"
               />
@@ -150,12 +148,17 @@
 
 <script>
 import { mapGetters } from "vuex"
+import searchUser from '~/mixins/user/searchUser'
 
 export default {
   name: 'UserIdx',
   components: {
-    UsersStatics: () => import('~/components/users/statics')
+    UsersStatics: () => import('~/components/users/statics'),
+    UsersFilter: () => import('~/components/users/filter')
   },
+  mixins: [
+    searchUser
+  ],
   provide () {
     return {
       parentRef: this.$refs
@@ -167,6 +170,7 @@ export default {
     isSearchingUsername: false,
     isSearching: false,
     isResetting: false,
+    isResettingForm: false,
     group: [
       { label: 'Active', variant: 'success' },
       { label: 'Inactive', variant: 'warning' },
@@ -238,10 +242,11 @@ export default {
       users: 'users/getUsers'
     }),
     globalDisabled () {
-      return this.isSearching || this.isResetting
+      // return this.isSearching || this.isResetting
+      return this.isSearching || this.isResetting || this.isSearchingUsername || this.isResettingForm
     },
     isTableBusy () {
-      return this.isSearching || this.isResetting || this.isSearchingUsername
+      return this.isSearching || this.isResetting || this.isSearchingUsername || this.isResettingForm
     }
   },
   watch: {
@@ -255,9 +260,22 @@ export default {
     }
   },
   methods: {
-    simpleSearch () {
-      this.isSearchingUsername = true
-      this.isSearchingUsername = false
+    getResetFormState (state) {
+      this.isResettingForm = state
+    },
+    getSearchingState (state) {
+      this.isSearching = state
+    },
+    async simpleSearch () {
+      try {
+        this.isSearchingUsername = true
+        const { list } = await this.searchUser({ username: this.searchingUsername })
+        await this.$store.dispatch('users/DISPATCH_SET', list)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.isSearchingUsername = false
+      }
     },
     async refresh () {
       this.isResetting = true
@@ -270,27 +288,4 @@ export default {
 </script>
 
 <style lang="scss">
-// .userGroup {
-//   cursor: pointer;
-
-//   &__ele {
-//     color: #6c757d;
-//     &:hover .userGroup__label,
-//     &.active .userGroup__label {
-//       color: #343a40 !important;
-//     }
-//   }
-
-//   &__icon {
-//     width: .5rem;
-//     height: .5rem;
-//     border: 2px solid;
-//     border-radius: 50%;
-//     vertical-align: 1px;
-//   }
-
-//   &__label {
-//     color: #6c757d;
-//   }
-// }
 </style>
