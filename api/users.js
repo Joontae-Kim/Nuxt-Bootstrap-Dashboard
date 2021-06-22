@@ -3,6 +3,7 @@ const app = express()
 const ash = require('express-async-handler')
 const { createUserCollection } = require('../api/utility/users.collection')
 const usersCtrl = require('./controller/users.ctrl.js')
+const { handleError } = require('./utility/error')
 let newUserCount = 0
 
 app.use(async (req, res, next) => {
@@ -25,5 +26,9 @@ app.use(async (req, res, next) => {
 app.get('/', usersCtrl.index)
 
 app.get('/statics', ash(usersCtrl.statics))
+
+app.get('/:uid', ash(usersCtrl.getUser))
+
+app.use(handleError)
 
 module.exports = app

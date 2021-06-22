@@ -1,7 +1,7 @@
 const dayjs = require('dayjs')
 const FuzzySearch = require('fuzzy-search')
-const { randomIndex, createSerialRandom } = require('../utility/createRandom')
-const { createDateArray } = require('../utility/dates')
+const { randomIndex, createSerialRandom, getRandomArray } = require('../utility/createRandom')
+const { createDateArray, randomDate } = require('../utility/dates')
 const findArray = require('../utility/findArray')
 
 export function createUsersTraffic (startAt, count = 7) {
@@ -133,5 +133,98 @@ export function searchUser (userSet, query) {
       console.log(err.message)
       reject(err)
     }
+  })
+}
+
+const mentions = [
+  "Aut eius recusandae",
+  "Repudiandae necessitatibus nisi",
+  "Omnis commodi consequuntur",
+  "At commodi suscipit",
+  "Ut est culpa",
+  "Error fuga incidunt",
+  "Mollitia provident veritatis",
+  "Sapiente eligendi vel",
+  "Voluptatibus dignissimos suscipit",
+  "Labore pariatur id"
+]
+
+const activity = [{ type: 'comment' }, { type: 'like' }, { type: 'visit' }, { type: 'save' }]
+
+export function createRandomAcitivy (createdAt, lastSignedin) {
+  return new Promise((resolve) => {
+    const randomActivityIndex = new Array(7).fill(null).map(ele => randomIndex(0, activity.length - 1)).sort()
+    let activityLogs = randomActivityIndex.reduce((logs, random, r) => {
+      const mentionIdx = randomIndex(0, mentions.length - 1)
+      logs.push({
+        ...activity[random],
+        action: mentions[mentionIdx]
+      })
+      return logs
+    }, [])
+    activityLogs = activityLogs.reduce((merged, log, l) => {
+      merged.push({ date: randomDate(createdAt, lastSignedin, true), ...log })
+      return merged
+    }, [])
+    activityLogs = activityLogs.sort((a, b) => new Date(b.date) - new Date(a.date))
+    resolve(activityLogs)
+  })
+}
+
+const productList = [
+  {
+    name: 'cioson-corporate-landing-template-react/',
+    event: '2020\'s Best 100+ Bootstrap Themes'
+  },
+  {
+    name: 'faviorio-admin-dashboard-vuejs-template/',
+    event: '2021\'s ~ 2Q The Newest Bootstrap E-Commerce Template'
+  },
+  {
+    name: 'querioe-cms-dashboard-webapp-pro-theme/',
+    event: '2020\'s Best 100+ Bootstrap Themes'
+  },
+  {
+    name: 'awiwan-vuejs-multipage-webapp-react/',
+    event: '2020\' Bestselleing Ranking 100 Bootstrap Template'
+  },
+  {
+    name: 'borian-admin-corporate-webapp-template-react/',
+    event: 'Ranking 50 Bootstrap Corporate and Landing Theme & Template'
+  },
+  {
+    name: 'naxiee-business-theme-multipurpose-template-react/',
+    event: 'Material Design Bootstrap Business and Landing Theme & Template'
+  },
+  {
+    name: 'poiman-multipurpose-webapp-pro-template-react/',
+    event: '2020\'s Best 100+ Bootstrap Themes'
+  },
+  {
+    name: 'suponse-admin-dashboard-webapp-template-react/',
+    event: 'Popular Free React.js Bootstrap Template'
+  },
+  {
+    name: 'apsobe-react-dashboard-responsive-template',
+    event: '2021\'s March Recommened React.js Bootstrap Template'
+  },
+  {
+    name: 'sherom-webapp-responsive-pro-template/',
+    event: '2021\'s 150+ Ranking WebApp Responsive Template'
+  }
+]
+
+export function createRandomPurchaseList (createdAt, lastSignedin) {
+  return new Promise((resolve) => {
+    const purchaseRandomCount = randomIndex(3, 7)
+    const purchaseRandom = getRandomArray(productList, purchaseRandomCount)
+    let purchaseList = new Array(purchaseRandomCount).fill(null).map((item, i) => {
+      return {
+        date: randomDate(createdAt, lastSignedin, true),
+        ...purchaseRandom[i]
+      }
+    })
+    purchaseList = purchaseList.sort((a, b) => new Date(b.date) - new Date(a.date))
+    resolve(purchaseList)
   })
 }

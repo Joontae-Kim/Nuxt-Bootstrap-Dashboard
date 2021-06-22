@@ -1,6 +1,7 @@
-const { createUsersTraffic, searchUser } = require('../lib/users')
 const { randomIndex } = require('../utility/createRandom')
 const delay = require('../utility/delayResponse')
+const { ErrorHandler } = require('../utility/error')
+const { createUsersTraffic, searchUser, createRandomAcitivy, createRandomPurchaseList } = require('../lib/users')
 
 const index = async (req, res, next) => {
   try {
@@ -58,7 +59,33 @@ const statics = async (req, res, next) => {
   }
 }
 
+const getUser = async (req, res, next) => {
+  try {
+    await delay()
+    const user = req.app.locals.users.find(user => user.uid === req.params.uid)
+    if (!user) {
+      throw new ErrorHandler('404', 'Not_Found')
+    }
+    // eslint-disable-next-line camelcase
+    const { id, uid, avatar, email, username, date_of_birth, address, createdAt, modifiedAt, lastSignedin, authentication, status, subscription } = user
+    const information = { id, uid, avatar, email, date_of_birth, address, createdAt, modifiedAt, lastSignedin, authentication, status, username: { full: username, first: user.first_name, last: user.last_name } }
+    const payment = !user.payment
+      ? null
+      : { payment: user.payment, credit_card: user.credit_card }
+    let activelog = []
+    let purchases = []
+    if (user.payment) {
+      activelog = await createRandomAcitivy(createdAt, lastSignedin)
+      purchases = await createRandomPurchaseList(createdAt, lastSignedin)
+    }
+    res.status(200).send({ information, payment, subscription, activelog, purchases })
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   index,
-  statics
+  statics,
+  getUser
 }
