@@ -16,15 +16,15 @@ function resamplingUserCollection (users) {
       const status = userStatus[randomIdx]
       let createdAt = null
       if (['Not Yet Activated', 'Pending Approval'].includes(status)) {
-        createdAt = randomDate(new Date(2021, 5, 1), new Date(2021, 6, 20))
+        createdAt = randomDate(new Date(2021, 5, 1))
         userProps.credit_card = null
         userProps.subscription = null
         resampleUser.payment = null
-        resampleUser.lastSignedin = randomDate(new Date(2021, 5, 16), new Date(2021, 6, 10))
+        resampleUser.lastSignedin = randomDate(createdAt, new Date())
       } else {
-        createdAt = randomDate(new Date(2020, 12, 1), new Date(2021, 6, 30))
+        createdAt = randomDate(new Date(2020, 11, 1), new Date(2021, 3, 30))
         resampleUser.payment = userProps.subscription.payment_method
-        resampleUser.lastSignedin = randomDate(new Date(2021, 2, 16), new Date(2021, 6, 1))
+        resampleUser.lastSignedin = randomDate(new Date(2021, 4, 15), new Date())
       }
 
       if (userProps.address) {
@@ -47,7 +47,8 @@ function resamplingUserCollection (users) {
 const usersMaximum = 60
 export async function createUserCollection (count = usersMaximum) {
   if (process.env.NODE_ENV === 'development') {
-    return usersSample
+    const resamplingUsers = await resamplingUserCollection(usersSample)
+    return resamplingUsers
   } else {
     const randomUsers = await axios('https://random-data-api.com/api/users/random_user', {
       params: { size: count }
