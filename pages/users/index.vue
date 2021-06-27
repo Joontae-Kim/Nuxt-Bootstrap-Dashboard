@@ -102,7 +102,9 @@
 
                 <template #cell(username)="data">
                   <div class="">
-                    <span class="text-gray-900 mr-2">{{ data.value }}</span>
+                    <NuxtLink :to="{ name: 'users-id', params: { id: data.item.uid } }" class="text-gray-900 text-decoration-none mr-2">
+                      {{ data.value }}
+                    </NuxtLink>
                     <b-badge class="small" pill>{{ data.item.status }}</b-badge>
                   </div>
                   <div class="text-gray-600">
@@ -125,6 +127,16 @@
                     <div>{{ data.value }}</div>
                     <div class="small">{{ data.item.credit_card.cc_number }}</div>
                   </template>
+                </template>
+
+                <template #cell(actions)="data">
+                  <b-btn
+                    :to="{ name: 'users-id', params: { id: data.item.uid } }"
+                    variant="link"
+                    class="text-decoration-none mr-2 p-0 shadow-none"
+                  >
+                    <b-icon icon="pencil-square" scale="1.0" class="icon-secondary" />
+                  </b-btn>
                 </template>
               </b-table>
             </b-col>
@@ -230,6 +242,13 @@ export default {
         sortable: true,
         thClass: 'text-nowrap',
         tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: 'Actions',
+        key: 'actions',
+        sortable: false,
+        thClass: 'text-center',
+        tdClass: 'text-center'
       }
     ]
   }),
