@@ -12,7 +12,7 @@
 // @import "bootstrap/scss/_reboot";
 @import "./blocks/_reboot"; // Custom
 @import "bootstrap/scss/_type";
-// @import "bootstrap/scss/_images";
+@import "bootstrap/scss/_images";
 // @import "bootstrap/scss/_code";
 @import "bootstrap/scss/_grid";
 // @import "bootstrap/scss/_tables";
@@ -30,14 +30,14 @@
 // @import "bootstrap/scss/_breadcrumb";
 @import "bootstrap/scss/_pagination";
 @import "bootstrap/scss/_badge";
-@import "bootstrap/scss/_jumbotron";
+// @import "bootstrap/scss/_jumbotron";
 @import "bootstrap/scss/_alert";
 @import "bootstrap/scss/_progress";
 // @import "bootstrap/scss/_media";
 @import "bootstrap/scss/_list-group";
 @import "bootstrap/scss/_close";
 // @import "bootstrap/scss/_toasts";
-@import "bootstrap/scss/_modal";
+// @import "bootstrap/scss/_modal";
 // @import "bootstrap/scss/_tooltip";
 // @import "bootstrap/scss/_popover";
 // @import "bootstrap/scss/_carousel";
