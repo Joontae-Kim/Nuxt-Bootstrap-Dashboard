@@ -1,16 +1,14 @@
 <template>
   <div class="wrapper">
     <dash-sidebar :collapsed="collapsedSidebar" @toggleSidebar="collapsed" />
-    <div :class="['content-page', { collapsed: !collapsedSidebar }]">
+    <div :class="['content-page position-relative', { collapsed: !collapsedSidebar }]">
       <dash-header @toggleSidebar="collapsed" />
-      <div class="content py-3">
-        <div v-show="isChildPending">
-          loading...
-        </div>
-        <div v-show="!isChildPending">
+      <LoadingWrapper :loading="isChildPending" />
+      <transition name="dashboard-fade" mode="out-in" appear>
+        <div v-show="!isChildPending" class="content py-3">
           <Nuxt />
         </div>
-      </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -18,6 +16,9 @@
 <script>
 export default {
   name: 'Dashboard',
+  components: {
+    LoadingWrapper: () => { return import('~/components/loadingWrapper') }
+  },
   data: () => ({
     collapsedSidebar: false,
     isChildPending: true
