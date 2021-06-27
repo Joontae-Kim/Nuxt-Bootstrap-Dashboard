@@ -72,11 +72,6 @@ export default {
     icons: true
   },
 
-  pageTransition: {
-    name: 'fade',
-    mode: 'out-in'
-  },
-
   serverMiddleware: [
     bodyParser.json(),
     { path: '/test', handler: '~/api/test.js' },
