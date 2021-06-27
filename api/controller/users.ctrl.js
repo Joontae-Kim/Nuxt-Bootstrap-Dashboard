@@ -67,8 +67,8 @@ const getUser = async (req, res, next) => {
       throw new ErrorHandler('404', 'Not_Found')
     }
     // eslint-disable-next-line camelcase
-    const { id, uid, avatar, email, username, date_of_birth, address, createdAt, modifiedAt, lastSignedin, authentication, status, subscription } = user
-    const information = { id, uid, avatar, email, date_of_birth, address, createdAt, modifiedAt, lastSignedin, authentication, status, username: { full: username, first: user.first_name, last: user.last_name } }
+    const { id, uid, avatar, email, username, date_of_birth, phone_number, address, createdAt, modifiedAt, lastSignedin, authentication, status, subscription } = user
+    const information = { id, uid, avatar, email, date_of_birth, phone_number, address, createdAt, modifiedAt, lastSignedin, authentication, status, username: { full: username, first: user.first_name, last: user.last_name } }
     const payment = !user.payment
       ? null
       : { payment: user.payment, credit_card: user.credit_card }

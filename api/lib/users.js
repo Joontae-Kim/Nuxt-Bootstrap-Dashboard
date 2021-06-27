@@ -137,28 +137,28 @@ export function searchUser (userSet, query) {
 }
 
 const mentions = [
-  "Aut eius recusandae",
-  "Repudiandae necessitatibus nisi",
-  "Omnis commodi consequuntur",
-  "At commodi suscipit",
-  "Ut est culpa",
-  "Error fuga incidunt",
-  "Mollitia provident veritatis",
-  "Sapiente eligendi vel",
-  "Voluptatibus dignissimos suscipit",
-  "Labore pariatur id"
+  "Aut perferendis nobis quia voluptas perspiciatis ut ut assumenda sit id sed itaque sint illo qui distinctio ad hic eos.",
+  "Qui sunt qui deserunt magnam libero quibusdam ducimus corporis placeat a facilis ipsam harum non culpa est et iure sed.",
+  "Dolor qui est. Dicta similique reiciendis. Ipsam et laudantium. Voluptas commodi nemo. Et nulla fugit. Fugiat nemo et.",
+  "Occaecati at rem autem similique dolorem voluptas quia et est dicta recusandae itaque sequi ratione nihil minus officia ullam aut.",
+  "Nemo quia natus. Id laboriosam beatae. Blanditiis recusandae dolor. Ut quod necessitatibus. Dignissimos perspiciatis et. Deleniti omnis beatae.",
+  "Officia natus optio velit aut delectus voluptas quae eius placeat voluptatibus sunt perferendis ullam sint quia sit ad ab eos.",
+  "Enim culpa dolor. Facere molestiae incidunt. Numquam voluptatem ut. Accusamus odit cupiditate. Nemo aut doloremque. Ducimus consectetur dicta.",
+  "Ex commodi rem molestiae pariatur et et sit sint sequi mollitia consequatur laudantium ut quis et maiores voluptatum voluptatem quia.",
+  "Alias itaque ut. Sunt veniam magnam. Doloribus voluptatibus at. Qui reiciendis totam. Aliquam consequatur enim. Corporis doloremque non.",
+  "Aut recusandae qui eveniet veritatis laudantium aut at doloribus repellat praesentium accusantium vero et expedita occaecati cupiditate eaque molestias assumenda."
 ]
 
 const activity = [{ type: 'comment' }, { type: 'like' }, { type: 'visit' }, { type: 'save' }]
 
 export function createRandomAcitivy (createdAt, lastSignedin) {
   return new Promise((resolve) => {
-    const randomActivityIndex = new Array(7).fill(null).map(ele => randomIndex(0, activity.length - 1)).sort()
+    const randomActivityIndex = new Array(5).fill(null).map(ele => randomIndex(0, activity.length - 1)).sort()
     let activityLogs = randomActivityIndex.reduce((logs, random, r) => {
       const mentionIdx = randomIndex(0, mentions.length - 1)
       logs.push({
         ...activity[random],
-        action: mentions[mentionIdx]
+        mentions: mentions[mentionIdx]
       })
       return logs
     }, [])
@@ -173,35 +173,35 @@ export function createRandomAcitivy (createdAt, lastSignedin) {
 
 const productList = [
   {
-    name: 'cioson-corporate-landing-template-react/',
+    name: 'cioson-corporate-landing-template-react',
     event: '2020\'s Best 100+ Bootstrap Themes'
   },
   {
-    name: 'faviorio-admin-dashboard-vuejs-template/',
+    name: 'faviorio-admin-dashboard-vuejs-template',
     event: '2021\'s ~ 2Q The Newest Bootstrap E-Commerce Template'
   },
   {
-    name: 'querioe-cms-dashboard-webapp-pro-theme/',
+    name: 'querioe-cms-dashboard-webapp-pro-theme',
     event: '2020\'s Best 100+ Bootstrap Themes'
   },
   {
-    name: 'awiwan-vuejs-multipage-webapp-react/',
+    name: 'awiwan-vuejs-multipage-webapp-react',
     event: '2020\' Bestselleing Ranking 100 Bootstrap Template'
   },
   {
-    name: 'borian-admin-corporate-webapp-template-react/',
+    name: 'borian-admin-corporate-webapp-template-react',
     event: 'Ranking 50 Bootstrap Corporate and Landing Theme & Template'
   },
   {
-    name: 'naxiee-business-theme-multipurpose-template-react/',
+    name: 'naxiee-business-theme-multipurpose-template-react',
     event: 'Material Design Bootstrap Business and Landing Theme & Template'
   },
   {
-    name: 'poiman-multipurpose-webapp-pro-template-react/',
+    name: 'poiman-multipurpose-webapp-pro-template-react',
     event: '2020\'s Best 100+ Bootstrap Themes'
   },
   {
-    name: 'suponse-admin-dashboard-webapp-template-react/',
+    name: 'suponse-admin-dashboard-webapp-template-react',
     event: 'Popular Free React.js Bootstrap Template'
   },
   {
@@ -209,7 +209,7 @@ const productList = [
     event: '2021\'s March Recommened React.js Bootstrap Template'
   },
   {
-    name: 'sherom-webapp-responsive-pro-template/',
+    name: 'sherom-webapp-responsive-pro-template',
     event: '2021\'s 150+ Ranking WebApp Responsive Template'
   }
 ]
@@ -221,6 +221,7 @@ export function createRandomPurchaseList (createdAt, lastSignedin) {
     let purchaseList = new Array(purchaseRandomCount).fill(null).map((item, i) => {
       return {
         date: randomDate(createdAt, lastSignedin, true),
+        cost: randomIndex(15, 38),
         ...purchaseRandom[i]
       }
     })
