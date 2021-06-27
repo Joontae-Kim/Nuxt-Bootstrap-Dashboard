@@ -1,6 +1,6 @@
 <template>
   <b-card no-body :class="['dsCard shadow-sm', { 'overflow-hidden': !noOverflow }, cardPadding]" border-variant="light">
-    <template v-if="icon || useicon">
+    <template v-if="(icon || useicon) && !custom">
       <b-row no-gutters>
         <b-col class="flex-grow-1">
           <p class="dsCard__title">{{ title }}</p>
@@ -113,6 +113,13 @@ export default {
       required: false,
       default: (tableProps) => {
         return (typeof tableProps === 'undefined') ? false : tableProps
+      }
+    },
+    custom: {
+      type: Boolean,
+      required: false,
+      default: (customProps) => {
+        return (typeof customProps === 'undefined') ? false : customProps
       }
     }
   },
