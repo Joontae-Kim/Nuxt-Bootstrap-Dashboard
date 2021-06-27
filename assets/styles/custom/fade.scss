@@ -1,3 +1,4 @@
+// fade transition for default
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s;
@@ -7,21 +8,12 @@
   opacity: 0;
 }
 
-/*
-.bounce-enter-active {
-  animation: bounce-in .8s;
+// fade transition for dashboard content
+.dashboard-fade-enter-active {
+  transition: opacity 1s;
 }
-.bounce-leave-active {
-  animation: bounce-in .5s reverse;
+
+.dashboard-fade-enter,
+.dashboard-fade-leave {
+  opacity: 0;
 }
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}*/
