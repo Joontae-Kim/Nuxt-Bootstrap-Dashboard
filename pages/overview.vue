@@ -58,6 +58,7 @@
                     :width="100"
                     :custom-opt="{responsive: false}"
                     :data-label-opt="{ color: '#fff' }"
+                    :legend-view="false"
                     use-data-label
                     class="h-100 pb-3"
                   />
@@ -84,9 +85,10 @@
               <LazyLineChart
                 canvas-id="sales-chart"
                 :data="sales"
-                :custom-opt="{ responsive: true }"
                 :y-max="salesMax"
                 class="pb-3"
+                :scales-x="[{ time: { stepSize: 3 } }]"
+                user-x-axes-as-time
                 tooltip
               />
             </b-col>
@@ -98,7 +100,7 @@
       <b-col cols md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="vh-100 chart__container">
+            <b-col cols class="chart__container">
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
                 class="pb-3"
@@ -124,7 +126,6 @@
               />
             </b-col>
             <b-col cols md="6">
-              <!-- {{ noti }} -->
               <i>legend</i>
             </b-col>
           </b-row>
@@ -262,7 +263,6 @@ export default {
       ranks.push({ ...ele, saleRate: Number(rate) })
       return ranks
     }, [])
-    // return res
   },
   watch: {
     '$fetchState.pending': {
