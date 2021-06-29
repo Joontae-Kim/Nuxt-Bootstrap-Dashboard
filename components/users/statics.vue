@@ -59,8 +59,9 @@
                 <LazyLineChart
                   canvas-id="weeklyTraffic-chart"
                   :data="weekTrafficDataset"
-                  :custom-opt="weekTrafficOptions"
                   class="pb-3"
+                  :scales-x="[{ time: { stepSize: 1 } }]"
+                  user-x-axes-as-time
                   tooltip
                 />
               </b-col>
@@ -76,6 +77,8 @@
                   class="pb-3"
                   :data="timeTrafficDataset"
                   :custom-opt="hoursTrafficOptions"
+                  :scales-y="hoursTrafficOptionsYaxe"
+                  :scales-x="hoursTrafficOptionsXaxe"
                   tooltip
                 />
               </b-col>
@@ -150,40 +153,9 @@ export default {
   },
   computed: {
     ...mapGetters({}),
-    weekTrafficOptions () {
-      return {
-        responsive: true
-      }
-    },
     hoursTrafficOptions () {
       return {
         responsive: true,
-        scales: {
-          xAxes: [{
-            type: 'time',
-            gridLines: {
-              borderDash: [3, 4]
-            },
-            time: {
-              unit: 'hour',
-              distribution: 'series',
-              displayFormats: {
-                minute: 'h:mm a'
-              },
-              stepSize: 4
-            }
-          }],
-          yAxes: [{
-            gridLines: {
-              borderDash: [3, 4]
-            },
-            ticks: {
-              beginAtZero: true,
-              stepSize: 5,
-              padding: 10
-            }
-          }]
-        },
         tooltips: {
           callbacks: {
             title: (tooltipItem, data) => {
@@ -194,6 +166,27 @@ export default {
           }
         }
       }
+    },
+    hoursTrafficOptionsXaxe () {
+      return [{
+        type: 'time',
+        time: {
+          unit: 'hour',
+          distribution: 'series',
+          displayFormats: {
+            minute: 'h:mm a'
+          },
+          stepSize: 4
+        }
+      }]
+    },
+    hoursTrafficOptionsYaxe () {
+      return [{
+        ticks: {
+          beginAtZero: false,
+          stepSize: 3
+        }
+      }]
     }
   }
 }
