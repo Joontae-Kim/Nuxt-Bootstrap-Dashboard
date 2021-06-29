@@ -1,4 +1,9 @@
+import mergeOptions from '~/mixins/chart/mergeOptions'
+
 export default {
+  mixins: [
+    mergeOptions
+  ],
   props: {
     canvasId: {
       type: String,
@@ -65,6 +70,9 @@ export default {
       },
       tooltips: {
         enabled: true
+      },
+      legend: {
+        display: false
       }
     }
   }),
@@ -83,37 +91,32 @@ export default {
   },
   beforeDestroy () {},
   methods: {
+    mergeDefaultOptions () {
+      if (!this.useDataLabel) {
+        this.option.plugins.datalabels = false
+      } else {
+        this.option.plugins.datalabels = this.dataLabelOpt
+      }
+
+      if (!this.tooltip) {
+        this.option.tooltips.enabled = false
+      } else {
+        this.option.tooltips = { enabled: true, ...this.tooltip }
+      }
+
+      this.option.legend.display = this.legendView
+    },
     renderChart () {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
-
-        if (!this.useDataLabel) {
-          this.option.plugins.datalabels = false
-        } else {
-          this.option.plugins.datalabels = this.dataLabelOpt
-        }
-
-        if (!this.tooltip) {
-          this.option.tooltips.enabled = false
-        } else {
-          this.option.tooltips = { enabled: true, ...this.tooltip }
-        }
-
-        const options = {
-          legend: {
-            display: this.legendView
-          },
-          ...this.option,
-          ...this.customOpt
-        }
-
+        const options = this.mergeOptions(this.option, this.customOpt)
         this.$chartjs.createChart(ctx, {
           type: this.type,
           data: this.data,
           options
         })
       } catch (err) {
-        console.log(`            ~ err => `, err)
+        console.log(err)
       }
     }
   }
