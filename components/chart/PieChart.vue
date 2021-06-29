@@ -10,6 +10,21 @@ export default {
     type: 'pie'
   }),
   mounted () {},
-  methods: {}
+  methods: {
+    renderChart () {
+      try {
+        const ctx = document.getElementById(this.canvasId).getContext('2d')
+        this.mergeDefaultOptions()
+        const options = this.mergeOptions(this.option, this.customOpt)
+        this.$chartjs.createChart(ctx, {
+          type: this.type,
+          data: this.data,
+          options
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
 }
 </script>
