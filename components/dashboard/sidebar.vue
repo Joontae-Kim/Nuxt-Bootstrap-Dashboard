@@ -4,9 +4,6 @@
       <div class="sidebar__logo cursor-pointer">
         LOGO
       </div>
-      <div class="sidebar__close cursor-pointer ml-auto" @click="toggleSidebar">
-        <b-icon-x font-scale="1.5" aria-hidden="true" />
-      </div>
     </div>
     <div class="sidebar__body py-2">
       <b-nav vertical class="w-100">
@@ -23,6 +20,16 @@
           Another Link
         </b-nav-item>
       </b-nav>
+    </div>
+    <div class="sidebar__footer">
+      <div class="sidebar__close cursor-pointer ml-auto" @click="toggleSidebar">
+        <template v-if="close">
+          <b-icon icon="arrow-bar-right" font-scale="1.5" title="Open Sidebar" aria-hidden="true" shift-v="-1" />
+        </template>
+        <template v-else>
+          <b-icon icon="arrow-bar-left" font-scale="1.5" title="Close Sidebar" aria-hidden="true" shift-v="-1" />
+        </template>
+      </div>
     </div>
   </div>
 </template>
