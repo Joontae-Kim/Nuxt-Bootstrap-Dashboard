@@ -1,5 +1,5 @@
 <template>
-  <div :class="['d-flex flex-column sidebar', { collapsed: collapsed }]">
+  <div :class="['d-flex flex-column sidebar', { collapsed: close }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         LOGO
@@ -35,9 +35,36 @@ export default {
       required: true
     }
   },
+  data: () => ({
+    isMobile: false,
+    close: false
+  }),
+  watch: {
+    collapsed (state) {
+      this.close = state
+    },
+    isMobile (state) {
+      if (!this.close && state) {
+        this.$emit('toggleSidebar')
+      }
+      if (this.close && !state) {
+        this.$emit('toggleSidebar')
+      }
+    }
+  },
+  created () {},
+  mounted () {
+    window.addEventListener('resize', this.handleSidebar)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.handleSidebar)
+  },
   methods: {
     toggleSidebar () {
       this.$emit('toggleSidebar')
+    },
+    handleSidebar () {
+      this.isMobile = window.innerWidth < window.innerHeight
     }
   }
 }
