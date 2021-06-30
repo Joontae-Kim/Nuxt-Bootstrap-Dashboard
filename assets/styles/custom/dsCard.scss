@@ -1,14 +1,17 @@
 .dsCard {
+  border-radius: $dscard-radius;
+  box-shadow: $dscard-shadow;
+
   &__title {
-    font-size: small;
-    font-weight: 500;
-    color: $gray-600;
+    font-size: $dscard-title-size;
+    font-weight: $dscard-title-weight;
+    color: $dscard-title-color;
   }
 
   &__index {
     font-size: 2rem;
     font-weight: 300;
-    color: $gray-700;
+    color: $dscard-index-color;
     margin-bottom: 0.5rem;
   }
 
@@ -18,8 +21,7 @@
   }
 
   &__icon {
-    background-color: $info;
-    color: $light;
+    color: $gray-500;
   }
 
   &__guide {

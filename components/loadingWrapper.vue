@@ -29,11 +29,11 @@ export default {
 <style lang="scss" scoped>
 .loadingWrapper {
   position: absolute;
-  bottom: 0px;
+  top: 0px;
   left: 0px;
   background-color: white;
   width: 100%;
-  height: calc(100% - 55.3px);
+  height: 100%;
 }
 
 .loadingFade-enter-active {
