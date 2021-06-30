@@ -1,4 +1,5 @@
 @import '_variables';
+@import 'wrapper';
 @import 'sidebar';
 @import 'content';
 @import 'fade';
@@ -8,12 +9,6 @@
 
 body {
   background-color: #fafbfe;
-}
-
-.wrapper {
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
 }
 
 .cursor {
