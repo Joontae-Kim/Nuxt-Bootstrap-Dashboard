@@ -1,5 +1,5 @@
 <template>
-  <div :class="['d-flex flex-column sidebar', { collapsed: close }]">
+  <nav :class="['d-flex flex-column sidebar', { collapsed: close }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         LOGO
@@ -31,7 +31,7 @@
         </template>
       </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 <script>
