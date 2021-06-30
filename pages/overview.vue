@@ -1,5 +1,9 @@
 <template>
   <b-container fluid>
+    <dash-header
+      title="Analytics Overview"
+      description="Your bounce rate increased by 5.25% over the past 30 days."
+    />
     <b-row class="mb-4">
       <b-col cols md="6">
         <b-row>
@@ -16,33 +20,13 @@
               title="New Users"
               :index="newUsers.users"
               :rate="newUsers.rate"
-              useicon
-            >
-              <template #icon>
-                <b-iconstack font-scale="2.3">
-                  <b-icon stacked icon="square-fill" variant="info" />
-                  <b-icon
-                    stacked
-                    icon="plus"
-                    variant="light"
-                    scale="0.5"
-                    shift-h="-4"
-                  />
-                  <b-icon
-                    stacked
-                    icon="people-fill"
-                    variant="light"
-                    scale="0.5"
-                    shift-h="3"
-                  />
-                </b-iconstack>
-              </template>
-            </dash-card>
+              icon="person-plus-fill"
+            />
           </b-col>
           <b-col cols md="6" class="mb-4 mb-md-0">
             <dash-card
               title="Active Users"
-              icon="people-fill"
+              icon="person-check-fill"
               :index="activeUsers.users"
               :rate="totalVists.rate"
             />
@@ -134,14 +118,14 @@
     </b-row>
     <b-row>
       <b-col cols md="12">
-        <dash-card title="Top 5 Event" class="h-100">
+        <dash-card title="Top 5 Event" class="h-100" table>
           <b-table
             :sort-by.sync="eventRankSortBy"
             :sort-desc.sync="eventRanksortDesc"
             :items="eventRank"
             :fields="eventRankField"
             head-variant="light"
-            responsive="sm"
+            responsive
             hover
           >
             <template #cell(bounce)="data">
