@@ -6,8 +6,8 @@
   overflow-x: hidden;
   z-index: 1000;
   transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  background: #313a46;
-  box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
+  background: $sidebar-backgroundColor;
+  box-shadow: $sidebar-shadow;
 
   &:not(.collapsed) {
     width: $sidebar-width;
@@ -27,13 +27,13 @@
 
   a {
     text-decoration: none;
-    color: $gray-700;
+    color: $sidebar-link;
     transition: color $sidebar-text-transition-time;
     white-space: nowrap;
 
     &:hover,
     &.active {
-      color: $white;
+      color: $sidebar-link-active;
     }
   }
 
@@ -47,11 +47,11 @@
   }
 
   &__close svg {
-    color: $gray-500;
+    color: $sidebar-link;
     transition: color $sidebar-text-transition-time;
 
     &:hover {
-      color: $gray-100;
+      color: $sidebar-link-active;
     }
   }
 }
