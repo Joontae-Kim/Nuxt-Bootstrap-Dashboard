@@ -2,11 +2,11 @@
   <div class="wrapper">
     <dash-sidebar :collapsed="collapsedSidebar" @toggleSidebar="collapsed" />
     <div :class="['content-page position-relative', { collapsed: !collapsedSidebar }]">
-      <dash-header @toggleSidebar="collapsed" />
       <LoadingWrapper :loading="isChildPending" />
       <transition name="dashboard-fade" mode="out-in" appear>
-        <div v-show="!isChildPending" class="content py-3">
-          <Nuxt />
+        <div v-show="!isChildPending" class="content">
+          <dash-nav @toggleSidebar="collapsed" />
+          <Nuxt class="mt-5 mb-4" />
         </div>
       </transition>
     </div>
