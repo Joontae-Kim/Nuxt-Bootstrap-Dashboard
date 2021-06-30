@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body :class="['dsCard shadow-sm', { 'overflow-hidden': !noOverflow }, cardPadding]" border-variant="light">
+  <b-card no-body :class="['dsCard', { 'overflow-hidden': !noOverflow }, cardPadding]" border-variant="light">
     <template v-if="(icon || useicon) && !custom">
       <b-row no-gutters>
         <b-col class="flex-grow-1">
@@ -18,8 +18,8 @@
           <template v-if="icon">
             <b-icon
               :icon="icon"
-              class="dsCard__icon rounded p-2"
-              font-scale="2.3"
+              class="dsCard__icon"
+              font-scale="1.5"
               aria-hidden="true"
             />
           </template>
