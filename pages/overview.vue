@@ -205,9 +205,9 @@ export default {
       }]
     }
     this.channels = {
-      labels: Object.keys(res.channels),
+      labels: [...Object.keys(res.channels), ...Object.keys(res.channels).map(title => [...title].reverse().join(''))],
       datasets: [{
-        data: Object.values(res.channels)
+        data: [...Object.values(res.channels), ...Object.values(res.channels).reverse()]
       }]
     }
     this.noti = {
