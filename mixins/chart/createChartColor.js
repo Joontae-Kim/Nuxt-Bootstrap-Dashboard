@@ -29,10 +29,10 @@ export default {
     },
     getRandomType (count = this.colorTypes.length, multi = false) {
       if (!multi) {
-        const randomTypeIdx = this.getRandomIntInclusive(this.colorTypes.length)
+        const randomTypeIdx = this.getRandomIntInclusive(this.colorTypes.length - 1)
         return this.colorTypes[randomTypeIdx]
       } else {
-        const [typesIdx, max] = [[], this.colorTypes.length]
+        const [typesIdx, max] = [[], this.colorTypes.length - 1]
         let r = 0
         do {
           let random = this.getRandomIntInclusive(max)
