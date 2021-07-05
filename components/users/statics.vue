@@ -127,9 +127,6 @@ export default {
       this.weekTrafficDataset = {
         datasets: [{
           label: 'weekly',
-          backgroundColor: 'red',
-          borderColor: 'red',
-          fill: false,
           data: this.$createChartData.line(statics.data.weekSerial)
         }]
       }
@@ -138,6 +135,8 @@ export default {
         labels: timeSerial.map(time => Object.keys(time)[0]),
         datasets: [{
           data: timeSerial.map(time => Object.values(time)[0])
+        }, {
+          data: timeSerial.map(time => Object.values(time)[0]).reverse()
         }]
       }
     } catch (err) {
@@ -176,6 +175,11 @@ export default {
     },
     hoursTrafficOptionsYaxe () {
       return [{
+        ticks: {
+          beginAtZero: false,
+          stepSize: 3
+        }
+      }, {
         ticks: {
           beginAtZero: false,
           stepSize: 3
