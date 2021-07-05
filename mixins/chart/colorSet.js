@@ -2,8 +2,7 @@ export const colorTypes = [
   "Blue",
   "LightBlue",
   "Indigo",
-  "BlueGray",
-  "placeholder"
+  "BlueGray"
 ]
 
 export const colorSet = [
@@ -18,8 +17,8 @@ export const colorSet = [
   { type: "Indigo", rgb: "rgb(57, 73, 171)", border: "rgb(255, 255, 255)", background: "rgba(57, 73, 171, .5)" },
   { type: "Indigo", rgb: "rgb(63, 81, 181)", border: "rgb(233, 236, 239)", background: "rgba(63, 81, 181, .5)" },
   { type: "Indigo", rgb: "rgb(92, 107, 192)", border: "rgb(224, 224, 224)", background: "rgba(92, 107, 192, .5)" },
-  { type: "BlueGray", rgb: "rgb(84, 110, 122)", border: "rgb(255, 255, 255)", background: "rgba(84, 110, 122, .5)" },
   { type: "Indigo", rgb: "rgb(121, 134, 203)", border: "rgb(189, 189, 189)", background: "rgba(121, 134, 203, .5)" },
+  { type: "BlueGray", rgb: "rgb(84, 110, 122)", border: "rgb(255, 255, 255)", background: "rgba(84, 110, 122, .5)" },
   { type: "BlueGray", rgb: "rgb(96, 125, 139)", border: "rgb(233, 236, 239)", background: "rgba(96, 125, 139, .5)" },
   { type: "BlueGray", rgb: "rgb(120, 144, 156)", border: "rgb(224, 224, 224)", background: "rgba(120, 144, 156, .5)" },
   { type: "BlueGray", rgb: "rgb(144, 164, 174)", border: "rgb(189, 189, 189)", background: "rgba(144, 164, 174, .5)" },
