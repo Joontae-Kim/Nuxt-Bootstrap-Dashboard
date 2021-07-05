@@ -2,10 +2,14 @@
   <canvas :id="canvasId" v-bind="{width, height}" />
 </template>
 <script>
+import createChartColor from "~/mixins/chart/createChartColor"
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 
 export default {
-  mixins: [defaultProps],
+  mixins: [
+    defaultProps,
+    createChartColor
+  ],
   props: {
     userXAxesAsTime: {
       type: Boolean,
@@ -71,26 +75,31 @@ export default {
       // merge Default Options ~ defaultProps.js
       this.mergeDefaultOptions()
 
-      if (this.userXAxesAsTime) {
-        this.option.scales.xAxes.push(this.optionXAxesTime)
-      }
-
-      if (this.scalesX) {
-        if (this.scalesX.length === 1) {
-          if (this.scalesX[0].type && this.scalesX[0].type !== 'time') {
-            this.option.scales.xAxes[0] = this.mergeOptions(this.option.scales.xAxes[0], this.scalesX[0])
-          }
+      if (this.mixed) {
+        this.option.scales.xAxes = this.scalesX
+        this.option.scales.yAxes = this.scalesY
+      } else {
+        if (this.userXAxesAsTime) {
+          this.option.scales.xAxes.push(this.optionXAxesTime)
         }
-        this.option.scales.xAxes = this.mergeOptions(this.option.scales.xAxes, this.scalesX)
-      }
 
-      if (this.scalesY) {
-        this.option.scales.yAxes = this.mergeOptions(this.option.scales.yAxes, this.scalesY)
-      }
+        if (this.scalesX) {
+          if (this.scalesX.length === 1) {
+            if (this.scalesX[0].type && this.scalesX[0].type !== 'time') {
+              this.option.scales.xAxes[0] = this.mergeOptions(this.option.scales.xAxes[0], this.scalesX[0])
+            }
+          }
+          this.option.scales.xAxes = this.mergeOptions(this.option.scales.xAxes, this.scalesX)
+        }
 
-      if (this.option.scales.yAxes.length === 1) {
-        if (!this.option.scales.yAxes[0].gridLines) {
-          this.option.scales.yAxes[0].gridLines = { gridLines: { borderDash: [3, 4] } }
+        if (this.scalesY) {
+          this.option.scales.yAxes = this.mergeOptions(this.option.scales.yAxes, this.scalesY)
+        }
+
+        if (this.option.scales.yAxes.length === 1) {
+          if (!this.option.scales.yAxes[0].gridLines) {
+            this.option.scales.yAxes[0].gridLines = { gridLines: { borderDash: [3, 4] } }
+          }
         }
       }
 
@@ -107,10 +116,25 @@ export default {
 
       return options
     },
+    generateChartColor () {
+      const colors = this.getRandomColors(this.data.datasets.length)
+      colors.forEach(({ rgb, border, background }, c) => {
+        this.data.datasets[c].backgroundColor = background
+        this.data.datasets[c].pointBackgroundColor = border
+        this.data.datasets[c].borderColor = rgb
+        this.data.datasets[c].fill = true
+      })
+    },
     renderChart () {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
         const options = this.mergeOption()
+        // this.generateChartColor()
+        if (this.mixed) {
+          this.generateMixedChartColor()
+        } else {
+          this.generateChartColor()
+        }
         this.$chartjs.createChart(ctx, {
           type: this.type,
           data: this.data,

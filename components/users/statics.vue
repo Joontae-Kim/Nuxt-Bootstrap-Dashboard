@@ -79,6 +79,7 @@
                   :custom-opt="hoursTrafficOptions"
                   :scales-y="hoursTrafficOptionsYaxe"
                   :scales-x="hoursTrafficOptionsXaxe"
+                  single-color
                   tooltip
                 />
               </b-col>
@@ -93,13 +94,9 @@
 <script>
 import dayjs from "dayjs"
 import { mapGetters } from "vuex"
-import createChartColors from "~/mixins/chart/createChartColors"
 
 export default {
   name: "UserStatics",
-  mixins: [
-    createChartColors
-  ],
   props: {},
   data: () => ({
     total: { rate: 0, value: 0 },
@@ -137,13 +134,10 @@ export default {
         }]
       }
       const timeSerial = statics.data.timeSerial
-      const timeSerialColors = this.getColors('indigo')
       this.timeTrafficDataset = {
         labels: timeSerial.map(time => Object.keys(time)[0]),
         datasets: [{
-          data: timeSerial.map(time => Object.values(time)[0]),
-          backgroundColor: new Array(timeSerial.length).fill(timeSerialColors.rgba),
-          barPercentage: 0.6
+          data: timeSerial.map(time => Object.values(time)[0])
         }]
       }
     } catch (err) {

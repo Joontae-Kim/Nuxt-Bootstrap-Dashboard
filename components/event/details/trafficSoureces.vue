@@ -23,13 +23,9 @@
 </template>
 
 <script>
-import createChartColors from "~/mixins/chart/createChartColors"
-
 export default {
   name: "TrafficSoureces",
-  mixins: [
-    createChartColors
-  ],
+  mixins: [],
   props: {
     traffic: {
       type: Object,
@@ -44,28 +40,13 @@ export default {
   computed: {
     trafficDataset () {
       const total = Object.values(this.traffic).reduce((sum, idx) => sum + idx, 0)
-      const placeholderColor = this.getColors('placeholder')
-      const colors = this.getRandomColors(Object.values(this.traffic).length + 1)
-      const datasets = [
-        {
-          data: [total],
-          backgroundColor: [colors[0].rgba],
-          borderWidth: 3,
-          hoverBorderWidth: 2,
-          labels: ['total']
-        }
-      ]
-      let colorIdx = 1
+      const datasets = [{ data: [total], labels: ['total'] }]
       for (const [key, value] of Object.entries(this.traffic)) {
         const rest = total - value
         datasets.push({
           data: [rest, value],
-          backgroundColor: [colors[colorIdx].rgba, placeholderColor.rgba],
-          borderWidth: 7,
-          hoverBorderWidth: 3,
           labels: [key, 'rest']
         })
-        colorIdx++
       }
       return {
         datasets,
