@@ -3,6 +3,7 @@ import { colorTypes, colorSet } from './colorSet'
 
 export default {
   data: () => ({
+    colorTypes,
     colorSet,
     doughnutPieColorSets: [
       'Blue',
@@ -25,6 +26,26 @@ export default {
       min = Math.ceil(min)
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min + 1)) + min
+    },
+    getRandomType (multi = false, count = this.colorTypes.length) {
+      if (!multi) {
+        const randomTypeIdx = this.getRandomIntInclusive(this.colorTypes.length)
+        return this.colorTypes[randomTypeIdx]
+      } else {
+        const typesIdx = []
+        const max = this.colorTypes.length
+        while (typesIdx.length < count) {
+          const randomIdx = this.getRandomIntInclusive(max)
+          if (!typesIdx.includes(randomIdx)) {
+            typesIdx.push(randomIdx)
+          }
+        }
+        const types = typesIdx.reduce((filled, idx) => {
+          filled.push(this.colorTypes[idx])
+          return filled
+        }, [])
+        return types
+      }
     },
     getRandomColor () {
       const random = this.getRandomIntInclusive()
