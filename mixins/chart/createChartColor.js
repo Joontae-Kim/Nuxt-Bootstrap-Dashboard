@@ -27,19 +27,22 @@ export default {
       max = Math.floor(max)
       return Math.floor(Math.random() * (max - min + 1)) + min
     },
-    getRandomType (multi = false, count = this.colorTypes.length) {
+    getRandomType (count = this.colorTypes.length, multi = false) {
       if (!multi) {
         const randomTypeIdx = this.getRandomIntInclusive(this.colorTypes.length)
         return this.colorTypes[randomTypeIdx]
       } else {
-        const typesIdx = []
-        const max = this.colorTypes.length
-        while (typesIdx.length < count) {
-          const randomIdx = this.getRandomIntInclusive(max)
-          if (!typesIdx.includes(randomIdx)) {
-            typesIdx.push(randomIdx)
+        const [typesIdx, max] = [[], this.colorTypes.length]
+        let r = 0
+        do {
+          let random = this.getRandomIntInclusive(max)
+          random = random === 0 ? 0 : random - 1
+          const accumulated = typesIdx[r - 1] === random
+          if ((!typesIdx.includes(random) || (typesIdx.includes(random) && typesIdx.length < count)) && !accumulated) {
+            typesIdx.push(random)
+            r = ++r
           }
-        }
+        } while (typesIdx.length < count)
         const types = typesIdx.reduce((filled, idx) => {
           filled.push(this.colorTypes[idx])
           return filled
@@ -66,11 +69,10 @@ export default {
       return palette
     },
     getColorsByType (types) {
-      if (!types || !colorTypes.includes(types)) {
-        types = colorTypes[Math.floor(Math.random() * colorTypes.length)]
-      }
-
       if (typeof types === 'string') {
+        if (!types || !colorTypes.includes(types)) {
+          types = colorTypes[Math.floor(Math.random() * colorTypes.length)]
+        }
         const typeColors = this.colorSet.filter(({ type }) => types === type)
         return typeColors
       } else {
@@ -81,7 +83,7 @@ export default {
             return type
           }
         })
-        const typeColors = this.colorSet.filter(([type]) => colorTypes.includes(type))
+        const typeColors = this.colorSet.filter(({ type }) => types.includes(type))
         return typeColors
       }
     }
