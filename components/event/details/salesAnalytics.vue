@@ -34,6 +34,9 @@
                 :custom-opt="salesViewsOptions"
                 tooltip
                 :legend-view="true"
+                :scales-x="salesViewsXscales"
+                :scales-y="salesViewsYscales"
+                mixed
               />
             </client-only>
           </b-col>
@@ -44,13 +47,9 @@
 </template>
 
 <script>
-import createChartColors from "~/mixins/chart/createChartColors"
-
 export default {
   name: 'SalesAnalytics',
-  mixins: [
-    createChartColors
-  ],
+  mixins: [],
   props: {
     dates: {
       type: Array,
@@ -88,20 +87,21 @@ export default {
         labels: this.dates,
         datasets: [
           {
-            type: "bar",
-            backgroundColor: "rgba(54, 162, 235, 0.2)",
-            borderColor: "rgba(54, 162, 235, 1)",
+            type: "line",
             borderWidth: 1,
             label: "Sales",
             data: this.sales.value,
-            yAxisID: 'sales-yAxe'
+            yAxisID: 'sales-yAxe',
+            fill: true,
+            order: 1
           },
           {
-            type: "line",
+            type: "bar",
             label: "Views",
             data: this.views.value,
             fill: true,
-            yAxisID: 'views-yAxe'
+            yAxisID: 'views-yAxe',
+            order: 2
           }
         ]
       }
@@ -110,56 +110,62 @@ export default {
       return {
         responsive: true,
         scales: {
-          xAxes: [{
-            type: 'time',
-            time: {
-              unit: 'day',
-              distribution: 'series',
-              displayFormats: {
-                day: 'MMM DD'
-              },
-              stepSize: 2
-            },
-            scaleLabel: {
-              display: false,
-              labelString: 'Date'
-            }
-          }],
-          yAxes: [
-            {
-              id: 'sales-yAxe',
-              display: true,
-              position: 'left',
-              gridLines: {
-                borderDash: [3, 4]
-              },
-              ticks: {
-                stepSize: 2,
-                padding: 10
-              },
-              labels: {
-                show: true
-              }
-            },
-            {
-              id: 'views-yAxe',
-              display: true,
-              position: 'right',
-              gridLines: false,
-              ticks: {
-                stepSize: 2,
-                padding: 10
-              },
-              labels: {
-                show: true
-              }
-            }
-          ],
           ticks: {
             beginAtZero: false
           }
         }
       }
+    },
+    salesViewsXscales () {
+      return [{
+        type: 'time',
+        time: {
+          unit: 'day',
+          distribution: 'series',
+          displayFormats: {
+            day: 'MMM DD'
+          },
+          stepSize: 2
+        },
+        scaleLabel: {
+          display: false,
+          labelString: 'Date'
+        }
+      }]
+    },
+    salesViewsYscales () {
+      return [
+        {
+          id: 'sales-yAxe',
+          display: true,
+          position: 'left',
+          gridLines: {
+            borderDash: [3, 4]
+          },
+          ticks: {
+            stepSize: 2,
+            padding: 10,
+            beginAtZero: false
+          },
+          labels: {
+            show: true
+          }
+        },
+        {
+          id: 'views-yAxe',
+          display: true,
+          position: 'right',
+          gridLines: false,
+          ticks: {
+            stepSize: 2,
+            padding: 10,
+            beginAtZero: false
+          },
+          labels: {
+            show: true
+          }
+        }
+      ]
     }
   },
   watch: {},

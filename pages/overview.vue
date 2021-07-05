@@ -90,6 +90,7 @@
                 class="pb-3"
                 :data="channels"
                 :custom-opt="{ responsive: true }"
+                :scales-y="[{ticks: { beginAtZero: true }}]"
                 tooltip
               />
             </b-col>
@@ -200,39 +201,25 @@ export default {
     this.shares = {
       labels: Object.keys(res.share),
       datasets: [{
-        data: Object.values(res.share),
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)'
-        ]
+        data: Object.values(res.share)
       }]
     }
     this.channels = {
       labels: Object.keys(res.channels),
       datasets: [{
-        data: Object.values(res.channels),
-        backgroundColor: ["rgba(220, 53, 69, 0.85)", "rgba(111, 66, 193, 0.85)", "rgba(23, 162, 184, 0.85)", "rgba(0, 123, 255, 0.85)"],
-        barPercentage: 0.3
+        data: Object.values(res.channels)
       }]
     }
     this.noti = {
       labels: Object.keys(res.visitbyNotification),
       datasets: [{
-        data: Object.values(res.visitbyNotification),
-        backgroundColor: [
-          '#ff6384',
-          '#36a2eb',
-          '#cc65fe',
-          '#ffce56'
-        ]
+        data: Object.values(res.visitbyNotification)
       }]
     }
     this.sales = {
       datasets: [{
-        label: 'Sales:',
-        backgroundColor: 'red',
-        borderColor: 'red',
-        fill: false,
+        label: 'Sales',
+        fill: true,
         data: this.$createChartData.line(res.sales.list)
       }]
     }

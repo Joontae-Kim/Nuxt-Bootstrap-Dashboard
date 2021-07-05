@@ -73,6 +73,13 @@ export default {
       default: (scalesYProps) => {
         return typeof scalesYProps === 'undefined' ? false : scalesYProps
       }
+    },
+    mixed: {
+      type: Boolean,
+      required: false,
+      default: (mixedProps) => {
+        return typeof mixedProps === 'undefined' ? false : mixedProps
+      }
     }
   },
   data: () => ({
@@ -102,6 +109,24 @@ export default {
   },
   beforeDestroy () {},
   methods: {
+    generateMixedChartColor () {
+      const colors = this.getRandomColors(this.data.datasets.length)
+      this.data.datasets.forEach((dataset, d) => {
+        const color = colors[d]
+        if (dataset.type === 'line') {
+          dataset.backgroundColor = 'rgba(206, 212, 218, 0.8)' // color.background
+          dataset.pointBackgroundColor = color.border
+          dataset.borderColor = color.rgb
+        } else if (dataset.type === 'bar') {
+          const rgbs = color.rgb
+          dataset.backgroundColor = color.background
+          dataset.pointBackgroundColor = rgbs
+          dataset.borderColor = color.border
+          dataset.borderWidth = 1
+        }
+        dataset.fill = typeof dataset.fill === 'undefined' ? true : dataset.fill
+      })
+    },
     mergeDefaultOptions () {
       if (!this.useDataLabel) {
         this.option.plugins.datalabels = false

@@ -24,13 +24,8 @@
 </template>
 
 <script>
-import createChartColors from "~/mixins/chart/createChartColors"
-
 export default {
   name: "VisitorsAnalytics",
-  mixins: [
-    createChartColors
-  ],
   props: {
     visitors: {
       type: Object,
@@ -45,13 +40,10 @@ export default {
   data: () => ({}),
   computed: {
     viewsDataset () {
-      let colors = this.getRandomColors(Object.values(this.visitors).length)
-      colors = colors.map(color => color.rgba)
       return {
         labels: Object.keys(this.visitors).reverse(),
         datasets: [{
-          data: Object.values(this.visitors).reverse(),
-          backgroundColor: colors
+          data: Object.values(this.visitors).reverse()
         }]
       }
     },
