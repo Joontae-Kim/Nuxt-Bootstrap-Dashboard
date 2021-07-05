@@ -23,7 +23,7 @@ export default {
     global: {
       single: {
         borderWidth: 1.5,
-        barPercentage: 0.5
+        barPercentage: 0.4
       },
       multi: {
         borderWidth: 1.5,
@@ -110,23 +110,39 @@ export default {
       } else {
         // eslint-disable-next-line no-lonely-if
         if (this.singleColor) {
-          const color = this.getRandomColor()
-          let rgbs = color.rgb
+          const colors = this.getRandomColors(this.data.datasets.length)
+          const rgbs = colors.map(({ rgb }) => rgb)
           const option = this.global.single
+          this.data.datasets.forEach((dataset, d) => {
+            dataset.borderWidth = option.borderWidth
+            dataset.barPercentage = option.barPercentage
+            const color = new Array(dataset.data.length).fill(rgbs[d])
+            dataset.backgroundColor = color
+            dataset.borderColor = color
+            dataset.hoverBackgroundColor = color
+            dataset.hoverBorderColor = color
+          })
+        } else if (this.data.datasets.length < 2) {
+          const dataCount = this.data.datasets[0].data.length
+          const counts = this.colorTypes.length >= dataCount
+            ? Math.floor(this.colorTypes.length / dataCount)
+            : Math.floor(this.colorTypes.length * 4 / dataCount)
+          const option = this.global.single
+          let randomType = this.getRandomType()
+          let colors = this.getColorsByType(randomType)
+          let rgbs = []
+          if (counts < 2) {
+            randomType = this.getRandomType(counts)
+            colors = this.getColorsByType(randomType)
+            rgbs = colors.map(({ rgb }) => rgb)
+          } else {
+            randomType = this.getRandomType(counts, true)
+            colors = this.getColorsByType(randomType)
+            rgbs = colors.map(({ rgb }) => rgb)
+          }
           this.data.datasets[0].borderWidth = option.borderWidth
           this.data.datasets[0].barPercentage = option.barPercentage
-          if (this.singleColor) {
-            const configDataLength = this.data.datasets[0].data.length
-            rgbs = new Array(configDataLength).fill(rgbs)
-          }
-          this.data.datasets[0].backgroundColor = rgbs // backgrounds
-          this.data.datasets[0].borderColor = rgbs
-          this.data.datasets[0].hoverBackgroundColor = rgbs
-          this.data.datasets[0].hoverBorderColor = rgbs
-        } else if (this.data.datasets.length < 2) {
-          const colors = this.getRandomColors(this.data.datasets[0].data.length)
-          const rgbs = colors.map(({ rgb }) => rgb)
-          this.data.datasets[0].backgroundColor = rgbs // backgrounds
+          this.data.datasets[0].backgroundColor = rgbs
           this.data.datasets[0].borderColor = rgbs
           this.data.datasets[0].hoverBackgroundColor = rgbs
           this.data.datasets[0].hoverBorderColor = rgbs
