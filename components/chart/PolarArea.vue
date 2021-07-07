@@ -20,7 +20,11 @@ export default {
         count += dataset.data.length
         return count
       }, 0)
-      const colors = this.getRandomColors(dataCount)
+      const counts = this.colorTypes.length >= dataCount
+        ? Math.floor(this.colorTypes.length / dataCount)
+        : Math.floor(this.colorTypes.length * 4 / dataCount)
+      const randomType = this.getRandomType(counts, true)
+      const colors = this.getColorsByType(randomType)
       let colorLastIdx = 0
       this.data.datasets = this.data.datasets.reduce((colored, dataset, d) => {
         const dataColors = colors.slice(colorLastIdx, colorLastIdx + dataset.data.length)
