@@ -16,3 +16,18 @@ body {
     cursor: pointer;
   }
 }
+
+.legend {
+  &-hidden {
+    color: $gray-300 !important;
+    transition: color 0.5s;
+
+    > .legend-icon,
+    > .legend-value {
+      color: $gray-300 !important;
+    }
+  }
+  &-value {
+    color: $gray-600;
+  }
+}
