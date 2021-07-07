@@ -33,8 +33,8 @@
           </b-col>
           <b-col cols md="6" class="mb-4 mb-md-0">
             <dash-card title="Traffic Share" class="h-100">
-              <b-row no-gutters>
-                <b-col cols>
+              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100" no-gutters>
+                <b-col id="traffic-share-chart-wrapper" cols="7" md="7">
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
@@ -43,19 +43,16 @@
                     :custom-opt="{responsive: false}"
                     :data-label-opt="{ color: '#fff' }"
                     :legend-view="false"
+                    :custom-legend="true"
+                    custom-legend-id="trafficShare-chart-lengend"
+                    :legend-callback="trafficShareLegendCb"
+                    :custom-legend-click="trafficShareLegendClick"
                     use-data-label
                     class="h-100 pb-3"
                   />
                 </b-col>
-                <b-col cols class="pl-2">
-                  <div :style="{ color: 'rgb(54, 162, 235)', fontSize: '0.8rem' }">
-                    <b-icon icon="display-fill" font-scale="1" class="mr-1" />
-                    DeskTop
-                  </div>
-                  <div :style="{ color: 'rgb(255, 99, 132)', fontSize: '0.8rem' }">
-                    <b-icon icon="phone-fill" font-scale="1" class="mr-1" />
-                    Mobile
-                  </div>
+                <b-col cols class="h-100">
+                  <div id="trafficShare-chart-lengend" class="d-flex flex-md-column justify-content-around" />
                 </b-col>
               </b-row>
             </dash-card>
@@ -92,6 +89,8 @@
                 :custom-opt="{ responsive: true }"
                 :scales-y="[{ticks: { beginAtZero: true }}]"
                 tooltip
+                use-data-label
+                :data-label-opt="{ color: '#fff' }"
               />
             </b-col>
           </b-row>
@@ -105,13 +104,18 @@
                 canvas-id="noti-chart"
                 :data="noti"
                 :custom-opt="{ responsive: true }"
-                :data-label-opt="{ color: '#fff' }"
-                use-data-label
                 tooltip
+                use-data-label
+                :data-label-opt="{ color: '#fff' }"
+                :custom-legend="true"
+                custom-legend-id="noti-chart-lengend"
+                :legend-callback="notiChartLegendCb"
+                :custom-legend-click="notiLegendClick"
               />
             </b-col>
-            <b-col cols md="6">
-              <i>legend</i>
+            <b-col cols md="6" class="h-100 py-md-4">
+              <div id="noti-chart-lengend" class="h-100 d-flex flex-md-column justify-content-between px-md-4 py-md-2" />
+              <!-- <ul id="noti-chart-lengend" class="h-100 list-group" /> -->
             </b-col>
           </b-row>
         </dash-card>
@@ -210,10 +214,13 @@ export default {
         data: Object.values(res.channels)
       }]
     }
+    let _noti = Object.entries(res.visitbyNotification).map(([key, value]) => ({ name: key, value }))
+    _noti = _noti.sort((b, a) => a.value - b.value)
+    _noti = _noti.reduce((obj, { name, value }) => ({ ...obj, [name]: value }), {})
     this.noti = {
-      labels: Object.keys(res.visitbyNotification),
+      labels: Object.keys(_noti),
       datasets: [{
-        data: Object.values(res.visitbyNotification)
+        data: Object.values(_noti)
       }]
     }
     this.sales = {
@@ -247,7 +254,112 @@ export default {
   },
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    trafficShareLegendCb (chart) {
+      const ds = chart.data.datasets[0]
+      const labels = chart.data.labels
+      const icons = {
+        mobile: `<svg data-legend-parent="trafficShare-legend-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-phone-fill" viewBox="0 0 16 16">
+          <path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/>
+        </svg>`,
+        desktop: `<svg data-legend-parent="trafficShare-legend-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-display-fill" viewBox="0 0 16 16">
+          <path d="M6 12c0 .667-.083 1.167-.25 1.5H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-.75c-.167-.333-.25-.833-.25-1.5h4c2 0 2-2 2-2V4c0-2-2-2-2-2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h4z"/>
+        </svg>`
+      }
+      const text = ds.data.reduce((legendHtml, data, d) => {
+        legendHtml.push(`<div id="trafficShare-legend-${d}" data-chart-dataset="0" data-chart-idx="${d}" class="d-flex align-items-center mb-2 user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
+          ${icons[labels[d]]}
+          <span data-legend-parent="trafficShare-legend-${d}" class="ml-2">${labels[d]}</span>
+        </div>`)
+        return legendHtml
+      }, [])
+      return text.join("")
+    },
+    trafficShareLegendClick (chart, event) {
+      event = event || window.event
+      let target = event.target || event.srcElement
+      if (target) {
+        while (!target.dataset.legendParent) {
+          target = target.parentElement
+        }
+        target = document.getElementById(target.dataset.legendParent)
+        const [datasetIdx, idx] = [target.dataset.chartDataset, target.dataset.chartIdx]
+        const meta = chart.getDatasetMeta(datasetIdx)
+        const item = meta.data[idx]
+        if (item.hidden === null || item.hidden === false) {
+          item.hidden = true
+          target.classList.add('legend-hidden')
+        } else {
+          target.classList.remove('legend-hidden')
+          item.hidden = null
+        }
+        chart.update()
+      }
+    },
+    notiChartLegendCb (chart) {
+      const ds = chart.data.datasets[0]
+      const labels = chart.data.labels
+      const icons = {
+        push: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-app-indicator" viewBox="0 0 16 16">
+          <path d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z"/>
+          <path d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        </svg>`,
+        sns: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-quote-fill" viewBox="0 0 16 16">
+          <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM7.194 6.766a1.688 1.688 0 0 0-.227-.272 1.467 1.467 0 0 0-.469-.324l-.008-.004A1.785 1.785 0 0 0 5.734 6C4.776 6 4 6.746 4 7.667c0 .92.776 1.666 1.734 1.666.343 0 .662-.095.931-.26-.137.389-.39.804-.81 1.22a.405.405 0 0 0 .011.59c.173.16.447.155.614-.01 1.334-1.329 1.37-2.758.941-3.706a2.461 2.461 0 0 0-.227-.4zM11 9.073c-.136.389-.39.804-.81 1.22a.405.405 0 0 0 .012.59c.172.16.446.155.613-.01 1.334-1.329 1.37-2.758.942-3.706a2.466 2.466 0 0 0-.228-.4 1.686 1.686 0 0 0-.227-.273 1.466 1.466 0 0 0-.469-.324l-.008-.004A1.785 1.785 0 0 0 10.07 6c-.957 0-1.734.746-1.734 1.667 0 .92.777 1.666 1.734 1.666.343 0 .662-.095.931-.26z"/>
+        </svg>`,
+        email: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+          <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+        </svg>`,
+        link: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
+          <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+          <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
+        </svg>`,
+        ads: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layout-sidebar-inset-reverse" viewBox="0 0 16 16">
+        <path d="M2 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12z"/>
+        <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z"/>
+      </svg>`
+      }
+      const text = ds.data.reduce((legendHtml, data, d) => {
+        legendHtml.push(
+        `<div id="noti-legend-${d}"
+          data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
+          class="d-flex align-items-center user-select-none"
+          style="font-size: 0.9rem;color:${ds.backgroundColor[d]};"
+        >
+          <div data-legend-parent="noti-legend-${d}">
+            <span class="legend-icon">${icons[labels[d]]}</span>
+            <span class="ml-2">${labels[d]}</span>
+          </div>
+          <div data-legend-parent="noti-legend-${d}" class="legend-value ml-auto">${data}</div>
+        </div>`)
+        return legendHtml
+      }, [])
+      return text.join("")
+    },
+    notiLegendClick (chart, event) {
+      event = event || window.event
+      let target = event.target || event.srcElement
+      if (target) {
+        if (!target.dataset.legendRole) {
+          while (!target.dataset.legendParent) {
+            target = target.parentElement
+          }
+          target = document.getElementById(target.dataset.legendParent)
+        }
+        const [datasetIdx, idx] = [target.dataset.chartDataset, target.dataset.chartIdx]
+        const meta = chart.getDatasetMeta(datasetIdx)
+        const item = meta.data[idx]
+        if (item.hidden === null || item.hidden === false) {
+          item.hidden = true
+          target.classList.add('legend-hidden')
+        } else {
+          target.classList.remove('legend-hidden')
+          item.hidden = null
+        }
+        chart.update()
+      }
+    }
+  }
 }
 </script>
 
