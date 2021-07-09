@@ -103,17 +103,10 @@ export default {
         }
       }
 
-      let options = {
-        legend: {
-          display: this.legendView
-        },
-        ...this.option
-      }
-
+      let options = this.option
       if (this.customOpt) {
-        options = this.mergeOptions(options, this.customOpt)
+        options = this.mergeOptions(this.option, this.customOpt)
       }
-
       return options
     },
     generateChartColor () {
@@ -129,7 +122,6 @@ export default {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
         const options = this.mergeOption()
-        // this.generateChartColor()
         if (this.mixed) {
           this.generateMixedChartColor()
         } else {
