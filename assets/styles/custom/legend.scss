@@ -1,0 +1,57 @@
+.legend {
+  &-hidden {
+    color: $gray-300 !important;
+    transition: color 0.5s;
+
+    .legend-dot {
+      background-color: $gray-300 !important;
+    }
+
+    > .legend-icon,
+    > .legend-value {
+      color: $gray-300 !important;
+    }
+  }
+
+  &-value {
+    color: $gray-600;
+    transition: color 0.5s;
+  }
+
+  &-content {
+    display: flex;
+    align-items: center;
+  }
+
+  &-icon {
+    display: flex;
+    transition: background-color 0.5s;
+  }
+
+  &-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 3px;
+      height: 3px;
+      transform: translate(-50%, -50%);
+      background-color: #fefefe;
+      border-radius: 25%;
+    }
+
+    &--circle {
+      border-radius: 50%;
+    }
+
+    &--square {
+      border-radius: 15%;
+    }
+  }
+}

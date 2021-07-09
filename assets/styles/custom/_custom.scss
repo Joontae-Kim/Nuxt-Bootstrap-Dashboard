@@ -5,6 +5,7 @@
 @import 'fade';
 @import 'dsCard';
 @import 'chart';
+@import 'legend';
 @import 'loadingCircle';
 
 body {
@@ -14,20 +15,5 @@ body {
 .cursor {
   &-pointer {
     cursor: pointer;
-  }
-}
-
-.legend {
-  &-hidden {
-    color: $gray-300 !important;
-    transition: color 0.5s;
-
-    > .legend-icon,
-    > .legend-value {
-      color: $gray-300 !important;
-    }
-  }
-  &-value {
-    color: $gray-600;
   }
 }
