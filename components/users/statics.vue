@@ -53,14 +53,14 @@
     <b-col cols md="8">
       <b-row class="flex-column h-100">
         <b-col cols class="pb-4 h-50">
-          <dash-card title="Weekly Traffic" class="h-100">
+          <dash-card title="Weekly Traffic" class="h-100 pb-3 pb-md-0">
             <b-row id="weeklyTraffic-chart-wrapper" align-v="center" class="h-100">
-              <b-col cols class="h-100 chart__container">
+              <b-col cols class="chart-container chart-h-20 chart-h-md-35">
                 <LazyLineChart
                   canvas-id="weeklyTraffic-chart"
                   :data="weekTrafficDataset"
-                  class="pb-3"
                   :scales-x="[{ time: { stepSize: 1 } }]"
+                  responsive
                   user-x-axes-as-time
                   tooltip
                 />
@@ -68,17 +68,17 @@
             </b-row>
           </dash-card>
         </b-col>
-        <b-col cols class="h-50">
-          <dash-card title="24 Hours Traffic" :useicon="false" class="h-100">
+        <b-col cols>
+          <dash-card title="24 Hours Traffic" :useicon="false" class="h-100 pb-3 pb-md-0">
             <b-row id="hourlyTraffic-chart-wrapper" align-v="center" class="h-100">
-              <b-col cols class="h-100 chart__container-sm">
+              <b-col cols class="chart-container chart-h-20 chart-h-md-35">
                 <LazyBarChart
                   canvas-id="hourlyTraffic-chart"
-                  class="pb-3"
                   :data="timeTrafficDataset"
                   :custom-opt="hoursTrafficOptions"
                   :scales-y="hoursTrafficOptionsYaxe"
                   :scales-x="hoursTrafficOptionsXaxe"
+                  responsive
                   single-color
                   tooltip
                 />
@@ -146,7 +146,6 @@ export default {
     ...mapGetters({}),
     hoursTrafficOptions () {
       return {
-        responsive: true,
         tooltips: {
           callbacks: {
             title: (tooltipItem, data) => {

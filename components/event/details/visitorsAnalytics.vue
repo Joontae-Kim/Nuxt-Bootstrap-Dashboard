@@ -5,13 +5,12 @@
       class="pb-3"
     >
       <b-row id="view-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols md="7" class="h-100 chart__container-sm">
+        <b-col cols="6" md="7" class="chart-container chart-h-md-30">
           <client-only>
             <LazyPieChart
               ref="view-chart"
               canvas-id="view-chart"
               :data="viewsDataset"
-              :custom-opt="viewsOptions"
               :legend-view="false"
               :custom-legend="true"
               :data-label-opt="{ color: '#fff' }"
@@ -19,11 +18,11 @@
               custom-legend-id="view-chart-lengend"
               :legend-callback="viewLegendCb"
               custom-legend-click="default"
-              height="200"
+              responsive
             />
           </client-only>
         </b-col>
-        <b-col cols>
+        <b-col cols="6" md="5">
           <div id="view-chart-lengend" />
         </b-col>
       </b-row>
@@ -55,11 +54,6 @@ export default {
         datasets: [{
           data: statics.map(({ value }) => value)
         }]
-      }
-    },
-    viewsOptions () {
-      return {
-        responsive: true
       }
     }
   },
