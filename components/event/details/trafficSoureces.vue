@@ -5,7 +5,7 @@
       class="pb-3"
     >
       <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols class="h-100 chart__container-sm">
+        <b-col cols md="7" class="h-100 chart__container-sm">
           <client-only>
             <LazyDoughnutChart
               ref="traffic-chart"
@@ -13,9 +13,17 @@
               :data="trafficDataset"
               :custom-opt="trafficOptions"
               height="200"
-              :legend-view="true"
+              :legend-view="false"
+              :custom-legend="true"
+              custom-legend-id="traffic-chart-lengend"
+              :legend-callback="trafficLegendCb"
+              :use-custom-legend-click="true"
+              :custom-legend-click="trafficLegendClick"
             />
           </client-only>
+        </b-col>
+        <b-col cols md="5">
+          <div id="traffic-chart-lengend" />
         </b-col>
       </b-row>
     </dash-card>
@@ -40,12 +48,13 @@ export default {
   computed: {
     trafficDataset () {
       const total = Object.values(this.traffic).reduce((sum, idx) => sum + idx, 0)
-      const datasets = [{ data: [total], labels: ['total'] }]
-      for (const [key, value] of Object.entries(this.traffic)) {
-        const rest = total - value
+      let _traffic = Object.entries(this.traffic).map(([key, value]) => ({ name: key, value }))
+      _traffic = _traffic.sort((b, a) => a.value - b.value)
+      const datasets = [{ data: [total, 0], labels: ['total'] }]
+      for (const { name, value } of _traffic) {
         datasets.push({
-          data: [rest, value],
-          labels: [key, 'rest']
+          data: [value, total - value],
+          labels: [name, 'rest']
         })
       }
       return {
@@ -58,43 +67,62 @@ export default {
         responsive: true,
         cutoutPercentage: 20,
         legend: {
-          display: true,
-          position: 'right',
-          labels: {
-            generateLabels (chart) {
-              const data = chart.data
-              if (data.labels.length && data.datasets.length) {
-                const labels = []
-                for (const [d, dataset] of data.datasets.entries()) {
-                  const meta = Object.values(dataset._meta)[0]
-                  const metaHidden = meta.hidden
-                  labels.push({
-                    text: dataset.labels[0],
-                    fillStyle: dataset.backgroundColor[0],
-                    lineWidth: 0,
-                    hidden: isNaN(dataset.data[0]) || metaHidden,
-                    index: d
-                  })
-                }
-                return labels
-              }
-            }
-          },
-          onClick (e, legendItem) {
-            const index = legendItem.index
-            const ci = this.chart
-            const meta = ci.getDatasetMeta(index)
-            const dataSetMetasHidden = ci.data.datasets.map(dataset => Object.values(dataset._meta)[0].hidden)
-            const comparisonMetasHidden = ci.data.datasets.map(dataset => Object.values(dataset._meta)[0].hidden)
-            comparisonMetasHidden[index] = meta.hidden === null ? !ci.data.datasets[index].hidden : null
-            const comparisonMetasHiddenTrue = comparisonMetasHidden.filter(dataset => dataset === true)
-            if (comparisonMetasHiddenTrue.length === dataSetMetasHidden.length) {
-              return false
-            }
-            meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null
-            ci.update()
-          }
+          display: false,
+          position: 'right'
         }
+      }
+    }
+  },
+  methods: {
+    trafficLegendCb (chart) {
+      const datasets = chart.data.datasets
+      const legendGroup = datasets.reduce((group, label, l) => {
+        const backgroundColor = label.backgroundColor[0]
+        const labelText = label.labels[0]
+        const data = label.data[0]
+        group.push(`
+        <div id="traffic-legend-${l}" data-legend-role="parent" data-chart-dataset="${l}" data-chart-idx="0" class="d-flex align-items-center mb-2 user-select-none" style="color:${backgroundColor}; font-size: 0.8rem">
+          <div data-legend-parent="traffic-legend-${l}" class="legend-content">
+            <span class="legend-dot legend-dot--circle" style="background-color:${backgroundColor}"></span>
+            <span class="ml-2">${labelText}</span>
+          </div>
+          <div data-legend-parent="traffic-legend-${l}" class="legend-value ml-auto">${data}</div>
+        </div>
+        `)
+        return group
+      }, [])
+      return legendGroup.join('')
+    },
+    trafficLegendClick (chart, event) {
+      event = event || window.event
+      let target = event.target || event.srcElement
+      if (target) {
+        if (!target.dataset.legendRole) {
+          while (!target.dataset.legendParent) {
+            target = target.parentElement
+          }
+          target = document.getElementById(target.dataset.legendParent)
+        }
+        const [datasetIdx, idx] = [target.dataset.chartDataset, target.dataset.chartIdx]
+        const dataSetMetasHidden = new Array(chart.config.data.labels.length).fill(null).reduce((datasetsHidden, dataset, d) => {
+          const meta = chart.getDatasetMeta(d)
+          datasetsHidden.push(meta.data[0].hidden)
+          return datasetsHidden
+        }, [])
+        dataSetMetasHidden[datasetIdx] = !dataSetMetasHidden[datasetIdx]
+        const isAllHidden = dataSetMetasHidden.filter(metaHidden => metaHidden === true)
+        if (isAllHidden.length === dataSetMetasHidden.length) {
+          return false
+        }
+        const meta = chart.getDatasetMeta(datasetIdx)
+        const item = meta.data[idx]
+        if (item.hidden === null || item.hidden === false) {
+          target.classList.add('legend-hidden')
+        } else {
+          target.classList.remove('legend-hidden')
+        }
+        item.hidden = !item.hidden
+        chart.update()
       }
     }
   }

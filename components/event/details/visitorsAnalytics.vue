@@ -5,18 +5,26 @@
       class="pb-3"
     >
       <b-row id="view-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols class="h-100 chart__container-sm">
+        <b-col cols md="7" class="h-100 chart__container-sm">
           <client-only>
             <LazyPieChart
+              ref="view-chart"
               canvas-id="view-chart"
               :data="viewsDataset"
               :custom-opt="viewsOptions"
-              :legend-view="true"
+              :legend-view="false"
+              :custom-legend="true"
               :data-label-opt="{ color: '#fff' }"
               use-data-label
+              custom-legend-id="view-chart-lengend"
+              :legend-callback="viewLegendCb"
+              custom-legend-click="default"
               height="200"
             />
           </client-only>
+        </b-col>
+        <b-col cols>
+          <div id="view-chart-lengend" />
         </b-col>
       </b-row>
     </dash-card>
@@ -40,27 +48,47 @@ export default {
   data: () => ({}),
   computed: {
     viewsDataset () {
+      let statics = Object.entries(this.visitors).map(([k, v]) => ({ name: k, value: v }))
+      statics = statics.sort((b, a) => a.value - b.value)
       return {
-        labels: Object.keys(this.visitors).reverse(),
+        labels: statics.map(({ name }) => name),
         datasets: [{
-          data: Object.values(this.visitors).reverse()
+          data: statics.map(({ value }) => value)
         }]
       }
     },
     viewsOptions () {
       return {
-        responsive: true,
-        legend: {
-          display: true,
-          position: 'right'
-        }
+        responsive: true
       }
     }
   },
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    viewLegendCb (chart) {
+      const datasets = chart.data.datasets[0]
+      const [datas, backgrounds, labels] = [datasets.data, datasets.backgroundColor, chart.data.labels]
+      const legendGroup = datas.reduce((group, data, d) => {
+        group.push(`
+          <div
+            id="views-legend-${d}"
+            data-legend-role="parent" data-chart-dataset="0" data-chart-idx="${d}"
+            class="d-flex align-items-center mb-2 user-select-none" style="color:${backgrounds[d]}; font-size: 0.8rem"
+          >
+            <div data-legend-parent="views-legend-${d}" class="legend-content">
+              <span class="legend-dot legend-dot--circle" style="background-color:${backgrounds[d]}"></span>
+              <span class="ml-2">${labels[d]}</span>
+            </div>
+            <div data-legend-parent="views-legend-${d}" class="legend-value ml-auto">${data}</div>
+          </div>
+        `)
+        return group
+      }, [])
+      return legendGroup.join('')
+    }
+  }
 }
 </script>
 

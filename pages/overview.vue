@@ -33,8 +33,8 @@
           </b-col>
           <b-col cols md="6" class="mb-4 mb-md-0">
             <dash-card title="Traffic Share" class="h-100">
-              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100" no-gutters>
-                <b-col id="traffic-share-chart-wrapper" cols="7" md="7">
+              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100 pb-3">
+                <b-col cols md="6">
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
@@ -46,13 +46,14 @@
                     :custom-legend="true"
                     custom-legend-id="trafficShare-chart-lengend"
                     :legend-callback="trafficShareLegendCb"
-                    :custom-legend-click="trafficShareLegendClick"
+                    :use-custom-legend-click="true"
+                    custom-legend-click="default"
                     use-data-label
-                    class="h-100 pb-3"
+                    class="w-50 w-md-100 h-100 mx-auto mx-md-0"
                   />
                 </b-col>
-                <b-col cols class="h-100">
-                  <div id="trafficShare-chart-lengend" class="d-flex flex-md-column justify-content-around" />
+                <b-col cols>
+                  <div id="trafficShare-chart-lengend" class="d-flex flex-md-column justify-content-around mt-4 my-md-0" />
                 </b-col>
               </b-row>
             </dash-card>
@@ -67,7 +68,7 @@
                 canvas-id="sales-chart"
                 :data="sales"
                 :y-max="salesMax"
-                class="pb-3"
+                class="pb-md-3"
                 :scales-x="[{ time: { stepSize: 3 } }]"
                 user-x-axes-as-time
                 tooltip
@@ -81,25 +82,25 @@
       <b-col cols md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart__container">
+            <b-col cols>
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
-                class="pb-3"
                 :data="channels"
-                :custom-opt="{ responsive: true }"
+                :custom-opt="{ responsive: false }"
                 :scales-y="[{ticks: { beginAtZero: true }}]"
                 tooltip
                 use-data-label
                 :data-label-opt="{ color: '#fff' }"
+                class="pb-3 h-100 w-100"
               />
             </b-col>
           </b-row>
         </dash-card>
       </b-col>
       <b-col cols md="6">
-        <dash-card title="Visit by Notification" class="h-100">
+        <dash-card title="Visit by Notification" class="h-100 pb-3">
           <b-row id="noti-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols md="6" class="vh-100 chart__container">
+            <b-col cols md="7" class="vh-100 chart__container">
               <LazyPolarArea
                 canvas-id="noti-chart"
                 :data="noti"
@@ -110,12 +111,12 @@
                 :custom-legend="true"
                 custom-legend-id="noti-chart-lengend"
                 :legend-callback="notiChartLegendCb"
-                :custom-legend-click="notiLegendClick"
+                :use-custom-legend-click="true"
+                custom-legend-click="default"
               />
             </b-col>
-            <b-col cols md="6" class="h-100 py-md-4">
-              <div id="noti-chart-lengend" class="h-100 d-flex flex-md-column justify-content-between px-md-4 py-md-2" />
-              <!-- <ul id="noti-chart-lengend" class="h-100 list-group" /> -->
+            <b-col cols>
+              <div id="noti-chart-lengend" class="h-md-100 d-flex flex-md-column justify-content-between mt-4 my-md-0" />
             </b-col>
           </b-row>
         </dash-card>
@@ -215,7 +216,7 @@ export default {
       }]
     }
     let _noti = Object.entries(res.visitbyNotification).map(([key, value]) => ({ name: key, value }))
-    _noti = _noti.sort((b, a) => a.value - b.value)
+    _noti = _noti.sort((b, a) => b.value - a.value)
     _noti = _noti.reduce((obj, { name, value }) => ({ ...obj, [name]: value }), {})
     this.noti = {
       labels: Object.keys(_noti),
@@ -267,34 +268,16 @@ export default {
         </svg>`
       }
       const text = ds.data.reduce((legendHtml, data, d) => {
-        legendHtml.push(`<div id="trafficShare-legend-${d}" data-chart-dataset="0" data-chart-idx="${d}" class="d-flex align-items-center mb-2 user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
+        legendHtml.push(`<div id="trafficShare-legend-${d}"
+          data-legend-parent="trafficShare-legend-${d}" data-chart-dataset="0" data-chart-idx="${d}"
+          class="d-flex align-items-center mb-2 user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
           ${icons[labels[d]]}
-          <span data-legend-parent="trafficShare-legend-${d}" class="ml-2">${labels[d]}</span>
+          <span class="ml-2">${labels[d]}</span>
+          <span class="d-md-none legend-value ml-2">(${data} %)</span>
         </div>`)
         return legendHtml
       }, [])
       return text.join("")
-    },
-    trafficShareLegendClick (chart, event) {
-      event = event || window.event
-      let target = event.target || event.srcElement
-      if (target) {
-        while (!target.dataset.legendParent) {
-          target = target.parentElement
-        }
-        target = document.getElementById(target.dataset.legendParent)
-        const [datasetIdx, idx] = [target.dataset.chartDataset, target.dataset.chartIdx]
-        const meta = chart.getDatasetMeta(datasetIdx)
-        const item = meta.data[idx]
-        if (item.hidden === null || item.hidden === false) {
-          item.hidden = true
-          target.classList.add('legend-hidden')
-        } else {
-          target.classList.remove('legend-hidden')
-          item.hidden = null
-        }
-        chart.update()
-      }
     },
     notiChartLegendCb (chart) {
       const ds = chart.data.datasets[0]
@@ -319,45 +302,23 @@ export default {
         <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z"/>
       </svg>`
       }
-      const text = ds.data.reduce((legendHtml, data, d) => {
+      const text = [...ds.data].reverse().reduce((legendHtml, data, d) => {
         legendHtml.push(
         `<div id="noti-legend-${d}"
           data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
-          class="d-flex align-items-center user-select-none"
-          style="font-size: 0.9rem;color:${ds.backgroundColor[d]};"
+          data-legend-parent="noti-legend-${d}"
+          class="d-flex flex-column flex-md-row align-items-center user-select-none mb-md-2"
+          style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
         >
-          <div data-legend-parent="noti-legend-${d}">
-            <span class="legend-icon">${icons[labels[d]]}</span>
-            <span class="ml-2">${labels[d]}</span>
+          <div class="d-flex align-items-center mb-2" data-legend-parent="noti-legend-${d}">
+            <span class="legend-icon mr-2 mr-md-0">${icons[labels[d]]}</span>
+            <span class="ml-md-2">${labels[d]}</span>
           </div>
-          <div data-legend-parent="noti-legend-${d}" class="legend-value ml-auto">${data}</div>
+          <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-md-auto mr-md-0">${data} %</div>
         </div>`)
         return legendHtml
       }, [])
       return text.join("")
-    },
-    notiLegendClick (chart, event) {
-      event = event || window.event
-      let target = event.target || event.srcElement
-      if (target) {
-        if (!target.dataset.legendRole) {
-          while (!target.dataset.legendParent) {
-            target = target.parentElement
-          }
-          target = document.getElementById(target.dataset.legendParent)
-        }
-        const [datasetIdx, idx] = [target.dataset.chartDataset, target.dataset.chartIdx]
-        const meta = chart.getDatasetMeta(datasetIdx)
-        const item = meta.data[idx]
-        if (item.hidden === null || item.hidden === false) {
-          item.hidden = true
-          target.classList.add('legend-hidden')
-        } else {
-          target.classList.remove('legend-hidden')
-          item.hidden = null
-        }
-        chart.update()
-      }
     }
   }
 }
