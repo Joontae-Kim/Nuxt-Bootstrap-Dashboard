@@ -5,24 +5,23 @@
       class="pb-3"
     >
       <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols md="7" class="h-100 chart__container-sm">
+        <b-col cols="6" md="7" class="chart-container chart-h-md-30">
           <client-only>
             <LazyDoughnutChart
               ref="traffic-chart"
               canvas-id="traffic-chart"
               :data="trafficDataset"
               :custom-opt="trafficOptions"
-              height="200"
               :legend-view="false"
               :custom-legend="true"
               custom-legend-id="traffic-chart-lengend"
               :legend-callback="trafficLegendCb"
-              :use-custom-legend-click="true"
               :custom-legend-click="trafficLegendClick"
+              responsive
             />
           </client-only>
         </b-col>
-        <b-col cols md="5">
+        <b-col cols="6" md="5">
           <div id="traffic-chart-lengend" />
         </b-col>
       </b-row>
@@ -64,11 +63,9 @@ export default {
     },
     trafficOptions () {
       return {
-        responsive: true,
         cutoutPercentage: 20,
         legend: {
-          display: false,
-          position: 'right'
+          display: false
         }
       }
     }

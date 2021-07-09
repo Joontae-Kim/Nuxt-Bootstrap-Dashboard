@@ -25,14 +25,13 @@
     <b-col cols md="8">
       <dash-card title="Sales Analytics" class="h-100">
         <b-row id="salesAnalytics-chart-wrapper" align-v="center" class="h-100 flex-column">
-          <b-col cols class="">
+          <b-col cols class="flex-grow-0">
             <div id="salesAnalytics-chart-lengend" class="d-flex justify-content-around w-50 mx-auto" />
           </b-col>
-          <b-col cols class="h-100">
+          <b-col cols class="chart-container chart-h-md-30">
             <client-only>
               <LazyBarChart
                 canvas-id="salesAnalytics-chart"
-                class="pb-3 h-100 w-100"
                 :data="salesViewsDataset"
                 :custom-opt="salesViewsOptions"
                 :legend-view="false"
@@ -43,6 +42,8 @@
                 :legend-callback="salesAnalyticsLegendCb"
                 :use-custom-legend-click="true"
                 :custom-legend-click="salesAnalyticsLegendClick"
+                class="pb-3"
+                responsive
                 tooltip
                 mixed
               />
@@ -115,7 +116,6 @@ export default {
     },
     salesViewsOptions () {
       return {
-        responsive: false,
         scales: {
           ticks: {
             beginAtZero: false
