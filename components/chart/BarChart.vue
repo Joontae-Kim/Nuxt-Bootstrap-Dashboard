@@ -92,15 +92,9 @@ export default {
         }
       }
 
-      let options = {
-        legend: {
-          display: this.legendView
-        },
-        ...this.option
-      }
-
+      let options = this.option
       if (this.customOpt) {
-        options = this.mergeOptions(options, this.customOpt)
+        options = this.mergeOptions(this.option, this.customOpt)
       }
       return options
     },
