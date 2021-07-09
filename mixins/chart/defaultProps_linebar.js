@@ -80,6 +80,34 @@ export default {
       default: (mixedProps) => {
         return typeof mixedProps === 'undefined' ? false : mixedProps
       }
+    },
+    customLegend: {
+      type: Boolean,
+      required: false,
+      default: (clProps) => {
+        return typeof clProps === 'undefined' ? false : clProps
+      }
+    },
+    customLegendId: {
+      type: String,
+      required: false,
+      default: (clIdProps) => {
+        return typeof clIdProps === 'undefined' ? null : clIdProps
+      }
+    },
+    legendCallback: {
+      type: [Function, Object],
+      required: false,
+      default: (legendcbProps) => {
+        return typeof legendcbProps === 'undefined' ? null : legendcbProps
+      }
+    },
+    customLegendClick: {
+      type: [Function, Boolean, String],
+      required: false,
+      default: (customLegendClickProps) => {
+        return typeof customLegendClickProps === 'undefined' ? false : customLegendClickProps
+      }
     }
   },
   data: () => ({
@@ -91,6 +119,9 @@ export default {
       },
       tooltips: {
         enabled: true
+      },
+      legend: {
+        display: true
       }
     }
   }),
@@ -138,6 +169,22 @@ export default {
         this.option.tooltips.enabled = false
       } else {
         this.option.tooltips = { enabled: true, ...this.tooltip }
+      }
+
+      this.option.legend.display = this.legendView && !this.customLegend
+
+      this.option.customLegend = this.customLegend
+
+      if (this.customLegend && !!this.customLegendId) {
+        this.option.customLegendId = this.customLegendId
+      }
+
+      if (this.legendCallback) {
+        this.option.legendCallback = this.legendCallback
+      }
+      this.option.useCustomLegendClick = !!this.customLegendClick
+      if (this.customLegendClick) {
+        this.option.customLegendClick = (typeof this.customLegendClick === 'string' && this.customLegendClick.toLocaleLowerCase() === 'default') ? this.customLegendDefaultClick : this.customLegendClick
       }
     }
   }
