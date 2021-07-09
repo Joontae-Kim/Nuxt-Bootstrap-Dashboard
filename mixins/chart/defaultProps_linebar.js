@@ -5,6 +5,11 @@ export default {
     mergeOptions
   ],
   props: {
+    responsive: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     canvasId: {
       type: String,
       required: true,
@@ -159,6 +164,9 @@ export default {
       })
     },
     mergeDefaultOptions () {
+      this.option.responsive = this.responsive
+      this.option.maintainAspectRatio = !this.responsive
+
       if (!this.useDataLabel) {
         this.option.plugins.datalabels = false
       } else {
