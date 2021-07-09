@@ -1,16 +1,18 @@
 .chart {
-  &__container {
+  &-container {
     position: relative;
     margin: auto;
-    max-height: 250px;
-    height: 100%;
   }
+}
 
-  @include media-breakpoint-down(md) {
-    &__container-sm {
-      position: relative;
-      margin: auto;
-      max-height: 250px;
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @each $size, $length in $chart-container-sizes {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+      $half: $size - 5;
+      $half-length: #{$size - 5}vh;
+      .chart-h#{$infix}-#{$half} { height: $half-length !important; }
+      .chart-h#{$infix}-#{$size} { height: $length !important; }
     }
   }
 }

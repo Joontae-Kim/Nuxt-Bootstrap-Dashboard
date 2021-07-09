@@ -18,3 +18,20 @@ $dscard-title-color: $gray-600;
 $dscard-title-size: 0.85rem;
 $dscard-title-weight: 400;
 $dscard-index-color: $gray-800;
+
+// Chart
+$chart-container-position: relative;
+$chart-container-sizes: () !default;
+$chart-container-sizes: map-merge(
+  (
+    10: 10vh,
+    20: 20vh,
+    30: 30vh,
+    40: 40vh,
+    50: 50vh,
+    60: 60vh,
+    70: 70vh,
+    auto: auto
+  ),
+  $chart-container-sizes
+);
