@@ -24,18 +24,26 @@
     </b-col>
     <b-col cols md="8">
       <dash-card title="Sales Analytics" class="h-100">
-        <b-row id="salesAnalytics-chart-wrapper" align-v="center" class="h-100">
-          <b-col cols class="h-100 chart__container-sm">
+        <b-row id="salesAnalytics-chart-wrapper" align-v="center" class="h-100 flex-column">
+          <b-col cols class="">
+            <div id="salesAnalytics-chart-lengend" class="d-flex justify-content-around w-50 mx-auto" />
+          </b-col>
+          <b-col cols class="h-100">
             <client-only>
               <LazyBarChart
                 canvas-id="salesAnalytics-chart"
-                class="pb-3"
+                class="pb-3 h-100 w-100"
                 :data="salesViewsDataset"
                 :custom-opt="salesViewsOptions"
-                tooltip
-                :legend-view="true"
+                :legend-view="false"
+                :custom-legend="true"
                 :scales-x="salesViewsXscales"
                 :scales-y="salesViewsYscales"
+                custom-legend-id="salesAnalytics-chart-lengend"
+                :legend-callback="salesAnalyticsLegendCb"
+                :use-custom-legend-click="true"
+                :custom-legend-click="salesAnalyticsLegendClick"
+                tooltip
                 mixed
               />
             </client-only>
@@ -69,7 +77,6 @@ export default {
       type: [Array, Number, Object],
       required: false,
       default: (viewsProps) => {
-        console.log('viewsProps: ', viewsProps)
         return viewsProps === undefined ? { rate: 0, total: 0 } : viewsProps
       }
     }
@@ -108,7 +115,7 @@ export default {
     },
     salesViewsOptions () {
       return {
-        responsive: true,
+        responsive: false,
         scales: {
           ticks: {
             beginAtZero: false
@@ -171,7 +178,62 @@ export default {
   watch: {},
   created () {},
   mounted () {},
-  methods: {}
+  methods: {
+    salesAnalyticsLegendCb (chart) {
+      const datasets = chart.data.datasets
+      const datasetsInfo = datasets.reduce((info, dataset) => {
+        info.push({
+          label: dataset.label,
+          backgroundColor: dataset.label === 'Sales' ? dataset.borderColor : dataset.pointBackgroundColor
+        })
+        return info
+      }, [])
+      const legendGroup = datasetsInfo.reduce((group, data, d) => {
+        group.push(`
+          <div id="sales-legend-${d}" data-legend-role="parent" data-chart-dataset="${d}" class="d-flex align-items-center mb-2 user-select-none" style="color:${data.backgroundColor}; font-size: 0.8rem">
+            <div data-legend-parent="sales-legend-${d}" class="legend-content">
+              <span class="legend-dot legend-dot--circle" style="background-color:${data.backgroundColor}"></span>
+              <span class="ml-2">${data.label}</span>
+            </div>
+          </div>
+        `)
+        return group
+      }, [])
+      return legendGroup.join('')
+    },
+    salesAnalyticsLegendClick (chart, event) {
+      event = event || window.event
+      let target = event.target || event.srcElement
+      if (target) {
+        if (!target.dataset.legendRole) {
+          while (!target.dataset.legendParent) {
+            target = target.parentElement
+          }
+          target = document.getElementById(target.dataset.legendParent)
+        }
+        const chartDataSetIdx = target.dataset.chartDataset
+        const chartMetaHiddens = new Array(chart.config.data.datasets.length).fill(null).reduce((metas, metaIdx, m) => {
+          const meta = chart.getDatasetMeta(m)
+          metas.push(meta.hidden)
+          return metas
+        }, [])
+        chartMetaHiddens[chartDataSetIdx] = !chartMetaHiddens[chartDataSetIdx]
+        const chartAllHidden = chartMetaHiddens.filter(chart => chart === true)
+        if (chartAllHidden.length === chartMetaHiddens.length) {
+          return false
+        }
+        const meta = chart.getDatasetMeta(chartDataSetIdx)
+        const item = meta
+        if (item.hidden === null || item.hidden === false) {
+          target.classList.add('legend-hidden')
+        } else {
+          target.classList.remove('legend-hidden')
+        }
+        item.hidden = !item.hidden
+        chart.update()
+      }
+    }
+  }
 }
 </script>
 
