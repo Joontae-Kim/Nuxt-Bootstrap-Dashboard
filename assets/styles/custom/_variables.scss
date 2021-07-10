@@ -28,10 +28,9 @@ $chart-container-sizes: map-merge(
     20: 20vh,
     30: 30vh,
     40: 40vh,
-    50: 50vh,
-    60: 60vh,
-    70: 70vh,
-    auto: auto
+    50: 50vh
   ),
   $chart-container-sizes
 );
+
+$chart-container-maxSizes: 100, 200, 300, 400
