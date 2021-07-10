@@ -5,7 +5,7 @@
       class="pb-3"
     >
       <b-row id="view-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols="6" md="7" class="chart-container chart-h-md-30">
+        <b-col cols="6" md="7" class="chart-container chart-h-md-45 chart-h-xl-35 chart-max-h-xl-250">
           <client-only>
             <LazyPieChart
               ref="view-chart"
