@@ -34,7 +34,7 @@
           <b-col cols md="6" class="mb-4 mb-md-0">
             <dash-card title="Traffic Share" class="h-100">
               <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100 pb-3">
-                <b-col cols md="6" class="chart-container chart-h-20 chart-h-md-10">
+                <b-col cols md="6" class="chart-container chart-h-20 chart-h-md-10 chart-min-h-md-100">
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
@@ -60,7 +60,7 @@
       <b-col cols md="6">
         <dash-card title="Sales" class="mb-4 mb-md-0 h-100">
           <b-row id="sales-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-40">
+            <b-col cols class="chart-container chart-h-30 chart-h-md-40 chart-h-xl-25 chart-min-h-md-250">
               <LazyLineChart
                 canvas-id="sales-chart"
                 :data="sales"
@@ -79,7 +79,7 @@
       <b-col cols md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100 pb-3">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-40">
+            <b-col cols class="chart-container chart-h-30 chart-h-md-40 chart-h-xl-30 chart-min-h-md-250 chart-max-h-xl-450">
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
                 :data="channels"
@@ -96,7 +96,7 @@
       <b-col cols md="6">
         <dash-card title="Visit by Notification" class="h-100 pb-3">
           <b-row id="noti-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols md="7" class="chart-container chart-h-30 chart-h-md-30">
+            <b-col cols md="7" class="chart-container chart-h-30 chart-h-md-30 chart-h-xl-20 chart-min-h-md-250">
               <LazyPolarArea
                 canvas-id="noti-chart"
                 :data="noti"
