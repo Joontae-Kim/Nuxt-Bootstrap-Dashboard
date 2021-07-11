@@ -5,7 +5,7 @@
       description="Your bounce rate increased by 5.25% over the past 30 days."
     />
     <b-row class="mb-4">
-      <b-col cols md="6">
+      <b-col cols lg="6" class="mb-md-4 mb-lg-0">
         <b-row>
           <b-col cols md="6" class="mb-4">
             <dash-card
@@ -32,9 +32,9 @@
             />
           </b-col>
           <b-col cols md="6" class="mb-4 mb-md-0">
-            <dash-card title="Traffic Share" class="h-100">
-              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100 pb-3">
-                <b-col cols md="6" class="chart-container chart-h-20 chart-h-md-10 chart-min-h-md-100">
+            <dash-card title="Traffic Share" class="h-100 pb-md-3 pb-lg-0">
+              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100 pb-lg-3">
+                <b-col cols md="6" class="chart-container chart-h-20 chart-h-md-5 chart-h-lg-10 chart-min-h-md-100">
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
@@ -57,10 +57,10 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col cols md="6">
-        <dash-card title="Sales" class="mb-4 mb-md-0 h-100">
+      <b-col cols lg="6">
+        <dash-card title="Sales" class="mb-4 mb-md-0 h-100 pb-md-3 pb-lg-0">
           <b-row id="sales-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-40 chart-h-xl-25 chart-min-h-md-250">
+            <b-col cols class="chart-container chart-h-30 chart-h-md-30 chart-h-lg-40 chart-h-xl-25 chart-max-h-md-250 chart-min-h-lg-250">
               <LazyLineChart
                 canvas-id="sales-chart"
                 :data="sales"
@@ -79,7 +79,7 @@
       <b-col cols md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100 pb-3">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-40 chart-h-xl-30 chart-min-h-md-250 chart-max-h-xl-450">
+            <b-col cols class="chart-container chart-h-30 chart-h-md-20 chart-h-lg-40 chart-h-xl-30 chart-min-h-md-200 chart-min-h-lg-250 chart-max-h-xl-450">
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
                 :data="channels"
@@ -96,7 +96,7 @@
       <b-col cols md="6">
         <dash-card title="Visit by Notification" class="h-100 pb-3">
           <b-row id="noti-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols md="7" class="chart-container chart-h-30 chart-h-md-30 chart-h-xl-20 chart-min-h-md-250">
+            <b-col cols md="6" lg="7" class="chart-container chart-h-30 chart-h-md-15 chart-h-lg-30 chart-h-xl-20 chart-max-h-md-150 chart-min-h-lg-250 mb-md-3 mb-lg-0">
               <LazyPolarArea
                 canvas-id="noti-chart"
                 :data="noti"
@@ -299,18 +299,31 @@ export default {
       </svg>`
       }
       const text = [...ds.data].reverse().reduce((legendHtml, data, d) => {
+        // legendHtml.push(
+        // `<div id="noti-legend-${d}"
+        //   data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
+        //   data-legend-parent="noti-legend-${d}"
+        //   class="d-flex flex-column flex-lg-row align-items-center user-select-none mb-lg-2"
+        //   style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
+        // >
+        //   <div class="d-flex align-items-center mb-2" data-legend-parent="noti-legend-${d}">
+        //     <span class="legend-icon mr-2 mr-lg-0">${icons[labels[d]]}</span>
+        //     <span class="ml-lg-2">${labels[d]}</span>
+        //   </div>
+        //   <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-lg-auto mr-lg-0">${data} %</div>
+        // </div>`)
         legendHtml.push(
         `<div id="noti-legend-${d}"
           data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
           data-legend-parent="noti-legend-${d}"
-          class="d-flex flex-column flex-md-row align-items-center user-select-none mb-md-2"
+          class="d-flex flex-column flex-md-row align-items-center user-select-none mb-lg-2"
           style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
         >
           <div class="d-flex align-items-center mb-2" data-legend-parent="noti-legend-${d}">
             <span class="legend-icon mr-2 mr-md-0">${icons[labels[d]]}</span>
             <span class="ml-md-2">${labels[d]}</span>
           </div>
-          <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-md-auto mr-md-0">${data} %</div>
+          <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-lg-auto mr-md-0">${data} %</div>
         </div>`)
         return legendHtml
       }, [])

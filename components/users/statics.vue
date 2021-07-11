@@ -55,7 +55,7 @@
         <b-col cols class="pb-4 h-50">
           <dash-card title="Weekly Traffic" class="h-100 pb-3 pb-md-0">
             <b-row id="weeklyTraffic-chart-wrapper" align-v="center" class="h-100">
-              <b-col cols class="chart-container chart-h-20 chart-h-md-45 chart-max-h-xl-250">
+              <b-col cols class="chart-container chart-h-20 chart-h-md-25 chart-h-lg-45 chart-max-h-md-250">
                 <LazyLineChart
                   canvas-id="weeklyTraffic-chart"
                   :data="weekTrafficDataset"
@@ -71,7 +71,7 @@
         <b-col cols>
           <dash-card title="24 Hours Traffic" :useicon="false" class="h-100 pb-3 pb-md-0">
             <b-row id="hourlyTraffic-chart-wrapper" align-v="center" class="h-100">
-              <b-col cols class="chart-container chart-h-20 chart-h-md-45 chart-max-h-xl-250">
+              <b-col cols class="chart-container chart-h-20 chart-h-md-25 chart-h-lg-45 chart-max-h-md-250">
                 <LazyBarChart
                   canvas-id="hourlyTraffic-chart"
                   :data="timeTrafficDataset"

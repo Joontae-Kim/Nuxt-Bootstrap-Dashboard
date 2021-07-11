@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col cols md="4" class="mb-4 mb-md-0">
+    <b-col cols md="5" lg="4" class="mb-4 mb-md-0">
       <dash-card title="Date Created" class="pb-3 h-100">
         <b-row>
           <b-col cols>
@@ -26,7 +26,7 @@
         </b-row>
       </dash-card>
     </b-col>
-    <b-col cols md="4" class="mb-4 mb-md-0">
+    <b-col cols md="auto" lg="4" class="mb-4 mb-md-0 flex-md-grow-1 flex-lg-grow-0">
       <dash-card title="Open" class="h-100">
         <b-row>
           <b-col cols>
@@ -52,7 +52,7 @@
         </template>
       </dash-card>
     </b-col>
-    <b-col cols md="4">
+    <b-col cols md="auto" lg="4" class="flex-md-grow-1 flex-lg-grow-0">
       <dash-card title="Close" class="h-100">
         <b-row>
           <b-col cols>
