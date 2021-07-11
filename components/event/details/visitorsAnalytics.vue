@@ -5,7 +5,7 @@
       class="pb-3"
     >
       <b-row id="view-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols="6" md="7" class="chart-container chart-h-md-45 chart-h-xl-35 chart-max-h-xl-250">
+        <b-col cols="6" lg="7" class="chart-container chart-h-md-25 chart-h-lg-45 chart-h-xl-35 chart-max-h-md-150 chart-max-h-lg-200 chart-max-h-xl-250">
           <client-only>
             <LazyPieChart
               ref="view-chart"
@@ -22,7 +22,7 @@
             />
           </client-only>
         </b-col>
-        <b-col cols="6" md="5">
+        <b-col cols="6" lg="5">
           <div id="view-chart-lengend" />
         </b-col>
       </b-row>
