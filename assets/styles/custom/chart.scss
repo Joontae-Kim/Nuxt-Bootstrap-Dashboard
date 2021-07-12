@@ -26,10 +26,14 @@
     @include media-breakpoint-up($breakpoint) {
       $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
       $half: $size - 50;
-      .chart-max-h#{$infix}-#{$half} { max-height: #{$half}px !important; }
-      .chart-max-h#{$infix}-#{$size} { max-height: #{$size}px !important; }
-      .chart-min-h#{$infix}-#{$half} { min-height: #{$half}px !important; }
-      .chart-min-h#{$infix}-#{$size} { min-height: #{$size}px !important; }
+      .chart-range-h#{$infix}-#{$half} {
+        min-height: #{$half}px !important;
+        max-height: #{$half}px !important;
+      }
+      .chart-range-h#{$infix}-#{$size} {
+        min-height: #{$size}px !important;
+        max-height: #{$size}px !important;
+      }
     }
   }
 }
