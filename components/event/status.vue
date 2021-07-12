@@ -26,7 +26,7 @@
         </b-row>
       </dash-card>
     </b-col>
-    <b-col cols md="auto" lg="4" class="mb-4 mb-md-0 flex-md-grow-1 flex-lg-grow-0">
+    <b-col cols sm="6" md="auto" lg="4" class="mb-4 mb-sm-0 flex-md-grow-1 flex-lg-grow-0">
       <dash-card title="Open" class="h-100">
         <b-row>
           <b-col cols>
@@ -52,8 +52,8 @@
         </template>
       </dash-card>
     </b-col>
-    <b-col cols md="auto" lg="4" class="flex-md-grow-1 flex-lg-grow-0">
-      <dash-card title="Close" class="h-100">
+    <b-col cols sm="6" md="auto" lg="4" class="flex-md-grow-1 flex-lg-grow-0">
+      <dash-card title="Close" class="h-md-100">
         <b-row>
           <b-col cols>
             <div :class="dateClass" style="margin-bottom: -.2rem;">{{ closeStatus.date }}</div>

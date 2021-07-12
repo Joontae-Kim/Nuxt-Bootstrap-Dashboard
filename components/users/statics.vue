@@ -1,16 +1,24 @@
 <template>
   <b-row>
-    <b-col cols md="4" class="mb-4 mb-md-0">
-      <b-row class="flex-column h-100">
-        <b-col cols>
+    <b-col cols lg="4" xxl="12" class="mb-4 mb-lg-0">
+      <b-row class="flex-lg-column flex-xxl-row mb-xxl-4">
+        <b-col cols sm="6" lg="12" xxl="4" class="mb-sm-4 mb-lg-0">
           <dash-card
             title="Users"
             icon="people-fill"
             :index="total.value"
             :rate="total.rate"
+            class="mb-xxl-4"
+          />
+          <dash-card
+            title="New Users"
+            icon="person-check-fill"
+            :index="newUsers.value"
+            :rate="newUsers.rate"
+            class="d-none d-xxl-flex"
           />
         </b-col>
-        <b-col cols class="py-4">
+        <b-col cols sm="6" lg="12" xxl="4" class="d-block d-xxl-none py-4 py-sm-0 py-lg-4">
           <dash-card
             title="New Users"
             icon="person-check-fill"
@@ -50,12 +58,12 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col cols md="8">
-      <b-row class="flex-column h-100">
-        <b-col cols class="pb-4 h-50">
-          <dash-card title="Weekly Traffic" class="h-100 pb-3 pb-md-0">
-            <b-row id="weeklyTraffic-chart-wrapper" align-v="center" class="h-100">
-              <b-col cols class="chart-container chart-h-20 chart-h-md-25 chart-h-lg-45 chart-max-h-md-250">
+    <b-col cols lg="8" xxl="12">
+      <b-row class="flex-column flex-xxl-row h-100 justify-content-lg-between justify-content-xxl-start">
+        <b-col cols xxl="6" class="h-lg-50 h-xxl-100 pb-4 pb-lg-0">
+          <dash-card title="Weekly Traffic" class="h-100 pb-3 pb-lg-0">
+            <b-row id="weeklyTraffic-chart-wrapper" align-v="center" class="h-100 pb-xxl-3">
+              <b-col cols class="chart-container chart-h-20 chart-range-h-200 chart-range-h-md-300 chart-range-h-lg-250 chart-range-h-xxl-300">
                 <LazyLineChart
                   canvas-id="weeklyTraffic-chart"
                   :data="weekTrafficDataset"
@@ -68,10 +76,10 @@
             </b-row>
           </dash-card>
         </b-col>
-        <b-col cols>
-          <dash-card title="24 Hours Traffic" :useicon="false" class="h-100 pb-3 pb-md-0">
+        <b-col cols xxl="6">
+          <dash-card title="24 Hours Traffic" :useicon="false" class="h-100 pb-3 pb-lg-0 pb-xxl-3">
             <b-row id="hourlyTraffic-chart-wrapper" align-v="center" class="h-100">
-              <b-col cols class="chart-container chart-h-20 chart-h-md-25 chart-h-lg-45 chart-max-h-md-250">
+              <b-col cols class="chart-container chart-h-20 chart-range-h-200 chart-range-h-md-250 chart-range-h-xxl-300">
                 <LazyBarChart
                   canvas-id="hourlyTraffic-chart"
                   :data="timeTrafficDataset"

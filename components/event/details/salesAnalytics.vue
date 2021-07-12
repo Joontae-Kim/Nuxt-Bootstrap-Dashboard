@@ -1,8 +1,8 @@
 <template>
   <b-row class="mb-4">
     <b-col cols md="4" class="mb-4 mb-md-0">
-      <b-row no-gutters class="flex-column">
-        <b-col cols class="mb-4">
+      <b-row class="flex-md-column">
+        <b-col cols sm="6" md class="mb-4 mb-sm-0 mb-md-4 pr-sm-3">
           <dash-card
             title="Total Views"
             class="pb-3"
@@ -11,7 +11,7 @@
             :rate="views.rate"
           />
         </b-col>
-        <b-col cols>
+        <b-col cols sm="6" md class="pl-sm-3">
           <dash-card
             title="Total Sales"
             class="pb-3"
@@ -28,7 +28,7 @@
           <b-col cols class="flex-grow-0">
             <div id="salesAnalytics-chart-lengend" class="d-flex justify-content-around w-50 mx-auto" />
           </b-col>
-          <b-col cols class="chart-container chart-h-md-20 chart-h-lg-30 chart-min-h-xl-250">
+          <b-col cols class="chart-container chart-h-10 chart-h-md-20 chart-h-lg-30 chart-range-h-200 chart-range-h-md-250">
             <client-only>
               <LazyBarChart
                 canvas-id="salesAnalytics-chart"
@@ -42,7 +42,7 @@
                 :legend-callback="salesAnalyticsLegendCb"
                 :use-custom-legend-click="true"
                 :custom-legend-click="salesAnalyticsLegendClick"
-                class="pb-3"
+                class="pb-3 pb-md-0"
                 responsive
                 tooltip
                 mixed
