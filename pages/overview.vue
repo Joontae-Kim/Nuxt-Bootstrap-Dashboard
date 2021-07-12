@@ -4,10 +4,10 @@
       title="Analytics Overview"
       description="Your bounce rate increased by 5.25% over the past 30 days."
     />
-    <b-row class="mb-4">
+    <b-row class="mb-4 h-xxl-100">
       <b-col cols lg="6" class="mb-md-4 mb-lg-0">
         <b-row>
-          <b-col cols md="6" class="mb-4">
+          <b-col cols="12" md="6" class="mb-4 mb-xxl-auto">
             <dash-card
               title="Total visits"
               icon="people-fill"
@@ -15,7 +15,7 @@
               :rate="totalVists.rate"
             />
           </b-col>
-          <b-col cols md="6" class="mb-4">
+          <b-col cols="12" md="6" class="mb-4">
             <dash-card
               title="New Users"
               :index="newUsers.users"
@@ -23,7 +23,7 @@
               icon="person-plus-fill"
             />
           </b-col>
-          <b-col cols md="6" class="mb-4 mb-md-0">
+          <b-col cols="12" md="6" class="mb-4 mb-md-0">
             <dash-card
               title="Active Users"
               icon="person-check-fill"
@@ -31,10 +31,10 @@
               :rate="totalVists.rate"
             />
           </b-col>
-          <b-col cols md="6" class="mb-4 mb-md-0">
-            <dash-card title="Traffic Share" class="h-100 pb-md-3 pb-lg-0">
-              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100 pb-lg-3">
-                <b-col cols md="6" class="chart-container chart-h-20 chart-h-md-5 chart-h-lg-10 chart-min-h-md-100">
+          <b-col cols="12" md="6" class="mb-4 mb-md-0">
+            <dash-card title="Traffic Share" class="h-100 pb-3 pb-lg-0">
+              <b-row id="traffic-share-chart-wrapper" align-v="center" class="flex-column flex-sm-row h-100 pb-lg-3">
+                <b-col cols="6" md="6" class="chart-container chart-h-20 chart-h-md-5 chart-h-lg-10 chart-range-h-100 chart-range-sm-h-200 chart-range-h-md-100 mb-3 mb-sm-0 mt-xxl-0">
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
@@ -49,8 +49,8 @@
                     use-data-label
                   />
                 </b-col>
-                <b-col cols>
-                  <div id="trafficShare-chart-lengend" class="d-flex flex-md-column justify-content-around mt-4 my-md-0" />
+                <b-col cols md="6">
+                  <div id="trafficShare-chart-lengend" class="d-flex flex-sm-column justify-content-around" />
                 </b-col>
               </b-row>
             </dash-card>
@@ -60,7 +60,7 @@
       <b-col cols lg="6">
         <dash-card title="Sales" class="mb-4 mb-md-0 h-100 pb-md-3 pb-lg-0">
           <b-row id="sales-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-30 chart-h-lg-40 chart-h-xl-25 chart-max-h-md-250 chart-min-h-lg-250">
+            <b-col cols class="chart-container chart-h-30 chart-h-md-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250 chart-range-h-xxl-300 chart-range-h-sxl-250">
               <LazyLineChart
                 canvas-id="sales-chart"
                 :data="sales"
@@ -69,6 +69,7 @@
                 user-x-axes-as-time
                 tooltip
                 responsive
+                class="pb-xxl-3"
               />
             </b-col>
           </b-row>
@@ -76,10 +77,10 @@
       </b-col>
     </b-row>
     <b-row class="mb-4">
-      <b-col cols md="6" class="mb-4 mb-md-0">
+      <b-col cols="12" md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100 pb-3">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-20 chart-h-lg-40 chart-h-xl-30 chart-min-h-md-200 chart-min-h-lg-250 chart-max-h-xl-450">
+            <b-col cols class="chart-container chart-h-30 chart-h-md-20 chart-h-lg-40 chart-range-h-200 chart-range-h-250 chart-range-h-md-200 chart-range-h-lg-250">
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
                 :data="channels"
@@ -93,10 +94,10 @@
           </b-row>
         </dash-card>
       </b-col>
-      <b-col cols md="6">
+      <b-col cols="12" md="6">
         <dash-card title="Visit by Notification" class="h-100 pb-3">
           <b-row id="noti-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols md="6" lg="7" class="chart-container chart-h-30 chart-h-md-15 chart-h-lg-30 chart-h-xl-20 chart-max-h-md-150 chart-min-h-lg-250 mb-md-3 mb-lg-0">
+            <b-col cols sm="6" lg="6" class="chart-container chart-h-30 chart-h-md-15 chart-h-lg-30 chart-h-xl-20 chart-range-h-200 chart-range-h-md-150 chart-range-h-xl-200 chart-range-h-xxl-200 chart-range-h-sxl-250 mx-md-0">
               <LazyPolarArea
                 canvas-id="noti-chart"
                 :data="noti"
@@ -111,8 +112,15 @@
                 tooltip
               />
             </b-col>
-            <b-col cols>
-              <div id="noti-chart-lengend" class="h-md-100 d-flex flex-md-column justify-content-between mt-4 my-md-0" />
+            <b-col
+              cols
+              sm="5"
+              md="6"
+              offset-xxl="1"
+              xxl="4"
+              class="h-sm-100 chart-range-h-sm-150"
+            >
+              <div id="noti-chart-lengend" class="h-md-100 d-flex flex-sm-column justify-content-between mt-4 my-sm-0 h-100" />
             </b-col>
           </b-row>
         </dash-card>
@@ -266,7 +274,7 @@ export default {
       const text = ds.data.reduce((legendHtml, data, d) => {
         legendHtml.push(`<div id="trafficShare-legend-${d}"
           data-legend-parent="trafficShare-legend-${d}" data-chart-dataset="0" data-chart-idx="${d}"
-          class="d-flex align-items-center mb-2 user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
+          class="d-flex align-items-center ${d === 0 ? 'mb-sm-2' : ''} user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
           ${icons[labels[d]]}
           <span class="ml-2">${labels[d]}</span>
           <span class="d-md-none legend-value ml-2">(${data} %)</span>
@@ -299,31 +307,18 @@ export default {
       </svg>`
       }
       const text = [...ds.data].reverse().reduce((legendHtml, data, d) => {
-        // legendHtml.push(
-        // `<div id="noti-legend-${d}"
-        //   data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
-        //   data-legend-parent="noti-legend-${d}"
-        //   class="d-flex flex-column flex-lg-row align-items-center user-select-none mb-lg-2"
-        //   style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
-        // >
-        //   <div class="d-flex align-items-center mb-2" data-legend-parent="noti-legend-${d}">
-        //     <span class="legend-icon mr-2 mr-lg-0">${icons[labels[d]]}</span>
-        //     <span class="ml-lg-2">${labels[d]}</span>
-        //   </div>
-        //   <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-lg-auto mr-lg-0">${data} %</div>
-        // </div>`)
         legendHtml.push(
         `<div id="noti-legend-${d}"
           data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
           data-legend-parent="noti-legend-${d}"
-          class="d-flex flex-column flex-md-row align-items-center user-select-none mb-lg-2"
+          class="d-flex flex-column flex-sm-row align-items-center user-select-none"
           style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
         >
-          <div class="d-flex align-items-center mb-2" data-legend-parent="noti-legend-${d}">
+          <div class="d-flex align-items-center ${d === 0 ? '' : 'mt-2'} mt-sm-0" data-legend-parent="noti-legend-${d}">
             <span class="legend-icon mr-2 mr-md-0">${icons[labels[d]]}</span>
             <span class="ml-md-2">${labels[d]}</span>
           </div>
-          <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-lg-auto mr-md-0">${data} %</div>
+          <div data-legend-parent="noti-legend-${d}" class="legend-value mx-auto ml-sm-auto mr-sm-0">${data} %</div>
         </div>`)
         return legendHtml
       }, [])

@@ -5,7 +5,7 @@
       class="pb-3"
     >
       <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
-        <b-col cols="6" lg="7" class="chart-container chart-h-md-25 chart-h-lg-45 chart-h-xl-35 chart-max-h-md-150 chart-max-h-lg-200 chart-max-h-xl-250">
+        <b-col cols="6" lg="7" class="chart-container chart-h-25 chart-range-h-sm-150 chart-range-h-lg-200">
           <client-only>
             <LazyDoughnutChart
               ref="traffic-chart"
