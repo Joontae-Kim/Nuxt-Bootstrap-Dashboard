@@ -69,7 +69,10 @@ export default {
   bootstrapVue: {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
-    icons: true
+    icons: true,
+    config: {
+      breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+    }
   },
 
   serverMiddleware: [
