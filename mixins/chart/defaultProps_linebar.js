@@ -113,6 +113,21 @@ export default {
       default: (customLegendClickProps) => {
         return typeof customLegendClickProps === 'undefined' ? false : customLegendClickProps
       }
+    },
+    computeScaleAxe: {
+      type: [Boolean, String],
+      required: false,
+      default: (computeScaleAxeProps) => {
+        // undefined, X, Y, XY
+        return typeof computeScaleAxeProps === 'undefined' ? false : computeScaleAxeProps.toLocaleLowerCase()
+      }
+    },
+    computeSameStepSizeX: {
+      type: Boolean,
+      required: false,
+      default: (computeSameStepSizeXProps) => {
+        return typeof computeSameStepSizeXProps === 'undefined' ? false : computeSameStepSizeXProps
+      }
     }
   },
   data: () => ({
