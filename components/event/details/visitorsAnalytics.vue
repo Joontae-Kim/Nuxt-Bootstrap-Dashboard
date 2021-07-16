@@ -18,6 +18,9 @@
               custom-legend-id="view-chart-lengend"
               :legend-callback="viewLegendCb"
               custom-legend-click="default"
+              :half-size="true"
+              :rotation="1.5"
+              :circumference="0.5"
               responsive
             />
           </client-only>

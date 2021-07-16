@@ -17,6 +17,9 @@
               custom-legend-id="traffic-chart-lengend"
               :legend-callback="trafficLegendCb"
               :custom-legend-click="trafficLegendClick"
+              :half-size="true"
+              :rotation="1.5"
+              :circumference="0.5"
               responsive
             />
           </client-only>
