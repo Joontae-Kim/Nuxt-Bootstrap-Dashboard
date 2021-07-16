@@ -98,7 +98,7 @@ export default {
 
         if (this.option.scales.yAxes.length === 1) {
           if (!this.option.scales.yAxes[0].gridLines) {
-            this.option.scales.yAxes[0].gridLines = { gridLines: { borderDash: [3, 4] } }
+            this.option.scales.yAxes[0].gridLines = { borderDash: [3, 4] }
           }
         }
       }
@@ -118,6 +118,55 @@ export default {
         this.data.datasets[c].fill = true
       })
     },
+    computeScaleTicks (options) {
+      const yScale = options.scales.yAxes
+      const computingAxe = this.computeScaleAxe
+      if (computingAxe === 'Y' || computingAxe === 'XY') {
+        const datasets = this.data.datasets.map(({ data }) => data)
+        let ranges = datasets.reduce((ranges, data, d) => {
+          const isBeginAtZero = !!yScale[d].ticks && yScale[d].ticks.beginAtZero
+          const yData = data.map(({ y }) => y)
+          let [max, min] = [Math.max.apply(null, yData), Math.min.apply(null, yData)]
+          const [maxWeight, minWeight] = [(max % 10 === 0) ? 10 : 5, (max % 10 === 0) ? 10 : 5]
+          max = Math.ceil(max / maxWeight) * maxWeight
+          min = isBeginAtZero ? 0 : Math.floor(min / minWeight) * minWeight
+          const diff = max - min
+          const [isStep5, isStep10] = [diff % 5 === 0, diff % 10 === 0]
+          ranges.push({ max, min, isStep5, isStep10, isBeginAtZero, diff })
+          return ranges
+        }, [])
+
+        const isAllPassStep5 = ranges.every(({ isStep5 }) => isStep5 === true)
+        const isAllPassStep10 = ranges.every(({ isStep10 }) => isStep10 === true)
+        let commonStepWeight = null
+
+        if (isAllPassStep5 || isAllPassStep10) {
+          const diffs = ranges.map(({ diff }) => diff)
+          const maxDiff = Math.max.apply(null, diffs)
+          if (maxDiff >= 10) {
+            commonStepWeight = isAllPassStep5 && isAllPassStep10 ? 5 : isAllPassStep5 ? 5 : isAllPassStep10 ? 10 : 5
+          } else {
+            commonStepWeight = maxDiff % 5 === 0 ? 1 : maxDiff % 3 === 0 ? 3 : 2
+          }
+          ranges = ranges.map(({ min, max, diff }, r) => {
+            if (diff !== maxDiff) {
+              if (min >= maxDiff) {
+                min -= commonStepWeight
+              } else {
+                max += commonStepWeight
+              }
+            }
+            return { min, max, diff: max - min, beginAtZero: min === 0, stepSize: !commonStepWeight ? 0 : commonStepWeight }
+          })
+        }
+
+        ranges.forEach(({ max, min, beginAtZero, stepSize }, r) => {
+          yScale[r].ticks = this.mergeOptions(yScale[r].ticks, { min, max, beginAtZero, stepSize })
+        })
+      }
+      // if (computingAxe === 'X' || computingAxe === 'XY') {
+      // }
+    },
     renderChart () {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
@@ -127,6 +176,11 @@ export default {
         } else {
           this.generateChartColor()
         }
+
+        if (this.computeScaleAxe) {
+          this.computeScaleTicks(options)
+        }
+
         this.$chartjs.createChart(ctx, {
           type: this.type,
           data: this.data,
