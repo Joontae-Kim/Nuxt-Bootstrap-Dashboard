@@ -46,6 +46,7 @@
                 responsive
                 tooltip
                 mixed
+                compute-scale-axe="Y"
               />
             </client-only>
           </b-col>
@@ -162,11 +163,13 @@ export default {
           id: 'views-yAxe',
           display: true,
           position: 'right',
-          gridLines: false,
+          gridLines: {
+            borderDash: [3, 4]
+          },
           ticks: {
             stepSize: 2,
             padding: 10,
-            beginAtZero: false
+            beginAtZero: false // false
           },
           labels: {
             show: true

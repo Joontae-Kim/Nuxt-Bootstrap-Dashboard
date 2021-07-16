@@ -64,12 +64,12 @@
               <LazyLineChart
                 canvas-id="sales-chart"
                 :data="sales"
-                :y-max="salesMax"
                 :scales-x="[{ time: { stepSize: 3 } }]"
                 user-x-axes-as-time
                 tooltip
                 responsive
                 class="pb-xxl-3"
+                compute-scale-axe="Y"
               />
             </b-col>
           </b-row>
@@ -89,6 +89,7 @@
                 responsive
                 tooltip
                 use-data-label
+                compute-scale-axe="Y"
               />
             </b-col>
           </b-row>
