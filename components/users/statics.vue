@@ -71,6 +71,7 @@
                   responsive
                   user-x-axes-as-time
                   tooltip
+                  compute-scale-axe="Y"
                 />
               </b-col>
             </b-row>
@@ -89,6 +90,7 @@
                   responsive
                   single-color
                   tooltip
+                  compute-scale-axe="Y"
                 />
               </b-col>
             </b-row>
