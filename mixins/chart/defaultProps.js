@@ -92,6 +92,23 @@ export default {
       default: (customLegendClickProps) => {
         return typeof customLegendClickProps === 'undefined' ? false : customLegendClickProps
       }
+    },
+    halfSize: {
+      type: Boolean,
+      required: false,
+      default: (halfChartProps) => {
+        return typeof halfChartProps === 'undefined' ? false : halfChartProps
+      }
+    },
+    rotation: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    circumference: {
+      type: Number,
+      required: false,
+      default: 1
     }
   },
   data: () => ({
@@ -154,6 +171,10 @@ export default {
       this.option.useCustomLegendClick = !!this.customLegendClick
       if (this.option.useCustomLegendClick) {
         this.option.customLegendClick = (typeof this.customLegendClick === 'string' && this.customLegendClick.toLocaleLowerCase() === 'default') ? this.customLegendDefaultClick : this.customLegendClick
+      }
+      if (['doughnut', 'pie'].includes(this.type) && this.halfSize) {
+        this.option.rotation = this.rotation * Math.PI
+        this.option.circumference = this.circumference * Math.PI
       }
     },
     customLegendDefaultClick (chart, event) {
