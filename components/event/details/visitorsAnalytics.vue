@@ -13,7 +13,7 @@
               :data="viewsDataset"
               :legend-view="false"
               :custom-legend="true"
-              :data-label-opt="{ color: '#fff' }"
+              :data-label-opt="viewsLabelOpt"
               use-data-label
               custom-legend-id="view-chart-lengend"
               :legend-callback="viewLegendCb"
@@ -57,6 +57,30 @@ export default {
         datasets: [{
           data: statics.map(({ value }) => value)
         }]
+      }
+    },
+    viewsLabelOpt () {
+      return {
+        align: 'center',
+        anchor: 'end',
+        font: {
+          size: 11
+        },
+        borderRadius: 16,
+        borderWidth: 2,
+        borderColor: "white",
+        color: '#fff',
+        padding: 5,
+        display () {
+          return window.innerWidth >= 992
+        },
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        },
+        formatter (value, ctx) {
+          const sum = ctx.dataset.data.reduce((sum, v) => (sum + v), 0)
+          return `${Math.floor(value * 100 / sum)} %`
+        }
       }
     }
   },
