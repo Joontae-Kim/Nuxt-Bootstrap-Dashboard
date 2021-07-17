@@ -148,7 +148,7 @@ export default {
       if (!this.useDataLabel) {
         this.option.plugins.datalabels = false
       } else {
-        this.option.plugins.datalabels = this.dataLabelOpt
+        this.option.plugins.datalabels = this.mergeOptions(this.option.plugins.datalabels, this.dataLabelOpt)
       }
 
       if (!this.tooltip) {
