@@ -20,6 +20,8 @@
               :half-size="true"
               :rotation="1.5"
               :circumference="0.5"
+              use-data-label
+              :data-label-opt="trafficLabelOpt"
               responsive
             />
           </client-only>
@@ -69,6 +71,44 @@ export default {
         cutoutPercentage: 20,
         legend: {
           display: false
+        }
+      }
+    },
+    trafficLabelOpt () {
+      return {
+        anchor (context) {
+          return context.datasetIndex !== 0 ? 'start' : 'end'
+        },
+        align (context) {
+          return context.datasetIndex === 0 ? 'center' : 'right'
+        },
+        offset (context) {
+          const dataCount = context.chart.data.datasets.length - 1
+          return context.datasetIndex === 0 ? 0 : context.datasetIndex === dataCount ? 5 : Math.round(28 / context.datasetIndex)
+        },
+        font: {
+          size: 11
+        },
+        color: '#fff',
+        display (context) {
+          return window.innerWidth >= 992 && context.dataIndex === 0
+        },
+        backgroundColor (context) {
+          return context.dataset.backgroundColor[0]
+        },
+        borderRadius: 16,
+        borderWidth: 2,
+        borderColor: "white",
+        formatter (value, context) {
+          if (context.datasetIndex === 0) {
+            return '100 %'
+          } else {
+            const sum = context.chart.data.datasets.slice(1).reduce((sum, { data }) => {
+              sum = sum + data[0]
+              return sum
+            }, 0)
+            return `${Math.floor(value * 100 / sum)} %`
+          }
         }
       }
     }

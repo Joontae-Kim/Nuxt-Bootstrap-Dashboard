@@ -70,6 +70,8 @@
                 responsive
                 class="pb-xxl-3"
                 compute-scale-axe="Y"
+                use-data-label
+                :data-label-opt="salesOpt"
               />
             </b-col>
           </b-row>
@@ -103,7 +105,7 @@
                 canvas-id="noti-chart"
                 :data="noti"
                 use-data-label
-                :data-label-opt="{ color: '#fff' }"
+                :data-label-opt="notiLabelOpt"
                 :custom-legend="true"
                 custom-legend-id="noti-chart-lengend"
                 :legend-callback="notiChartLegendCb"
@@ -221,12 +223,15 @@ export default {
       }]
     }
     let _noti = Object.entries(res.visitbyNotification).map(([key, value]) => ({ name: key, value }))
-    _noti = _noti.sort((b, a) => b.value - a.value)
-    _noti = _noti.reduce((obj, { name, value }) => ({ ...obj, [name]: value }), {})
+    _noti = _noti.sort((b, a) => a.value - b.value)
+    _noti = _noti.reduce((obj, { name, value }) => {
+      obj[name] = value
+      return obj
+    }, {})
     this.noti = {
       labels: Object.keys(_noti),
       datasets: [{
-        data: Object.values(_noti)
+        data: Object.values(_noti).reverse()
       }]
     }
     this.sales = {
@@ -247,6 +252,47 @@ export default {
       ranks.push({ ...ele, saleRate: Number(rate) })
       return ranks
     }, [])
+  },
+  computed: {
+    notiLabelOpt () {
+      return {
+        anchor: 'end',
+        borderRadius: 16,
+        borderWidth: 2,
+        color: "white",
+        borderColor: "white",
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        },
+        display (context) {
+          return context.chart.width >= 200 && context.chart.data.datasets[0].data[context.dataIndex] > 15
+        },
+        formatter (value, context) {
+          return context.chart.data.labels[context.dataIndex]
+        }
+      }
+    },
+    salesOpt () {
+      return {
+        align: 'end',
+        anchor: 'end',
+        formatter (value, context) {
+          return value.y
+        },
+        display (context) {
+          return window.innerWidth >= 992 && context.dataIndex % 2
+        },
+        offset: 10,
+        padding: 6,
+        color: "#343a40",
+        borderWidth: 2,
+        borderRadius: 14,
+        borderColor: "white",
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        }
+      }
+    }
   },
   watch: {
     '$fetchState.pending': {
@@ -307,13 +353,14 @@ export default {
         <path d="M13 4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V4z"/>
       </svg>`
       }
+      const length = ds.data.length - 1
       const text = [...ds.data].reverse().reduce((legendHtml, data, d) => {
         legendHtml.push(
         `<div id="noti-legend-${d}"
-          data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
+          data-chart-dataset="0" data-chart-idx="${length - d}" data-legend-role="parent"
           data-legend-parent="noti-legend-${d}"
           class="d-flex flex-column flex-sm-row align-items-center user-select-none"
-          style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
+          style="font-size: 0.8rem;color:${ds.backgroundColor[length - d]};"
         >
           <div class="d-flex align-items-center ${d === 0 ? '' : 'mt-2'} mt-sm-0" data-legend-parent="noti-legend-${d}">
             <span class="legend-icon mr-2 mr-md-0">${icons[labels[d]]}</span>
