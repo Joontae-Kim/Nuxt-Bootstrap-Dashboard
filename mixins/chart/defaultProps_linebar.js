@@ -59,7 +59,7 @@ export default {
       }
     },
     dataLabelOpt: {
-      type: Object,
+      type: [Object, Array],
       required: false,
       default: (dtLabelOptProps) => {
         return typeof dtLabelOptProps === 'undefined' ? {} : dtLabelOptProps
@@ -185,7 +185,7 @@ export default {
       if (!this.useDataLabel) {
         this.option.plugins.datalabels = false
       } else {
-        this.option.plugins.datalabels = this.dataLabelOpt
+        this.option.plugins.datalabels = !this.mixed ? this.mergeOptions(this.option.plugins.datalabels, this.dataLabelOpt) : this.dataLabelOpt
       }
 
       if (!this.tooltip) {
