@@ -68,9 +68,11 @@
                   canvas-id="weeklyTraffic-chart"
                   :data="weekTrafficDataset"
                   :scales-x="[{ time: { stepSize: 1 } }]"
+                  use-data-label
                   responsive
                   user-x-axes-as-time
                   tooltip
+                  :data-label-opt="weekTrafficOpt"
                   compute-scale-axe="Y"
                 />
               </b-col>
@@ -187,6 +189,30 @@ export default {
           stepSize: 3
         }
       }]
+    },
+    weekTrafficOpt () {
+      return {
+        clip: false,
+        align: 'center',
+        anchor: 'center',
+        formatter (value, context) {
+          return value.y
+        },
+        display (context) {
+          return window.innerWidth >= 992
+        },
+        offset: 10,
+        padding: 6,
+        color: "white",
+        borderWidth: 2,
+        borderRadius: 14,
+        borderColor (context) {
+          return context.dataset.borderColor
+        },
+        backgroundColor (context) {
+          return context.dataset.borderColor
+        }
+      }
     }
   }
 }

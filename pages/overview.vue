@@ -87,7 +87,7 @@
                 canvas-id="trafficChannel-chart"
                 :data="channels"
                 :scales-y="[{ticks: { beginAtZero: true }}]"
-                :data-label-opt="{ color: '#fff' }"
+                :data-label-opt="trafficChannelLabelsOpt"
                 responsive
                 tooltip
                 use-data-label
@@ -274,8 +274,9 @@ export default {
     },
     salesOpt () {
       return {
-        align: 'end',
-        anchor: 'end',
+        clip: false,
+        align: 'center',
+        anchor: 'center',
         formatter (value, context) {
           return value.y
         },
@@ -283,14 +284,21 @@ export default {
           return window.innerWidth >= 992 && context.dataIndex % 2
         },
         offset: 10,
-        padding: 6,
-        color: "#343a40",
+        padding: 3,
+        color: "white",
         borderWidth: 2,
         borderRadius: 14,
-        borderColor: "white",
+        borderColor (context) {
+          return context.dataset.borderColor
+        },
         backgroundColor (context) {
-          return context.dataset.backgroundColor
+          return context.dataset.borderColor
         }
+      }
+    },
+    trafficChannelLabelsOpt () {
+      return {
+        color: '#fff'
       }
     }
   },
