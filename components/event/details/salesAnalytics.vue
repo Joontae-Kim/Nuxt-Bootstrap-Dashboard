@@ -33,7 +33,6 @@
               <LazyBarChart
                 canvas-id="salesAnalytics-chart"
                 :data="salesViewsDataset"
-                :custom-opt="salesViewsOptions"
                 :legend-view="false"
                 :custom-legend="true"
                 :scales-x="salesViewsXscales"
@@ -42,6 +41,7 @@
                 :legend-callback="salesAnalyticsLegendCb"
                 :use-custom-legend-click="true"
                 :custom-legend-click="salesAnalyticsLegendClick"
+                use-data-label
                 class="pb-3 pb-md-0"
                 responsive
                 tooltip
@@ -102,7 +102,12 @@ export default {
             data: this.sales.value,
             yAxisID: 'sales-yAxe',
             fill: true,
-            order: 1
+            order: 1,
+            datalabels: {
+              display: true,
+              align: 'end',
+              anchor: 'end'
+            }
           },
           {
             type: "bar",
@@ -110,18 +115,14 @@ export default {
             data: this.views.value,
             fill: true,
             yAxisID: 'views-yAxe',
-            order: 2
+            order: 2,
+            datalabels: {
+              display: true,
+              align: 'end',
+              anchor: 'start'
+            }
           }
         ]
-      }
-    },
-    salesViewsOptions () {
-      return {
-        scales: {
-          ticks: {
-            beginAtZero: false
-          }
-        }
       }
     },
     salesViewsXscales () {
@@ -134,6 +135,9 @@ export default {
             day: 'MMM DD'
           },
           stepSize: 2
+        },
+        ticks: {
+          beginAtZero: false
         },
         scaleLabel: {
           display: false,
@@ -151,8 +155,6 @@ export default {
             borderDash: [3, 4]
           },
           ticks: {
-            stepSize: 2,
-            padding: 10,
             beginAtZero: false
           },
           labels: {
@@ -169,10 +171,10 @@ export default {
           ticks: {
             stepSize: 2,
             padding: 10,
-            beginAtZero: false // false
+            beginAtZero: true // false
           },
           labels: {
-            show: true
+            show: false
           }
         }
       ]
