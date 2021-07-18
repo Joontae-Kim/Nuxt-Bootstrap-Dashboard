@@ -59,7 +59,7 @@ export default {
       }
     },
     dataLabelOpt: {
-      type: Object,
+      type: [Object, Array],
       required: false,
       default: (dtLabelOptProps) => {
         return typeof dtLabelOptProps === 'undefined' ? {} : dtLabelOptProps
