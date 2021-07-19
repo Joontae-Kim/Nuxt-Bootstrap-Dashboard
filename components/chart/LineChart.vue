@@ -4,11 +4,13 @@
 <script>
 import createChartColor from "~/mixins/chart/createChartColor"
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
+import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
 
 export default {
   mixins: [
     defaultProps,
-    createChartColor
+    createChartColor,
+    computingYScaleBarLine
   ],
   props: {
     userXAxesAsTime: {
@@ -126,40 +128,12 @@ export default {
         let ranges = datasets.reduce((ranges, data, d) => {
           const isBeginAtZero = !!yScale[d].ticks && yScale[d].ticks.beginAtZero
           const yData = data.map(({ y }) => y)
-          let [max, min] = [Math.max.apply(null, yData), Math.min.apply(null, yData)]
-          const [maxWeight, minWeight] = [(max % 10 === 0) ? 10 : 5, (max % 10 === 0) ? 10 : 5]
-          max = Math.ceil(max / maxWeight) * maxWeight
-          min = isBeginAtZero ? 0 : Math.floor(min / minWeight) * minWeight
-          const diff = max - min
-          const [isStep5, isStep10] = [diff % 5 === 0, diff % 10 === 0]
-          ranges.push({ max, min, isStep5, isStep10, isBeginAtZero, diff })
+          const range = this.computeDatasetRange(yData, isBeginAtZero)
+          ranges.push(range)
           return ranges
         }, [])
 
-        const isAllPassStep5 = ranges.every(({ isStep5 }) => isStep5 === true)
-        const isAllPassStep10 = ranges.every(({ isStep10 }) => isStep10 === true)
-        let commonStepWeight = null
-
-        if (isAllPassStep5 || isAllPassStep10) {
-          const diffs = ranges.map(({ diff }) => diff)
-          const maxDiff = Math.max.apply(null, diffs)
-          if (maxDiff >= 10) {
-            commonStepWeight = isAllPassStep5 && isAllPassStep10 ? 5 : isAllPassStep5 ? 5 : isAllPassStep10 ? 10 : 5
-          } else {
-            commonStepWeight = maxDiff % 5 === 0 ? 1 : maxDiff % 3 === 0 ? 3 : 2
-          }
-          ranges = ranges.map(({ min, max, diff }, r) => {
-            if (diff !== maxDiff) {
-              if (min >= maxDiff) {
-                min -= commonStepWeight
-              } else {
-                max += commonStepWeight
-              }
-            }
-            return { min, max, diff: max - min, beginAtZero: min === 0, stepSize: !commonStepWeight ? 0 : commonStepWeight }
-          })
-        }
-
+        ranges = this.computingYScale(ranges)
         ranges.forEach(({ max, min, beginAtZero, stepSize }, r) => {
           yScale[r].ticks = this.mergeOptions(yScale[r].ticks, { min, max, beginAtZero, stepSize })
         })
