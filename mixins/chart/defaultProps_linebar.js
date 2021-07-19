@@ -143,7 +143,29 @@ export default {
       legend: {
         display: true
       }
-    }
+    },
+    dataLabelMap: {
+      line: 'lineDataLableOpt',
+      bar: 'barDataLableOpt'
+    },
+    lineDataLableOpt: {
+      padding: 6,
+      color: "white",
+      font: {
+        size: 10,
+        padding: 5
+      },
+      borderWidth: 2,
+      borderRadius: 25,
+      borderColor: '#fff',
+      backgroundColor (context) {
+        return context.dataset.borderColor
+      },
+      display () {
+        return window.innerWidth >= 992
+      }
+    },
+    barDataLableOpt: {}
   }),
   computed: {},
   watch: {
@@ -165,15 +187,15 @@ export default {
       this.data.datasets.forEach((dataset, d) => {
         const color = colors[d]
         if (dataset.type === 'line') {
-          dataset.backgroundColor = 'rgba(206, 212, 218, 0.8)' // color.background
-          dataset.pointBackgroundColor = color.border
+          dataset.backgroundColor = 'rgba(206, 212, 218, 0.8)'
+          dataset.pointBackgroundColor = color.rgb
           dataset.borderColor = color.rgb
-        } else if (dataset.type === 'bar') {
-          const rgbs = color.rgb
-          dataset.backgroundColor = color.background
-          dataset.pointBackgroundColor = rgbs
-          dataset.borderColor = color.border
           dataset.borderWidth = 1
+        } else if (dataset.type === 'bar') {
+          dataset.backgroundColor = color.background
+          dataset.pointBackgroundColor = color.rgb
+          dataset.borderColor = color.background
+          dataset.borderWidth = 0
         }
         dataset.fill = typeof dataset.fill === 'undefined' ? true : dataset.fill
       })
@@ -185,7 +207,8 @@ export default {
       if (!this.useDataLabel) {
         this.option.plugins.datalabels = false
       } else {
-        this.option.plugins.datalabels = !this.mixed ? this.mergeOptions(this.option.plugins.datalabels, this.dataLabelOpt) : this.dataLabelOpt
+        const chartDatalabels = this[this.dataLabelMap[this.type]]
+        this.option.plugins.datalabels = !this.mixed ? this.mergeOptions(chartDatalabels, this.dataLabelOpt) : this.dataLabelOpt
       }
 
       if (!this.tooltip) {
