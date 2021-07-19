@@ -64,8 +64,8 @@ function createSerialRandomByUnique (min, max, unique, count = 7) {
   const overWeight = unique > randomSerialSum ? unique - randomSerialSum : randomSerialSum - unique
   const overWeightShare = Number(Number.parseFloat(overWeight / count).toFixed(2))
   randomSerial = randomSerial.reduce((serial, ele) => {
-    const computed = overWeightShare + ele
-    serial.push(Number.parseFloat(computed.toFixed(2)))
+    const computed = Math.floor(overWeightShare + ele)
+    serial.push(computed)
     return serial
   }, [])
   return randomSerial
