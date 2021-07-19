@@ -8,7 +8,7 @@ export function createUsersTraffic (startAt, count = 7) {
   return new Promise((resolve, reject) => {
     try {
       const serialTrafficDays = createDateArray(startAt, null, count)
-      const serialTrafficData = createSerialRandom(20, 45, count, false)
+      const serialTrafficData = createSerialRandom(100, 170, count)
       const serialTraffic = serialTrafficDays.reduce((merged, day, d) => {
         merged.push({ [day]: serialTrafficData[d] })
         return merged
