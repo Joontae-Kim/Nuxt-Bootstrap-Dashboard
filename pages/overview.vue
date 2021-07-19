@@ -65,13 +65,14 @@
                 canvas-id="sales-chart"
                 :data="sales"
                 :scales-x="[{ time: { stepSize: 3 } }]"
+                :scales-y="[{ticks: { beginAtZero: false }}]"
                 user-x-axes-as-time
                 tooltip
                 responsive
                 class="pb-xxl-3"
                 compute-scale-axe="Y"
                 use-data-label
-                :data-label-opt="salesOpt"
+                :data-label-opt="salesLableOpt"
               />
             </b-col>
           </b-row>
@@ -272,7 +273,7 @@ export default {
         }
       }
     },
-    salesOpt () {
+    salesLableOpt () {
       return {
         clip: false,
         align: 'center',
@@ -282,17 +283,6 @@ export default {
         },
         display (context) {
           return window.innerWidth >= 992 && context.dataIndex % 2
-        },
-        offset: 10,
-        padding: 3,
-        color: "white",
-        borderWidth: 2,
-        borderRadius: 14,
-        borderColor (context) {
-          return context.dataset.borderColor
-        },
-        backgroundColor (context) {
-          return context.dataset.borderColor
         }
       }
     },

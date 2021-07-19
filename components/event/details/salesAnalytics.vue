@@ -44,7 +44,6 @@
                 use-data-label
                 class="pb-3 pb-md-0"
                 responsive
-                tooltip
                 mixed
                 compute-scale-axe="Y"
               />
@@ -101,12 +100,21 @@ export default {
             label: "Sales",
             data: this.sales.value,
             yAxisID: 'sales-yAxe',
-            fill: true,
+            fill: false,
             order: 1,
             datalabels: {
-              display: true,
-              align: 'end',
-              anchor: 'end'
+              display () {
+                return window.innerWidth >= 927
+              },
+              anchor: 'start',
+              align: 'top',
+              color: 'white',
+              offset: 10,
+              padding: 3,
+              borderRadius: 4,
+              backgroundColor (context) {
+                return context.dataset.borderColor
+              }
             }
           },
           {
@@ -117,9 +125,18 @@ export default {
             yAxisID: 'views-yAxe',
             order: 2,
             datalabels: {
-              display: true,
+              display () {
+                return window.innerWidth >= 927
+              },
+              anchor: 'start',
               align: 'end',
-              anchor: 'start'
+              padding: 3,
+              offset: 10,
+              color: 'white',
+              borderRadius: 4,
+              backgroundColor (context) {
+                return context.dataset.pointBackgroundColor
+              }
             }
           }
         ]
@@ -155,7 +172,10 @@ export default {
             borderDash: [3, 4]
           },
           ticks: {
-            beginAtZero: false
+            beginAtZero: true,
+            callback: (value, index, values) => {
+              return Math.round(value)
+            }
           },
           labels: {
             show: true
@@ -171,7 +191,10 @@ export default {
           ticks: {
             stepSize: 2,
             padding: 10,
-            beginAtZero: true // false
+            beginAtZero: true, // false.
+            callback: (value, index, values) => {
+              return Math.round(value)
+            }
           },
           labels: {
             show: false
