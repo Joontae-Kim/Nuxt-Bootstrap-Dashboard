@@ -33,26 +33,20 @@ export default {
         const [maxs, mins] = [ranges.map(({ max }) => max), ranges.map(({ min }) => min)]
         const [maxMax, minMin] = [Math.max.apply(null, maxs), Math.min.apply(null, mins)]
         ranges = ranges.map(({ min, max, diff, isBeginAtZero }) => {
-          // Add Padding to max or min
+          // Take the weight to max or min
           if (maxMax === max) {
-            max += commonStepWeight
+            const weightedMax = Math.ceil(max / commonStepWeight) * commonStepWeight
+            max = weightedMax === max ? max + commonStepWeight : weightedMax
           }
-          if (minMin === min && !isBeginAtZero) {
-            min -= commonStepWeight
+          if (minMin === min && !isBeginAtZero && commonStepWeight < min) {
+            const weightedMin = Math.floor(min / commonStepWeight) * commonStepWeight
+            min = weightedMin === min ? min - commonStepWeight : weightedMin
           }
           // Re-estimate the difference
           diff = max - min
           const beginAtZero = isBeginAtZero && min === 0
           const stepCount = diff / commonStepWeight
           const stepSize = !commonStepWeight ? 0 : commonStepWeight
-          // Re-calculate max and min
-          if (!Number.isInteger(stepCount)) {
-            if (!beginAtZero) {
-              min = max - (Math.ceil(stepCount) * commonStepWeight)
-            } else {
-              max = min + (Math.ceil(stepCount) * commonStepWeight)
-            }
-          }
           return { min, max, diff: max - min, beginAtZero, stepCount, stepSize }
         })
         const stepCounts = ranges.map(({ stepCount }) => stepCount)
