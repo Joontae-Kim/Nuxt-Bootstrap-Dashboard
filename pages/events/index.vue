@@ -229,7 +229,7 @@
                 <template #cell(title)="data">
                   <div class="h6 mb-2">
                     <div class="text-gray-700 mb-1">
-                      <NuxtLink :to="{ name: 'event-id', params: { id: data.item._id } }" class="text-decoration-none text-gray-800">
+                      <NuxtLink :to="{ name: 'eventDetails', params: { id: data.item._id } }" class="text-decoration-none text-gray-800">
                         {{ data.value }}
                       </NuxtLink>
                     </div>
@@ -267,7 +267,7 @@
 
                 <template #cell(actions)="data">
                   <b-btn
-                    :to="{ name: 'event-id', params: { id: data.item._id } }"
+                    :to="{ name: 'eventDetails', params: { id: data.item._id } }"
                     variant="link"
                     class="text-decoration-none mr-2 p-0 shadow-none"
                     :disabled="globalDisabled || data.item.isDeleting"
@@ -315,7 +315,7 @@ import { mapGetters } from "vuex"
 import searchEvent from '~/mixins/event/searchEvent'
 
 export default {
-  name: 'Event',
+  name: 'Events',
   components: {
     EventStatics: () => import('~/components/event/statics.vue'),
     Eventfilter: () => import('~/components/event/filter.vue')
