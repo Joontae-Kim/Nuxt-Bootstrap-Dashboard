@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser'
+import { extendRoutes } from './router'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -54,6 +55,9 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/moment'
   ],
+
+  // Extend Router
+  router: { extendRoutes },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
