@@ -7,13 +7,13 @@
     </div>
     <div class="sidebar__body py-2">
       <b-nav vertical class="w-100">
-        <b-nav-item to="/overview" exact-active-class="active">
+        <b-nav-item :to="{ name: 'overview' }" exact-active-class="active">
           Overview
         </b-nav-item>
-        <b-nav-item to="/event" active-class="active">
+        <b-nav-item :to="{ name: 'events' }" active-class="active">
           Event
         </b-nav-item>
-        <b-nav-item to="/users" active-class="active">
+        <b-nav-item :to="{ name: 'users' }" active-class="active">
           Users
         </b-nav-item>
         <b-nav-item exact-active-class="active">

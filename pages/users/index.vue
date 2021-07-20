@@ -102,7 +102,7 @@
 
                 <template #cell(username)="data">
                   <div class="">
-                    <NuxtLink :to="{ name: 'users-id', params: { id: data.item.uid } }" class="text-gray-900 text-decoration-none mr-2">
+                    <NuxtLink :to="{ name: 'userDetails', params: { id: data.item.uid } }" class="text-gray-900 text-decoration-none mr-2">
                       {{ data.value }}
                     </NuxtLink>
                     <b-badge class="small" pill>{{ data.item.status }}</b-badge>
@@ -131,7 +131,7 @@
 
                 <template #cell(actions)="data">
                   <b-btn
-                    :to="{ name: 'users-id', params: { id: data.item.uid } }"
+                    :to="{ name: 'userDetails', params: { id: data.item.uid } }"
                     variant="link"
                     class="text-decoration-none mr-2 p-0 shadow-none"
                   >
