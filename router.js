@@ -45,6 +45,12 @@ export function extendRoutes (routes, resolve) {
       chunkName: 'pages/event/index',
     },
     {
+      name: 'eventLists',
+      path: '/events/list',
+      component: resolve(__dirname, 'pages/events/list'),
+      chunkName: 'pages/event/list'
+    },
+    {
       name: 'eventDetails',
       path: '/events/event/:id',
       component: resolve(__dirname, 'pages/events/_id'),
@@ -58,7 +64,7 @@ export function extendRoutes (routes, resolve) {
     },
     {
       name: 'userDetails',
-      path: 'users/user/:id',
+      path: '/users/user/:id',
       component: resolve(__dirname, 'pages/users/_id'),
       chunkName: 'pages/users/_id'
     }
