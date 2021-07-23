@@ -6,20 +6,31 @@
       </div>
     </div>
     <div class="sidebar__body py-2">
-      <b-nav vertical class="w-100">
-        <b-nav-item :to="{ name: 'overview' }" exact-active-class="active">
-          Overview
-        </b-nav-item>
-        <b-nav-item :to="{ name: 'events' }" active-class="active">
-          Event
-        </b-nav-item>
-        <b-nav-item :to="{ name: 'users' }" active-class="active">
-          Users
-        </b-nav-item>
-        <b-nav-item exact-active-class="active">
-          Another Link
-        </b-nav-item>
-      </b-nav>
+      <b-navbar vertical class="flex-column w-100 pl-0">
+        <b-nav vertical class="w-100">
+          <b-nav-item :to="{ name: 'overview' }" exact-active-class="active">
+            Overview
+          </b-nav-item>
+          <div class="d-flex justify-content-between align-items-center">
+            <b-nav-item :to="{ name: 'events' }" active-class="active">
+              Event
+            </b-nav-item>
+            <b-icon :icon="eventsNestedToggled ? 'dash-circle' : 'plus-circle'" @click="eventsNestedToggled = !eventsNestedToggled" />
+          </div>
+          <b-collapse id="nav-events-child" v-model="eventsNestedToggled">
+            <b-nav vertical>
+              <b-nav-item class="ml-3 my-0" :to="{ name: 'events' }" exact-active-class="active"> Statics </b-nav-item>
+              <b-nav-item class="ml-3 my-0" :to="{ name : 'eventLists' }" exact-active-class="active"> List </b-nav-item>
+            </b-nav>
+          </b-collapse>
+          <b-nav-item :to="{ name: 'users' }" active-class="active">
+            Users
+          </b-nav-item>
+          <b-nav-item exact-active-class="active">
+            Another Link
+          </b-nav-item>
+        </b-nav>
+      </b-navbar>
     </div>
     <div class="sidebar__footer">
       <div class="sidebar__close cursor-pointer ml-auto" @click="toggleSidebar">
@@ -44,7 +55,8 @@ export default {
   },
   data: () => ({
     isMobile: false,
-    close: false
+    close: false,
+    eventsNestedToggled: false
   }),
   watch: {
     collapsed (state) {
