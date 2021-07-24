@@ -112,6 +112,69 @@ const deleteEvent = async (req, res, next) => {
 const getStatics = async (req, res, next) => {
   try {
     await delay()
+
+    const salesSegment = eventSet.reduce((segment, { sales }) => {
+      const [unit, first] = [[...sales.toString()].length, [...sales.toString()][0]]
+      const datalabel = unit < 3 ? 99 : (Number(first) * Math.pow(10, unit - 1))
+      const segIndex = segment.findIndex(({ label }) => label === datalabel)
+      if (segIndex === -1) {
+        segment.push({
+          label: datalabel,
+          count: 1,
+          total: sales
+        })
+      } else {
+        segment[segIndex].count += 1
+        segment[segIndex].total += sales
+      }
+      return segment
+    }, [])
+
+    const viewsSegment = eventSet.reduce((segment, { views }) => {
+      const [unit, first] = [[...views.toString()].length, [...views.toString()][0]]
+      const datalabel = unit < 3 ? 99 : (Number(first) * Math.pow(10, unit - 1))
+      const segIndex = segment.findIndex(({ label }) => label === datalabel)
+      if (segIndex === -1) {
+        segment.push({
+          label: datalabel,
+          count: 1,
+          total: views
+        })
+      } else {
+        segment[segIndex].count += 1
+        segment[segIndex].total += views
+      }
+      return segment
+    }, [])
+    const dayjs = require('dayjs')
+    const sortedEventSet = await sortByDate(eventSet, 'openAt')
+    const openMonthSegment = sortedEventSet.reduce((segment, { openAt, sales }) => {
+      const [year, month] = [dayjs(openAt).get('year'), dayjs(openAt).add(1, 'month').get('month')]
+      const datalabel = `${year}/${month}`
+      const segIndex = segment.findIndex(({ label }) => label === datalabel)
+      if (segIndex === -1) {
+        segment.push({
+          label: datalabel,
+          count: 1,
+          sales
+        })
+      } else {
+        segment[segIndex].count += 1
+        segment[segIndex].sales += sales
+      }
+      return segment
+    }, [])
+
+    res.status(200).send({ salesSegment, viewsSegment, openMonthSegment })
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
+}
+
+const getEventStatics = async (req, res, next) => {
+  try {
+    await delay()
     const staticRes = { rate: 0, upcoming: 0 }
     if (req.query.openAt) {
       const rateSearched = await searchEvent(eventSet, { openAt: req.query.openAt, openAtQuery: 'same' })
@@ -133,6 +196,7 @@ module.exports = {
   index,
   getEvent,
   getStatics,
+  getEventStatics,
   createEvent,
   updateEvent,
   deleteEvent
