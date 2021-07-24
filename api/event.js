@@ -7,7 +7,11 @@ const { handleError } = require('./utility/error')
 
 app.get('/', ash(eventCtrl.index))
 
-app.get('/statics', ash(eventCtrl.getStatics))
+app.get('/eventStatics', ash(eventCtrl.getEventStatics))
+
+app.get('/statics',
+  ash(eventCtrl.getStatics)
+)
 
 app.get('/:id', ash(eventCtrl.getEvent))
 
