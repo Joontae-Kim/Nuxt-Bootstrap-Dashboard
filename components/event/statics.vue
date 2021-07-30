@@ -113,7 +113,7 @@ export default {
   async fetch () {
     try {
       const upcomingDate = this.computeUpcomingDate(this.upcomingValue)
-      const { total, rate, upcoming } = await this.$axios.$get('/api/event/statics', {
+      const { total, rate, upcoming } = await this.$axios.$get('/api/event/eventStatics', {
         params: { openAt: new Date(), upcomingDate }
       })
       this.totalEvent = this.computeEventString(total)
