@@ -22,7 +22,7 @@ export default {
       }, 0)
       const counts = this.doughnutPieColorSets.length >= dataCount
         ? Math.floor(this.doughnutPieColorSets.length / dataCount)
-        : Math.floor(this.totalColorCount / dataCount)
+        : Math.ceil(this.totalColorCount / dataCount)
       const colors = new Array(counts).fill(null).reduce((colorSet, color, c) => {
         const typeColors = this.getColorsByType(this.doughnutPieColorSets[c])
         colorSet = colorSet.concat(typeColors)
