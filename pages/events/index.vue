@@ -1,310 +1,76 @@
 <template>
   <b-container fluid>
     <EventStatics />
-    <b-row class="mb-2">
-      <b-col cols>
-        <dash-card :use-title="false" class="p-3">
-          <b-row align-v="center">
-            <b-col cols>
-              <button-overlay class="d-none d-md-inline-block" :show="isCreating" button-ref="createBtn">
-                <b-btn
-                  ref="createBtn"
-                  title="Add new Event"
-                  variant="primary"
-                  :disabled="globalDisabled"
-                  @click="createNewEvent"
-                >
-                  <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
-                  <span>Add Event</span>
-                </b-btn>
-              </button-overlay>
-              <button-overlay class="d-inline-block d-md-none" :show="isCreating" button-ref="createBtn-xs">
-                <b-btn
-                  ref="createBtn-xs"
-                  title="Add new Event"
-                  variant="primary"
-                  size="sm"
-                  :disabled="globalDisabled"
-                  @click="createNewEvent"
-                >
-                  <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
-                  <span>Add Event</span>
-                </b-btn>
-              </button-overlay>
-            </b-col>
-            <b-col cols>
-              <div class="d-flex align-items-center justify-content-end">
-                <b-btn
-                  title="Refresh Page"
-                  class="d-inline-block d-md-none mr-2"
-                  variant="light"
-                  size="sm"
-                  :disabled="globalDisabled"
-                  @click="refresh"
-                >
-                  <b-icon
-                    icon="arrow-clockwise"
-                    font-scale="0.95"
-                    aria-hidden="true"
-                    aria-label="Refresh"
-                    shift-v="2"
-                  />
-                </b-btn>
-                <b-btn title="Refresh Page" class="d-none d-md-inline-block mr-2" variant="light" :disabled="globalDisabled" @click="refresh">
-                  <b-icon
-                    icon="arrow-clockwise"
-                    font-scale="0.95"
-                    aria-hidden="true"
-                    aria-label="Refresh"
-                    shift-v="2"
-                  />
-                </b-btn>
-                <button-overlay :show="isDeleting" button-ref="deleteAllBtn" class="d-none d-md-inline-block" spinner-variant="danger">
-                  <b-btn
-                    ref="deleteAllBtn"
-                    title="Delete selected event rows"
-                    variant="danger"
-                    :disabled="globalDisabled || !selectedEvent.length"
-                    class="mr-2"
-                    @click="deleteAll"
-                  >
-                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
-                      <b-icon stacked icon="layout-three-columns" rotate="90" />
-                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
-                      <b-icon
-                        stacked
-                        icon="check"
-                        shift-v="-8"
-                        shift-h="6"
-                        variant="danger"
-                      />
-                    </b-iconstack>
-                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
-                  </b-btn>
-                </button-overlay>
-                <button-overlay :show="isDeleting" button-ref="deleteAllBtn-xs" class="d-inline-block d-md-none" spinner-variant="danger">
-                  <b-btn
-                    ref="deleteAllBtn-xs"
-                    title="Delete selected event rows"
-                    variant="danger"
-                    size="sm"
-                    :disabled="globalDisabled || !selectedEvent.length"
-                    class="mr-2"
-                    @click="deleteAll"
-                  >
-                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
-                      <b-icon stacked icon="layout-three-columns" rotate="90" />
-                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
-                      <b-icon
-                        stacked
-                        icon="check"
-                        shift-v="-8"
-                        shift-h="6"
-                        variant="danger"
-                      />
-                    </b-iconstack>
-                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
-                  </b-btn>
-                </button-overlay>
-                <b-btn
-                  title="Clear selected event rows"
-                  variant="secondary"
-                  class="d-none d-md-inline-block"
-                  :disabled="globalDisabled || !selectedEvent.length"
-                  @click="clearDeletingList"
-                >
-                  <b-icon
-                    icon="layout-three-columns"
-                    rotate="90"
-                    font-scale="0.99"
-                    aria-hidden="true"
-                    aria-label="Clear selected event rows"
-                    shift-v="2"
-                  />
-                </b-btn>
-                <b-btn
-                  title="Clear selected event rows"
-                  variant="secondary"
-                  class="d-inline-block d-md-none"
-                  size="sm"
-                  :disabled="globalDisabled || !selectedEvent.length"
-                  @click="clearDeletingList"
-                >
-                  <b-icon
-                    icon="layout-three-columns"
-                    rotate="90"
-                    font-scale="0.99"
-                    aria-hidden="true"
-                    aria-label="Clear selected event rows"
-                    shift-v="2"
-                  />
-                </b-btn>
+    <b-row>
+      <b-col cols="12" md="4">
+        <b-row class="flex-column h-100">
+          <b-col cols>
+            <dash-card
+              title="Total Sales"
+              icon="cash-stack"
+              :index="`$ ${totalSales}`"
+              :guide="null"
+            />
+          </b-col>
+          <b-col cols class="my-auto">
+            <dash-card
+              title="Average of Sales"
+              icon="cash"
+              :index="`$ ${avrSales}`"
+              :guide="null"
+            />
+          </b-col>
+          <b-col cols>
+            <dash-card
+              title="1st of Sales Segment"
+              custom
+              class="pb-3"
+            >
+              <div class="d-flex align-items-center justify-content-between text-muted">
+                <strong class="">Segment</strong><span>$ {{ topSalesSegment.label }}</span>
               </div>
-            </b-col>
-          </b-row>
+              <div class="d-flex align-items-center justify-content-between mt-2 text-muted">
+                <strong class="">Events of Segment</strong><span>{{ topSalesSegment.count }} Events</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-between mt-2 text-muted">
+                <strong class="">Total Sales (Shares)</strong><span>$ {{ topSalesSegment.dis_total }} ({{ topSalesSegment.percent }} %)</span>
+              </div>
+            </dash-card>
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col cols>
+        <dash-card title="Sales Segment Table" class="" table>
+          <b-table
+            :sort-by.sync="salesSegmentSortBy"
+            :sort-desc.sync="salesSegmentSortDesc"
+            :items="salesSegment"
+            :fields="salesSegmentField"
+            head-variant="light"
+            responsive
+            hover
+            class="mb-0"
+          >
+            <template #cell(total)="data">
+              {{ data.item.dis_total }}
+            </template>
+
+            <template #cell(percent)="data">
+              {{ data.value }} %
+            </template>
+          </b-table>
         </dash-card>
       </b-col>
     </b-row>
-    <b-row class="mb-4">
+    <b-row>
+      <b-col>
+        totalViews {{ totalViews }}
+        <pre>{{ viewsSegment }}</pre>
+      </b-col>
+    </b-row>
+    <b-row>
       <b-col cols>
-        <dash-card id="event-table" :use-title="false" no-padding no-overflow>
-          <b-row align-v="center" class="flex-column flex-md-row mt-3 mb-4 px-3">
-            <b-col cols class="mb-3 mb-md-0">
-              <div class="d-flex justify-content-end justify-content-md-start align-items-center">
-                <span class="mr-2">Display</span>
-                <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" size="sm" :disabled="globalDisabled" />
-                <span>events</span>
-              </div>
-            </b-col>
-            <b-col cols>
-              <div class="d-flex align-items-center justify-content-end">
-                <b-form-input
-                  v-model="searchingTitle"
-                  class="w-100 w-md-50 mr-2"
-                  placeholder="Enter event title"
-                  aria-label="Search"
-                  :disabled="globalDisabled"
-                  @keyup.enter="simpleSearch"
-                />
-                <b-btn v-b-toggle.collapse-1 variant="light" :disabled="globalDisabled">
-                  <b-icon
-                    icon="filter"
-                    font-scale="0.95"
-                    aria-hidden="true"
-                    aria-label="Refresh"
-                    shift-v="2"
-                  />
-                </b-btn>
-              </div>
-            </b-col>
-          </b-row>
-          <b-collapse id="collapse-1">
-            <Eventfilter :disabled="globalDisabled" @setSearchingState="getSearchingState" />
-          </b-collapse>
-          <b-row align-h="end" class="d-none d-md-flex px-3">
-            <b-col cols="auto">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalEvent"
-                :per-page="perPage"
-                :disabled="globalDisabled"
-              />
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols>
-              <b-table
-                ref="eventTable"
-                :busy="isSearching"
-                :sort-by.sync="eventTableOpt.SortBy"
-                :sort-desc.sync="eventTableOpt.SortDesc"
-                :items="events"
-                :fields="eventField"
-                :per-page="perPage"
-                :current-page="currentPage"
-                select-mode="multi"
-                head-variant="light"
-                responsive
-                hover
-                show-empty
-                selectable
-                class="eventTable border-bottom"
-                @row-selected="onRowSelected"
-              >
-                <template #table-busy>
-                  <div class="text-center my-4">
-                    <b-spinner class="align-middle" />
-                    <strong>Loading...</strong>
-                  </div>
-                </template>
-
-                <template #empty="scope">
-                  <div class="mt-3 mb-1 text-gray-600 text-center">{{ scope.emptyText }}</div>
-                </template>
-
-                <template #cell(index)="data">
-                  {{ data.index + 1 }}
-                </template>
-
-                <template #cell(title)="data">
-                  <div class="h6 mb-2">
-                    <div class="text-gray-700 mb-1">
-                      <NuxtLink :to="{ name: 'eventDetails', params: { id: data.item._id } }" class="text-decoration-none text-gray-800">
-                        {{ data.value }}
-                      </NuxtLink>
-                    </div>
-                    <div class="text-gray-600 small">
-                      <div>{{ data.item._id }}</div>
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <b-badge
-                      v-for="label in data.item.eventType"
-                      :key="`event-${data.index}-label-${label}`"
-                      class="mr-1 mb-1 px-2 py-1"
-                      variant="secondary"
-                      pill
-                    >
-                      {{ label }}
-                    </b-badge>
-                  </div>
-                  <div class="text-gray-600 small mt-3">
-                    <div>Created at {{ data.item.publishedAt }}</div>
-                  </div>
-                </template>
-
-                <template #cell(openAt)="data">
-                  {{ data.value || '-' }}
-                </template>
-
-                <template #cell(closedAt)="data">
-                  {{ data.value || '-' }}
-                </template>
-
-                <template #cell(sales)="data">
-                  $ {{ data.value }}
-                </template>
-
-                <template #cell(actions)="data">
-                  <b-btn
-                    :to="{ name: 'eventDetails', params: { id: data.item._id } }"
-                    variant="link"
-                    class="text-decoration-none mr-2 p-0 shadow-none"
-                    :disabled="globalDisabled || data.item.isDeleting"
-                  >
-                    <b-icon icon="pencil-square" scale="1.0" class="icon-secondary" />
-                  </b-btn>
-                  <button-overlay
-                    :show="data.item.isDeleting"
-                    :button-ref="`btn-${data.item._id}-delete`"
-                    spinner-variant="danger"
-                    :disabled="globalDisabled || data.item.isDeleting"
-                  >
-                    <b-btn
-                      :ref="`btn-${data.item._id}-delete`"
-                      variant="link"
-                      class="text-decoration-none p-0 shadow-none"
-                      :disabled="globalDisabled || data.item.isDeleting"
-                      @click="deleteEvent(data.item._id)"
-                    >
-                      <b-icon icon="trash" scale="1.0" class="icon-danger" />
-                    </b-btn>
-                  </button-overlay>
-                </template>
-              </b-table>
-            </b-col>
-          </b-row>
-          <b-row align-h="center">
-            <b-col cols="auto">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalEvent"
-                :per-page="perPage"
-                :disabled="globalDisabled"
-              />
-            </b-col>
-          </b-row>
-        </dash-card>
+        {{ openMonthSegment }}
       </b-col>
     </b-row>
   </b-container>
@@ -312,17 +78,13 @@
 
 <script>
 import { mapGetters } from "vuex"
-import searchEvent from '~/mixins/event/searchEvent'
 
 export default {
   name: 'Events',
   components: {
-    EventStatics: () => import('~/components/event/statics.vue'),
-    Eventfilter: () => import('~/components/event/filter.vue')
+    EventStatics: () => import('~/components/event/statics.vue')
   },
-  mixins: [
-    searchEvent
-  ],
+  mixins: [],
   provide () {
     return {
       parentRef: this.$refs
@@ -330,88 +92,72 @@ export default {
   },
   layout: 'dashboard',
   data: () => ({
-    isSearching: false,
-    isCreating: false,
-    isDeleting: false,
-    isDeletingEvent: false,
-    searchingTitle: null,
-    selectedEvent: [],
-    perPage: 15,
-    currentPage: 1,
-    perPageOpt: [
-      { text: 15, value: 15 },
-      { text: 30, value: 30 },
-      { text: 45, value: 45 },
-      { text: 100, value: 100 }
-    ],
-    eventTableOpt: {
-      SortBy: 'openAt',
-      SortDesc: true
-    },
-    eventField: [
+    salesSegment: null,
+    salesSegmentSortBy: 'rank',
+    salesSegmentSortDesc: false,
+    salesSegmentField: [
       {
-        label: 'Index',
-        key: 'index',
+        label: 'Rank',
+        key: 'rank',
         sortable: true,
-        thClass: '',
-        tdClass: 'text-center'
+        thClass: 'text-nowrap',
+        tdClass: 'text-gray-600'
       },
       {
-        label: 'Title',
-        key: 'title',
+        label: 'Segment',
+        key: 'label',
         sortable: true,
-        thClass: '',
-        tdClass: 'eventTable__column-title align-middle'
+        thClass: 'text-nowrap',
+        tdClass: 'text-gray-600'
       },
       {
-        label: 'Open',
-        key: 'openAt',
+        label: 'Total Sales',
+        key: 'total',
         sortable: true,
-        thClass: '',
-        tdClass: 'align-middle text-gray-700 text-nowrap'
+        thClass: 'text-nowrap',
+        tdClass: 'text-gray-600'
       },
       {
-        label: 'Close',
-        key: 'closedAt',
+        label: 'Shares (%)',
+        key: 'percent',
         sortable: true,
-        thClass: '',
-        tdClass: 'align-middle text-gray-700 text-nowrap'
+        thClass: 'text-nowrap',
+        tdClass: 'text-gray-600'
       },
       {
-        label: 'Views',
-        key: 'views',
+        label: 'Events',
+        key: 'count',
         sortable: true,
-        thClass: '',
-        tdClass: 'align-middle text-gray-700'
-      },
-      {
-        label: 'Sales',
-        key: 'sales',
-        sortable: true,
-        thClass: '',
-        tdClass: 'align-middle text-gray-700'
-      },
-      {
-        label: 'Actions',
-        key: 'actions',
-        sortable: false,
-        thClass: 'text-center',
-        tdClass: 'w-50 align-middle text-center'
+        thClass: 'text-nowrap',
+        tdClass: 'text-gray-600'
       }
-    ]
+    ],
+    totalSales: 0,
+    avrSales: 0,
+    topSalesSegment: {},
+    totalViews: 0,
+    viewsSegment: null,
+    openMonthSegment: null
   }),
   async fetch () {
-    const res = await this.$axios.$get('/api/event')
-    await this.$store.dispatch('events/DISPATCH_SET', res.list)
+    const res = await this.$axios.$get('/api/event/statics')
+    console.log(res)
+    const sortedSalesSegment = res.salesSegment.sort((b, a) => a.total - b.total)
+    const totalSales = sortedSalesSegment.reduce((totalSales, { total }) => totalSales + total, 0)
+    this.salesSegment = sortedSalesSegment.map((sale, s) => ({ ...sale, rank: s + 1, dis_total: this.formatNumber(sale.total), percent: Number(Number((sale.total / totalSales) * 100).toFixed(1)) }))
+    this.topSalesSegment = this.salesSegment[0]
+    this.totalSales = this.formatNumber(totalSales)
+    this.avrSales = this.formatNumber(Math.floor(totalSales / res.salesSegment.length))
+    const totalViews = res.viewsSegment.reduce((totalViews, { total }) => totalViews + total, 0)
+    this.viewsSegment = res.viewsSegment.map(view => ({ ...view, dis_total: this.formatNumber(view.total), percent: Number(Number((view.total / totalViews) * 100).toFixed(1)) }))
+    this.totalViews = this.formatNumber(totalViews)
+    this.openMonthSegment = res.openMonthSegment.reverse().map(monthData => ({ ...monthData, sales: this.formatNumber(monthData.sales) }))
   },
   computed: {
     ...mapGetters({
       events: 'events/getEvents',
       totalEvent: 'events/getTotalEventCount'
-    }),
-    globalDisabled () {
-      return this.isSearching || this.isCreating || this.isDeleting || this.isDeletingEvent
-    }
+    })
   },
   watch: {
     '$fetchState.pending': {
@@ -428,79 +174,9 @@ export default {
   beforeDestroy () {
     this.$store.commit('events/add', null)
   },
-  methods: {
-    getSearchingState (state) {
-      this.isSearching = state
-    },
-    async createNewEvent () {
-      this.isCreating = true
-      const newEventRes = await this.$axios.post('/api/event', {
-        title: 'new Bootstrap Event'
-      })
-      const { list } = newEventRes.data
-      this.eventTableOpt.SortBy = null
-      this.$store.dispatch('events/DISPATCH_SET', list)
-      this.isCreating = false
-    },
-    async simpleSearch () {
-      try {
-        this.isSearching = true
-        const searchRes = await this.searchEvent({ title: this.searchingTitle })
-        await this.$store.dispatch('events/DISPATCH_SET', searchRes.list)
-      } catch (err) {
-        console.log(err)
-      } finally {
-        this.isSearching = false
-      }
-    },
-    async deleteAll () {
-      try {
-        this.isDeleting = true
-        if (this.selectedEvent.length) {
-          const deletingEvent = this.selectedEvent.map(event => event._id)
-          const deletedRes = await this.$axios.delete('/api/event/', {
-            data: { single: false, deleting: deletingEvent }
-          })
-          const { list } = deletedRes.data
-          await this.$store.dispatch('events/DISPATCH_SET', list)
-        }
-      } catch (err) {
-        console.log(`          ~ err => `, err)
-        console.log(`          ~ err.message => `, err.message)
-      } finally {
-        this.isDeleting = false
-      }
-    },
-    async deleteEvent (id) {
-      try {
-        this.isDeletingEvent = true
-        this.$store.commit('events/update', { id, content: { isDeleting: true } })
-        this.$refs.eventTable.refresh()
-        const deletedRes = await this.$axios.delete('/api/event/', {
-          data: { single: true, deleting: id }
-        })
-        const { list } = deletedRes.data
-        await this.$store.dispatch('events/DISPATCH_SET', list)
-      } catch (err) {
-        console.log(`            ~ err => `, err)
-        console.log(`            ~ err.message => `, err.message)
-      } finally {
-        this.isDeletingEvent = false
-      }
-    },
-    clearDeletingList () {
-      this.selectedEvent = []
-    },
-    async refresh () {
-      await this.$fetch()
-    },
-    onRowSelected (items) {
-      this.selectedEvent = items
-    }
-  }
+  methods: {}
 }
 </script>
 
 <style lang="scss">
-@import '../../assets/styles/custom/eventTable.scss';
 </style>
