@@ -112,7 +112,13 @@ export default {
       return options
     },
     generateChartColor () {
-      const colors = this.getRandomColors(this.data.datasets.length)
+      let colors = null
+      if (this.data.datasets.length > 1) {
+        const colorsTypes = this.getRandomType(this.data.datasets.length)
+        colors = this.getColorsByType(colorsTypes)
+      } else {
+        colors = this.getRandomColors(this.data.datasets.length)
+      }
       colors.forEach(({ rgb, border, background }, c) => {
         this.data.datasets[c].backgroundColor = background
         this.data.datasets[c].pointBackgroundColor = border
