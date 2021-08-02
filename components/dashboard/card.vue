@@ -10,7 +10,7 @@
               <div v-show="rate" class="text-success dsCard__subIndex mb-1">
                 <slot name="rate">+ {{ rate }}%</slot>
               </div>
-              <div class="dsCard__guide">{{ guide }}</div>
+              <div v-if="guide" class="dsCard__guide">{{ guide }}</div>
             </b-col>
           </b-row>
         </b-col>
