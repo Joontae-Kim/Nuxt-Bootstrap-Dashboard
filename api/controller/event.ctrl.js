@@ -1,7 +1,8 @@
 const { createEventFullSet, searchEvent, createNewEvent, updateEventElement, deleteEventElement, createEventDetail, getRelativeEvent } = require('../lib/event')
 const delay = require('../utility/delayResponse')
 const { ErrorHandler } = require('../utility/error')
-const { sortByDate } = require('../utility/dates')
+const { createDateArray, sortByDate } = require('../utility/dates')
+const { createSerialRandom } = require('../utility/createRandom')
 
 let eventSet = []
 ;(async function () {
@@ -130,22 +131,25 @@ const getStatics = async (req, res, next) => {
       return segment
     }, [])
 
-    const viewsSegment = eventSet.reduce((segment, { views }) => {
-      const [unit, first] = [[...views.toString()].length, [...views.toString()][0]]
-      const datalabel = unit < 3 ? 99 : (Number(first) * Math.pow(10, unit - 1))
-      const segIndex = segment.findIndex(({ label }) => label === datalabel)
-      if (segIndex === -1) {
-        segment.push({
-          label: datalabel,
-          count: 1,
-          total: views
-        })
-      } else {
-        segment[segIndex].count += 1
-        segment[segIndex].total += views
-      }
-      return segment
+    const trafficSource = ['organic', 'direct', 'ads', 'email']
+    const trafficSourceRangle = {
+      direct: { min: 230, max: 380 },
+      organic: { min: 175, max: 240 },
+      ads: { min: 123, max: 148 },
+      email: { min: 75, max: 100 }
+    }
+    const eventTraffics = trafficSource.reduce((traffics, source, t) => {
+      console.log('source: ', source)
+      console.log('trafficSourceRangle[source]: ', trafficSourceRangle[source])
+      const sourceTraffic = createSerialRandom(...Object.values({...trafficSourceRangle[source], count: 7}))
+      traffics.push({ source, data: sourceTraffic })
+      return traffics
     }, [])
+    const eventDailyTraffic = {
+      dates: createDateArray(new Date(), null, 7),
+      traffics: eventTraffics
+    }
+
     const dayjs = require('dayjs')
     const sortedEventSet = await sortByDate(eventSet, 'openAt')
     const openMonthSegment = sortedEventSet.reduce((segment, { openAt, sales }) => {
@@ -165,7 +169,7 @@ const getStatics = async (req, res, next) => {
       return segment
     }, [])
 
-    res.status(200).send({ salesSegment, viewsSegment, openMonthSegment })
+    res.status(200).send({ salesSegment, eventDailyTraffic, openMonthSegment })
   } catch (err) {
     console.log(err)
     next(err)

@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <EventStatics />
-    <b-row>
+    <b-row class="mb-4">
       <b-col cols="12" md="4">
         <b-row class="flex-column h-100">
           <b-col cols>
@@ -12,7 +12,7 @@
               :guide="null"
             />
           </b-col>
-          <b-col cols class="my-auto">
+          <b-col cols class="my-4">
             <dash-card
               title="Average of Sales"
               icon="cash"
@@ -40,7 +40,7 @@
         </b-row>
       </b-col>
       <b-col cols>
-        <dash-card title="Sales Segment Table" class="" table>
+        <dash-card title="Sales Segment Table" class="h-100" table>
           <b-table
             :sort-by.sync="salesSegmentSortBy"
             :sort-desc.sync="salesSegmentSortDesc"
@@ -49,7 +49,8 @@
             head-variant="light"
             responsive
             hover
-            class="mb-0"
+            class="mb-0 h-100"
+            table-class="h-100"
           >
             <template #cell(total)="data">
               {{ data.item.dis_total }}
@@ -63,11 +64,34 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col>
-        totalViews {{ totalViews }}
-        <pre>{{ viewsSegment }}</pre>
+      <b-col cols>
+        <dash-card title="Total Event Traffic" class="h-100">
+          <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
+            <b-col cols class="chart-container chart-h-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250">
+              <LazyLineChart
+                canvas-id="traffic-chart"
+                :data="eventTraffics"
+                :custom-opt="{ legend: { position: 'bottom' } }"
+                :scales-x="[{ time: { stepSize: 3 } }]"
+                use-data-label
+                :data-label-opt="trafficLableOpt"
+                user-x-axes-as-time
+                tooltip
+                responsive
+                legend-view
+                class="pb-xxl-3"
+              />
+            </b-col>
+          </b-row>
+        </dash-card>
       </b-col>
     </b-row>
+    <!-- <b-row>
+      <b-col cols>
+        eventTraffics
+        <pre>{{ eventTraffics }}</pre>
+      </b-col>
+    </b-row> -->
     <b-row>
       <b-col cols>
         {{ openMonthSegment }}
@@ -135,8 +159,7 @@ export default {
     totalSales: 0,
     avrSales: 0,
     topSalesSegment: {},
-    totalViews: 0,
-    viewsSegment: null,
+    eventTraffics: [],
     openMonthSegment: null
   }),
   async fetch () {
@@ -148,16 +171,32 @@ export default {
     this.topSalesSegment = this.salesSegment[0]
     this.totalSales = this.formatNumber(totalSales)
     this.avrSales = this.formatNumber(Math.floor(totalSales / res.salesSegment.length))
-    const totalViews = res.viewsSegment.reduce((totalViews, { total }) => totalViews + total, 0)
-    this.viewsSegment = res.viewsSegment.map(view => ({ ...view, dis_total: this.formatNumber(view.total), percent: Number(Number((view.total / totalViews) * 100).toFixed(1)) }))
-    this.totalViews = this.formatNumber(totalViews)
+    const eventTrafficsDatasets = res.eventDailyTraffic.traffics.map(({ source, data }) => ({ label: source, data }))
+    this.eventTraffics = {
+      labels: res.eventDailyTraffic.dates,
+      datasets: eventTrafficsDatasets
+    }
+    console.log('res.eventDailyTraffic: ', res.eventDailyTraffic)
     this.openMonthSegment = res.openMonthSegment.reverse().map(monthData => ({ ...monthData, sales: this.formatNumber(monthData.sales) }))
   },
   computed: {
     ...mapGetters({
       events: 'events/getEvents',
       totalEvent: 'events/getTotalEventCount'
-    })
+    }),
+    trafficLableOpt () {
+      return {
+        clip: false,
+        align: 'center',
+        anchor: 'center',
+        formatter (value, context) {
+          return value.y
+        },
+        display (context) {
+          return window.innerWidth >= 992 && context.dataIndex % 2
+        }
+      }
+    }
   },
   watch: {
     '$fetchState.pending': {
