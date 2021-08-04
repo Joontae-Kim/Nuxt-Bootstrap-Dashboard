@@ -63,7 +63,7 @@
         </dash-card>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="mb-4">
       <b-col cols>
         <dash-card title="Total Event Traffic" class="h-100 pb-2">
           <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
@@ -93,15 +93,58 @@
         </dash-card>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col cols>
-        {{ openMonthSegment }}
+    <b-row class="mb-4">
+      <b-col cols="12" md="6" class="mb-4 mb-md-0">
+        <dash-card title="Event Open Segment - Chart" class="h-100 pb-2">
+          <b-row id="openSegment-chart-wrapper" align-v="center" class="h-100">
+            <b-col cols class="chart-container chart-h-30 chart-h-lg-40 chart-range-h-200 chart-range-h-250 chart-range-h-md-200 chart-range-h-lg-250">
+              <LazyBarChart
+                canvas-id="openSegment-chart"
+                :data="openMonthSegment"
+                :scales-y="[{ticks: { display: false, beginAtZero: true, stepSize: 2 }}]"
+                :data-label-opt="{ color: '#fff' }"
+                user-x-axes-as-time
+                responsive
+                tooltip
+                use-data-label
+              />
+            </b-col>
+          </b-row>
+        </dash-card>
+      </b-col>
+      <b-col>
+        <dash-card title="Event Open Segment - Table" class="h-100 pb-2" table>
+          <b-row>
+            <b-col cols>
+              <b-table
+                :sort-by.sync="openMonthSegmentSortBy"
+                :sort-desc.sync="openMonthSegmentSortDesc"
+                :items="openMonthSegmentRaw"
+                :fields="openMonthSegmentField"
+                head-variant="light"
+                responsive
+                hover
+                small
+                class="mb-0 h-100"
+              >
+                <template #cell(total)="data">
+                  {{ data.item.dis_total }}
+                </template>
+
+                <template #cell(sales)="data">
+                  $ {{ data.item.dis_sales }}
+                </template>
+              </b-table>
+            </b-col>
+          </b-row>
+        </dash-card>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+import dayjs from "dayjs"
 import { mapGetters } from "vuex"
 
 export default {
@@ -160,8 +203,34 @@ export default {
     totalSales: 0,
     avrSales: 0,
     topSalesSegment: {},
-    eventTraffics: [],
-    openMonthSegment: null
+    eventTraffics: {},
+    openMonthSegmentRaw: null,
+    openMonthSegment: {},
+    openMonthSegmentSortBy: 'sales',
+    openMonthSegmentSortDesc: false,
+    openMonthSegmentField: [
+      {
+        label: 'Month',
+        key: 'label',
+        sortable: true,
+        thClass: 'text-nowrap pl-3',
+        tdClass: 'text-gray-600 py- pl-3'
+      },
+      {
+        label: 'Sales',
+        key: 'sales',
+        sortable: true,
+        thClass: 'text-nowrap pl-3',
+        tdClass: 'text-gray-600 py-2 pl-3'
+      },
+      {
+        label: 'Events',
+        key: 'count',
+        sortable: true,
+        thClass: 'text-nowrap pl-3',
+        tdClass: 'text-gray-600 py-2 pl-3'
+      }
+    ]
   }),
   async fetch () {
     const res = await this.$axios.$get('/api/event/statics')
@@ -176,7 +245,13 @@ export default {
       labels: res.eventDailyTraffic.dates,
       datasets: res.eventDailyTraffic.traffics.map(({ source, data }) => ({ label: source, data, fill: false }))
     }
-    this.openMonthSegment = res.openMonthSegment.reverse().map(monthData => ({ ...monthData, sales: this.formatNumber(monthData.sales) }))
+    this.openMonthSegmentRaw = res.openMonthSegment.reverse().map(monthData => ({ ...monthData, label: dayjs(monthData.label).format('YYYY-MM'), dis_sales: this.formatNumber(monthData.sales) }))
+    this.openMonthSegment = {
+      labels: this.openMonthSegmentRaw.map(({ label }) => dayjs(label).format('MM/YY')),
+      datasets: [{
+        data: this.openMonthSegmentRaw.map(({ count }) => count)
+      }]
+    }
   },
   computed: {
     ...mapGetters({
