@@ -153,7 +153,7 @@ const getStatics = async (req, res, next) => {
     const sortedEventSet = await sortByDate(eventSet, 'openAt')
     const openMonthSegment = sortedEventSet.reduce((segment, { openAt, sales }) => {
       const openDay = dayjs(openAt)
-      const datalabel = openDay.format('MM/YY')
+      const datalabel = openDay.format('YYYY-MM-01')
       const segIndex = segment.findIndex(({ label }) => label === datalabel)
       if (segIndex === -1) {
         segment.push({
