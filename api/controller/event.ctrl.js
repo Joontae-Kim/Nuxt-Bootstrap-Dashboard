@@ -135,18 +135,17 @@ const getStatics = async (req, res, next) => {
     const trafficSourceRangle = {
       direct: { min: 230, max: 380 },
       organic: { min: 175, max: 240 },
-      ads: { min: 123, max: 148 },
-      email: { min: 75, max: 100 }
+      ads: { min: 90, max: 145 },
+      email: { min: 45, max: 100 }
     }
     const eventTraffics = trafficSource.reduce((traffics, source, t) => {
-      console.log('source: ', source)
-      console.log('trafficSourceRangle[source]: ', trafficSourceRangle[source])
-      const sourceTraffic = createSerialRandom(...Object.values({...trafficSourceRangle[source], count: 7}))
+      const sourceTraffic = createSerialRandom(...Object.values({ ...trafficSourceRangle[source], count: 15 }))
       traffics.push({ source, data: sourceTraffic })
       return traffics
     }, [])
+
     const eventDailyTraffic = {
-      dates: createDateArray(new Date(), null, 7),
+      dates: createDateArray(new Date(), null, 15),
       traffics: eventTraffics
     }
 
