@@ -65,33 +65,34 @@
     </b-row>
     <b-row>
       <b-col cols>
-        <dash-card title="Total Event Traffic" class="h-100">
+        <dash-card title="Total Event Traffic" class="h-100 pb-2">
           <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250">
+            <b-col cols md="10" class="chart-container chart-h-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250">
               <LazyLineChart
                 canvas-id="traffic-chart"
                 :data="eventTraffics"
-                :custom-opt="{ legend: { position: 'bottom' } }"
+                :custom-opt="{ fill: false }"
                 :scales-x="[{ time: { stepSize: 3 } }]"
                 use-data-label
                 :data-label-opt="trafficLableOpt"
                 user-x-axes-as-time
+                :legend-view="false"
+                :custom-legend="true"
+                custom-legend-id="traffic-chart-lengend"
+                :legend-callback="trafficLegendCb"
+                :custom-legend-click="trafficLegendClick"
                 tooltip
                 responsive
-                legend-view
                 class="pb-xxl-3"
               />
+            </b-col>
+            <b-col cols md="2" class="mt-3 mt-md-0">
+              <div id="traffic-chart-lengend" class="d-flex justify-content-around flex-md-column" />
             </b-col>
           </b-row>
         </dash-card>
       </b-col>
     </b-row>
-    <!-- <b-row>
-      <b-col cols>
-        eventTraffics
-        <pre>{{ eventTraffics }}</pre>
-      </b-col>
-    </b-row> -->
     <b-row>
       <b-col cols>
         {{ openMonthSegment }}
@@ -171,12 +172,10 @@ export default {
     this.topSalesSegment = this.salesSegment[0]
     this.totalSales = this.formatNumber(totalSales)
     this.avrSales = this.formatNumber(Math.floor(totalSales / res.salesSegment.length))
-    const eventTrafficsDatasets = res.eventDailyTraffic.traffics.map(({ source, data }) => ({ label: source, data }))
     this.eventTraffics = {
       labels: res.eventDailyTraffic.dates,
-      datasets: eventTrafficsDatasets
+      datasets: res.eventDailyTraffic.traffics.map(({ source, data }) => ({ label: source, data, fill: false }))
     }
-    console.log('res.eventDailyTraffic: ', res.eventDailyTraffic)
     this.openMonthSegment = res.openMonthSegment.reverse().map(monthData => ({ ...monthData, sales: this.formatNumber(monthData.sales) }))
   },
   computed: {
@@ -196,6 +195,9 @@ export default {
           return window.innerWidth >= 992 && context.dataIndex % 2
         }
       }
+    },
+    eventTrafficsCustomOpt () {
+      return new Array(this.eventTraffics.datasets.length).fill({ fill: false })
     }
   },
   watch: {
@@ -213,7 +215,55 @@ export default {
   beforeDestroy () {
     this.$store.commit('events/add', null)
   },
-  methods: {}
+  methods: {
+    trafficLegendCb (chart) {
+      const datasets = chart.data.datasets
+      const legendGroup = datasets.reduce((group, dataset, d) => {
+        const backgroundColor = dataset.borderColor
+        group.push(`
+        <div id="traffic-legend-${d}" data-legend-role="parent" data-chart-dataset="${d}" class="d-inline-flex d-md-flex align-items-center mb-2 user-select-none" style="color:${backgroundColor}; font-size: 0.8rem">
+          <div data-legend-parent="traffic-legend-${d}" class="legend-content">
+            <span class="legend-dot legend-dot--circle" style="background-color:${backgroundColor}"></span>
+            <span class="ml-2">${dataset.label}</span>
+          </div>
+        </div>
+        `)
+        return group
+      }, [])
+      return legendGroup.join('')
+    },
+    trafficLegendClick (chart, event) {
+      event = event || window.event
+      let target = event.target || event.srcElement
+      if (target) {
+        if (!target.dataset.legendRole) {
+          while (!target.dataset.legendParent) {
+            target = target.parentElement
+          }
+          target = document.getElementById(target.dataset.legendParent)
+        }
+        const datasetIdx = target.dataset.chartDataset
+        const dataSetMetasHidden = new Array(chart.data.datasets.length).fill(null).reduce((datasetsHidden, dataset, d) => {
+          const meta = chart.getDatasetMeta(d)
+          datasetsHidden.push(meta.hidden)
+          return datasetsHidden
+        }, [])
+        dataSetMetasHidden[datasetIdx] = !dataSetMetasHidden[datasetIdx]
+        const isAllHidden = dataSetMetasHidden.filter(metaHidden => metaHidden === true)
+        if (isAllHidden.length === dataSetMetasHidden.length) {
+          return false
+        }
+        const meta = chart.getDatasetMeta(datasetIdx)
+        if (meta.hidden === null || meta.hidden === false) {
+          target.classList.add('legend-hidden')
+        } else {
+          target.classList.remove('legend-hidden')
+        }
+        meta.hidden = !meta.hidden
+        chart.update()
+      }
+    }
+  }
 }
 </script>
 
