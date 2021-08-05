@@ -1,10 +1,10 @@
 <template>
   <b-container fluid>
     <EventStatics />
-    <b-row class="mb-4">
-      <b-col cols="12" md="4">
-        <b-row class="flex-column h-100">
-          <b-col cols>
+    <b-row class="mb-4 h-100">
+      <b-col cols="12" md="5" lg="4" class="h-100">
+        <b-row class="flex-column h-100 mb-4 mb-md-0">
+          <b-col colszz>
             <dash-card
               title="Total Sales"
               icon="cash-stack"
@@ -39,7 +39,7 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col cols>
+      <b-col cols md="7" lg="8">
         <dash-card title="Sales Segment Table" class="h-100" table>
           <b-table
             :sort-by.sync="salesSegmentSortBy"
