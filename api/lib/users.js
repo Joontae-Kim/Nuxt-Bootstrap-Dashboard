@@ -229,3 +229,38 @@ export function createRandomPurchaseList (createdAt, lastSignedin) {
     resolve(purchaseList)
   })
 }
+
+export function commonStatics () {
+  const total = {
+    value: randomIndex(900, 1300),
+    rate: randomIndex(7, 17, false, 1)
+  }
+  const newUsers = {
+    rate: randomIndex(4, 13, false, 1)
+  }
+  newUsers.value = Math.floor(total.value * (newUsers.rate / 100))
+  const paymentsAttr = { amount: 0, count: 0 }
+  let payments = ['Alipay', 'Credit card', 'Money transfer', 'Apple Pay', 'Paypal', 'Debit card', 'Visa checkout']
+  payments = payments.reduce((resample, payment) => {
+    const [amount, count] = [randomIndex(205, 642), randomIndex(23, 143)]
+    paymentsAttr.amount += amount
+    paymentsAttr.count += count
+    resample.push({ payment, amount, count })
+    return resample
+  }, [])
+  payments = payments.map(payment => ({
+    ...payment,
+    amountPercent: Number(Number.parseFloat((payment.amount / paymentsAttr.amount) * 100).toFixed(1)),
+    countPercent: Number(Number.parseFloat((payment.count / paymentsAttr.count) * 100).toFixed(1))
+  }))
+  let authentications = ['Facebook', 'Github', 'Google', 'E-mail']
+  let authTotalCounts = 0
+  authentications = authentications.reduce((resample, authentication) => {
+    const count = randomIndex(41, 143)
+    authTotalCounts += count
+    resample.push({ authentication, count })
+    return resample
+  }, [])
+  authentications = authentications.map(auth => ({ ...auth, percent: Number(Number.parseFloat((auth.count / authTotalCounts) * 100).toFixed(1)) }))
+  return { total, newUsers, payments, authentications }
+}
