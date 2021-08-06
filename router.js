@@ -10,6 +10,8 @@ const page500 = () => import('~/pages/500')
 const events = () => import('~/pages/event/index')
 const event = () => import('~/pages/event/_id')
 const users = () => import('~/pages/users/index')
+const userStatics = () => import('~/pages/users/statics')
+const usersList = () => import('~/pages/users/list')
 const user = () => import('~/pages/users/_id')
 
 export function extendRoutes (routes, resolve) {
@@ -42,7 +44,7 @@ export function extendRoutes (routes, resolve) {
       name: 'events',
       path: '/events',
       component: resolve(__dirname, 'pages/events/index'),
-      chunkName: 'pages/event/index',
+      chunkName: 'pages/event/index'
     },
     {
       name: 'eventLists',
@@ -57,10 +59,18 @@ export function extendRoutes (routes, resolve) {
       chunkName: 'pages/event/_id'
     },
     {
-      name: 'users',
-      path: '/users',
-      component: resolve(__dirname, 'pages/users/index'),
-      chunkName: 'pages/users/index'
+      name: 'userStatics',
+      path: '/users/statics',
+      component: resolve(__dirname, 'pages/users/statics'),
+      chunkName: 'pages/users/statics',
+      meta: { parent: 'users' }
+    },
+    {
+      name: 'usersList',
+      path: '/users/list',
+      component: resolve(__dirname, 'pages/users/list'),
+      chunkName: 'pages/users/list',
+      meta: { parent: 'users' }
     },
     {
       name: 'userDetails',
@@ -112,6 +122,16 @@ export function createRouter () {
         name: 'users',
         path: '/users',
         component: users
+      },
+      {
+        name: 'userStatics',
+        path: '/users/statics',
+        component: userStatics
+      },
+      {
+        name: 'usersList',
+        path: '/users/list',
+        component: usersList
       },
       {
         name: 'userDetails',
