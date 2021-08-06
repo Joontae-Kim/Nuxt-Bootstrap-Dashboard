@@ -23,9 +23,18 @@
               <b-nav-item class="ml-3 my-0" :to="{ name : 'eventLists' }" exact-active-class="active"> List </b-nav-item>
             </b-nav>
           </b-collapse>
-          <b-nav-item :to="{ name: 'users' }" active-class="active">
-            Users
-          </b-nav-item>
+          <div class="d-flex justify-content-between align-items-center">
+            <b-nav-item :to="{ name: 'userStatics' }" :active="$route.meta.parent === 'users'">
+              Users
+            </b-nav-item>
+            <b-icon :icon="usersNestedToggled ? 'dash-circle' : 'plus-circle'" @click="usersNestedToggled = !usersNestedToggled" />
+          </div>
+          <b-collapse id="nav-events-child" v-model="usersNestedToggled">
+            <b-nav vertical>
+              <b-nav-item class="ml-3 my-0" :to="{ name: 'userStatics' }" exact-active-class="active"> Statics </b-nav-item>
+              <b-nav-item class="ml-3 my-0" :to="{ name : 'usersList' }" exact-active-class="active"> List </b-nav-item>
+            </b-nav>
+          </b-collapse>
           <b-nav-item exact-active-class="active">
             Another Link
           </b-nav-item>
@@ -56,7 +65,8 @@ export default {
   data: () => ({
     isMobile: false,
     close: false,
-    eventsNestedToggled: false
+    eventsNestedToggled: false,
+    usersNestedToggled: false
   }),
   watch: {
     collapsed (state) {
