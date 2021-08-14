@@ -336,11 +336,12 @@ export default {
           data: statics.data.authentications.map(({ percent }) => percent)
         }]
       }
+      const paymentsSet = statics.data.payments.map(({ amountPercent }) => amountPercent)
       this.authentications = statics.data.authentications
       this.paymentsChartData = {
         labels: statics.data.payments.map(({ payment }) => payment),
         datasets: [{
-          data: statics.data.payments.map(({ amountPercent }) => amountPercent)
+          data: paymentsSet
         }]
       }
       this.payments = statics.data.payments
@@ -407,7 +408,16 @@ export default {
         anchor: 'end',
         align ({ chart, dataIndex }) {
           const dataPeer = chart.data.labels.length - 1
-          return dataIndex === 0 || dataIndex === dataPeer ? 'start' : 'center'
+          if (dataIndex === 0 || dataIndex === dataPeer || dataIndex === dataPeer - 1) {
+            if (dataIndex !== dataPeer - 1) {
+              return 'start'
+            } else {
+              const data = chart.data.datasets[0].data[dataIndex]
+              return data < 13 ? 'start' : 'center'
+            }
+          } else {
+            return 'center'
+          }
         },
         borderRadius: 16,
         borderWidth: 2,
@@ -416,12 +426,18 @@ export default {
         backgroundColor (context) {
           return context.dataset.backgroundColor
         },
-        display ({ chart, dataIndex }) {
-          return chart.width >= 200 && chart.data.datasets[0].data[dataIndex] >= 13
-        },
         offset ({ chart, dataIndex }) {
           const dataPeer = chart.data.labels.length - 1
-          return dataIndex === 0 ? -10 : (dataIndex === dataPeer) ? -6 : (dataIndex === (dataPeer - 1)) ? -7 : 3
+          if (dataIndex === 0) {
+            return -10
+          } else if (dataIndex === dataPeer || dataIndex === (dataPeer - 1)) {
+            const data = chart.data.datasets[0].data[dataIndex]
+            return data < 13
+              ? dataIndex === (dataPeer - 1) ? -10 : -4
+              : -6.5
+          } else {
+            return 3
+          }
         },
         formatter (value, context) {
           const formerLetter = context.chart.data.labels[context.dataIndex].split(' ')[0]
@@ -442,9 +458,6 @@ export default {
         borderColor: "white",
         backgroundColor (context) {
           return context.dataset.backgroundColor
-        },
-        display ({ chart, dataIndex }) {
-          return chart.width >= 200 && chart.data.datasets[0].data[dataIndex] >= 13
         },
         offset ({ chart, dataIndex }) {
           const dataPeer = chart.data.labels.length - 1
@@ -474,7 +487,7 @@ export default {
         legendHtml.push(`<div id="payment-amount-legend-${d}"
           data-legend-role="parent" data-legend-parent="payment-amount-legend-${d}"
           data-chart-dataset="0" data-chart-idx="${d}"
-          class="d-flex align-items-center user-select-none text-nowrap mb-2 mb-md-0" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
+          class="d-flex align-items-center user-select-none text-nowrap mb-2 mb-md-0 w-50" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
           <span class="legend-dot legend-dot--circle" style="background-color:${ds.backgroundColor[d]}"></span>
           <span class="ml-2">${labels[d]}</span>
         </div>`)
