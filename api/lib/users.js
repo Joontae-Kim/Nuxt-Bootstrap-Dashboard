@@ -240,14 +240,15 @@ export function commonStatics () {
   }
   newUsers.value = Math.floor(total.value * (newUsers.rate / 100))
   const paymentsAttr = { amount: 0, count: 0 }
-  let payments = ['Alipay', 'Credit card', 'Money transfer', 'Apple Pay', 'Paypal', 'Debit card', 'Visa checkout']
+  let payments = ['Credit card', 'Money transfer', 'Apple Pay', 'Paypal', 'Debit card', 'Visa checkout']
   payments = payments.reduce((resample, payment) => {
-    const [amount, count] = [randomIndex(205, 642), randomIndex(23, 143)]
+    const [amount, count] = [randomIndex(205, 642), randomIndex(73, 143)]
     paymentsAttr.amount += amount
     paymentsAttr.count += count
     resample.push({ payment, amount, count })
     return resample
   }, [])
+  payments = payments.sort((a, b) => b.amount - a.amount)
   payments = payments.map(payment => ({
     ...payment,
     amountPercent: Number(Number.parseFloat((payment.amount / paymentsAttr.amount) * 100).toFixed(1)),
@@ -262,5 +263,6 @@ export function commonStatics () {
     return resample
   }, [])
   authentications = authentications.map(auth => ({ ...auth, percent: Number(Number.parseFloat((auth.count / authTotalCounts) * 100).toFixed(1)) }))
+  authentications = authentications.sort((a, b) => b.percent - a.percent)
   return { total, newUsers, payments, authentications }
 }
