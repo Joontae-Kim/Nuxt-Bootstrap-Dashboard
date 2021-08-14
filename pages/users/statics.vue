@@ -180,7 +180,7 @@
               />
             </b-col>
             <b-col cols>
-              <div id="authShare-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 pb-md-2 px-md-0" />
+              <div id="authShare-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 my-md-1" />
             </b-col>
           </b-row>
         </dash-card>
