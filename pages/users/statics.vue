@@ -104,13 +104,56 @@
       </b-col>
     </b-row>
     <b-row class="mb-4">
-      <b-col cols>
-        <h4>payments chart</h4>
-        {{ payments }}
+      <b-col cols md="5">
+        <dash-card title="Total amount of The Payment" class="h-100 pb-3 pb-lg-0">
+          <b-row id="payment-amount-chart-wrapper" align-v="center" class="flex-column h-100 p-lg-3" no-gutters>
+            <b-col cols class="chart-container chart-h-20 chart-range-h-200">
+              <LazyPieChart
+                canvas-id="payment-amount-chart"
+                :data="paymentsChartData"
+                :data-label-opt="{ color: '#fff' }"
+                :legend-view="false"
+                :custom-legend="true"
+                custom-legend-id="payment-amount-chart-lengend"
+                :legend-callback="paymentsLegendCb"
+                :use-custom-legend-click="true"
+                custom-legend-click="default"
+                responsive
+                use-data-label
+              />
+            </b-col>
+            <b-col cols>
+              <div id="payment-amount-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 pt-md-4 px-md-3" />
+            </b-col>
+          </b-row>
+        </dash-card>
       </b-col>
-      <b-col cols>
-        <h4>payments table</h4>
-        {{ payments }}
+      <b-col cols md="7">
+        <dash-card title="Payment - List" class="h-100" table>
+          <b-table
+            :sort-by.sync="paymentsSortBy"
+            :sort-desc.sync="paymentssortDesc"
+            :items="payments"
+            :fields="paymentsField"
+            head-variant="light"
+            responsive
+            hover
+            class="mb-0"
+          >
+            <template #cell(amount)="data">
+              {{ data.value }}
+            </template>
+            <template #cell(amountPercent)="data">
+              {{ data.value }} %
+            </template>
+            <template #cell(count)="data">
+              {{ data.value }}
+            </template>
+            <template #cell(countPercent)="data">
+              {{ data.value }} %
+            </template>
+          </b-table>
+        </dash-card>
       </b-col>
     </b-row>
     <b-row class="mb-4">
@@ -121,6 +164,12 @@
       <b-col cols>
         <h4>authentications table</h4>
         {{ authentications }}
+      </b-col>
+    </b-row>
+    <b-row class="mb-4">
+      <b-col cols>
+        <h4>authentications</h4>
+        <pre>{{ authentications }}</pre>
       </b-col>
     </b-row>
   </b-container>
@@ -142,7 +191,47 @@ export default {
     weekTrafficDataset: [],
     timeTrafficDataset: {},
     authentications: [],
-    payments: []
+    paymentsChartData: [],
+    payments: [],
+    paymentsSortBy: 'amount',
+    paymentssortDesc: true,
+    paymentsField: [
+      {
+        label: 'Payment',
+        key: 'payment',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: 'Amount',
+        key: 'amount',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: '- Share',
+        key: 'amountPercent',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: 'Count',
+        key: 'count',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      },
+      {
+        label: '- Share',
+        key: 'countPercent',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600'
+      }
+    ]
   }),
   async fetch () {
     try {
@@ -178,6 +267,12 @@ export default {
       }
       this.authentications = statics.data.authentications
       console.log('this.authentications: ', this.authentications)
+      this.paymentsChartData = {
+        labels: statics.data.payments.map(({ payment }) => payment),
+        datasets: [{
+          data: statics.data.payments.map(({ amountPercent }) => amountPercent)
+        }]
+      }
       this.payments = statics.data.payments
       console.log('this.payments: ', this.payments)
     } catch (err) {
@@ -247,6 +342,23 @@ export default {
           this.$nuxt.$emit('pageLoading', state)
         }
       }
+    }
+  },
+  methods: {
+    paymentsLegendCb (chart) {
+      const ds = chart.data.datasets[0]
+      const labels = chart.data.labels
+      const text = ds.data.reduce((legendHtml, data, d) => {
+        legendHtml.push(`<div id="payment-amount-legend-${d}"
+          data-legend-role="parent" data-legend-parent="payment-amount-legend-${d}"
+          data-chart-dataset="0" data-chart-idx="${d}"
+          class="d-flex align-items-center user-select-none text-nowrap mb-2 mb-md-0" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
+          <span class="legend-dot legend-dot--circle" style="background-color:${ds.backgroundColor[d]}"></span>
+          <span class="ml-2">${labels[d]}</span>
+        </div>`)
+        return legendHtml
+      }, [])
+      return text.join("")
     }
   }
 }
