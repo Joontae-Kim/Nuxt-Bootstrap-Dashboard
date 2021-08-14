@@ -105,13 +105,12 @@
     </b-row>
     <b-row class="mb-4">
       <b-col cols md="5">
-        <dash-card title="Total amount of The Payment" class="h-100 pb-3 pb-lg-0">
-          <b-row id="payment-amount-chart-wrapper" align-v="center" class="flex-column h-100 p-lg-3" no-gutters>
+        <dash-card title="Payment - Chart" class="h-100 pb-3 pb-lg-0">
+          <b-row id="payment-amount-chart-wrapper" align-v="center" class="flex-column h-100 px-md-3 pt-md-3" no-gutters>
             <b-col cols class="chart-container chart-h-20 chart-range-h-200">
               <LazyPieChart
                 canvas-id="payment-amount-chart"
                 :data="paymentsChartData"
-                :data-label-opt="{ color: '#fff' }"
                 :legend-view="false"
                 :custom-legend="true"
                 custom-legend-id="payment-amount-chart-lengend"
@@ -120,10 +119,14 @@
                 custom-legend-click="default"
                 responsive
                 use-data-label
+                :data-label-opt="paymentsLabelOpt"
+                half-size
               />
+              <!-- :rotation="1.5"
+              :circumference="0.75" -->
             </b-col>
             <b-col cols>
-              <div id="payment-amount-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 pt-md-4 px-md-3" />
+              <div id="payment-amount-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 py-md-3 px-md-0" />
             </b-col>
           </b-row>
         </dash-card>
@@ -157,19 +160,56 @@
       </b-col>
     </b-row>
     <b-row class="mb-4">
-      <b-col cols>
-        <h4>authentications chart</h4>
-        {{ authentications }}
+      <b-col cols md="5">
+        <dash-card title="Authentication - Chart" class="h-100 pb-3 pb-lg-0">
+          <b-row id="authShare-chart-wrapper" align-v="center" class="flex-column h-100 p-lg-3" no-gutters>
+            <b-col cols class="chart-container chart-h-20 chart-range-h-200">
+              <LazyPieChart
+                canvas-id="authShare-chart"
+                :data="authChartData"
+                :legend-view="false"
+                :custom-legend="true"
+                custom-legend-id="authShare-chart-lengend"
+                :legend-callback="paymentsLegendCb"
+                :use-custom-legend-click="true"
+                custom-legend-click="default"
+                use-data-label
+                :data-label-opt="authLabelOpt"
+                half-size
+                responsive
+              />
+            </b-col>
+            <b-col cols>
+              <div id="authShare-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 pb-md-2 px-md-0" />
+            </b-col>
+          </b-row>
+        </dash-card>
       </b-col>
-      <b-col cols>
-        <h4>authentications table</h4>
-        {{ authentications }}
-      </b-col>
-    </b-row>
-    <b-row class="mb-4">
-      <b-col cols>
-        <h4>authentications</h4>
-        <pre>{{ authentications }}</pre>
+      <b-col cols md="7">
+        <b-row no-gutters class="h-100">
+          <b-col cols>
+            <dash-card title="Authentication - Table" class="h-100" table>
+              <b-table
+                :sort-by.sync="authSortBy"
+                :sort-desc.sync="authsortDesc"
+                :items="authentications"
+                :fields="authField"
+                head-variant="light"
+                responsive
+                hover
+                class="mb-0 h-100"
+                table-class="h-100"
+              >
+                <template #cell(count)="data">
+                  {{ data.value }}
+                </template>
+                <template #cell(percent)="data">
+                  {{ data.value }} %
+                </template>
+              </b-table>
+            </dash-card>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
@@ -190,7 +230,6 @@ export default {
     grouping: [{}],
     weekTrafficDataset: [],
     timeTrafficDataset: {},
-    authentications: [],
     paymentsChartData: [],
     payments: [],
     paymentsSortBy: 'amount',
@@ -231,6 +270,33 @@ export default {
         thClass: 'text-nowrap',
         tdClass: 'text-nowrap text-gray-600'
       }
+    ],
+    authChartData: [],
+    authentications: [],
+    authSortBy: 'count',
+    authsortDesc: true,
+    authField: [
+      {
+        label: 'Authentication',
+        key: 'authentication',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600 align-middle'
+      },
+      {
+        label: 'Count',
+        key: 'count',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600 align-middle'
+      },
+      {
+        label: 'Share`',
+        key: 'percent',
+        sortable: true,
+        thClass: 'text-nowrap',
+        tdClass: 'text-nowrap text-gray-600 align-middle'
+      }
     ]
   }),
   async fetch () {
@@ -238,7 +304,6 @@ export default {
       const statics = await this.$axios.get('/api/users/statics', {
         params: { staticDate: new Date(), staticCount: 7 }
       })
-      console.log('statics: ', statics)
       statics.data.activeUsers.value = this.formatNumber(statics.data.activeUsers.value)
       statics.data.newUsers.value = this.formatNumber(statics.data.newUsers.value)
       this.total = { value: this.formatNumber(statics.data.total.value), ...statics.data.total }
@@ -265,8 +330,13 @@ export default {
           data: timeSerial.map(time => Object.values(time)[0])
         }]
       }
+      this.authChartData = {
+        labels: statics.data.authentications.map(({ authentication }) => authentication),
+        datasets: [{
+          data: statics.data.authentications.map(({ percent }) => percent)
+        }]
+      }
       this.authentications = statics.data.authentications
-      console.log('this.authentications: ', this.authentications)
       this.paymentsChartData = {
         labels: statics.data.payments.map(({ payment }) => payment),
         datasets: [{
@@ -274,7 +344,6 @@ export default {
         }]
       }
       this.payments = statics.data.payments
-      console.log('this.payments: ', this.payments)
     } catch (err) {
       console.log(err)
       console.log(err.message)
@@ -332,6 +401,59 @@ export default {
           beginAtZero: true
         }
       }]
+    },
+    paymentsLabelOpt () {
+      return {
+        anchor: 'end',
+        align ({ chart, dataIndex }) {
+          const dataPeer = chart.data.labels.length - 1
+          return dataIndex === 0 || dataIndex === dataPeer ? 'start' : 'center'
+        },
+        borderRadius: 16,
+        borderWidth: 2,
+        color: "white",
+        borderColor: "white",
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        },
+        display ({ chart, dataIndex }) {
+          return chart.width >= 200 && chart.data.datasets[0].data[dataIndex] >= 13
+        },
+        offset ({ chart, dataIndex }) {
+          const dataPeer = chart.data.labels.length - 1
+          return dataIndex === 0 ? -10 : (dataIndex === dataPeer) ? -6 : (dataIndex === (dataPeer - 1)) ? -7 : 3
+        },
+        formatter (value, context) {
+          const formerLetter = context.chart.data.labels[context.dataIndex].split(' ')[0]
+          return formerLetter
+        }
+      }
+    },
+    authLabelOpt () {
+      return {
+        anchor: 'end',
+        align ({ chart, dataIndex }) {
+          const dataPeer = chart.data.labels.length - 1
+          return dataIndex === 0 || dataIndex === dataPeer ? 'start' : 'center'
+        },
+        borderRadius: 16,
+        borderWidth: 2,
+        color: "white",
+        borderColor: "white",
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        },
+        display ({ chart, dataIndex }) {
+          return chart.width >= 200 && chart.data.datasets[0].data[dataIndex] >= 13
+        },
+        offset ({ chart, dataIndex }) {
+          const dataPeer = chart.data.labels.length - 1
+          return dataIndex === 0 ? -10 : dataIndex === dataPeer ? -7 : 3
+        },
+        formatter (value, context) {
+          return context.chart.data.labels[context.dataIndex]
+        }
+      }
     }
   },
   watch: {
