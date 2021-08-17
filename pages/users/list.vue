@@ -33,7 +33,7 @@
     <UsersPaymentsStatics :raw-data="paymentsRawData" />
     <b-row class="mb-4">
       <b-col cols>
-        <dash-card :use-title="false" class="pb-3">
+        <dash-card title="User Table - ToolBar" class="pb-3">
           <b-row no-gutters align-v="center">
             <b-col cols md="6" class="mb-3 mb-md-0">
               <div class="d-flex align-items-center justify-content-end justify-content-md-start">
@@ -43,6 +43,7 @@
                   :options="perPageOpt"
                   class="mr-1 w-auto"
                   :disabled="isTableBusy"
+                  size="sm"
                 />
               </div>
             </b-col>
@@ -58,7 +59,14 @@
                   size="sm"
                   @keyup.enter="simpleSearch"
                 />
-                <b-btn ref="btn-filter" v-b-toggle.collapse-filter variant="secondary" :disabled="globalDisabled || isSearchingUsername" class="mr-2">
+                <b-btn
+                  ref="btn-filter"
+                  v-b-toggle.collapse-filter
+                  variant="secondary"
+                  :disabled="globalDisabled || isSearchingUsername"
+                  class="mr-2"
+                  size="sm"
+                >
                   <b-icon
                     icon="filter"
                     font-scale="0.95"
@@ -73,7 +81,7 @@
                   :disabled="globalDisabled"
                   spinner-variant="danger"
                 >
-                  <b-btn ref="btn-reset" variant="danger" :disabled="globalDisabled" @click="refresh">
+                  <b-btn ref="btn-reset" size="sm" variant="danger" :disabled="globalDisabled" @click="refresh">
                     <b-icon
                       icon="arrow-clockwise"
                       font-scale="0.95"
@@ -294,10 +302,7 @@ export default {
     ]
   }),
   async fetch () {
-    // const { list } = await this.$axios.$get('/api/users')
     const { total, newUsers, activeUsers, payments, authentications, list } = await this.$axios.$get('/api/users/list')
-    console.log(total, newUsers, activeUsers)
-    console.log(payments, authentications)
     this.total = total
     this.newUsers = newUsers
     this.activeUsers = activeUsers
