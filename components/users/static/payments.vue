@@ -3,7 +3,7 @@
     <b-col cols md="5" class="mb-4 mb-md-0">
       <dash-card title="Payment - Chart" class="h-100 pb-3 pb-lg-0">
         <b-row id="payment-amount-chart-wrapper" align-v="center" class="flex-column h-100 px-md-3 pt-md-3" no-gutters>
-          <b-col v-if="rawData" cols class="chart-container chart-h-20 chart-range-h-200">
+          <b-col v-if="rawData.length" cols class="chart-container chart-h-20 chart-range-h-200">
             <LazyPieChart
               canvas-id="payment-amount-chart"
               :data="dataSet"
