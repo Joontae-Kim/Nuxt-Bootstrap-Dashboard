@@ -27,6 +27,8 @@ app.get('/', usersCtrl.index)
 
 app.get('/statics', ash(usersCtrl.statics))
 
+app.get('/list', ash(usersCtrl.list))
+
 app.get('/:uid', ash(usersCtrl.getUser))
 
 app.use(handleError)

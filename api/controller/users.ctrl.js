@@ -53,6 +53,20 @@ const statics = async (req, res, next) => {
   }
 }
 
+const list = async (req, res, next) => {
+  try {
+    await delay()
+    const commonStaticsSet = commonStatics()
+    const activeUsers = {
+      rate: randomIndex(34, 56, false, 1)
+    }
+    activeUsers.value = Math.floor(commonStaticsSet.total.value * (activeUsers.rate / 100))
+    res.status(200).send({ ...commonStaticsSet, activeUsers, list: req.app.locals.users })
+  } catch (err) {
+    next(err)
+  }
+}
+
 const getUser = async (req, res, next) => {
   try {
     await delay()
@@ -81,5 +95,6 @@ const getUser = async (req, res, next) => {
 module.exports = {
   index,
   statics,
+  list,
   getUser
 }
