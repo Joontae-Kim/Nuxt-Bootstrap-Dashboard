@@ -114,7 +114,7 @@ export default {
     try {
       const upcomingDate = this.computeUpcomingDate(this.upcomingValue)
       const { total, rate, upcoming } = await this.$axios.$get('/api/event/eventStatics', {
-        params: { openAt: new Date(), upcomingDate }
+        params: { type: 'total,rate,upcoming', openAt: new Date(), upcomingDate }
       })
       this.totalEvent = this.computeEventString(total)
       this.todayEvent = this.computeEventString(rate)
@@ -135,14 +135,18 @@ export default {
   methods: {
     async searchTodayEvent () {
       this.isSearching.today = true
-      const { rate } = await this.$axios.$get('/api/event/statics', { params: { openAt: new Date() } })
+      const { rate } = await this.$axios.$get('/api/event/eventStatics', {
+        params: { type: 'rate', openAt: new Date() }
+      })
       this.todayEvent = this.computeEventString(rate)
       this.isSearching.today = false
     },
     async selectScheduled () {
       this.isSearching.upcoming = true
       const upcomingDate = this.computeUpcomingDate(this.upcomingValue)
-      const { upcoming } = await this.$axios.$get('/api/event/statics', { params: { upcomingDate } })
+      const { upcoming } = await this.$axios.$get('/api/event/eventStatics', {
+        params: { type: 'upcoming', upcomingDate }
+      })
       this.upcoming = this.computeEventString(upcoming)
       this.isSearching.upcoming = false
     },
