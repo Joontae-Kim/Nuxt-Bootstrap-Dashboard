@@ -41,22 +41,25 @@ export function extendRoutes (routes, resolve) {
       chunkName: 'pages/overview'
     },
     {
-      name: 'events',
-      path: '/events',
+      name: 'eventsStatics',
+      path: '/events/statics',
       component: resolve(__dirname, 'pages/events/index'),
-      chunkName: 'pages/event/index'
+      chunkName: 'pages/event/index',
+      meta: { parent: 'events' }
     },
     {
-      name: 'eventLists',
+      name: 'eventsList',
       path: '/events/list',
       component: resolve(__dirname, 'pages/events/list'),
-      chunkName: 'pages/event/list'
+      chunkName: 'pages/event/list',
+      meta: { parent: 'events' }
     },
     {
       name: 'eventDetails',
       path: '/events/event/:id',
       component: resolve(__dirname, 'pages/events/_id'),
-      chunkName: 'pages/event/_id'
+      chunkName: 'pages/event/_id',
+      meta: { parent: 'events' }
     },
     {
       name: 'userStatics',
