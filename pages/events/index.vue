@@ -113,9 +113,9 @@
         </dash-card>
       </b-col>
       <b-col>
-        <dash-card title="Event Open Segment - Table" class="h-100 pb-2" table>
-          <b-row>
-            <b-col cols>
+        <dash-card title="Event Open Segment - Table" class="h-100" table>
+          <b-row no-gutters class="h-100">
+            <b-col cols class="h-100">
               <b-table
                 :sort-by.sync="openMonthSegmentSortBy"
                 :sort-desc.sync="openMonthSegmentSortDesc"
@@ -125,6 +125,7 @@
                 responsive
                 hover
                 small
+                table-class=""
                 class="mb-0 h-100"
               >
                 <template #cell(total)="data">
@@ -169,35 +170,35 @@ export default {
         key: 'rank',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-gray-600'
+        tdClass: 'text-gray-600 align-middle'
       },
       {
         label: 'Segment',
         key: 'label',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-gray-600'
+        tdClass: 'text-gray-600 align-middle'
       },
       {
         label: 'Total Sales',
         key: 'total',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-gray-600'
+        tdClass: 'text-gray-600 align-middle'
       },
       {
         label: 'Shares (%)',
         key: 'percent',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-gray-600'
+        tdClass: 'text-gray-600 align-middle'
       },
       {
         label: 'Events',
         key: 'count',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-gray-600'
+        tdClass: 'text-gray-600 align-middle'
       }
     ],
     totalSales: 0,
@@ -214,21 +215,21 @@ export default {
         key: 'label',
         sortable: true,
         thClass: 'text-nowrap pl-3',
-        tdClass: 'text-gray-600 py- pl-3'
+        tdClass: 'text-gray-600 py- pl-3 align-middle'
       },
       {
         label: 'Sales',
         key: 'sales',
         sortable: true,
         thClass: 'text-nowrap pl-3',
-        tdClass: 'text-gray-600 py-2 pl-3'
+        tdClass: 'text-gray-600 py-2 pl-3 align-middle'
       },
       {
         label: 'Events',
         key: 'count',
         sortable: true,
         thClass: 'text-nowrap pl-3',
-        tdClass: 'text-gray-600 py-2 pl-3'
+        tdClass: 'text-gray-600 py-2 pl-3 align-middle'
       }
     ]
   }),
