@@ -178,18 +178,23 @@ const getStatics = async (req, res, next) => {
 const getEventStatics = async (req, res, next) => {
   try {
     await delay()
-    const staticRes = { rate: 0, upcoming: 0 }
-    if (req.query.openAt) {
+    const staticType = req.query.type.split(',')
+    const staticRes = staticType.reduce((staticSet, type) => (staticSet = { ...staticSet, [type]: 0 }), {})
+    if (staticType.includes('rate') && req.query.openAt) {
       const rateSearched = await searchEvent(eventSet, { openAt: req.query.openAt, openAtQuery: 'same' })
       staticRes.rate = rateSearched.length
     }
 
-    if (req.query.upcomingDate) {
+    if (staticType.includes('upcomingDate') && req.query.upcomingDate) {
       const upcomingSearched = await searchEvent(eventSet, { openAt: req.query.upcomingDate, openAtQuery: 'future' })
       staticRes.upcoming = upcomingSearched.length
     }
 
-    res.status(200).send({ total: eventSet.length, ...staticRes })
+    if (staticType.includes('total')) {
+      staticRes.total = eventSet.length
+    }
+
+    res.status(200).send(staticRes)
   } catch (e) {
     next(e)
   }
