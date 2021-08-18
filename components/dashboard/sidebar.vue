@@ -12,15 +12,15 @@
             Overview
           </b-nav-item>
           <div class="d-flex justify-content-between align-items-center">
-            <b-nav-item :to="{ name: 'events' }" active-class="active">
+            <b-nav-item :to="{ name: 'eventsStatics' }" :active="$route.meta.parent === 'events'">
               Event
             </b-nav-item>
             <b-icon :icon="eventsNestedToggled ? 'dash-circle' : 'plus-circle'" @click="eventsNestedToggled = !eventsNestedToggled" />
           </div>
           <b-collapse id="nav-events-child" v-model="eventsNestedToggled">
             <b-nav vertical>
-              <b-nav-item class="ml-3 my-0" :to="{ name: 'events' }" exact-active-class="active"> Statics </b-nav-item>
-              <b-nav-item class="ml-3 my-0" :to="{ name : 'eventLists' }" exact-active-class="active"> List </b-nav-item>
+              <b-nav-item class="ml-3 my-0" :to="{ name: 'eventsStatics' }" exact-active-class="active"> Statics </b-nav-item>
+              <b-nav-item class="ml-3 my-0" :to="{ name : 'eventsList' }" exact-active-class="active"> List </b-nav-item>
             </b-nav>
           </b-collapse>
           <div class="d-flex justify-content-between align-items-center">
