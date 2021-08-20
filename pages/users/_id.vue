@@ -131,8 +131,13 @@
               <b-row class="h-100" align-v="center">
                 <b-col cols>
                   <div class="d-flex flex-column justify-content-center align-items-center  h-100 pb-3">
-                    <div class="text-gray-800 fs-4 mb-1">{{ payment.payment }}</div>
-                    <div class="text-gray-600 fs-6">{{ payment.credit_card.cc_number }}</div>
+                    <template v-if="!payment">
+                      <div class="text-gray-600 fs-6">No Payment</div>
+                    </template>
+                    <template v-else>
+                      <div class="text-gray-800 fs-4 mb-1">{{ payment.payment }}</div>
+                      <div class="text-gray-600 fs-6">{{ payment.credit_card.cc_number }}</div>
+                    </template>
                   </div>
                 </b-col>
               </b-row>
@@ -153,22 +158,27 @@
               <b-row class="h-100" align-v="center">
                 <b-col cols class="py-2">
                   <div class="d-flex flex-wrap">
-                    <div class="w-50 w-md-auto flex-grow-1 mb-3">
-                      <div class="text-muted mb-1">Plan</div>
-                      <div class="fs-5 text-gray-800">{{ subscription.plan }}</div>
-                    </div>
-                    <div class="w-50 w-md-auto flex-grow-1">
-                      <div class="text-muted mb-1">Status</div>
-                      <div class="fs-5 text-gray-800">{{ subscription.status }}</div>
-                    </div>
-                    <div class="w-50 w-md-auto flex-grow-1">
-                      <div class="text-muted mb-1">Payment</div>
-                      <div class="fs-5 text-gray-800">{{ subscription.payment_method }}</div>
-                    </div>
-                    <div class="w-50 w-md-auto flex-grow-1">
-                      <div class="text-muted mb-1">Term</div>
-                      <div class="fs-5 text-gray-800">{{ subscription.term }}</div>
-                    </div>
+                    <template v-if="!subscription">
+                      <div class="fs-6 text-gray-600 w-100 text-center">No Subscription</div>
+                    </template>
+                    <template v-else>
+                      <div class="w-50 w-md-auto flex-grow-1 mb-3">
+                        <div class="text-muted mb-1">Plan</div>
+                        <div class="fs-5 text-gray-800">{{ subscription.plan }}</div>
+                      </div>
+                      <div class="w-50 w-md-auto flex-grow-1">
+                        <div class="text-muted mb-1">Status</div>
+                        <div class="fs-5 text-gray-800">{{ subscription.status }}</div>
+                      </div>
+                      <div class="w-50 w-md-auto flex-grow-1">
+                        <div class="text-muted mb-1">Payment</div>
+                        <div class="fs-5 text-gray-800">{{ subscription.payment_method }}</div>
+                      </div>
+                      <div class="w-50 w-md-auto flex-grow-1">
+                        <div class="text-muted mb-1">Term</div>
+                        <div class="fs-5 text-gray-800">{{ subscription.term }}</div>
+                      </div>
+                    </template>
                   </div>
                 </b-col>
               </b-row>
@@ -181,73 +191,87 @@
       <b-col cols md="5">
         <dash-card title="User Purchases" table>
           <b-list-group flush>
-            <b-list-group-item
-              v-for="(purchase, p) in purchases"
-              :key="p"
-              class="flex-column align-items-start"
-            >
-              <div class="w-100">
-                <div class="d-flex d-md-none justify-content-between align-items-center mb-1 mb-md-0">
-                  <div class="small">{{ p + 1 }}</div>
-                  <div class="d-block d-md-none text-nowrap small mt-1 text-right">{{ purchase.date }}</div>
-                </div>
-                <div class="d-flex justify-content-between flex-column flex-md-row">
-                  <div class="mr-md-3">
-                    <div class="d-none d-md-block mb-1">{{ p + 1 }}. {{ purchase.name }}</div>
-                    <div class="d-block d-md-none mb-1 strong text-left fs-5">{{ purchase.name }}</div>
-                    <div class="text-nowrap text-gray-700 mb-2 text-right text-md-left">$ {{ purchase.cost }}</div>
+            <template v-if="purchases.length">
+              <b-list-group-item
+                v-for="(purchase, p) in purchases"
+                :key="p"
+                class="flex-column align-items-start"
+              >
+                <div class="w-100">
+                  <div class="d-flex d-md-none justify-content-between align-items-center mb-1 mb-md-0">
+                    <div class="small">{{ p + 1 }}</div>
+                    <div class="d-block d-md-none text-nowrap small mt-1 text-right">{{ purchase.date }}</div>
                   </div>
-                  <div class="d-none d-md-block text-nowrap small mt-1">{{ purchase.date }}</div>
+                  <div class="d-flex justify-content-between flex-column flex-md-row">
+                    <div class="mr-md-3">
+                      <div class="d-none d-md-block mb-1">{{ p + 1 }}. {{ purchase.name }}</div>
+                      <div class="d-block d-md-none mb-1 strong text-left fs-5">{{ purchase.name }}</div>
+                      <div class="text-nowrap text-gray-700 mb-2 text-right text-md-left">$ {{ purchase.cost }}</div>
+                    </div>
+                    <div class="d-none d-md-block text-nowrap small mt-1">{{ purchase.date }}</div>
+                  </div>
+                  <div class="w-100 small text-gray-600 font-italic">
+                    In {{ purchase.event }}
+                  </div>
                 </div>
-                <div class="w-100 small text-gray-600 font-italic">
-                  In {{ purchase.event }}
-                </div>
-              </div>
-            </b-list-group-item>
+              </b-list-group-item>
+            </template>
+            <template v-else>
+              <b-list-group-item>
+                <div class="fs-6 text-gray-600 w-100 text-center">No Purchase History</div>
+              </b-list-group-item>
+            </template>
           </b-list-group>
         </dash-card>
       </b-col>
       <b-col cols md="7">
         <dash-card title="Activity log" table>
           <b-list-group flush>
-            <b-list-group-item
-              v-for="(activity, a) in activelog"
-              :key="a"
-              class="flex-column align-items-start"
-            >
-              <div class="d-flex w-100">
-                <div class="py-1">
-                  <b-icon
-                    :icon="activityLogsIcon[activity.type].icon"
-                    font-scale="1.7"
-                    aria-hidden="true"
-                    :variant="activityLogsIcon[activity.type].variant"
-                  />
-                </div>
-                <div class="flex-grow-1 pl-3 px-md-3">
-                  <div class="d-flex mb-1 align-items-center">
-                    <div class="small text-gray-700 font-italic">{{ activity.type }}</div>
-                    <div class="ml-auto d-md-none">
-                      <small>{{ activity.date }}</small>
+            <template v-if="activelog.length">
+              <b-list-group-item
+                v-for="(activity, a) in activelog"
+                :key="a"
+                class="flex-column align-items-start"
+              >
+                <div class="d-flex w-100">
+                  <div class="py-1">
+                    <b-icon
+                      :icon="activityLogsIcon[activity.type].icon"
+                      font-scale="1.7"
+                      aria-hidden="true"
+                      :variant="activityLogsIcon[activity.type].variant"
+                    />
+                  </div>
+                  <div class="flex-grow-1 pl-3 px-md-3">
+                    <div class="d-flex mb-1 align-items-center">
+                      <div class="small text-gray-700 font-italic">{{ activity.type }}</div>
+                      <div class="ml-auto d-md-none">
+                        <small>{{ activity.date }}</small>
+                      </div>
+                    </div>
+                    <p class="mb-2">
+                      {{ activity.mentions }}
+                    </p>
+                    <div class="small text-gray-600">
+                      <template v-if="a % 2">
+                        {{ "Donec id elit non mi porta.".repeat(a) }}
+                      </template>
+                      <template v-else>
+                        {{ 'Donec id elit non mi porta.' }}
+                      </template>
                     </div>
                   </div>
-                  <p class="mb-2">
-                    {{ activity.mentions }}
-                  </p>
-                  <div class="small text-gray-600">
-                    <template v-if="a % 2">
-                      {{ "Donec id elit non mi porta.".repeat(a) }}
-                    </template>
-                    <template v-else>
-                      {{ 'Donec id elit non mi porta.' }}
-                    </template>
+                  <div class="d-none d-md-block text-nowrap">
+                    <small>{{ activity.date }}</small>
                   </div>
                 </div>
-                <div class="d-none d-md-block text-nowrap">
-                  <small>{{ activity.date }}</small>
-                </div>
-              </div>
-            </b-list-group-item>
+              </b-list-group-item>
+            </template>
+            <template v-else>
+              <b-list-group-item>
+                <div class="fs-6 text-gray-600 w-100 text-center">No Activity History</div>
+              </b-list-group-item>
+            </template>
           </b-list-group>
         </dash-card>
       </b-col>
@@ -273,7 +297,6 @@ export default {
       information.lastSignedin = dayjs(information.lastSignedin).format(format)
       information.createdAt = dayjs(information.createdAt).format(format)
       information.modifiedAt = dayjs(information.modifiedAt).format(format)
-      console.log(purchases)
       purchases = purchases.map(ele => ({ ...ele, name: ele.name.replace(/-/g, " ") }))
       return {
         information,
