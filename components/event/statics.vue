@@ -89,22 +89,18 @@
 <script>
 import dayjs from "dayjs"
 import buttonOverlay from '../common/button-overlay.vue'
+import computeScheduledEvent from '~/mixins/event/computeScheduledEvent'
 
 export default {
   name: "EventsStatics",
   components: { buttonOverlay },
+  mixins: [
+    computeScheduledEvent
+  ],
   data: () => ({
     totalEvent: 0,
     todayEvent: 0,
     upcoming: 0,
-    upcomingValue: 'days',
-    upcomingOpt: [
-      { value: 'days', text: '3 days' },
-      { value: 'week', text: '1 week' },
-      { value: 'weeks', text: '3 week' },
-      { value: 'month', text: '1 month' },
-      { value: 'months', text: '3 month' }
-    ],
     isSearching: {
       upcoming: false,
       today: false
@@ -129,8 +125,28 @@ export default {
       return dayjs().format('YYYY-MM-DD hh:mm:ss A')
     }
   },
-  watch: {},
-  created () {},
+  watch: {
+    '$route.query.scheduled': {
+      async handler (val) {
+        if (val) {
+          await this.requestScheduled()
+        } else {
+          this.initializeUpcoming()
+        }
+      }
+    }
+  },
+  created () {
+    if (this.$route.query.scheduled) {
+      const queryScheduled = this.$route.query.scheduled
+      const isValidSchedluedQuery = this.upcomingOpt.find(({ value }) => value === queryScheduled)
+      if (isValidSchedluedQuery !== 'undefined') {
+        this.upcomingValue = isValidSchedluedQuery.value
+      } else {
+        this.upcomingValue = 'days'
+      }
+    }
+  },
   mounted () {},
   methods: {
     async searchTodayEvent () {
@@ -141,28 +157,26 @@ export default {
       this.todayEvent = this.computeEventString(rate)
       this.isSearching.today = false
     },
-    async selectScheduled () {
-      this.isSearching.upcoming = true
-      const upcomingDate = this.computeUpcomingDate(this.upcomingValue)
-      const { upcoming } = await this.$axios.$get('/api/event/eventStatics', {
-        params: { type: 'upcoming', upcomingDate }
-      })
-      this.upcoming = this.computeEventString(upcoming)
-      this.isSearching.upcoming = false
+    selectScheduled () {
+      this.$router.push({ query: { scheduled: this.upcomingValue } })
     },
-    computeUpcomingDate (unit) {
-      switch (unit) {
-        case 'days':
-          return dayjs().add(3, 'day').$d
-        case 'week':
-          return dayjs().add(1, 'week').$d
-        case 'weeks':
-          return dayjs().add(3, 'week').$d
-        case 'month':
-          return dayjs().add(1, 'month').$d
-        case 'months':
-          return dayjs().add(3, 'month').$d
+    async requestScheduled () {
+      this.isSearching.upcoming = true
+      let updatedScheduled = []
+      const upcomingDate = this.computeUpcomingDate(this.upcomingValue)
+      if (this.$route.name === 'eventsStatics') {
+        const { upcoming } = await this.$axios.$get('/api/event/eventStatics', {
+          params: { type: 'upcoming', upcomingDate }
+        })
+        updatedScheduled = upcoming
+      } else {
+        const updatedUpcoming = await this.$axios.$get('/api/event', { params: { openAt: upcomingDate } })
+        await this.$store.dispatch('events/DISPATCH_SET', updatedUpcoming.list)
+        updatedScheduled = updatedUpcoming.list.length
       }
+
+      this.upcoming = this.computeEventString(updatedScheduled)
+      this.isSearching.upcoming = false
     },
     computeEventString (number) {
       return number < 2 ? `${number} event` : `${number} events`
