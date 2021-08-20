@@ -11,10 +11,11 @@
             </div>
             <div class="d-none d-md-flex align-items-center justify-content-end">
               <b-overlay
-                :show="isCreating || isDeleting || isDeletingEvent"
+                :show="tableToolBarDisabled"
                 variant="light"
-                :spinner-variant="isCreating ? 'primary' : 'danger'"
+                :spinner-variant="isCreating ? 'primary' : isRefresh ? 'dark' : 'danger'"
                 spinner-small
+                :opacity="0.7"
                 rounded
                 class="w-100"
               >
@@ -87,10 +88,11 @@
               </div>
               <div class="d-flex d-md-none align-items-center justify-content-end mt-3 mb-2">
                 <b-overlay
-                  :show="isCreating || isDeleting || isDeletingEvent"
+                  :show="tableToolBarDisabled"
                   variant="light"
-                  :spinner-variant="isCreating ? 'primary' : 'danger'"
+                  :spinner-variant="isCreating ? 'primary' : isRefresh ? 'dark' : 'danger'"
                   spinner-small
+                  :opacity="0.7"
                   rounded
                   class="w-100"
                 >
@@ -312,13 +314,14 @@
           </b-row>
         </dash-card>
       </b-col>
-    </b-row> -->
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import searchEvent from '~/mixins/event/searchEvent'
+import computeScheduledEvent from '~/mixins/event/computeScheduledEvent'
 
 export default {
   name: 'Events',
@@ -327,7 +330,8 @@ export default {
     Eventfilter: () => import('~/components/event/filter.vue')
   },
   mixins: [
-    searchEvent
+    searchEvent,
+    computeScheduledEvent
   ],
   provide () {
     return {
@@ -340,6 +344,7 @@ export default {
     isCreating: false,
     isDeleting: false,
     isDeletingEvent: false,
+    isRefresh: false,
     searchingTitle: null,
     selectedEvent: [],
     perPage: 15,
@@ -407,7 +412,11 @@ export default {
     ]
   }),
   async fetch () {
-    const res = await this.$axios.$get('/api/event')
+    const querySet = {}
+    if (this.$route.query.scheduled) {
+      querySet.openAt = this.computeUpcomingDate(this.$route.query.scheduled)
+    }
+    const res = await this.$axios.$get('/api/event', { params: querySet })
     await this.$store.dispatch('events/DISPATCH_SET', res.list)
   },
   computed: {
@@ -415,8 +424,11 @@ export default {
       events: 'events/getEvents',
       totalEvent: 'events/getTotalEventCount'
     }),
+    tableToolBarDisabled () {
+      return this.isSearching || this.isCreating || this.isDeleting || this.isRefresh
+    },
     globalDisabled () {
-      return this.isSearching || this.isCreating || this.isDeleting || this.isDeletingEvent
+      return this.tableToolBarDisabled || this.isDeletingEvent
     }
   },
   watch: {
@@ -498,7 +510,15 @@ export default {
       this.selectedEvent = []
     },
     async refresh () {
-      await this.$fetch()
+      try {
+        this.isRefresh = true
+        const { list } = await this.$axios.$get('/api/event')
+        this.$router.push({ name: 'eventsList' })
+        await this.$store.dispatch('events/DISPATCH_SET', list)
+        this.isRefresh = false
+      } catch (err) {
+        console.log(err)
+      }
     },
     onRowSelected (items) {
       this.selectedEvent = items
