@@ -19,8 +19,8 @@
           </div>
           <b-collapse id="nav-events-child" v-model="eventsNestedToggled">
             <b-nav vertical>
-              <b-nav-item class="ml-3 my-0" :to="{ name: 'eventsStatics' }" exact-active-class="active"> Statics </b-nav-item>
-              <b-nav-item class="ml-3 my-0" :to="{ name : 'eventsList' }" exact-active-class="active"> List </b-nav-item>
+              <b-nav-item class="ml-3 my-0" :to="{ name: 'eventsStatics' }" active-class="active"> Statics </b-nav-item>
+              <b-nav-item class="ml-3 my-0" :to="{ name : 'eventsList' }" active-class="active"> List </b-nav-item>
             </b-nav>
           </b-collapse>
           <div class="d-flex justify-content-between align-items-center">
