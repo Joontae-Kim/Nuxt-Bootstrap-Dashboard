@@ -1,166 +1,165 @@
 <template>
   <b-container fluid>
     <EventStatics />
-    <b-row class="mb-2">
-      <b-col cols>
-        <dash-card :use-title="false" class="p-3">
-          <b-row align-v="center">
-            <b-col cols>
-              <button-overlay class="d-none d-md-inline-block" :show="isCreating" button-ref="createBtn">
-                <b-btn
-                  ref="createBtn"
-                  title="Add new Event"
-                  variant="primary"
-                  :disabled="globalDisabled"
-                  @click="createNewEvent"
-                >
-                  <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
-                  <span>Add Event</span>
-                </b-btn>
-              </button-overlay>
-              <button-overlay class="d-inline-block d-md-none" :show="isCreating" button-ref="createBtn-xs">
-                <b-btn
-                  ref="createBtn-xs"
-                  title="Add new Event"
-                  variant="primary"
-                  size="sm"
-                  :disabled="globalDisabled"
-                  @click="createNewEvent"
-                >
-                  <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" class="mr-2" />
-                  <span>Add Event</span>
-                </b-btn>
-              </button-overlay>
-            </b-col>
-            <b-col cols>
-              <div class="d-flex align-items-center justify-content-end">
-                <b-btn
-                  title="Refresh Page"
-                  class="d-inline-block d-md-none mr-2"
-                  variant="light"
-                  size="sm"
-                  :disabled="globalDisabled"
-                  @click="refresh"
-                >
-                  <b-icon
-                    icon="arrow-clockwise"
-                    font-scale="0.95"
-                    aria-hidden="true"
-                    aria-label="Refresh"
-                    shift-v="2"
-                  />
-                </b-btn>
-                <b-btn title="Refresh Page" class="d-none d-md-inline-block mr-2" variant="light" :disabled="globalDisabled" @click="refresh">
-                  <b-icon
-                    icon="arrow-clockwise"
-                    font-scale="0.95"
-                    aria-hidden="true"
-                    aria-label="Refresh"
-                    shift-v="2"
-                  />
-                </b-btn>
-                <button-overlay :show="isDeleting" button-ref="deleteAllBtn" class="d-none d-md-inline-block" spinner-variant="danger">
-                  <b-btn
-                    ref="deleteAllBtn"
-                    title="Delete selected event rows"
-                    variant="danger"
-                    :disabled="globalDisabled || !selectedEvent.length"
-                    class="mr-2"
-                    @click="deleteAll"
-                  >
-                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
-                      <b-icon stacked icon="layout-three-columns" rotate="90" />
-                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
-                      <b-icon
-                        stacked
-                        icon="check"
-                        shift-v="-8"
-                        shift-h="6"
-                        variant="danger"
-                      />
-                    </b-iconstack>
-                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
-                  </b-btn>
-                </button-overlay>
-                <button-overlay :show="isDeleting" button-ref="deleteAllBtn-xs" class="d-inline-block d-md-none" spinner-variant="danger">
-                  <b-btn
-                    ref="deleteAllBtn-xs"
-                    title="Delete selected event rows"
-                    variant="danger"
-                    size="sm"
-                    :disabled="globalDisabled || !selectedEvent.length"
-                    class="mr-2"
-                    @click="deleteAll"
-                  >
-                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
-                      <b-icon stacked icon="layout-three-columns" rotate="90" />
-                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
-                      <b-icon
-                        stacked
-                        icon="check"
-                        shift-v="-8"
-                        shift-h="6"
-                        variant="danger"
-                      />
-                    </b-iconstack>
-                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
-                  </b-btn>
-                </button-overlay>
-                <b-btn
-                  title="Clear selected event rows"
-                  variant="secondary"
-                  class="d-none d-md-inline-block"
-                  :disabled="globalDisabled || !selectedEvent.length"
-                  @click="clearDeletingList"
-                >
-                  <b-icon
-                    icon="layout-three-columns"
-                    rotate="90"
-                    font-scale="0.99"
-                    aria-hidden="true"
-                    aria-label="Clear selected event rows"
-                    shift-v="2"
-                  />
-                </b-btn>
-                <b-btn
-                  title="Clear selected event rows"
-                  variant="secondary"
-                  class="d-inline-block d-md-none"
-                  size="sm"
-                  :disabled="globalDisabled || !selectedEvent.length"
-                  @click="clearDeletingList"
-                >
-                  <b-icon
-                    icon="layout-three-columns"
-                    rotate="90"
-                    font-scale="0.99"
-                    aria-hidden="true"
-                    aria-label="Clear selected event rows"
-                    shift-v="2"
-                  />
-                </b-btn>
-              </div>
-            </b-col>
-          </b-row>
-        </dash-card>
-      </b-col>
-    </b-row>
     <b-row class="mb-4">
       <b-col cols>
-        <dash-card id="event-table" :use-title="false" no-padding no-overflow>
-          <b-row align-v="center" class="flex-column flex-md-row mt-3 mb-4 px-3">
-            <b-col cols class="mb-3 mb-md-0">
-              <div class="d-flex justify-content-end justify-content-md-start align-items-center">
-                <span class="mr-2">Display</span>
-                <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" size="sm" :disabled="globalDisabled" />
-                <span>events</span>
+        <dash-card title="Event Table - ToolBar" class="p-3" custom>
+          <template #header-right>
+            <div class="d-flex d-md-none justify-content-end justify-content-md-start align-items-center">
+              <span class="d-none d-md-inline mr-2">Show</span>
+              <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" :disabled="globalDisabled" size="sm" />
+            </div>
+            <div class="d-none d-md-flex align-items-center justify-content-end">
+              <b-overlay
+                :show="isCreating || isDeleting || isDeletingEvent"
+                variant="light"
+                :spinner-variant="isCreating ? 'primary' : 'danger'"
+                spinner-small
+                rounded
+                class="w-100"
+              >
+                <b-btn-group class="w-100">
+                  <b-btn
+                    title="Add new Event"
+                    variant="primary"
+                    :disabled="globalDisabled"
+                    @click="createNewEvent"
+                  >
+                    <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" />
+                  </b-btn>
+                  <b-btn
+                    title="Refresh Page"
+                    variant="light"
+                    :disabled="globalDisabled"
+                    @click="refresh"
+                  >
+                    <b-icon
+                      icon="arrow-clockwise"
+                      font-scale="0.95"
+                      aria-hidden="true"
+                      aria-label="Refresh"
+                      shift-v="2"
+                    />
+                  </b-btn>
+                  <b-btn
+                    title="Delete selected event rows"
+                    variant="danger"
+                    :disabled="globalDisabled || !selectedEvent.length"
+                    @click="deleteAll"
+                  >
+                    <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
+                      <b-icon stacked icon="layout-three-columns" rotate="90" />
+                      <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
+                      <b-icon
+                        stacked
+                        icon="check"
+                        shift-v="-8"
+                        shift-h="6"
+                        variant="danger"
+                      />
+                    </b-iconstack>
+                    <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                  </b-btn>
+                  <b-btn
+                    title="Clear selected event rows"
+                    variant="secondary"
+                    :disabled="globalDisabled || !selectedEvent.length"
+                    @click="clearDeletingList"
+                  >
+                    <b-icon
+                      icon="layout-three-columns"
+                      rotate="90"
+                      font-scale="0.99"
+                      aria-hidden="true"
+                      aria-label="Clear selected event rows"
+                      shift-v="2"
+                    />
+                  </b-btn>
+                </b-btn-group>
+              </b-overlay>
+            </div>
+          </template>
+          <b-row align-v="center" class="mt-md-3" no-gutters>
+            <b-col cols="12" md="6">
+              <div class="d-none d-md-flex justify-content-end justify-content-md-start align-items-center">
+                <span class="d-none d-md-inline mr-2">Show</span>
+                <b-form-select v-model="perPage" :options="perPageOpt" class="mr-1 w-auto" :disabled="globalDisabled" />
+              </div>
+              <div class="d-flex d-md-none align-items-center justify-content-end mt-3 mb-2">
+                <b-overlay
+                  :show="isCreating || isDeleting || isDeletingEvent"
+                  variant="light"
+                  :spinner-variant="isCreating ? 'primary' : 'danger'"
+                  spinner-small
+                  rounded
+                  class="w-100"
+                >
+                  <b-btn-group class="w-100">
+                    <b-btn
+                      title="Add new Event"
+                      variant="primary"
+                      :disabled="globalDisabled"
+                      @click="createNewEvent"
+                    >
+                      <b-icon icon="plus-circle-fill" scale="0.85" aria-hidden="true" shift-v="0" />
+                    </b-btn>
+                    <b-btn
+                      title="Refresh Page"
+                      variant="light"
+                      :disabled="globalDisabled"
+                      @click="refresh"
+                    >
+                      <b-icon
+                        icon="arrow-clockwise"
+                        font-scale="0.95"
+                        aria-hidden="true"
+                        aria-label="Refresh"
+                        shift-v="2"
+                      />
+                    </b-btn>
+                    <b-btn
+                      title="Delete selected event rows"
+                      variant="danger"
+                      :disabled="globalDisabled || !selectedEvent.length"
+                      @click="deleteAll"
+                    >
+                      <b-iconstack font-scale="0.8" shift-v="6" class="mr-1">
+                        <b-icon stacked icon="layout-three-columns" rotate="90" />
+                        <b-icon stacked icon="circle-fill" shift-v="-8" shift-h="6" />
+                        <b-icon
+                          stacked
+                          icon="check"
+                          shift-v="-8"
+                          shift-h="6"
+                          variant="danger"
+                        />
+                      </b-iconstack>
+                      <b-icon icon="trash" aria-hidden="true" aria-label="Delete selected event" />
+                    </b-btn>
+                    <b-btn
+                      title="Clear selected event rows"
+                      variant="secondary"
+                      :disabled="globalDisabled || !selectedEvent.length"
+                      @click="clearDeletingList"
+                    >
+                      <b-icon
+                        icon="layout-three-columns"
+                        rotate="90"
+                        font-scale="0.99"
+                        aria-hidden="true"
+                        aria-label="Clear selected event rows"
+                        shift-v="2"
+                      />
+                    </b-btn>
+                  </b-btn-group>
+                </b-overlay>
               </div>
             </b-col>
-            <b-col cols>
+            <b-col cols="12" md="5" offset-md="1">
               <div class="d-flex align-items-center justify-content-end">
                 <b-form-input
                   v-model="searchingTitle"
-                  class="w-100 w-md-50 mr-2"
+                  class="w-100 mr-2"
                   placeholder="Enter event title"
                   aria-label="Search"
                   :disabled="globalDisabled"
@@ -178,19 +177,25 @@
               </div>
             </b-col>
           </b-row>
+        </dash-card>
+      </b-col>
+    </b-row>
+    <b-row class="mb-4">
+      <b-col cols>
+        <dash-card id="event-table" title="Event Table" table>
+          <template #header-right>
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="totalEvent"
+              :per-page="perPage"
+              :disabled="globalDisabled"
+              class="mb-0"
+              size="sm"
+            />
+          </template>
           <b-collapse id="collapse-1">
             <Eventfilter :disabled="globalDisabled" @setSearchingState="getSearchingState" />
           </b-collapse>
-          <b-row align-h="end" class="d-none d-md-flex px-3">
-            <b-col cols="auto">
-              <b-pagination
-                v-model="currentPage"
-                :total-rows="totalEvent"
-                :per-page="perPage"
-                :disabled="globalDisabled"
-              />
-            </b-col>
-          </b-row>
           <b-row>
             <b-col cols>
               <b-table
@@ -294,13 +299,14 @@
               </b-table>
             </b-col>
           </b-row>
-          <b-row align-h="center">
-            <b-col cols="auto">
+          <b-row align-h="center" no-gutters class="pb-3 px-3">
+            <b-col>
               <b-pagination
                 v-model="currentPage"
                 :total-rows="totalEvent"
                 :per-page="perPage"
                 :disabled="globalDisabled"
+                class="justify-content-center justify-content-md-end mb-0"
               />
             </b-col>
           </b-row>
@@ -339,10 +345,10 @@ export default {
     perPage: 15,
     currentPage: 1,
     perPageOpt: [
-      { text: 15, value: 15 },
-      { text: 30, value: 30 },
-      { text: 45, value: 45 },
-      { text: 100, value: 100 }
+      { text: '15 events', value: 15 },
+      { text: '30 events', value: 30 },
+      { text: '45 events', value: 45 },
+      { text: '100 events', value: 100 }
     ],
     eventTableOpt: {
       SortBy: 'openAt',
