@@ -69,32 +69,34 @@
         >
           <b-row>
             <b-col cols>
-              <div class="text-left">
-                <p class="text-muted">
-                  <strong>Full Name: </strong>
-                  <span class="ml-2">{{ information.username.full }}</span>
-                </p>
-                <p class="text-muted">
-                  <strong>Date of Birth</strong>
-                  <span class="ml-2">{{ information.date_of_birth }}</span>
-                </p>
-                <p class="text-muted">
-                  <strong>Mobile:</strong>
-                  <span class="ml-2">{{ information.phone_number }}</span>
-                </p>
-                <p class="text-muted">
-                  <strong>Email:</strong>
-                  <span class="ml-2">{{ information.email }}</span>
-                </p>
-                <p class="text-muted">
-                  <strong>Location</strong>
-                  <span class="ml-2">{{ information.address.full }}</span>
-                </p>
-                <p class="text-muted mb-0">
-                  <strong>Authentication</strong>
-                  <span class="ml-2">{{ information.authentication }}</span>
-                </p>
-              </div>
+              <b-row no-gutters :class="informationClass.titleRow">
+                <b-col cols="6">
+                  <p :class="informationClass.titlePtag">Authentication</p>
+                  <div>{{ information.authentication }}</div>
+                </b-col>
+                <b-col cols="6">
+                  <p :class="informationClass.titlePtag">Full Name</p>
+                  <div>{{ information.username.full }}</div>
+                </b-col>
+              </b-row>
+              <b-row no-gutters :class="informationClass.titleRow">
+                <b-col cols="6"><p :class="informationClass.titlePtag">Date of Birth</p></b-col>
+                <b-col col><div>{{ information.date_of_birth }}</div></b-col>
+              </b-row>
+              <b-row no-gutters :class="informationClass.titleRow">
+                <b-col cols="6">
+                  <p :class="informationClass.titlePtag">Mobile</p>
+                  <div>{{ information.phone_number }}</div>
+                </b-col>
+                <b-col cols="6">
+                  <p :class="informationClass.titlePtag">Email</p>
+                  <div>{{ information.email }}</div>
+                </b-col>
+              </b-row>
+              <b-row no-gutters class="">
+                <b-col cols="12"><p :class="informationClass.titlePtag">Location</p></b-col>
+                <b-col cols="12"><div>{{ information.address.full }}</div></b-col>
+              </b-row>
             </b-col>
           </b-row>
         </dash-card>
@@ -106,7 +108,7 @@
               <template #header-right>
                 <b-icon
                   icon="clock-history"
-                  class="dsCard__icon rounded p-2"
+                  class="dsCard__icon rounded p-1"
                   font-scale="2"
                   aria-hidden="true"
                 />
@@ -123,7 +125,7 @@
               <template #header-right>
                 <b-icon
                   icon="credit-card-fill"
-                  class="dsCard__icon rounded p-2"
+                  class="dsCard__icon rounded p-1"
                   font-scale="2"
                   aria-hidden="true"
                 />
@@ -150,7 +152,7 @@
               <template #header-right>
                 <b-icon
                   icon="clipboard-check"
-                  class="dsCard__icon rounded p-2"
+                  class="dsCard__icon rounded p-1"
                   font-scale="2"
                   aria-hidden="true"
                 />
@@ -188,7 +190,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols md="6" class="mb-4 mb-md-0">
+      <b-col cols md="5" class="mb-4 mb-md-0">
         <dash-card title="User Purchases" table>
           <b-list-group flush>
             <template v-if="purchases.length">
@@ -224,7 +226,7 @@
           </b-list-group>
         </dash-card>
       </b-col>
-      <b-col cols md="6">
+      <b-col cols md="7">
         <dash-card title="Activity log" table>
           <b-list-group flush>
             <template v-if="activelog.length">
@@ -312,6 +314,10 @@ export default {
     }
   },
   data: () => ({
+    informationClass: {
+      titleRow: 'mb-3',
+      titlePtag: 'text-muted mb-0'
+    },
     information: {},
     payment: {},
     subscription: {},
