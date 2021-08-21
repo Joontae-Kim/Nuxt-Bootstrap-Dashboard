@@ -1,25 +1,23 @@
 <template>
   <b-container fluid>
     <b-row class="mb-4">
-      <b-col cols md="4">
+      <b-col cols md="4" class="mb-4 mb-md-0">
         <dash-card
           title="Users"
           icon="people-fill"
           :index="total.value"
           :rate="total.rate"
-          class=""
         />
       </b-col>
-      <b-col cols md="4">
+      <b-col cols="6" md="4">
         <dash-card
           title="New Users"
           icon="person-plus-fill"
           :index="newUsers.value"
           :rate="newUsers.rate"
-          class=""
         />
       </b-col>
-      <b-col cols md="4">
+      <b-col cols="6" md="4">
         <dash-card
           title="Active Users"
           icon="person-check-fill"
@@ -34,16 +32,24 @@
     <b-row class="mb-4">
       <b-col cols>
         <dash-card title="User Table - ToolBar" class="pb-3">
+          <template #header-right>
+            <b-form-select
+              v-model="perPage"
+              :options="perPageOpt"
+              class="d-md-none mr-1 w-auto"
+              :disabled="isTableBusy"
+              size="sm"
+            />
+          </template>
           <b-row no-gutters align-v="center">
             <b-col cols md="6" class="mb-3 mb-md-0">
-              <div class="d-flex align-items-center justify-content-end justify-content-md-start">
+              <div class="d-none d-md-flex align-items-center justify-content-end justify-content-md-start">
                 <span class="mr-2 text-gray-700">Display</span>
                 <b-form-select
                   v-model="perPage"
                   :options="perPageOpt"
                   class="mr-1 w-auto"
                   :disabled="isTableBusy"
-                  size="sm"
                 />
               </div>
             </b-col>
@@ -56,7 +62,6 @@
                   aria-label="Search"
                   class="w-100 w-md-50 mr-2"
                   :disabled="globalDisabled || isSearchingUsername"
-                  size="sm"
                   @keyup.enter="simpleSearch"
                 />
                 <b-btn
@@ -65,7 +70,6 @@
                   variant="secondary"
                   :disabled="globalDisabled || isSearchingUsername"
                   class="mr-2"
-                  size="sm"
                 >
                   <b-icon
                     icon="filter"
@@ -79,9 +83,9 @@
                   :show="isResetting"
                   button-ref="btn-reset"
                   :disabled="globalDisabled"
-                  spinner-variant="danger"
+                  spinner-variant="dark"
                 >
-                  <b-btn ref="btn-reset" size="sm" variant="danger" :disabled="globalDisabled" @click="refresh">
+                  <b-btn ref="btn-reset" variant="light" :disabled="globalDisabled" @click="refresh">
                     <b-icon
                       icon="arrow-clockwise"
                       font-scale="0.95"
