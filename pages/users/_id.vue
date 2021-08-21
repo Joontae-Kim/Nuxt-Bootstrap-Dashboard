@@ -188,7 +188,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols md="5">
+      <b-col cols md="5" class="mb-4 mb-md-0">
         <dash-card title="User Purchases" table>
           <b-list-group flush>
             <template v-if="purchases.length">
@@ -197,23 +197,22 @@
                 :key="p"
                 class="flex-column align-items-start"
               >
-                <div class="w-100">
-                  <div class="d-flex d-md-none justify-content-between align-items-center mb-1 mb-md-0">
-                    <div class="small">{{ p + 1 }}</div>
-                    <div class="d-block d-md-none text-nowrap small mt-1 text-right">{{ purchase.date }}</div>
-                  </div>
-                  <div class="d-flex justify-content-between flex-column flex-md-row">
-                    <div class="mr-md-3">
-                      <div class="d-none d-md-block mb-1">{{ p + 1 }}. {{ purchase.name }}</div>
-                      <div class="d-block d-md-none mb-1 strong text-left fs-5">{{ purchase.name }}</div>
-                      <div class="text-nowrap text-gray-700 mb-2 text-right text-md-left">$ {{ purchase.cost }}</div>
+                <b-row align-v="start" no-gutters>
+                  <b-col cols="1" class="text-gray-600 user-select-none">{{ p + 1 }}</b-col>
+                  <b-col cols="10">
+                    <div :class="['fs-5', { 'text-truncate': purchase.collapsed }]">{{ purchase.name }}</div>
+                    <div :class="['w-100 small text-gray-600 font-italic', { 'text-truncate': purchase.collapsed }]">
+                      In {{ purchase.event }}
                     </div>
-                    <div class="d-none d-md-block text-nowrap small mt-1">{{ purchase.date }}</div>
-                  </div>
-                  <div class="w-100 small text-gray-600 font-italic">
-                    In {{ purchase.event }}
-                  </div>
-                </div>
+                    <div class="w-100 d-flex justify-content-between align-items-end mt-3">
+                      <small>{{ purchase.date }}</small>
+                      <div class="fs-6">$ {{ purchase.cost }}</div>
+                    </div>
+                  </b-col>
+                  <b-col cols="1" class="text-right" @click.capture="collapsePurchaseTitle(p)">
+                    <div><b-icon icon="chevron-down" font-scale="0.85" class="" /></div>
+                  </b-col>
+                </b-row>
               </b-list-group-item>
             </template>
             <template v-else>
@@ -297,7 +296,7 @@ export default {
       information.lastSignedin = dayjs(information.lastSignedin).format(format)
       information.createdAt = dayjs(information.createdAt).format(format)
       information.modifiedAt = dayjs(information.modifiedAt).format(format)
-      purchases = purchases.map(ele => ({ ...ele, name: ele.name.replace(/-/g, " ") }))
+      purchases = purchases.map(ele => ({ ...ele, name: ele.name.replace(/-/g, " "), collapsed: true }))
       return {
         information,
         payment,
@@ -343,7 +342,11 @@ export default {
     }
   },
   beforeDestroy () {},
-  methods: {}
+  methods: {
+    collapsePurchaseTitle (idx) {
+      this.purchases[idx].collapsed = !this.purchases[idx].collapsed
+    }
+  }
 }
 </script>
 
