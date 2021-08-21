@@ -188,7 +188,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols md="5" class="mb-4 mb-md-0">
+      <b-col cols md="6" class="mb-4 mb-md-0">
         <dash-card title="User Purchases" table>
           <b-list-group flush>
             <template v-if="purchases.length">
@@ -210,7 +210,8 @@
                     </div>
                   </b-col>
                   <b-col cols="1" class="text-right" @click.capture="collapsePurchaseTitle(p)">
-                    <div><b-icon icon="chevron-down" font-scale="0.85" class="" /></div>
+                    <div v-show="purchase.collapsed"><b-icon icon="chevron-down" font-scale="0.85" class="" /></div>
+                    <div v-show="!purchase.collapsed"><b-icon icon="chevron-up" font-scale="0.85" class="" /></div>
                   </b-col>
                 </b-row>
               </b-list-group-item>
@@ -223,7 +224,7 @@
           </b-list-group>
         </dash-card>
       </b-col>
-      <b-col cols md="7">
+      <b-col cols md="6">
         <dash-card title="Activity log" table>
           <b-list-group flush>
             <template v-if="activelog.length">
