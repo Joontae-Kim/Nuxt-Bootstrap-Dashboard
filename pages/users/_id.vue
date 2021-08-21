@@ -191,7 +191,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols md="6" class="mb-4 mb-md-0">
+      <b-col cols md="5" class="mb-4 mb-md-0">
         <dash-card title="User Purchases" table>
           <b-list-group flush>
             <template v-if="purchases.length">
@@ -227,7 +227,7 @@
           </b-list-group>
         </dash-card>
       </b-col>
-      <b-col cols md="6">
+      <b-col cols md="7">
         <dash-card title="Activity log" table>
           <b-list-group flush>
             <template v-if="activelog.length">
