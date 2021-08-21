@@ -17,21 +17,22 @@
               </div>
             </b-col>
             <b-col cols md>
-              <div class="d-flex flex-column h-100">
-                <div class="d-flex align-items-center mb-2">
-                  <h4 class="d-inline-block mr-0 mr-md-3">{{ information.username.full }}</h4>
+              <div class="d-flex flex-column flex-md-row w-100 h-100">
+                <!-- <div class="d-none d-md-flex align-items-center mb-2"> -->
+                <div class="mr-3">
+                  <h4 class="mr-0 mr-md-3">{{ information.username.full }}</h4>
                   <b-badge pill :variant="statusVariant[information.status]" class="ml-auto ml-md-0 text-white">{{ information.status }}</b-badge>
                 </div>
                 <b-row class="flex-column mt-auto mb-2 m-md-0" no-gutters>
-                  <b-col cols md="5" class="d-flex justify-content-between mb-1 mb-md-0">
-                    <div class="font-weight-normal text-gray-700 font-italic">Last Signed-in</div>
+                  <b-col cols class="d-flex justify-content-between mb-1 mb-md-0 align-items-start">
+                    <div class="font-weight-normal text-gray-700 font-italic mr-md-3">Last Signed-in</div>
                     <div class="text-gray-600 font-italic"> {{ information.lastSignedin }} </div>
                   </b-col>
-                  <b-col cols md="5" class="d-flex justify-content-between mb-1 mb-md-0">
+                  <b-col cols class="d-flex justify-content-between mb-1 mb-md-0 align-items-center">
                     <div class="font-weight-normal text-gray-700 font-italic">Created</div>
                     <div class="text-gray-600 font-italic"> {{ information.createdAt }} </div>
                   </b-col>
-                  <b-col cols md="5" class="d-flex justify-content-between mb-1 mb-md-0">
+                  <b-col cols class="d-flex justify-content-between mb-1 mb-md-0 align-items-end">
                     <div class="font-weight-normal text-gray-700 font-italic">Modified</div>
                     <div class="text-gray-600 font-italic"> {{ information.modifiedAt }} </div>
                   </b-col>
