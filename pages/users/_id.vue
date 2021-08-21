@@ -16,11 +16,10 @@
                 />
               </div>
             </b-col>
-            <b-col cols md>
-              <div class="d-flex flex-column flex-md-row w-100 h-100">
-                <!-- <div class="d-none d-md-flex align-items-center mb-2"> -->
-                <div class="mr-3">
-                  <h4 class="mr-0 mr-md-3">{{ information.username.full }}</h4>
+            <b-col cols class="mb-3 mb-md-0">
+              <div class="d-flex flex-column flex-md-row h-100">
+                <div class="d-flex flex-md-column align-items-center align-items-md-start mb-2 mb-md-0 mr-md-4">
+                  <h4 class="d-inline-block">{{ information.username.full }}</h4>
                   <b-badge pill :variant="statusVariant[information.status]" class="ml-auto ml-md-0 text-white">{{ information.status }}</b-badge>
                 </div>
                 <b-row class="flex-column mt-auto mb-2 m-md-0" no-gutters>
