@@ -79,7 +79,8 @@ export function extendRoutes (routes, resolve) {
       name: 'userDetails',
       path: '/users/user/:id',
       component: resolve(__dirname, 'pages/users/_id'),
-      chunkName: 'pages/users/_id'
+      chunkName: 'pages/users/_id',
+      meta: { parent: 'users' }
     }
   ]
 }
