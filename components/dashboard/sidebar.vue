@@ -1,5 +1,5 @@
 <template>
-  <nav :class="['d-flex flex-column sidebar', { collapsed: close }]">
+  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: close }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         LOGO
@@ -60,13 +60,18 @@ export default {
     collapsed: {
       type: Boolean,
       required: true
+    },
+    pageMovePending: {
+      type: Boolean,
+      required: true
     }
   },
   data: () => ({
     isMobile: false,
     close: false,
     eventsNestedToggled: false,
-    usersNestedToggled: false
+    usersNestedToggled: false,
+    isPageMove: false
   }),
   watch: {
     collapsed (state) {
@@ -79,21 +84,67 @@ export default {
       if (this.close && !state) {
         this.$emit('toggleSidebar')
       }
+    },
+    pageMovePending (prev, current) {
+      if (prev && !current && !this.close && this.isPageMove) {
+        setTimeout(() => {
+          this.$emit('toggleSidebar')
+        }, 2500)
+      }
+    },
+    $route: {
+      deep: true,
+      handler (from, to) {
+        if (this.isMobile && from.name !== to.name) {
+          this.isPageMove = true
+        }
+      }
+    },
+    '$route.meta': {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        if (!!val.parent && ['users', 'events'].includes(val.parent)) {
+          if (val.parent === 'users') {
+            this.usersNestedToggled = true
+            this.eventsNestedToggled = false
+          } else if (val.parent === 'events') {
+            this.eventsNestedToggled = true
+            this.usersNestedToggled = false
+          }
+        } else {
+          this.$nextTick(() => {
+            this.eventsNestedToggled = false
+            this.usersNestedToggled = false
+          })
+        }
+      }
     }
   },
   created () {},
   mounted () {
-    window.addEventListener('resize', this.handleSidebar)
+    window.addEventListener('resize', this.checkIsMobile)
+    window.addEventListener('mouseup', this.handleSidebar)
+    this.checkIsMobile()
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.handleSidebar)
+    window.removeEventListener('resize', this.checkIsMobile)
+    window.removeEventListener('mouseup', this.handleSidebar)
   },
   methods: {
     toggleSidebar () {
       this.$emit('toggleSidebar')
     },
-    handleSidebar () {
+    checkIsMobile () {
       this.isMobile = window.innerWidth < window.innerHeight
+    },
+    handleSidebar (event) {
+      if (this.isMobile && !this.close) {
+        const dashSidebar = document.getElementById('dash-sidebar')
+        if (!this.isPageMove && event.target !== dashSidebar && event.target.parentNode !== dashSidebar) {
+          this.$emit('toggleSidebar')
+        }
+      }
     }
   }
 }
