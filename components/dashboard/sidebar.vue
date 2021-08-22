@@ -15,7 +15,7 @@
             <b-nav-item :to="{ name: 'eventsStatics' }" :active="$route.meta.parent === 'events'">
               Event
             </b-nav-item>
-            <b-icon :icon="eventsNestedToggled ? 'dash-circle' : 'plus-circle'" @click="eventsNestedToggled = !eventsNestedToggled" />
+            <b-icon :icon="eventsNestedToggled ? 'chevron-up' : 'chevron-down'" @click="eventsNestedToggled = !eventsNestedToggled" />
           </div>
           <b-collapse id="nav-events-child" v-model="eventsNestedToggled">
             <b-nav vertical>
@@ -27,7 +27,7 @@
             <b-nav-item :to="{ name: 'userStatics' }" :active="$route.meta.parent === 'users'">
               Users
             </b-nav-item>
-            <b-icon :icon="usersNestedToggled ? 'dash-circle' : 'plus-circle'" @click="usersNestedToggled = !usersNestedToggled" />
+            <b-icon :icon="usersNestedToggled ? 'chevron-up' : 'chevron-down'" @click="usersNestedToggled = !usersNestedToggled" />
           </div>
           <b-collapse id="nav-events-child" v-model="usersNestedToggled">
             <b-nav vertical>
