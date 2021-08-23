@@ -22,6 +22,7 @@
               :circumference="0.5"
               use-data-label
               :data-label-opt="trafficLabelOpt"
+              :rest-mode="true"
               responsive
             />
           </client-only>

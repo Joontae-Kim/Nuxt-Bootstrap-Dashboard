@@ -1,8 +1,10 @@
 import mergeOptions from '~/mixins/chart/mergeOptions'
+import createChartColor from "~/mixins/chart/createChartColor"
 
 export default {
   mixins: [
-    mergeOptions
+    mergeOptions,
+    createChartColor
   ],
   props: {
     responsive: {
@@ -92,26 +94,11 @@ export default {
       default: (customLegendClickProps) => {
         return typeof customLegendClickProps === 'undefined' ? false : customLegendClickProps
       }
-    },
-    halfSize: {
-      type: Boolean,
-      required: false,
-      default: (halfChartProps) => {
-        return typeof halfChartProps === 'undefined' ? false : halfChartProps
-      }
-    },
-    rotation: {
-      type: Number,
-      required: false,
-      default: 1
-    },
-    circumference: {
-      type: Number,
-      required: false,
-      default: 1
     }
   },
   data: () => ({
+    borderWidth: 6,
+    hoverBorderWidth: 3,
     option: {
       responsive: true,
       maintainAspectRatio: false,
