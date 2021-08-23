@@ -2,14 +2,12 @@
   <canvas :id="canvasId" v-bind="{width, height}" />
 </template>
 <script>
-import createChartColor from "~/mixins/chart/createChartColor"
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
 
 export default {
   mixins: [
     defaultProps,
-    createChartColor,
     computingYScaleBarLine
   ],
   props: {
@@ -112,13 +110,7 @@ export default {
       return options
     },
     generateChartColor () {
-      let colors = null
-      if (this.data.datasets.length > 1) {
-        const colorsTypes = this.getRandomType(this.data.datasets.length)
-        colors = this.getColorsByType(colorsTypes)
-      } else {
-        colors = this.getRandomColors(this.data.datasets.length)
-      }
+      const colors = this.getRandomColors(this.data.datasets.length)
       colors.forEach(({ rgb, border, background }, c) => {
         this.data.datasets[c].backgroundColor = background
         this.data.datasets[c].pointBackgroundColor = border

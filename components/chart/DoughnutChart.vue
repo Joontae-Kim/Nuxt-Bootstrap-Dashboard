@@ -2,13 +2,15 @@
   <canvas :id="canvasId" v-bind="{width, height}" />
 </template>
 <script>
-import defaultProps from "../../mixins/chart/defaultProps"
-import createChartColor from "~/mixins/chart/createChartColor"
+import defaultProps from "~/mixins/chart/defaultProps"
+import circleChartProps from '~/mixins/chart/props/circle'
+import chartColorCircle from '~/mixins/chart/color/circle'
 
 export default {
   mixins: [
     defaultProps,
-    createChartColor
+    circleChartProps,
+    chartColorCircle
   ],
   data: () => ({
     type: 'doughnut'
@@ -16,30 +18,10 @@ export default {
   mounted () {},
   methods: {
     generateChartColor () {
-      const [borderWidth, hoverBorderWidth] = [6, 3]
-      if (!this.data.datasets.length) {
-        return this.data
+      if (this.restMode) {
+        this.generateRestModeColor()
       } else {
-        // eslint-disable-next-line no-lonely-if
-        if (this.data.datasets.length < 2) {
-          const randomTypeIdx = this.getRandomIntInclusive(this.doughnutPieColorSets.length)
-          const colors = this.getColorsByType(this.doughnutPieColorSets[randomTypeIdx])
-          this.data.datasets[0].backgroundColor = colors
-          this.data.datasets[0].borderWidth = borderWidth
-          this.data.datasets[0].hoverBorderWidth = hoverBorderWidth
-        } else {
-          const counts = Math.round(this.totalColorCount / this.data.datasets.length)
-          const colors = new Array(counts).fill(null).reduce((colorSet, color, c) => {
-            const typeColors = this.getColorsByType(this.doughnutPieColorSets[c])
-            colorSet = colorSet.concat(typeColors)
-            return colorSet
-          }, [])
-          this.data.datasets.forEach((dataset, d) => {
-            dataset.backgroundColor = [colors[d].rgb, this.placeholderColor.rgb]
-            dataset.borderWidth = borderWidth
-            dataset.hoverBorderWidth = hoverBorderWidth
-          })
-        }
+        this.generateDefaultColor()
       }
     },
     renderChart () {

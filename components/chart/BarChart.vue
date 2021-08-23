@@ -4,13 +4,11 @@
 
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
-import createChartColor from "~/mixins/chart/createChartColor"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
 
 export default {
   mixins: [
     defaultProps,
-    createChartColor,
     computingYScaleBarLine
   ],
   props: {
@@ -22,16 +20,8 @@ export default {
   },
   data: () => ({
     type: 'bar',
-    global: {
-      single: {
-        borderWidth: 1.5,
-        barPercentage: 0.4
-      },
-      multi: {
-        borderWidth: 1.5,
-        barPercentage: 0.5
-      }
-    },
+    borderWidth: 1.5,
+    barPercentage: 0.5,
     option: {
       elements: {
         rectangle: {
@@ -102,59 +92,30 @@ export default {
     },
     generateChartColor () {
       if (!this.data.datasets.length) {
-        return []
+        return this.data
+      }
+
+      if (this.singleColor) {
+        const colors = this.getRandomColors(this.data.datasets.length)
+        const rgbs = colors.map(({ rgb }) => rgb)
+        this.data.datasets.forEach((dataset, d) => {
+          dataset.borderWidth = this.borderWidth
+          dataset.barPercentage = this.barPercentage
+          const color = new Array(dataset.data.length).fill(rgbs[d])
+          dataset.backgroundColor = color
+          dataset.borderColor = color
+        })
       } else {
-        // eslint-disable-next-line no-lonely-if
-        if (this.singleColor) {
-          const colors = this.getRandomColors(this.data.datasets.length)
-          const rgbs = colors.map(({ rgb }) => rgb)
-          const option = this.global.single
-          this.data.datasets.forEach((dataset, d) => {
-            dataset.borderWidth = option.borderWidth
-            dataset.barPercentage = option.barPercentage
-            const color = new Array(dataset.data.length).fill(rgbs[d])
-            dataset.backgroundColor = color
-            dataset.borderColor = color
-            dataset.hoverBackgroundColor = color
-            dataset.hoverBorderColor = color
-          })
-        } else if (this.data.datasets.length < 2) {
-          const dataCount = this.data.datasets[0].data.length
-          const counts = this.colorTypes.length >= dataCount
-            ? Math.floor(this.colorTypes.length / dataCount)
-            : Math.floor(this.colorTypes.length * 4 / dataCount)
-          const option = this.global.single
-          let randomType = this.getRandomType()
-          let colors = this.getColorsByType(randomType)
-          let rgbs = []
-          if (counts < 2) {
-            randomType = this.getRandomType(counts)
-            colors = this.getColorsByType(randomType)
-            rgbs = colors.map(({ rgb }) => rgb)
-          } else {
-            randomType = this.getRandomType(counts, true)
-            colors = this.getColorsByType(randomType)
-            rgbs = colors.map(({ rgb }) => rgb)
-          }
-          this.data.datasets[0].borderWidth = option.borderWidth
-          this.data.datasets[0].barPercentage = option.barPercentage
-          this.data.datasets[0].backgroundColor = rgbs
-          this.data.datasets[0].borderColor = rgbs
-          this.data.datasets[0].hoverBackgroundColor = rgbs
-          this.data.datasets[0].hoverBorderColor = rgbs
-        } else {
-          const option = this.global.multi
-          const colors = this.getRandomColors(this.data.datasets[0].data.length)
-          const rgbs = colors.map(({ rgb }) => rgb)
-          this.data.datasets.forEach((dataset, d) => {
-            dataset.borderWidth = option.borderWidth
-            dataset.barPercentage = option.barPercentage
-            dataset.backgroundColor = rgbs[d]
-            dataset.borderColor = rgbs[d]
-            dataset.hoverBackgroundColor = rgbs[d]
-            dataset.hoverBorderColor = rgbs[d]
-          })
-        }
+        const singleDataSet = this.data.datasets.length < 2
+        const colors = this.getRandomColors(this.data.datasets[0].data.length)
+        const rgbs = colors.map(({ rgb }) => rgb)
+        this.data.datasets.forEach((dataset, d) => {
+          const rgb = singleDataSet ? rgbs : rgbs[d]
+          dataset.borderWidth = this.borderWidth
+          dataset.barPercentage = this.barPercentage
+          dataset.backgroundColor = rgb
+          dataset.borderColor = rgb
+        })
       }
     },
     computeScaleTicks (options) {

@@ -1,8 +1,10 @@
 import mergeOptions from '~/mixins/chart/mergeOptions'
+import createChartColor from "~/mixins/chart/createChartColor"
 
 export default {
   mixins: [
-    mergeOptions
+    mergeOptions,
+    createChartColor
   ],
   props: {
     responsive: {
@@ -131,6 +133,8 @@ export default {
     }
   },
   data: () => ({
+    borderWidth: 6,
+    hoverBorderWidth: 3,
     option: {
       responsive: true,
       maintainAspectRatio: false,
@@ -187,7 +191,7 @@ export default {
       this.data.datasets.forEach((dataset, d) => {
         const color = colors[d]
         if (dataset.type === 'line') {
-          dataset.backgroundColor = 'rgba(206, 212, 218, 0.8)'
+          dataset.backgroundColor = color.border // 'rgba(206, 212, 218, 0.8)'
           dataset.pointBackgroundColor = color.rgb
           dataset.borderColor = color.rgb
           dataset.borderWidth = 1
