@@ -36,3 +36,19 @@ export const colorSet = [
   // { type: "", rgb: "", background: "rgba(, .5)", border: "rgb(224, 224, 224)" },
   // { type: "", rgb: "", background: "rgba(, .5)", border: "rgb(189, 189, 189)" },
 ]
+
+export const placeholderColor = { rgb: 'rgba(206, 212, 218, 1)' }
+
+export const extendedColors = [
+  { rgb: 'rgb(8, 48, 107)', background: 'rgba(8, 48, 107, .7)', border: 'rgb(255, 255, 255)', text: 'rgb(255, 255, 255)' },
+  { rgb: 'rgb(8, 81, 156)', background: 'rgba(8, 81, 156, .7)', border: 'rgb(255, 255, 255)', text: 'rgb(255, 255, 255)' },
+  { rgb: 'rgb(33, 113, 181)', background: 'rgba(33, 113, 181, .7)', border: 'rgb(255, 255, 255)', text: 'rgb(255, 255, 255)' },
+  { rgb: 'rgb(66, 146, 198)', background: 'rgba(66, 146, 198, .7)', border: 'rgb(255, 255, 255)', text: 'rgb(255, 255, 255)' },
+  { rgb: 'rgb(3, 155, 229)', background: 'rgba(3, 155, 229, .7)', border: 'rgb(255, 255, 255)', text: 'rgb(255, 255, 255)' },
+  { rgb: 'rgb(3, 169, 244)', background: 'rgba(3, 169, 244, .7)', border: 'rgb(255, 255, 255)', text: 'rgb(255, 255, 255)' },
+  { rgb: 'rgb(41, 182, 246)', background: 'rgba(41, 182, 246, .7)', border: 'rgb(224, 224, 224)', text: 'rgb(224, 224, 224)' },
+  { rgb: 'rgb(79, 195, 247)', background: 'rgba(79, 195, 247, .7)', border: 'rgb(224, 224, 224)', text: 'rgb(224, 224, 224)' }
+  // { rgb: 'rgb(158, 202, 225)', border: 'rgb(224, 224, 224)', text: 'rgb(224, 224, 224)' },
+  // { rgb: 'rgb(198, 219, 239)', border: 'rgb(189, 189, 189)', text: 'rgb(189, 189, 189)' },
+  // { rgb: 'rgb(222, 235, 247)', border: 'rgb(189, 189, 189)', text: 'rgb(189, 189, 189)' }
+]
