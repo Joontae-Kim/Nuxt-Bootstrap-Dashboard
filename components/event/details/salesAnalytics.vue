@@ -156,6 +156,9 @@ export default {
         ticks: {
           beginAtZero: false
         },
+        gridLines: {
+          display: false
+        },
         scaleLabel: {
           display: false,
           labelString: 'Date'
@@ -186,12 +189,12 @@ export default {
           display: true,
           position: 'right',
           gridLines: {
-            borderDash: [3, 4]
+            display: false
           },
           ticks: {
             stepSize: 2,
             padding: 10,
-            beginAtZero: true, // false.
+            beginAtZero: true,
             callback: (value, index, values) => {
               return Math.round(value)
             }

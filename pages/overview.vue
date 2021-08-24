@@ -69,10 +69,8 @@
                 user-x-axes-as-time
                 tooltip
                 responsive
-                class="pb-xxl-3"
                 compute-scale-axe="Y"
-                use-data-label
-                :data-label-opt="salesLableOpt"
+                class="pb-xxl-3"
               />
             </b-col>
           </b-row>
@@ -87,12 +85,11 @@
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
                 :data="channels"
-                :scales-y="[{ticks: { beginAtZero: true }}]"
+                :scales-y="[{ticks: { beginAtZero: true, stepSize: 10 }}]"
                 :data-label-opt="trafficChannelLabelsOpt"
                 responsive
                 tooltip
                 use-data-label
-                compute-scale-axe="Y"
               />
             </b-col>
           </b-row>

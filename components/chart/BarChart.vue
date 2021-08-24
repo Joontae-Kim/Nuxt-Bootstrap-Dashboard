@@ -31,7 +31,7 @@ export default {
       scales: {
         xAxes: [{
           gridLines: {
-            borderDash: [3, 4]
+            display: false
           },
           ticks: {
             padding: 7
