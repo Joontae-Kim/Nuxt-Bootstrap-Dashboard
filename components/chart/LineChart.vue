@@ -41,7 +41,7 @@ export default {
         labelString: 'Date'
       },
       gridLines: {
-        borderDash: [3, 4]
+        display: false
       }
     },
     option: {
@@ -59,6 +59,9 @@ export default {
           },
           title: {
             display: false
+          },
+          gridLines: {
+            borderDash: [3, 4]
           }
         }]
       }

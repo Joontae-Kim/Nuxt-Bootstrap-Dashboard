@@ -193,6 +193,9 @@ export default {
             minute: 'h:mm a'
           },
           stepSize: 3
+        },
+        gridLines: {
+          display: false
         }
       }]
     },
@@ -200,7 +203,6 @@ export default {
       return [{
         ticks: {
           beginAtZero: false
-          // stepSize: 3
         }
       }]
     },
