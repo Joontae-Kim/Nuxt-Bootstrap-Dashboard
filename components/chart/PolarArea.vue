@@ -4,6 +4,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
 import chartColorCircle from '~/mixins/chart/color/circle'
+import { borderDash, ticksFontColor, zeroLineColor } from "~/mixins/chart/utils/axisDefaultConfig"
 
 export default {
   mixins: [
@@ -15,11 +16,30 @@ export default {
   }),
   mounted () {},
   methods: {
+    mergeOption (options) {
+      if (!options.scale) {
+        options.scale = {}
+      }
+
+      if (!options.scale.pointLabels) {
+        options.scale.pointLabels = {}
+      }
+
+      options.scale.gridLines = !options.scale.gridLines
+        ? { color: zeroLineColor, borderDash }
+        : this.mergeOptions(options.scale.gridLines, { color: zeroLineColor, borderDash })
+
+      options.scale.ticks = !options.scale.ticks
+        ? { fontColor: ticksFontColor }
+        : this.mergeOptions(options.scale.ticks, { fontColor: ticksFontColor })
+      return options
+    },
     renderChart () {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
         this.mergeDefaultOptions()
-        const options = this.mergeOptions(this.option, this.customOpt)
+        let options = this.mergeOptions(this.option, this.customOpt)
+        options = this.mergeOption(options)
         this.generateDefaultColor()
         this.$chartjs.createChart(ctx, {
           type: this.type,
