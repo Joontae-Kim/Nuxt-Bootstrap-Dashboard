@@ -1,5 +1,8 @@
 const Chart = require('chart.js')
 const datalabels = require('chartjs-plugin-datalabels')
+const { drawRoundRectangle } = require('~/lib/chart.lib')
+
+Chart.elements.Rectangle.prototype.draw = drawRoundRectangle
 
 export default ({ app }, inject) => {
   inject('chartjs', {
