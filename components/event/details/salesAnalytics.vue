@@ -193,7 +193,6 @@ export default {
           },
           ticks: {
             stepSize: 2,
-            padding: 10,
             beginAtZero: true,
             callback: (value, index, values) => {
               return Math.round(value)
