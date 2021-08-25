@@ -5,6 +5,14 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
+import { yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/mixins/chart/utils/axisDefaultConfig"
+
+const [
+  defaultyAxesGridLine,
+  defaultyAxesTicks,
+  defaultxAxesGridLine,
+  defaultxAxesTicks
+] = [{ ...yAxesGridLine }, { ...yAxesTicks }, { ...xAxesGridLine }, { ...xAxesTicks }]
 
 export default {
   mixins: [
@@ -30,21 +38,12 @@ export default {
       },
       scales: {
         xAxes: [{
-          gridLines: {
-            display: false
-          },
-          ticks: {
-            padding: 7
-          }
+          gridLines: defaultxAxesGridLine,
+          ticks: defaultxAxesTicks
         }],
         yAxes: [{
-          gridLines: {
-            borderDash: [3, 4]
-          },
-          ticks: {
-            beginAtZero: false,
-            padding: 7
-          }
+          gridLines: defaultyAxesGridLine,
+          ticks: defaultyAxesTicks
         }]
       }
     }
@@ -53,8 +52,18 @@ export default {
     mergeOption () {
       this.mergeDefaultOptions()
       if (this.mixed) {
-        this.option.scales.xAxes = this.scalesX
-        this.option.scales.yAxes = this.scalesY
+        this.option.scales.xAxes = this.scalesX.reduce((updatedX, scale) => {
+          scale.gridLines = defaultxAxesGridLine
+          scale.ticks = scale.ticks ? { ...scale.ticks, ...xAxesTicks } : defaultxAxesTicks
+          updatedX.push(scale)
+          return updatedX
+        }, [])
+        this.option.scales.yAxes = this.scalesY.reduce((updatedY, scale) => {
+          scale.gridLines = scale.gridLines ? { ...scale.gridLines, ...defaultyAxesGridLine } : defaultyAxesGridLine
+          scale.ticks = scale.ticks ? { ...scale.ticks, ...defaultyAxesTicks } : defaultyAxesTicks
+          updatedY.push(scale)
+          return updatedY
+        }, [])
       } else {
         if (this.scalesX) {
           if (this.scalesX.length === 1) {

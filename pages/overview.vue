@@ -65,7 +65,6 @@
                 canvas-id="sales-chart"
                 :data="sales"
                 :scales-x="[{ time: { stepSize: 3 } }]"
-                :scales-y="[{ticks: { beginAtZero: false }}]"
                 user-x-axes-as-time
                 tooltip
                 responsive
