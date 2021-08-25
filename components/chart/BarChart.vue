@@ -29,11 +29,11 @@ export default {
   data: () => ({
     type: 'bar',
     borderWidth: 1.5,
-    barPercentage: 0.5,
     option: {
       elements: {
         rectangle: {
-          borderSkipped: false
+          borderSkipped: false,
+          borderRadius: 15
         }
       },
       scales: {
@@ -45,6 +45,16 @@ export default {
           gridLines: defaultyAxesGridLine,
           ticks: defaultyAxesTicks
         }]
+      }
+    },
+    barSetting: {
+      single: {
+        barPercentage: 1,
+        maxBarThickness: 25
+      },
+      multi: {
+        barPercentage: 0.75,
+        maxBarThickness: 30
       }
     }
   }),
@@ -108,9 +118,8 @@ export default {
         const colors = this.getRandomColors(this.data.datasets.length)
         const rgbs = colors.map(({ rgb }) => rgb)
         this.data.datasets.forEach((dataset, d) => {
-          dataset.borderWidth = this.borderWidth
-          dataset.barPercentage = this.barPercentage
           const color = new Array(dataset.data.length).fill(rgbs[d])
+          dataset.borderWidth = this.borderWidth
           dataset.backgroundColor = color
           dataset.borderColor = color
         })
@@ -121,7 +130,6 @@ export default {
         this.data.datasets.forEach((dataset, d) => {
           const rgb = singleDataSet ? rgbs : rgbs[d]
           dataset.borderWidth = this.borderWidth
-          dataset.barPercentage = this.barPercentage
           dataset.backgroundColor = rgb
           dataset.borderColor = rgb
         })
@@ -146,6 +154,23 @@ export default {
       // if (computingAxe === 'X' || computingAxe === 'XY') {
       // }
     },
+    settingBarConfig () {
+      const datasetDefaultConfig = this.mixed || this.singleColor
+        ? { borderWidth: this.borderWidth, ...this.barSetting.multi }
+        : { borderWidth: this.borderWidth, ...this.barSetting.single }
+
+      if (this.mixed) {
+        const barDataSetIndex = this.data.datasets.findIndex(({ type }) => type === 'bar')
+        if (barDataSetIndex < 0) {
+          return false
+        }
+        this.data.datasets[barDataSetIndex] = this.mergeOptions(this.data.datasets[barDataSetIndex], datasetDefaultConfig)
+      } else {
+        this.data.datasets.forEach((dataset, d) => {
+          dataset = this.mergeOptions(dataset, datasetDefaultConfig)
+        })
+      }
+    },
     renderChart () {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
@@ -158,6 +183,7 @@ export default {
         if (this.computeScaleAxe) {
           this.computeScaleTicks(options)
         }
+        this.settingBarConfig()
         this.$chartjs.createChart(ctx, {
           type: this.type,
           data: this.data,
