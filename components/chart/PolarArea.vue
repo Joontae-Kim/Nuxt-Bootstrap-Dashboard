@@ -4,7 +4,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
 import chartColorCircle from '~/mixins/chart/color/circle'
-import { borderDash, ticksFontColor, zeroLineColor } from "~/mixins/chart/utils/axisDefaultConfig"
+import { borderDash, ticksFontColor, zeroLineColor } from "~/lib/chart.lib"
 
 export default {
   mixins: [
