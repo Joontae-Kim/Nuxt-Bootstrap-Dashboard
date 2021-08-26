@@ -4,7 +4,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
-import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/mixins/chart/utils/axisDefaultConfig"
+import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/lib/chart.lib"
 
 const [
   defaultyAxesGridLine,
@@ -157,6 +157,25 @@ export default {
       // if (computingAxe === 'X' || computingAxe === 'XY') {
       // }
     },
+    settingLineConfig () {
+      console.log(`settingLineConfig ~ `)
+      // console.log(` ~ `)
+      console.log(` ~ this.data.datasets.length => `, this.data.datasets.length)
+      if (!this.data.datasets.length) {
+        return this.data
+      }
+      console.log(` ~ this.data.datasets => `, this.data.datasets)
+      this.data.datasets.forEach((dataset) => {
+        dataset.borderWidth = 2
+        dataset.hoverBorderWidth = 2
+        dataset.pointRadius = 3
+        dataset.pointHoverRadius = 5
+        dataset.pointBorderWidth = 2
+        dataset.pointHoverBorderWidth = 3
+        dataset.pointBackgroundColor = 'white'
+        dataset.pointHoverBackgroundColor = 'white'
+      })
+    },
     renderChart () {
       try {
         const ctx = document.getElementById(this.canvasId).getContext('2d')
@@ -171,6 +190,7 @@ export default {
           this.computeScaleTicks(options)
         }
 
+        this.settingLineConfig()
         this.$chartjs.createChart(ctx, {
           type: this.type,
           data: this.data,

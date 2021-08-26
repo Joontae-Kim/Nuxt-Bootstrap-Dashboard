@@ -5,7 +5,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
-import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/mixins/chart/utils/axisDefaultConfig"
+import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/lib/chart.lib"
 
 const [
   defaultyAxesGridLine,
