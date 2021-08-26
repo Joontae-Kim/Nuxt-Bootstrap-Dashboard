@@ -1,4 +1,5 @@
 // axisDefaultConfig.js
+export const yAxesBorderColor = 'rgb(255 255 255 / 0%)'
 export const ticksFontColor = '#adb5bd'
 export const borderDash = [3, 4]
 export const zeroLineColor = 'rgba(0, 0, 0, 0.1)'
@@ -6,6 +7,7 @@ export const zeroLineColor = 'rgba(0, 0, 0, 0.1)'
 export const yAxesGridLine = {
   borderDash,
   drawTicks: false,
+  drawBorder: false,
   zeroLineBorderDash: borderDash,
   zeroLineColor
 }
