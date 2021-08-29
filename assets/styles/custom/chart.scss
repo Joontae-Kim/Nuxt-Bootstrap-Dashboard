@@ -37,3 +37,23 @@
     }
   }
 }
+
+.chartTooltip {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  background-color: rgb(255, 255, 255);
+  border-radius: 4px;
+  padding: 10px; // 7px 10px;
+  border: 1px solid #cbd3da;
+  font-size: 12px;
+  font-style: normal;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  transition: all 0.25s ease-in-out;
+  opacity: 0;
+
+  &.active {
+    opacity: 1 !important;
+    transition: opacity 0.3s ease-in-out;
+  }
+}
