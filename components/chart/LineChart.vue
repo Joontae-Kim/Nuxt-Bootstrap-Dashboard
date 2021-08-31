@@ -4,7 +4,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
-import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/lib/chart.lib"
+import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks, tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 
 const [
   defaultyAxesGridLine,
@@ -73,6 +73,21 @@ export default {
       }
     }
   }),
+  computed: {
+    lineTooltipOpt () {
+      return {
+        ...tooltipStyleObj,
+        bodyFontColor: tooltipValueFontColor,
+        labelColors: '#212529',
+        displayColors: true,
+        callbacks: {
+          label (tooltipItem, data) {
+            return `  ${data.datasets[0].data[tooltipItem.index].y}`
+          }
+        }
+      }
+    }
+  },
   created () {
     if (this.yMax) {
       this.option.scales.yAxes[0].ticks.stepSize = this.yMax > 50 ? 15 : 10
@@ -125,13 +140,18 @@ export default {
       if (this.customOpt) {
         options = this.mergeOptions(this.option, this.customOpt)
       }
+
+      options.tooltips = options.tooltips.enabled
+        ? this.mergeOptions(this.lineTooltipOpt, options.tooltips)
+        : options.tooltips
+
       return options
     },
     generateChartColor () {
       const colors = this.getRandomColors(this.data.datasets.length)
       colors.forEach(({ rgb, border, background }, c) => {
         this.data.datasets[c].backgroundColor = background
-        this.data.datasets[c].pointBackgroundColor = border
+        this.data.datasets[c].pointBackgroundColor = rgb // border
         this.data.datasets[c].borderColor = rgb
         this.data.datasets[c].fill = true
       })
@@ -158,13 +178,9 @@ export default {
       // }
     },
     settingLineConfig () {
-      console.log(`settingLineConfig ~ `)
-      // console.log(` ~ `)
-      console.log(` ~ this.data.datasets.length => `, this.data.datasets.length)
       if (!this.data.datasets.length) {
         return this.data
       }
-      console.log(` ~ this.data.datasets => `, this.data.datasets)
       this.data.datasets.forEach((dataset) => {
         dataset.borderWidth = 2
         dataset.hoverBorderWidth = 2
@@ -172,7 +188,6 @@ export default {
         dataset.pointHoverRadius = 5
         dataset.pointBorderWidth = 2
         dataset.pointHoverBorderWidth = 3
-        dataset.pointBackgroundColor = 'white'
         dataset.pointHoverBackgroundColor = 'white'
       })
     },
