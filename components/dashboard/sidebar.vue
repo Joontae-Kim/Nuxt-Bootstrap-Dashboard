@@ -78,15 +78,18 @@ export default {
       this.close = state
     },
     isMobile (state) {
-      if (!this.close && state) {
-        this.$emit('toggleSidebar')
-      }
-      if (this.close && !state) {
-        this.$emit('toggleSidebar')
+      if (!this.pageMovePending) {
+        if (!this.close && state) {
+          this.$emit('toggleSidebar')
+        }
+
+        if (this.close && !state) {
+          this.$emit('toggleSidebar')
+        }
       }
     },
     pageMovePending (prev, current) {
-      if (prev && !current && !this.close && this.isPageMove) {
+      if (prev && !current && !this.close && this.isPageMove && this.isMobile) {
         setTimeout(() => {
           this.$emit('toggleSidebar')
         }, 2500)
@@ -136,7 +139,7 @@ export default {
       this.$emit('toggleSidebar')
     },
     checkIsMobile () {
-      this.isMobile = window.innerWidth < window.innerHeight
+      this.isMobile = window.outerWidth < 1024
     },
     handleSidebar (event) {
       if (this.isMobile && !this.close) {
