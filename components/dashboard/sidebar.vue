@@ -1,5 +1,5 @@
 <template>
-  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: close }]">
+  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: collapsed }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         LOGO
@@ -43,7 +43,7 @@
     </div>
     <div class="sidebar__footer">
       <div class="sidebar__close cursor-pointer ml-auto" @click="toggleSidebar">
-        <template v-if="close">
+        <template v-if="collapsed">
           <b-icon icon="arrow-bar-right" font-scale="1.5" title="Open Sidebar" aria-hidden="true" shift-v="-1" />
         </template>
         <template v-else>
@@ -67,29 +67,21 @@ export default {
     }
   },
   data: () => ({
-    isMobile: false,
-    close: false,
+    isMobile: null,
     eventsNestedToggled: false,
     usersNestedToggled: false,
     isPageMove: false
   }),
   watch: {
-    collapsed (state) {
-      this.close = state
-    },
-    isMobile (state) {
-      if (!this.pageMovePending) {
-        if (!this.close && state) {
-          this.$emit('toggleSidebar')
-        }
-
-        if (this.close && !state) {
+    isMobile (aft, prev) {
+      if (!this.pageMovePending && aft !== prev && prev !== null) {
+        if ((aft && !this.collapsed) || (!aft && this.collapsed)) {
           this.$emit('toggleSidebar')
         }
       }
     },
     pageMovePending (prev, current) {
-      if (prev && !current && !this.close && this.isPageMove && this.isMobile) {
+      if (prev && !current && !this.collapsed && this.isPageMove && this.isMobile) {
         setTimeout(() => {
           this.$emit('toggleSidebar')
         }, 2500)
@@ -99,7 +91,7 @@ export default {
       deep: true,
       handler (from, to) {
         if (this.isMobile && from.name !== to.name) {
-          this.isPageMove = true
+          this.$nextTick(() => { this.isPageMove = true })
         }
       }
     },
@@ -124,11 +116,10 @@ export default {
       }
     }
   },
-  created () {},
   mounted () {
+    this.checkIsMobile()
     window.addEventListener('resize', this.checkIsMobile)
     window.addEventListener('mouseup', this.handleSidebar)
-    this.checkIsMobile()
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.checkIsMobile)
@@ -139,10 +130,10 @@ export default {
       this.$emit('toggleSidebar')
     },
     checkIsMobile () {
-      this.isMobile = window.outerWidth < 1024
+      this.isMobile = window.innerWidth < 1024
     },
     handleSidebar (event) {
-      if (this.isMobile && !this.close) {
+      if (this.isMobile && !this.collapsed) {
         const dashSidebar = document.getElementById('dash-sidebar')
         if (!this.isPageMove && event.target !== dashSidebar && event.target.parentNode !== dashSidebar) {
           this.$emit('toggleSidebar')
