@@ -66,7 +66,7 @@
                 :data="sales"
                 :scales-x="[{ time: { stepSize: 3 } }]"
                 user-x-axes-as-time
-                tooltip
+                :tooltip="salesTooltipOpt"
                 responsive
                 compute-scale-axe="Y"
                 class="pb-xxl-3"
@@ -87,7 +87,6 @@
                 :scales-y="[{ticks: { beginAtZero: true, stepSize: 10 }}]"
                 :data-label-opt="trafficChannelLabelsOpt"
                 responsive
-                tooltip
                 use-data-label
               />
             </b-col>
@@ -109,7 +108,7 @@
                 :use-custom-legend-click="true"
                 custom-legend-click="default"
                 responsive
-                tooltip
+                :tooltip="notiTooltipOpt"
               />
             </b-col>
             <b-col
@@ -269,6 +268,15 @@ export default {
         }
       }
     },
+    notiTooltipOpt () {
+      return {
+        callbacks: {
+          label (tooltipItem, data) {
+            return `  ${data.datasets[0].data[tooltipItem.index]} %`
+          }
+        }
+      }
+    },
     salesLableOpt () {
       return {
         clip: false,
@@ -279,6 +287,15 @@ export default {
         },
         display (context) {
           return window.innerWidth >= 992 && context.dataIndex % 2
+        }
+      }
+    },
+    salesTooltipOpt () {
+      return {
+        callbacks: {
+          label (tooltipItem, data) {
+            return `  ${data.datasets[0].data[tooltipItem.index].y}`
+          }
         }
       }
     },
