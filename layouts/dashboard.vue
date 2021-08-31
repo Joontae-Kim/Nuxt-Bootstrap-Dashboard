@@ -30,7 +30,9 @@ export default {
       this.$set(this, 'isChildPending', _status)
     })
   },
-  mounted () {},
+  mounted () {
+    this.collapsedSidebar = window.innerWidth < 1024
+  },
   beforeDestroy () {},
   methods: {
     collapsed () {
