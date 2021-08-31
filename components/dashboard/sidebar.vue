@@ -134,8 +134,9 @@ export default {
     },
     handleSidebar (event) {
       if (this.isMobile && !this.collapsed) {
-        const dashSidebar = document.getElementById('dash-sidebar')
-        if (!this.isPageMove && event.target !== dashSidebar && event.target.parentNode !== dashSidebar) {
+        const headerChildEle = event.target.closest('#dash-header')
+        const sidebarChildEle = event.target.closest('#dash-sidebar')
+        if (!this.isPageMove && !sidebarChildEle && !headerChildEle) {
           this.$emit('toggleSidebar')
         }
       }
