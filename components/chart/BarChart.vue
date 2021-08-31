@@ -5,7 +5,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
-import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks } from "~/lib/chart.lib"
+import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks, tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 
 const [
   defaultyAxesGridLine,
@@ -59,6 +59,21 @@ export default {
       }
     }
   }),
+  computed: {
+    barTooltipOpt () {
+      return {
+        ...tooltipStyleObj,
+        bodyFontColor: tooltipValueFontColor,
+        labelColors: '#212529',
+        displayColors: true,
+        callbacks: {
+          label (tooltipItem, data) {
+            return `  ${tooltipItem.value}`
+          }
+        }
+      }
+    }
+  },
   methods: {
     mergeOption () {
       this.mergeDefaultOptions()
@@ -108,6 +123,11 @@ export default {
       if (this.customOpt) {
         options = this.mergeOptions(this.option, this.customOpt)
       }
+
+      options.tooltips = options.tooltips.enabled
+        ? this.mergeOptions(this.barTooltipOpt, options.tooltips)
+        : options.tooltips
+
       return options
     },
     generateChartColor () {

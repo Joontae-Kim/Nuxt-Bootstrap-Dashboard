@@ -4,7 +4,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
 import chartColorCircle from '~/mixins/chart/color/circle'
-import { borderDash, ticksFontColor, zeroLineColor } from "~/lib/chart.lib"
+import { borderDash, ticksFontColor, zeroLineColor, tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 
 export default {
   mixins: [
@@ -14,6 +14,22 @@ export default {
   data: () => ({
     type: 'polarArea'
   }),
+  computed: {
+    polarAreaTooltipOpt () {
+      return {
+        callbacks: {
+          title (tooltipItem, data) {
+            return data.labels[tooltipItem[0].index]
+          },
+          label (tooltipItem, data) {
+            return `  ${data.datasets[0].data[tooltipItem.index]}`
+          }
+        },
+        ...tooltipStyleObj,
+        bodyFontColor: tooltipValueFontColor
+      }
+    }
+  },
   mounted () {},
   methods: {
     mergeOption (options) {
@@ -32,6 +48,11 @@ export default {
       options.scale.ticks = !options.scale.ticks
         ? { fontColor: ticksFontColor }
         : this.mergeOptions(options.scale.ticks, { fontColor: ticksFontColor })
+
+      options.tooltips = options.tooltips.enabled
+        ? this.mergeOptions(this.polarAreaTooltipOpt, options.tooltips)
+        : options.tooltips
+
       return options
     },
     renderChart () {
