@@ -15,7 +15,7 @@
               :rate="totalVists.rate"
             />
           </b-col>
-          <b-col cols="12" md="6" class="mb-4">
+          <b-col cols="6" sm="6" class="mb-4">
             <dash-card
               title="New Users"
               :index="newUsers.users"
@@ -23,7 +23,7 @@
               icon="person-plus-fill"
             />
           </b-col>
-          <b-col cols="12" md="6" class="mb-4 mb-md-0">
+          <b-col cols="6" sm="6" class="mb-4 mb-md-0">
             <dash-card
               title="Active Users"
               icon="person-check-fill"
@@ -33,8 +33,8 @@
           </b-col>
           <b-col cols="12" md="6" class="mb-4 mb-md-0">
             <dash-card title="Traffic Share" class="h-100 pb-3 pb-lg-0">
-              <b-row id="traffic-share-chart-wrapper" align-v="center" class="flex-column flex-sm-row h-100 pb-lg-3">
-                <b-col cols="6" md="6" class="chart-container chart-h-20 chart-h-md-5 chart-h-lg-10 chart-range-h-100 chart-range-sm-h-200 chart-range-h-md-100 mb-3 mb-sm-0 mt-xxl-0">
+              <b-row id="traffic-share-chart-wrapper" align-v="center" class="h-100 pb-lg-3">
+                <b-col cols="6" md="6" class="chart-container chart-h-10 chart-range-h-150 chart-range-sm-h-200 chart-range-h-md-100 mt-xxl-0">
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
@@ -49,8 +49,8 @@
                     use-data-label
                   />
                 </b-col>
-                <b-col cols md="6">
-                  <div id="trafficShare-chart-lengend" class="d-flex flex-sm-column justify-content-around" />
+                <b-col cols="5" md="6">
+                  <div id="trafficShare-chart-lengend" class="d-flex flex-column justify-content-around justify-content-sm-between h-100" />
                 </b-col>
               </b-row>
             </dash-card>
@@ -271,7 +271,7 @@ export default {
           return context.dataset.backgroundColor
         },
         display (context) {
-          return context.chart.width >= 200 && context.chart.data.datasets[0].data[context.dataIndex] > 15
+          return context.chart.data.datasets[0].data[context.dataIndex] > 15
         },
         formatter (value, context) {
           return context.chart.data.labels[context.dataIndex]
@@ -342,10 +342,9 @@ export default {
       const text = ds.data.reduce((legendHtml, data, d) => {
         legendHtml.push(`<div id="trafficShare-legend-${d}"
           data-legend-parent="trafficShare-legend-${d}" data-chart-dataset="0" data-chart-idx="${d}"
-          class="d-flex align-items-center ${d === 0 ? 'mb-sm-2' : ''} user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
+          class="d-flex align-items-center ${d === 0 ? 'mb-3' : ''} user-select-none" style="color:${ds.backgroundColor[d]}; font-size: 0.8rem">
           ${icons[labels[d]]}
           <span class="ml-2">${labels[d]}</span>
-          <span class="d-md-none legend-value ml-2">(${data} %)</span>
         </div>`)
         return legendHtml
       }, [])
@@ -383,7 +382,7 @@ export default {
           class="d-flex flex-column flex-sm-row align-items-center user-select-none"
           style="font-size: 0.8rem;color:${ds.backgroundColor[length - d]};"
         >
-          <div class="d-flex align-items-center ${d === 0 ? '' : 'mt-2'} mt-sm-0" data-legend-parent="noti-legend-${d}">
+          <div class="d-flex align-items-center mt-2 mt-sm-0" data-legend-parent="noti-legend-${d}">
             <span class="legend-icon mr-2 mr-md-0">${icons[labels[d]]}</span>
             <span class="ml-md-2">${labels[d]}</span>
           </div>
