@@ -60,18 +60,26 @@
       <b-col cols lg="6">
         <dash-card title="Sales" class="mb-4 mb-md-0 h-100 pb-md-3 pb-lg-0">
           <b-row id="sales-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250 chart-range-h-xxl-300 chart-range-h-sxl-250">
-              <LazyLineChart
-                canvas-id="sales-chart"
-                :data="sales"
-                :scales-x="[{ time: { stepSize: 3 } }]"
-                user-x-axes-as-time
-                :tooltip="salesTooltipOpt"
-                responsive
-                compute-scale-axe="Y"
-                class="pb-xxl-3"
-              />
-            </b-col>
+            <template v-if="!sales.datasets[0].data.length">
+              <b-col cols class="flex-grow-1">
+                <div class="text-gray-600 fs-6 px-5 text-center">Not yet measure sales data</div>
+                <div class="text-gray-600 fs-6 px-5 text-center">because today is beginning of this month.</div>
+              </b-col>
+            </template>
+            <template v-else>
+              <b-col cols class="chart-container chart-h-30 chart-h-md-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250 chart-range-h-xxl-300 chart-range-h-sxl-250">
+                <LazyLineChart
+                  canvas-id="sales-chart"
+                  :data="sales"
+                  :scales-x="[{ time: { stepSize: 3 } }]"
+                  user-x-axes-as-time
+                  :tooltip="salesTooltipOpt"
+                  responsive
+                  compute-scale-axe="Y"
+                  class="pb-xxl-3 w-100"
+                />
+              </b-col>
+            </template>
           </b-row>
         </dash-card>
       </b-col>
@@ -164,7 +172,9 @@ export default {
     shares: {},
     channels: {},
     noti: {},
-    sales: {},
+    sales: {
+      datasets: [{ data: [] }]
+    },
     salesMax: null,
     eventRank: [],
     eventRankSortBy: 'sales',
