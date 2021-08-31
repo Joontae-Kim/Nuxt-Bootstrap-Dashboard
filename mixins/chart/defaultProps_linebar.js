@@ -1,5 +1,6 @@
 import mergeOptions from '~/mixins/chart/mergeOptions'
 import createChartColor from "~/mixins/chart/createChartColor"
+// import { customTooltipsGenerator } from '~/lib/chart.lib'
 
 export default {
   mixins: [
@@ -215,11 +216,11 @@ export default {
         this.option.plugins.datalabels = !this.mixed ? this.mergeOptions(chartDatalabels, this.dataLabelOpt) : this.dataLabelOpt
       }
 
-      if (!this.tooltip) {
-        this.option.tooltips.enabled = false
-      } else {
-        this.option.tooltips = { enabled: true, ...this.tooltip }
-      }
+      this.option.tooltips = typeof this.tooltip === 'object'
+        ? this.mergeOptions(this.tooltip, this.option.tooltips)
+        : this.tooltip === false
+          ? { enabled: false }
+          : this.option.tooltips
 
       this.option.legend.display = this.legendView && !this.customLegend
 
