@@ -17,6 +17,7 @@
               :data-label-opt="authLabelOpt"
               half-size
               responsive
+              :tooltip="authShareTootipOpt"
             />
           </b-col>
           <b-col cols>
@@ -122,6 +123,15 @@ export default {
         },
         formatter (value, context) {
           return context.chart.data.labels[context.dataIndex]
+        }
+      }
+    },
+    authShareTootipOpt () {
+      return {
+        callbacks: {
+          label (tooltipItem, data) {
+            return `  ${data.datasets[0].data[tooltipItem.index]} %`
+          }
         }
       }
     }

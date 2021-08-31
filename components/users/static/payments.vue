@@ -17,6 +17,7 @@
               use-data-label
               :data-label-opt="paymentsLabelOpt"
               half-size
+              :tooltip="paymentTooltipOpt"
             />
           </b-col>
           <b-col cols>
@@ -157,6 +158,15 @@ export default {
         formatter (value, context) {
           const formerLetter = context.chart.data.labels[context.dataIndex].split(' ')[0]
           return formerLetter
+        }
+      }
+    },
+    paymentTooltipOpt () {
+      return {
+        callbacks: {
+          label (tooltipItem, data) {
+            return `  ${data.datasets[0].data[tooltipItem.index]} %`
+          }
         }
       }
     }

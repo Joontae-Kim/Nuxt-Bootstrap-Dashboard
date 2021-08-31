@@ -81,7 +81,7 @@
                 custom-legend-id="traffic-chart-lengend"
                 :legend-callback="trafficLegendCb"
                 :custom-legend-click="trafficLegendClick"
-                tooltip
+                :tooltip="trafficTooltipOpt"
                 responsive
                 class="pb-xxl-3"
               />
@@ -268,6 +268,20 @@ export default {
         },
         display (context) {
           return window.innerWidth >= 992 && context.dataIndex % 2
+        }
+      }
+    },
+    trafficTooltipOpt () {
+      return {
+        intersect: false,
+        mode: 'index',
+        callbacks: {
+          label (tooltipItem, data) {
+            const dataset = data.datasets[tooltipItem.datasetIndex]
+            const label = dataset.label
+            const dataValue = dataset.data[tooltipItem.index]
+            return `  ${label}: ${dataValue}`
+          }
         }
       }
     },
