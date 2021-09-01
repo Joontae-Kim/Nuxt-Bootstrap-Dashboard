@@ -1,6 +1,6 @@
 import mergeOptions from '~/mixins/chart/mergeOptions'
 import createChartColor from "~/mixins/chart/createChartColor"
-// import { customTooltipsGenerator } from '~/lib/chart.lib'
+import { datalabelsCircleLabel, datalabelsFontSize } from '~/lib/chart.lib'
 
 export default {
   mixins: [
@@ -152,27 +152,22 @@ export default {
     dataLabelMap: {
       line: 'lineDataLableOpt',
       bar: 'barDataLableOpt'
-    },
-    lineDataLableOpt: {
-      padding: 6,
-      color: "white",
-      font: {
-        size: 10,
-        padding: 5
-      },
-      borderWidth: 2,
-      borderRadius: 25,
-      borderColor: '#fff',
-      backgroundColor (context) {
-        return context.dataset.borderColor
-      },
-      display () {
-        return window.innerWidth >= 992
-      }
-    },
-    barDataLableOpt: {}
+    }
   }),
-  computed: {},
+  computed: {
+    lineDataLableOpt () {
+      const lineDefaultDataLabelsOpt = datalabelsCircleLabel()
+      return lineDefaultDataLabelsOpt
+    },
+    barDataLableOpt () {
+      return {
+        color: 'white',
+        font: {
+          size: datalabelsFontSize
+        }
+      }
+    }
+  },
   watch: {
     data (dt) {
       if (dt.datasets[0].data.length) {
@@ -192,12 +187,12 @@ export default {
       this.data.datasets.forEach((dataset, d) => {
         const color = colors[d]
         if (dataset.type === 'line') {
-          dataset.backgroundColor = color.border // 'rgba(206, 212, 218, 0.8)'
+          dataset.backgroundColor = color.border
           dataset.pointBackgroundColor = color.rgb
           dataset.borderColor = color.rgb
-          dataset.borderWidth = 1
+          dataset.borderWidth = 2
         } else if (dataset.type === 'bar') {
-          dataset.backgroundColor = color.background
+          dataset.backgroundColor = color.rgb
           dataset.pointBackgroundColor = color.rgb
           dataset.borderColor = color.background
           dataset.borderWidth = 0
