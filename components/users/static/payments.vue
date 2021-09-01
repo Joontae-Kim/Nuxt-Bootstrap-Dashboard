@@ -121,7 +121,7 @@ export default {
     },
     paymentsLabelOpt () {
       return {
-        anchor: 'end',
+        font: { size: 12 },
         align ({ chart, dataIndex }) {
           const dataPeer = chart.data.labels.length - 1
           if (dataIndex === 0 || dataIndex === dataPeer || dataIndex === dataPeer - 1) {
@@ -135,10 +135,6 @@ export default {
             return 'center'
           }
         },
-        borderRadius: 16,
-        borderWidth: 2,
-        color: "white",
-        borderColor: "white",
         backgroundColor (context) {
           return context.dataset.backgroundColor
         },

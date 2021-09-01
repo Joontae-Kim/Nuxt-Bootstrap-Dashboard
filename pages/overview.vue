@@ -38,7 +38,7 @@
                   <LazyPieChart
                     canvas-id="traffic-share-chart"
                     :data="shares"
-                    :data-label-opt="{ color: '#fff' }"
+                    :data-label-opt="{ font: { size: 11 } }"
                     :legend-view="false"
                     :custom-legend="true"
                     custom-legend-id="trafficShare-chart-lengend"
@@ -47,6 +47,7 @@
                     custom-legend-click="default"
                     responsive
                     use-data-label
+                    :use-custom-data-labels-opt="true"
                   />
                 </b-col>
                 <b-col cols="5" md="6">
@@ -262,14 +263,6 @@ export default {
   computed: {
     notiLabelOpt () {
       return {
-        anchor: 'end',
-        borderRadius: 16,
-        borderWidth: 2,
-        color: "white",
-        borderColor: "white",
-        backgroundColor (context) {
-          return context.dataset.backgroundColor
-        },
         display (context) {
           return context.chart.data.datasets[0].data[context.dataIndex] > 15
         },
