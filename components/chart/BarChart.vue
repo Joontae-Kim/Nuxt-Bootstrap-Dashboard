@@ -186,9 +186,18 @@ export default {
           return false
         }
         this.data.datasets[barDataSetIndex] = this.mergeOptions(this.data.datasets[barDataSetIndex], datasetDefaultConfig)
+        this.data.datasets.forEach((dataset, d) => {
+          const chartDatalabels = this[this.dataLabelMap[dataset.type]]
+          dataset.datalabels = dataset.datalabels
+            ? this.mergeOptions(chartDatalabels, dataset.datalabels)
+            : chartDatalabels
+        })
       } else {
         this.data.datasets.forEach((dataset, d) => {
           dataset = this.mergeOptions(dataset, datasetDefaultConfig)
+          dataset.datalabels = dataset.datalabels
+            ? this.mergeOptions(this.barDataLableOpt, dataset.datalabels)
+            : this.barDataLableOpt
         })
       }
     },

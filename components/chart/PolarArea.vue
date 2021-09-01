@@ -4,7 +4,7 @@
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
 import chartColorCircle from '~/mixins/chart/color/circle'
-import { borderDash, ticksFontColor, zeroLineColor, tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
+import { borderDash, ticksFontColor, zeroLineColor, tooltipStyleObj, tooltipValueFontColor, datalabelsCircleLabel, datalabelsFontSize } from "~/lib/chart.lib"
 
 export default {
   mixins: [
@@ -28,6 +28,20 @@ export default {
         ...tooltipStyleObj,
         bodyFontColor: tooltipValueFontColor
       }
+    },
+    polarAreaDatalabels () {
+      const defaultCircleDatalabelsOpt = datalabelsCircleLabel()
+      const polarDefaultDatalabelsOpt = {
+        anchor: 'end',
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        },
+        font: {
+          size: datalabelsFontSize
+        }
+      }
+      const mergedOpt = this.mergeOptions(defaultCircleDatalabelsOpt, polarDefaultDatalabelsOpt)
+      return mergedOpt
     }
   },
   mounted () {},
@@ -62,6 +76,11 @@ export default {
         let options = this.mergeOptions(this.option, this.customOpt)
         options = this.mergeOption(options)
         this.generateDefaultColor()
+        this.data.datasets.forEach((dataset) => {
+          dataset.datalabels = !this.dataLabelOpt
+            ? this.polarAreaDatalabels
+            : this.mergeOptions(this.polarAreaDatalabels, this.dataLabelOpt)
+        })
         this.$chartjs.createChart(ctx, {
           type: this.type,
           data: this.data,
