@@ -157,7 +157,12 @@ export default {
   computed: {
     lineDataLableOpt () {
       const lineDefaultDataLabelsOpt = datalabelsCircleLabel()
-      return lineDefaultDataLabelsOpt
+      return {
+        ...lineDefaultDataLabelsOpt,
+        backgroundColor (context) {
+          return context.dataset.borderColor
+        }
+      }
     },
     barDataLableOpt () {
       return {
