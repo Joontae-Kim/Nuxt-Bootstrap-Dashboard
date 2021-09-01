@@ -1,6 +1,8 @@
 import mergeOptions from '~/mixins/chart/mergeOptions'
 import createChartColor from "~/mixins/chart/createChartColor"
-import { datalabelsFontSize, datalabelsFontColor } from '~/lib/chart.lib'
+import { datalabelsFontSize, datalabelsFontColor, datalabelsCircleLabel } from '~/lib/chart.lib'
+
+const defaultCircleDatalabelsOpt = datalabelsCircleLabel()
 
 export default {
   mixins: [
@@ -126,7 +128,32 @@ export default {
       }
     }
   }),
-  computed: {},
+  computed: {
+    pieDatalabels () {
+      const pieDefaultDatalabelsOpt = {
+        anchor: 'end',
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        }
+      }
+      const mergedPieDatalabels = this.mergeOptions(defaultCircleDatalabelsOpt, pieDefaultDatalabelsOpt)
+      return mergedPieDatalabels
+    },
+    polarAreaDatalabels () {
+      const defaultCircleDatalabelsOpt = datalabelsCircleLabel()
+      const polarDefaultDatalabelsOpt = {
+        anchor: 'end',
+        backgroundColor (context) {
+          return context.dataset.backgroundColor
+        },
+        font: {
+          size: datalabelsFontSize
+        }
+      }
+      const mergedOpt = this.mergeOptions(defaultCircleDatalabelsOpt, polarDefaultDatalabelsOpt)
+      return mergedOpt
+    }
+  },
   watch: {
     data (dt) {
       if (dt.datasets[0].data.length) {
