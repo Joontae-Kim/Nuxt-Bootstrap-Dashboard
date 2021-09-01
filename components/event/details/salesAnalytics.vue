@@ -118,7 +118,6 @@ export default {
             datalabels: {
               anchor: 'start',
               align: 'end',
-              // padding: 3,
               offset: 10,
               display () {
                 return window.innerWidth >= 927
