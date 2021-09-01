@@ -263,6 +263,7 @@ export default {
   computed: {
     notiLabelOpt () {
       return {
+        font: { size: 12 },
         display (context) {
           return context.chart.data.datasets[0].data[context.dataIndex] > 15
         },
