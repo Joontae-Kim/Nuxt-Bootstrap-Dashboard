@@ -5,7 +5,7 @@
 import defaultProps from "~/mixins/chart/defaultProps"
 import circleChartProps from '~/mixins/chart/props/circle'
 import chartColorCircle from '~/mixins/chart/color/circle'
-import { tooltipStyleObj, tooltipValueFontColor, datalabelsCircleLabel } from "~/lib/chart.lib"
+import { tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 
 export default {
   mixins: [
@@ -30,14 +30,6 @@ export default {
         ...tooltipStyleObj,
         bodyFontColor: tooltipValueFontColor
       }
-    },
-    pieDatalabels () {
-      const defaultCircleDatalabelsOpt = datalabelsCircleLabel()
-      const pieDefaultDatalabelsOpt = {
-        anchor: 'end'
-      }
-      const mergedPieDatalabels = this.mergeOptions(defaultCircleDatalabelsOpt, pieDefaultDatalabelsOpt)
-      return mergedPieDatalabels
     }
   },
   mounted () {},
