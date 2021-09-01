@@ -96,7 +96,6 @@ export default {
         datasets: [
           {
             type: "line",
-            borderWidth: 1,
             label: "Sales",
             data: this.sales.value,
             yAxisID: 'sales-yAxe',
@@ -106,15 +105,7 @@ export default {
               display () {
                 return window.innerWidth >= 927
               },
-              anchor: 'start',
-              align: 'top',
-              color: 'white',
-              offset: 10,
-              padding: 3,
-              borderRadius: 4,
-              backgroundColor (context) {
-                return context.dataset.borderColor
-              }
+              offset: 10
             }
           },
           {
@@ -125,17 +116,12 @@ export default {
             yAxisID: 'views-yAxe',
             order: 2,
             datalabels: {
-              display () {
-                return window.innerWidth >= 927
-              },
               anchor: 'start',
               align: 'end',
-              padding: 3,
+              // padding: 3,
               offset: 10,
-              color: 'white',
-              borderRadius: 4,
-              backgroundColor (context) {
-                return context.dataset.pointBackgroundColor
+              display () {
+                return window.innerWidth >= 927
               }
             }
           }
