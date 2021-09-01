@@ -135,9 +135,6 @@ export default {
             return 'center'
           }
         },
-        backgroundColor (context) {
-          return context.dataset.backgroundColor
-        },
         offset ({ chart, dataIndex }) {
           const dataPeer = chart.data.labels.length - 1
           if (dataIndex === 0) {

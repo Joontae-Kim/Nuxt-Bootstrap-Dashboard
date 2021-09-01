@@ -110,9 +110,6 @@ export default {
           const dataPeer = chart.data.labels.length - 1
           return dataIndex === 0 || dataIndex === dataPeer ? 'start' : 'center'
         },
-        backgroundColor (context) {
-          return context.dataset.backgroundColor
-        },
         offset ({ chart, dataIndex }) {
           const dataPeer = chart.data.labels.length - 1
           return dataIndex === 0 ? -10 : dataIndex === dataPeer ? -7 : 3
