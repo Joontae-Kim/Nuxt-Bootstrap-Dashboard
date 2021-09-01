@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <dash-sidebar :collapsed="collapsedSidebar" :page-move-pending="isChildPending" @toggleSidebar="collapsed" />
+    <dash-sidebar :collapsed="!collapsedSidebar" :page-move-pending="isChildPending" @toggleSidebar="collapsed" />
     <div :class="['content-page position-relative', { collapsed: !collapsedSidebar }]">
       <LoadingWrapper :loading="isChildPending" />
       <transition name="dashboard-fade" mode="out-in" appear>
@@ -35,7 +35,7 @@ export default {
   },
   beforeDestroy () {},
   methods: {
-    collapsed () {
+    collapsed (state = !this.collapsedSidebar) {
       this.collapsedSidebar = !this.collapsedSidebar
     }
   }

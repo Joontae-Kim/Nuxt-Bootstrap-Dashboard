@@ -1,5 +1,5 @@
 <template>
-  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: collapsed }]">
+  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: !collapsed }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         LOGO
@@ -43,7 +43,7 @@
     </div>
     <div class="sidebar__footer">
       <div class="sidebar__close cursor-pointer ml-auto" @click="toggleSidebar">
-        <template v-if="collapsed">
+        <template v-if="!collapsed">
           <b-icon icon="arrow-bar-right" font-scale="1.5" title="Open Sidebar" aria-hidden="true" shift-v="-1" />
         </template>
         <template v-else>
@@ -75,16 +75,17 @@ export default {
   watch: {
     isMobile (aft, prev) {
       if (!this.pageMovePending && aft !== prev && prev !== null) {
-        if ((aft && !this.collapsed) || (!aft && this.collapsed)) {
+        if ((aft && this.collapsed) || (!aft && !this.collapsed)) {
           this.$emit('toggleSidebar')
         }
       }
     },
     pageMovePending (prev, current) {
-      if (prev && !current && !this.collapsed && this.isPageMove && this.isMobile) {
+      if (prev && !current && this.collapsed && this.isPageMove && this.isMobile) {
         setTimeout(() => {
           this.$emit('toggleSidebar')
         }, 2500)
+        this.$nextTick(() => { this.isPageMove = false })
       }
     },
     $route: {
@@ -133,11 +134,11 @@ export default {
       this.isMobile = window.innerWidth < 1024
     },
     handleSidebar (event) {
-      if (this.isMobile && !this.collapsed) {
+      if (this.isMobile && this.collapsed) {
         const headerChildEle = event.target.closest('#dash-header')
         const sidebarChildEle = event.target.closest('#dash-sidebar')
         if (!this.isPageMove && !sidebarChildEle && !headerChildEle) {
-          this.$emit('toggleSidebar')
+          this.$emit('toggleSidebar', true)
         }
       }
     }
