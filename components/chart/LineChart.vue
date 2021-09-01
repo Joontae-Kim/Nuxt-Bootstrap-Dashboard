@@ -151,7 +151,7 @@ export default {
       const colors = this.getRandomColors(this.data.datasets.length)
       colors.forEach(({ rgb, border, background }, c) => {
         this.data.datasets[c].backgroundColor = background
-        this.data.datasets[c].pointBackgroundColor = rgb // border
+        this.data.datasets[c].pointBackgroundColor = rgb
         this.data.datasets[c].borderColor = rgb
         this.data.datasets[c].fill = true
       })
@@ -189,6 +189,9 @@ export default {
         dataset.pointBorderWidth = 2
         dataset.pointHoverBorderWidth = 3
         dataset.pointHoverBackgroundColor = 'white'
+        dataset.datalabels = dataset.datalabels
+          ? this.mergeOptions(this.lineDataLableOpt, dataset.datalabels)
+          : this.lineDataLableOpt
       })
     },
     renderChart () {
