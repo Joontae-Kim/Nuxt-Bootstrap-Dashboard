@@ -75,22 +75,18 @@
                   <div>{{ information.authentication }}</div>
                 </b-col>
                 <b-col cols="6">
-                  <p :class="informationClass.titlePtag">Full Name</p>
-                  <div>{{ information.username.full }}</div>
+                  <p :class="informationClass.titlePtag">E-mail</p>
+                  <div>{{ information.email }}</div>
                 </b-col>
               </b-row>
               <b-row no-gutters :class="informationClass.titleRow">
-                <b-col cols="6"><p :class="informationClass.titlePtag">Date of Birth</p></b-col>
-                <b-col col><div>{{ information.date_of_birth }}</div></b-col>
-              </b-row>
-              <b-row no-gutters :class="informationClass.titleRow">
+                <b-col cols="6">
+                  <p :class="informationClass.titlePtag">Date of Birth</p>
+                  <div>{{ information.date_of_birth }}</div>
+                </b-col>
                 <b-col cols="6">
                   <p :class="informationClass.titlePtag">Mobile</p>
                   <div>{{ information.phone_number }}</div>
-                </b-col>
-                <b-col cols="6">
-                  <p :class="informationClass.titlePtag">Email</p>
-                  <div>{{ information.email }}</div>
                 </b-col>
               </b-row>
               <b-row no-gutters class="">
@@ -108,8 +104,8 @@
               <template #header-right>
                 <b-icon
                   icon="clock-history"
-                  class="dsCard__icon rounded p-1"
-                  font-scale="2"
+                  class="dsCard__icon rounded"
+                  font-scale="1.5"
                   aria-hidden="true"
                 />
               </template>
@@ -125,14 +121,14 @@
               <template #header-right>
                 <b-icon
                   icon="credit-card-fill"
-                  class="dsCard__icon rounded p-1"
-                  font-scale="2"
+                  class="dsCard__icon rounded"
+                  font-scale="1.5"
                   aria-hidden="true"
                 />
               </template>
               <b-row class="h-100" align-v="center">
                 <b-col cols>
-                  <div class="d-flex flex-column justify-content-center align-items-center  h-100 pb-3">
+                  <div class="d-flex flex-column justify-content-center align-items-center h-100 pb-3">
                     <template v-if="!payment">
                       <div class="text-gray-600 fs-6">No Payment</div>
                     </template>
@@ -148,12 +144,12 @@
         </b-row>
         <b-row class="flex-grow-1">
           <b-col cols>
-            <dash-card title="Subscription" custom class="h-100 pt-3 px-3" no-padding>
+            <dash-card title="Subscription" custom class="h-100 p-3" no-padding>
               <template #header-right>
                 <b-icon
                   icon="clipboard-check"
-                  class="dsCard__icon rounded p-1"
-                  font-scale="2"
+                  class="dsCard__icon rounded"
+                  font-scale="1.5"
                   aria-hidden="true"
                 />
               </template>
@@ -247,7 +243,7 @@
                   <div class="flex-grow-1 pl-3 px-md-3">
                     <div class="d-flex mb-1 align-items-center">
                       <div class="small text-gray-700 font-italic">{{ activity.type }}</div>
-                      <div class="ml-auto d-md-none">
+                      <div class="ml-auto d-lg-none">
                         <small>{{ activity.date }}</small>
                       </div>
                     </div>
@@ -263,7 +259,7 @@
                       </template>
                     </div>
                   </div>
-                  <div class="d-none d-md-block text-nowrap">
+                  <div class="d-none d-lg-block text-nowrap">
                     <small>{{ activity.date }}</small>
                   </div>
                 </div>
@@ -316,7 +312,7 @@ export default {
   data: () => ({
     informationClass: {
       titleRow: 'mb-3',
-      titlePtag: 'text-muted mb-0'
+      titlePtag: 'text-muted mb-1'
     },
     information: {},
     payment: {},
