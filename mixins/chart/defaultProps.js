@@ -1,6 +1,6 @@
 import mergeOptions from '~/mixins/chart/mergeOptions'
 import createChartColor from "~/mixins/chart/createChartColor"
-// import { customTooltipsGenerator } from '~/lib/chart.lib'
+import { datalabelsFontSize, datalabelsFontColor } from '~/lib/chart.lib'
 
 export default {
   mixins: [
@@ -68,6 +68,13 @@ export default {
         return typeof dtLabelOptProps === 'undefined' ? {} : dtLabelOptProps
       }
     },
+    useCustomDataLabelsOpt: {
+      type: Boolean,
+      required: false,
+      default: (useCustomDataLabelsOptProps) => {
+        return typeof useCustomDataLabelsOptProps === 'undefined' ? false : useCustomDataLabelsOptProps
+      }
+    },
     customLegend: {
       type: Boolean,
       required: false,
@@ -104,7 +111,12 @@ export default {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        datalabels: {}
+        datalabels: {
+          color: datalabelsFontColor,
+          font: {
+            size: datalabelsFontSize
+          }
+        }
       },
       tooltips: {
         enabled: true
@@ -135,8 +147,6 @@ export default {
 
       if (!this.useDataLabel) {
         this.option.plugins.datalabels = false
-      } else {
-        this.option.plugins.datalabels = this.mergeOptions(this.option.plugins.datalabels, this.dataLabelOpt)
       }
 
       if (!this.tooltip) {
