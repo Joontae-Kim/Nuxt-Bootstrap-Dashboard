@@ -12,7 +12,7 @@ function createDateArray (start = new Date(), end = null, count = 29) {
   const dateArray = []
   if (end) {
     const diffStart = dayjs(start)
-    count = Math.abs(diffStart.diff(end, 'day'))
+    count = Math.abs(diffStart.diff(end, 'day')) + 1
   } else {
     dateArray.push(dayjs(start).format('YYYY-MM-DD'))
   }
@@ -58,6 +58,11 @@ function isPassed (date) {
 }
 
 function mergeWithDate (dates, values) {
+  console.log(`mergeWithDate ~ `)
+  // console.log(` ~ `)
+  console.log(` ~ `)
+  console.log(` ~ dates => `, dates)
+  console.log(` ~ values => `, values)
   const merged = dates.reduce((mergedValues, date, d) => {
     if (values[d]) {
       mergedValues.push({ [date]: values[d] })
