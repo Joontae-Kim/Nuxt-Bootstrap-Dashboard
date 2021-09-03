@@ -55,7 +55,12 @@
 </template>
 
 <script>
+import checkResolution from '~/mixins/checkResolution'
+
 export default {
+  mixins: [
+    checkResolution
+  ],
   props: {
     collapsed: {
       type: Boolean,
@@ -67,7 +72,6 @@ export default {
     }
   },
   data: () => ({
-    isMobile: null,
     eventsNestedToggled: false,
     usersNestedToggled: false,
     isPageMove: false
@@ -118,24 +122,18 @@ export default {
     }
   },
   mounted () {
-    this.checkIsMobile()
-    window.addEventListener('resize', this.checkIsMobile)
     window.addEventListener('mouseup', this.handleSidebar)
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.checkIsMobile)
     window.removeEventListener('mouseup', this.handleSidebar)
   },
   methods: {
     toggleSidebar () {
       this.$emit('toggleSidebar')
     },
-    checkIsMobile () {
-      this.isMobile = window.innerWidth < 1024
-    },
     handleSidebar (event) {
       if (this.isMobile && this.collapsed) {
-        const headerChildEle = event.target.closest('#dash-header')
+        const headerChildEle = event.target.closest('#dash-nav')
         const sidebarChildEle = event.target.closest('#dash-sidebar')
         if (!this.isPageMove && !sidebarChildEle && !headerChildEle) {
           this.$emit('toggleSidebar', true)
