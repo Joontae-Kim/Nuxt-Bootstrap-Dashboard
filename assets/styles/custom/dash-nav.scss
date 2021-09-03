@@ -1,0 +1,49 @@
+.dashNav {
+  &__search,
+  &__search:-webkit-autofill {
+    background-color: rgb(255 255 255 / 5%) !important;
+    border-color: transparent !important;
+    color: $light !important;
+
+    &::placeholder {
+      color: $gray-600;
+      font-size: 13px;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: rgb(255 255 255 / 15%) !important;
+      border-color: #798ea2 !important;
+      box-shadow: none !important;
+      &::placeholder {
+        color: $gray-500;
+      }
+    }    
+  }
+
+  &__search:-webkit-autofill {
+    transition: background-color 2500s ease-in-out 0s;
+    -webkit-text-fill-color: $light !important;
+  }
+
+  &__tool {
+    background-color: rgb(255 255 255 / 5%) !important;
+    border-color: transparent !important;
+
+    button {
+      color: $gray-400;
+
+      &:hover,
+      &:visited,
+      &:focus {
+        color: white !important; 
+      }
+
+      &:visited,
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+}
+
