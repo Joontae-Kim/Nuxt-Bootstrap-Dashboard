@@ -1,7 +1,7 @@
 <template>
-  <b-navbar id="dash-nav" type="dark" variant="white" class="bg-transparent">
+  <b-navbar id="dash-nav" type="dark" class="dashNav" fixed="top">
     <b-container fluid>
-      <b-row no-gutters class="flex-grow-1">
+      <b-row no-gutters class="position-relative flex-grow-1">
         <b-col cols="12" md="6" class="mb-3 mb-md-0">
           <b-navbar-nav fill class="align-items-center">
             <b-nav-text class="mr-3">
@@ -66,10 +66,22 @@ export default {
       shiftV: 0.7
     },
     iconClass: ['text-decoration-none text-center'],
-    toolboxCollapsed: false
+    toolboxCollapsed: false,
+    startY: 0,
+    throttleCheck: null
   }),
-  computed: {},
-  mounted () {},
+  computed: {
+    navigationDom () {
+      return document.getElementById('dash-nav')
+    }
+  },
+  mounted () {
+    this.captureNavPosition()
+    // document.addEventListener('scroll', this.captureNavPosition, { passive: true })
+  },
+  beforeDestroy () {
+    // document.removeEventListener('scroll', this.captureNavPosition, { passive: true })
+  },
   methods: {
     toggleSidebar () {
       this.$emit('toggleSidebar')
@@ -78,6 +90,17 @@ export default {
       this.toolboxCollapsed = this.isMobile
         ? !this.toolboxCollapsed
         : true
+    },
+    captureNavPosition () {
+      const dashNavDom = document.getElementById('dash-nav')
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].boundingClientRect.y < 0) {
+          dashNavDom.classList.add("scrolled")
+        } else {
+          dashNavDom.classList.remove("scrolled")
+        }
+      })
+      observer.observe(document.querySelector(".dash-nav-virtual-divider"))
     }
   }
 }

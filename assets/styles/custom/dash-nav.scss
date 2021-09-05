@@ -1,4 +1,24 @@
 .dashNav {
+  transition: background-color 0.5s;
+
+  @include media-breakpoint-down(lg) {
+    width: 100%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: calc(100% - 260px);
+    margin-left: auto;
+  }
+
+  &.scrolled {
+    background-color: #fafbfe;
+    box-shadow: 5px 0rem 0.35rem rgb(0 0 0 / 8%) !important;
+  }
+
+  &:not(.scrolled) {
+    background-color: transparent;
+  }
+
   &__search,
   &__search:-webkit-autofill {
     background-color: rgb(255 255 255 / 5%) !important;
@@ -26,6 +46,24 @@
     -webkit-text-fill-color: $light !important;
   }
 
+  &__toolWrapper {
+    @include media-breakpoint-down(lg) {
+      position: absolute;
+      width: 100%;
+      top: 3rem;
+      overflow: hidden;
+      visibility: hidden;
+
+      &:not(.active) {
+        animation: slide-up 0.3s linear both;
+      }
+
+      &.active {
+        animation: slide-down 0.3s linear both;
+      }
+    }
+  }
+
   &__tool {
     background-color: rgb(255 255 255 / 5%) !important;
     border-color: transparent !important;
@@ -47,3 +85,22 @@
   }
 }
 
+@keyframes slide-down {
+  from {
+    visibility: hidden;
+    height: 0;
+  } to {
+    visibility: visible;
+    height: 56px;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    visibility: visible;
+    height: 56px;
+  } to {
+    visibility: hidden;
+    height: 0;
+  }
+}
