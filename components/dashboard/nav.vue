@@ -5,13 +5,13 @@
         <b-col cols="12" md="6" class="mb-3 mb-md-0">
           <b-navbar-nav fill class="align-items-center">
             <b-nav-text class="mr-3">
-              <div id="header-sidebar-toggle" class="cursor-pointer" @click="toggleSidebar">
-                <b-icon-list color="#212529" font-scale="1.5" aria-hidden="true" variant="light" />
+              <div id="header-sidebar-toggle" class="dashNav__btn-sidebarToogle" @click="toggleSidebar">
+                <b-icon-list font-scale="1.5" aria-hidden="true" />
               </div>
             </b-nav-text>
 
             <b-nav-form class="flex-grow-1 mr-2 mr-md-0" form-class="flex-grow-1">
-              <b-form-input class="rounded-pill dashNav__search w-md-50" placeholder="Search Event or User" />
+              <b-form-input class="rounded-pill dashNav__search w-md-50" placeholder="Search Event" />
             </b-nav-form>
 
             <div class="d-md-none dashNav__tool rounded-pill">
@@ -66,9 +66,7 @@ export default {
       shiftV: 0.7
     },
     iconClass: ['text-decoration-none text-center'],
-    toolboxCollapsed: false,
-    startY: 0,
-    throttleCheck: null
+    toolboxCollapsed: false
   }),
   computed: {
     navigationDom () {
@@ -77,11 +75,8 @@ export default {
   },
   mounted () {
     this.captureNavPosition()
-    // document.addEventListener('scroll', this.captureNavPosition, { passive: true })
   },
-  beforeDestroy () {
-    // document.removeEventListener('scroll', this.captureNavPosition, { passive: true })
-  },
+  beforeDestroy () {},
   methods: {
     toggleSidebar () {
       this.$emit('toggleSidebar')

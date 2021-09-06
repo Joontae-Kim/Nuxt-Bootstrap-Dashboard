@@ -1,3 +1,5 @@
+$dashNav-prefix: '.dashNav';
+
 .dashNav {
   transition: background-color 0.5s;
 
@@ -11,7 +13,7 @@
   }
 
   &.scrolled {
-    background-color: #fafbfe;
+    background-color: $sidebar-backgroundColor; // #fafbfe;
     box-shadow: 5px 0rem 0.35rem rgb(0 0 0 / 8%) !important;
   }
 
@@ -19,31 +21,18 @@
     background-color: transparent;
   }
 
-  &__search,
-  &__search:-webkit-autofill {
-    background-color: rgb(255 255 255 / 5%) !important;
-    border-color: transparent !important;
-    color: $light !important;
-
-    &::placeholder {
-      color: $gray-600;
-      font-size: 13px;
-    }
-
-    &:hover,
-    &:focus {
-      background-color: rgb(255 255 255 / 15%) !important;
-      border-color: #798ea2 !important;
-      box-shadow: none !important;
-      &::placeholder {
-        color: $gray-500;
-      }
-    }    
+  &__btn-sidebarToogle {
+    cursor: pointer;
   }
 
+  &__search,
   &__search:-webkit-autofill {
-    transition: background-color 2500s ease-in-out 0s;
-    -webkit-text-fill-color: $light !important;
+    border-color: transparent;
+
+    &::placeholder {
+      color: $gray-500;
+      font-size: 13px;
+    }
   }
 
   &__toolWrapper {
@@ -65,21 +54,93 @@
   }
 
   &__tool {
-    background-color: rgb(255 255 255 / 5%) !important;
-    border-color: transparent !important;
+    border-color: transparent;
 
     button {
-      color: $gray-400;
+      color: $gray-500;
 
+      &:visited,
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+.dashNav:not(.scrolled) {
+  #{$dashNav-prefix}__btn-sidebarToogle {
+    color: $light;
+
+    &:hover {
+      color: $secondary !important; 
+    }
+  }
+
+  #{$dashNav-prefix}__search,
+  #{$dashNav-prefix}__search:-webkit-autofill {
+    background-color: rgb(255 255 255 / 5%);
+    color: $light;
+
+    &:hover,
+    &:focus {
+      background-color: rgb(255 255 255 / 15%) !important;
+      border-color: #798ea2 !important;
+      box-shadow: rgb(255 255 255 / 25%) !important;
+    }    
+  }
+
+  #{$dashNav-prefix}__search:-webkit-autofill {
+    transition: background-color 2500s ease-in-out 0s;
+    -webkit-text-fill-color: $light !important;
+  }
+
+  #{$dashNav-prefix}__tool {
+    background-color: rgb(255 255 255 / 5%);
+
+    button {
       &:hover,
       &:visited,
       &:focus {
         color: white !important; 
       }
+    }
+  }
+}
 
+.dashNav.scrolled {
+  #{$dashNav-prefix}__btn-sidebarToogle {
+    color: $secondary;
+
+    &:hover {
+      color: $dark !important;
+    }
+  }
+
+  #{$dashNav-prefix}__search,
+  #{$dashNav-prefix}__search:-webkit-autofill {
+    background-color: rgb(108 117 125 / 15%);
+    color: $gray-700;
+
+    &:hover,
+    &:focus {
+      border-color: $gray-500 !important;
+      box-shadow: 0 0 0 0.2rem rgb(108 117 125 / 25%) !important;
+    }    
+  }
+
+  #{$dashNav-prefix}__search:-webkit-autofill {
+    transition: background-color 2500s ease-in-out 0s;
+    -webkit-text-fill-color: $gray-700 !important;
+  }
+
+  #{$dashNav-prefix}__tool {
+    background-color: rgb(108 117 125 / 15%);
+
+    button {
+      &:hover,
       &:visited,
       &:focus {
-        box-shadow: none;
+        color: $gray-700 !important;
       }
     }
   }
