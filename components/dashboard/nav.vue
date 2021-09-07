@@ -1,8 +1,8 @@
 <template>
-  <b-navbar id="dash-nav" type="dark" :class="['dashNav', { collapsed }]" fixed="top">
+  <b-navbar id="dash-nav" type="dark" :class="['dashNav', { collapsed }, { scrolled }]" fixed="top">
     <b-container fluid>
       <b-row no-gutters class="position-relative flex-grow-1">
-        <b-col cols="12" md="6" class="mb-3 mb-md-0">
+        <b-col cols="12" md="6" class="">
           <b-navbar-nav fill class="align-items-center">
             <b-nav-text class="mr-3">
               <div id="header-sidebar-toggle" class="dashNav__btn-sidebarToogle" @click="toggleSidebar">
@@ -11,13 +11,14 @@
             </b-nav-text>
 
             <b-nav-form class="flex-grow-1 mr-2 mr-md-0" form-class="flex-grow-1" @submit.prevent="searchingEventAndUser">
-              <b-form-input v-model="navBarSearchVal" class="rounded-pill dashNav__search w-md-50" placeholder="Search Event" />
+              <b-form-input v-model="navBarSearchVal" class="rounded-pill dashNav__search" placeholder="Search Event" />
             </b-nav-form>
 
-            <div class="d-md-none dashNav__tool rounded-pill">
+            <div class="d-md-none dashNav__btn-toggle-tool rounded-pill">
               <b-btn variant="link" :class="[...iconClass, 'px-2']" @click="collapseToolBox">
                 <b-icon v-bind="{ ...iconProps, fontScale: 0.9 }" icon="tools" />
-                <b-icon v-bind="{ ...iconProps, fontScale: 0.85 }" icon="chevron-down" />
+                <b-icon v-show="!toolboxCollapsed" v-bind="{ ...iconProps, fontScale: 0.85 }" icon="chevron-down" />
+                <b-icon v-show="toolboxCollapsed" v-bind="{ ...iconProps, fontScale: 0.85 }" icon="chevron-up" />
               </b-btn>
             </div>
           </b-navbar-nav>
@@ -73,7 +74,8 @@ export default {
     },
     iconClass: ['text-decoration-none text-center'],
     toolboxCollapsed: false,
-    navBarSearchVal: null
+    navBarSearchVal: null,
+    scrolled: false
   }),
   computed: {
     navigationDom () {
@@ -81,7 +83,6 @@ export default {
     }
   },
   mounted () {
-    console.log('nav ~ mounted: ')
     this.captureNavPosition()
   },
   beforeDestroy () {},
@@ -98,12 +99,11 @@ export default {
         : true
     },
     captureNavPosition () {
-      const dashNavDom = document.getElementById('dash-nav')
       const observer = new IntersectionObserver((entries) => {
         if (entries[0].boundingClientRect.y < 0) {
-          dashNavDom.classList.add("scrolled")
+          this.scrolled = true
         } else {
-          dashNavDom.classList.remove("scrolled")
+          this.scrolled = false
         }
       })
       observer.observe(document.querySelector(".dash-nav-virtual-divider"))
