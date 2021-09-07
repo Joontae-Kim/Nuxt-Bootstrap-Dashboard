@@ -32,6 +32,16 @@ $dashNav-prefix: '.dashNav';
     cursor: pointer;
   }
 
+  &__search {
+    @include media-breakpoint-down(md) {
+      width: 100% !important;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 70% !important;
+    }
+  }
+
   &__search,
   &__search:-webkit-autofill,
   &__search:autofill {
@@ -44,10 +54,10 @@ $dashNav-prefix: '.dashNav';
   }
 
   &__toolWrapper {
-    @include media-breakpoint-down(lg) {
+    @include media-breakpoint-down(sm) {
       position: absolute;
       width: 100%;
-      top: 3rem;
+      top: 3.5rem;
       overflow: hidden;
       visibility: hidden;
 
@@ -62,10 +72,21 @@ $dashNav-prefix: '.dashNav';
   }
 
   &__tool {
-    button {
-      // color: $gray-500;
+    @include media-breakpoint-down(sm) {
+      background-color: rgb(206 212 218 / 90%);
 
-      &:visited,
+      button {
+        color: rgb(108 117 125 / 0.7);
+    
+        &:hover,
+        &:focus {
+          color: $gray-700 !important;
+        }
+      }
+    }
+
+    button {
+      &:hover,
       &:focus {
         box-shadow: none !important;
       }
@@ -102,15 +123,33 @@ $dashNav-prefix: '.dashNav';
     -webkit-text-fill-color: #e9ecef !important;
   }
 
-  #{$dashNav-prefix}__tool {
-    background-color: rgb(255 255 255 / 5%);
+  #{$dashNav-prefix}__btn-toggle-tool {
+    background-color: rgb(108 117 125 / 15%);
+    border: 1px solid #ced4da;
 
     button {
-      color: #adb5bd !important;
-
+      color: $gray-500;
+  
       &:hover,
       &:focus {
-        color: white !important; 
+        color: $gray-500 !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  #{$dashNav-prefix}__tool {
+    @include media-breakpoint-up(sm) {
+      background-color: rgb(108 117 125 / 15%);
+
+      button {
+        color: $gray-500;
+    
+        &:hover,
+        &:focus {
+          box-shadow: none;
+          color: $white !important;
+        }
       }
     }
   }
@@ -144,15 +183,33 @@ $dashNav-prefix: '.dashNav';
     -webkit-text-fill-color: $gray-700 !important;
   }
 
-  #{$dashNav-prefix}__tool {
+  #{$dashNav-prefix}__btn-toggle-tool {
+    border: 1px solid #ced4da;
     background-color: rgb(108 117 125 / 15%);
 
     button {
       color: $gray-500;
-
+  
       &:hover,
       &:focus {
+        box-shadow: none !important;
         color: $gray-700 !important;
+      }
+    }
+  }
+
+  #{$dashNav-prefix}__tool {
+    @include media-breakpoint-up(sm) {
+      background-color: rgb(108 117 125 / 15%);
+
+      button {
+        color: $gray-500;
+
+        &:hover,
+        &:focus {
+          color: $gray-700 !important;
+          box-shadow: none;
+        }
       }
     }
   }
