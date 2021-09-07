@@ -58,11 +58,6 @@ function isPassed (date) {
 }
 
 function mergeWithDate (dates, values) {
-  console.log(`mergeWithDate ~ `)
-  // console.log(` ~ `)
-  console.log(` ~ `)
-  console.log(` ~ dates => `, dates)
-  console.log(` ~ values => `, values)
   const merged = dates.reduce((mergedValues, date, d) => {
     if (values[d]) {
       mergedValues.push({ [date]: values[d] })
