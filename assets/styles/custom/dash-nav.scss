@@ -8,8 +8,16 @@ $dashNav-prefix: 'input.dashNav';
   }
 
   @include media-breakpoint-up(lg) {
-    width: calc(100% - 260px);
+    transition: margin-left .25s ease-in-out, width .3s ease-in-out;
+
     margin-left: auto;
+    &.collapsed {
+      width: calc(100% - 260px);
+      // margin-left: auto;
+    }
+    &:not(.collapsed) {
+      width: 100%;
+    }
   }
 
   &.scrolled {

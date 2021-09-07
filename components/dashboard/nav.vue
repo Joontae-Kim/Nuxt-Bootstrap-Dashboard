@@ -1,5 +1,5 @@
 <template>
-  <b-navbar id="dash-nav" type="dark" class="dashNav" fixed="top">
+  <b-navbar id="dash-nav" type="dark" :class="['dashNav', { collapsed }]" fixed="top">
     <b-container fluid>
       <b-row no-gutters class="position-relative flex-grow-1">
         <b-col cols="12" md="6" class="mb-3 mb-md-0">
@@ -10,8 +10,8 @@
               </div>
             </b-nav-text>
 
-            <b-nav-form class="flex-grow-1 mr-2 mr-md-0" form-class="flex-grow-1">
-              <b-form-input class="rounded-pill dashNav__search w-md-50" placeholder="Search Event" />
+            <b-nav-form class="flex-grow-1 mr-2 mr-md-0" form-class="flex-grow-1" @submit.prevent="searchingEventAndUser">
+              <b-form-input v-model="navBarSearchVal" class="rounded-pill dashNav__search w-md-50" placeholder="Search Event" />
             </b-nav-form>
 
             <div class="d-md-none dashNav__tool rounded-pill">
@@ -59,6 +59,12 @@ export default {
   mixins: [
     checkResolution
   ],
+  props: {
+    collapsed: {
+      type: Boolean,
+      required: true
+    }
+  },
   data: () => ({
     iconProps: {
       fontScale: 1.5,
@@ -66,7 +72,8 @@ export default {
       shiftV: 0.7
     },
     iconClass: ['text-decoration-none text-center'],
-    toolboxCollapsed: false
+    toolboxCollapsed: false,
+    navBarSearchVal: null
   }),
   computed: {
     navigationDom () {
@@ -74,10 +81,14 @@ export default {
     }
   },
   mounted () {
+    console.log('nav ~ mounted: ')
     this.captureNavPosition()
   },
   beforeDestroy () {},
   methods: {
+    searchingEventAndUser () {
+      this.$router.push({ name: 'eventsList', query: { qsr_nm: this.navBarSearchVal } })
+    },
     toggleSidebar () {
       this.$emit('toggleSidebar')
     },
