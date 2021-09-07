@@ -1,4 +1,4 @@
-$dashNav-prefix: '.dashNav';
+$dashNav-prefix: 'input.dashNav';
 
 .dashNav {
   transition: background-color 0.5s;
@@ -26,7 +26,8 @@ $dashNav-prefix: '.dashNav';
   }
 
   &__search,
-  &__search:-webkit-autofill {
+  &__search:-webkit-autofill,
+  &__search:autofill {
     border-color: transparent;
 
     &::placeholder {
@@ -76,8 +77,7 @@ $dashNav-prefix: '.dashNav';
     }
   }
 
-  #{$dashNav-prefix}__search,
-  #{$dashNav-prefix}__search:-webkit-autofill {
+  #{$dashNav-prefix}__search {
     background-color: rgb(255 255 255 / 5%);
     color: $light;
 
@@ -85,13 +85,16 @@ $dashNav-prefix: '.dashNav';
     &:focus {
       background-color: rgb(255 255 255 / 15%) !important;
       border-color: #798ea2 !important;
-      box-shadow: rgb(255 255 255 / 25%) !important;
+      box-shadow: 0 0 0 0.2rem rgb(255 255 255 / 25%) !important;
     }    
   }
 
-  #{$dashNav-prefix}__search:-webkit-autofill {
-    transition: background-color 2500s ease-in-out 0s;
-    -webkit-text-fill-color: $light !important;
+  #{$dashNav-prefix}__search:-webkit-autofill,
+  #{$dashNav-prefix}__search:-webkit-autofill:focus,
+  #{$dashNav-prefix}__search:-webkit-autofill:hover {
+    color: #e9ecef !important;
+    box-shadow: 0 0 0 30px rgb(18 59 121 / 82%) inset !important;
+    -webkit-text-fill-color: #e9ecef !important;
   }
 
   #{$dashNav-prefix}__tool {
@@ -99,7 +102,6 @@ $dashNav-prefix: '.dashNav';
 
     button {
       &:hover,
-      &:visited,
       &:focus {
         color: white !important; 
       }
@@ -116,8 +118,7 @@ $dashNav-prefix: '.dashNav';
     }
   }
 
-  #{$dashNav-prefix}__search,
-  #{$dashNav-prefix}__search:-webkit-autofill {
+  #{$dashNav-prefix}__search {
     background-color: rgb(108 117 125 / 15%);
     color: $gray-700;
 
@@ -128,8 +129,11 @@ $dashNav-prefix: '.dashNav';
     }    
   }
 
-  #{$dashNav-prefix}__search:-webkit-autofill {
-    transition: background-color 2500s ease-in-out 0s;
+  #{$dashNav-prefix}__search:-webkit-autofill,
+  #{$dashNav-prefix}__search:-webkit-autofill:focus,
+  #{$dashNav-prefix}__search:-webkit-autofill:hover {
+    color: $gray-700;
+    box-shadow: 0 0 0 30px #e9eaec inset !important;
     -webkit-text-fill-color: $gray-700 !important;
   }
 
