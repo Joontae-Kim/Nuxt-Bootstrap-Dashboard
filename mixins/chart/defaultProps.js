@@ -161,9 +161,9 @@ export default {
       this.option.responsive = this.responsive
       this.option.maintainAspectRatio = !this.responsive
 
-      if (!this.useDataLabel) {
-        this.option.plugins.datalabels = false
-      }
+      this.option.plugins.datalabels = !this.useDataLabel
+        ? false
+        : this.mergeOptions(this.option.plugins.datalabels, this.dataLabelOpt)
 
       if (!this.tooltip) {
         this.option.tooltips.enabled = false
