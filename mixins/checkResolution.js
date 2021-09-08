@@ -1,5 +1,6 @@
 export default {
   data: () => ({
+    mobileWidth: 1024,
     isMobile: null
   }),
   mounted () {
@@ -11,7 +12,7 @@ export default {
   },
   methods: {
     checkIsMobile () {
-      this.isMobile = window.innerWidth < 1024
+      this.isMobile = window.innerWidth < this.mobileWidth
     }
   }
 }
