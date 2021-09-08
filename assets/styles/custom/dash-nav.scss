@@ -1,14 +1,15 @@
 $dashNav-prefix: '.dashNav';
 
 .dashNav {
-  transition: background-color 0.5s;
+  transition: background-color 1s ease-in-out;
 
   @include media-breakpoint-down(lg) {
     width: 100%;
+    transition: margin-top .1s ease-in-out;
   }
 
   @include media-breakpoint-up(lg) {
-    transition: margin-left .25s ease-in-out, width .3s ease-in-out;
+    transition: margin-top .1s ease-in-out, margin-left .25s ease-in-out, width .3s ease-in-out;
 
     margin-left: auto;
     &.collapsed {
@@ -20,11 +21,13 @@ $dashNav-prefix: '.dashNav';
   }
 
   &.scrolled {
-    background-color: $sidebar-backgroundColor; // #fafbfe;
+    margin-top: 0;
+    background-color: $sidebar-backgroundColor;
     box-shadow: 5px 0rem 0.35rem rgb(0 0 0 / 8%) !important;
   }
 
   &:not(.scrolled) {
+    margin-top: 0.5rem;
     background-color: transparent;
   }
 
@@ -58,7 +61,6 @@ $dashNav-prefix: '.dashNav';
       position: absolute;
       width: 100%;
       top: 3.5rem;
-      overflow: hidden;
       visibility: hidden;
 
       &:not(.active) {
