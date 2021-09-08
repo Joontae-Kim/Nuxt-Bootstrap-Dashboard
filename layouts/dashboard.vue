@@ -5,8 +5,8 @@
       <LoadingWrapper :loading="isChildPending" />
       <transition name="dashboard-fade" mode="out-in" appear>
         <div v-show="!isChildPending" class="content">
-          <dash-nav class="mb-0 mb-md-5" :collapsed="!collapsedSidebar" @toggleSidebar="collapsed" />
           <div class="dash-nav-virtual-divider" />
+          <dash-nav class="mb-0 mb-md-5" :collapsed="!collapsedSidebar" @toggleSidebar="collapsed" />
           <Nuxt id="content-body" class="content-body" />
         </div>
       </transition>
