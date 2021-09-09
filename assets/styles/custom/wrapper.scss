@@ -3,13 +3,16 @@
   overflow: hidden;
   width: 100%;
 
-  &::before {
-    background: $app-primary;
-    content: " ";
-    height: 264px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+
+  &--dashboard {
+    &::before {
+      background: $app-primary;
+      content: " ";
+      height: 264px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
   }
 }

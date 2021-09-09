@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper wrapper--dashboard">
     <dash-sidebar :collapsed="!collapsedSidebar" :page-move-pending="isChildPending" @toggleSidebar="collapsed" />
     <div :class="['content-page position-relative', { collapsed: !collapsedSidebar }]">
       <LoadingWrapper :loading="isChildPending" />
