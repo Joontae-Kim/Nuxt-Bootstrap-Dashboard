@@ -11,11 +11,13 @@
           <b-nav-item :to="{ name: 'overview' }" exact-active-class="active">
             Overview
           </b-nav-item>
-          <div class="d-flex justify-content-between align-items-center">
-            <b-nav-item :to="{ name: 'eventsStatics' }" :active="$route.meta.parent === 'events'">
+          <div :class="['d-flex justify-content-between align-items-center sidebar__parentlink', { active: $route.meta.parent === 'events' }]">
+            <b-nav-item :to="{ name: 'eventsStatics' }" :active="$route.meta.parent === 'events'" :exact="false">
               Event
             </b-nav-item>
-            <b-icon :icon="eventsNestedToggled ? 'chevron-up' : 'chevron-down'" @click="eventsNestedToggled = !eventsNestedToggled" />
+            <b-btn variant="link" size="sm" class="sidebar__toggle p-0">
+              <b-icon :icon="eventsNestedToggled ? 'chevron-up' : 'chevron-down'" @click="eventsNestedToggled = !eventsNestedToggled" />
+            </b-btn>
           </div>
           <b-collapse id="nav-events-child" v-model="eventsNestedToggled">
             <b-nav vertical>
@@ -23,11 +25,13 @@
               <b-nav-item class="ml-3 my-0" :to="{ name : 'eventsList' }" active-class="active"> List </b-nav-item>
             </b-nav>
           </b-collapse>
-          <div class="d-flex justify-content-between align-items-center">
+          <div :class="['d-flex justify-content-between align-items-center sidebar__parentlink', { active: $route.meta.parent === 'users' }]">
             <b-nav-item :to="{ name: 'userStatics' }" :active="$route.meta.parent === 'users'">
               Users
             </b-nav-item>
-            <b-icon :icon="usersNestedToggled ? 'chevron-up' : 'chevron-down'" @click="usersNestedToggled = !usersNestedToggled" />
+            <b-btn variant="link" size="sm" class="sidebar__toggle p-0">
+              <b-icon :icon="usersNestedToggled ? 'chevron-up' : 'chevron-down'" @click="usersNestedToggled = !usersNestedToggled" />
+            </b-btn>
           </div>
           <b-collapse id="nav-events-child" v-model="usersNestedToggled">
             <b-nav vertical>
