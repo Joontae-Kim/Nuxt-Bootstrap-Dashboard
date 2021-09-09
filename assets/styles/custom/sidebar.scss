@@ -37,6 +37,20 @@
     }
   }
 
+  &__parentlink:hover,
+  &__parentlink.active {
+    .nav-item > a,
+    > button.sidebar__toggle {
+      color: $sidebar-link-active !important;
+    }
+  }
+
+  &__toggle {
+    text-decoration: none;
+    color: $sidebar-link;
+    box-shadow: none !important;
+  }
+
   &__footer {
     width: 100%;
     display: flex;
