@@ -23,6 +23,12 @@ export function extendRoutes (routes, resolve) {
       chunkName: 'pages/index'
     },
     {
+      name: 'signin',
+      path: '/signin',
+      component: resolve(__dirname, 'pages/signin.vue'),
+      chunkName: 'pages/signin'
+    },
+    {
       name: '404',
       path: '/404',
       component: resolve(__dirname, 'pages/404.vue'),
