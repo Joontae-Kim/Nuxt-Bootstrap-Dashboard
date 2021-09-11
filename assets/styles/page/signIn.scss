@@ -1,0 +1,48 @@
+@import './variables.scss';
+
+.circle {
+  position: absolute;
+}
+
+@each $circle in $circles {
+  $index: index($circles, $circle);
+  .circle-layer-#{$index} {
+    background-color: $circle;
+
+    @if $index < $circlesMiddle {
+      $height: ($circle-default-heigth * $index) - 10;
+      left: 0;
+      bottom: 0;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height:  $height;
+      width: $circle-default-width * $index;
+      border-radius: 0 100% 0 0.25rem;
+      z-index: $circlesCount - $index;
+      box-shadow: inset -25px 0px 0rem 0px darken($circle, 5%) !important;
+    } @else {
+      $reverseIndex: abs($index - $circlesCount) - 1;
+      $height: ($circle-default-heigth * $reverseIndex) - 10;
+      top: 0;
+      right: 0;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $reverseIndex;
+      border-radius: 0 0 0 100%;
+      box-shadow: inset 25px 0px 0px darken($circle, 5%) !important;
+    }
+  }
+};
+
+.sign {
+  &__welcolme {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+}
