@@ -1158,3 +1158,7 @@ $user-selects: all, auto, none !default;
 
 $print-page-size:                   a3 !default;
 $print-body-min-width:              map-get($grid-breakpoints, "lg") !default;
+
+// Custom
+// Transparent
+$transparents: 0, 0.3, 0.5, 0.7, 0.9
