@@ -1,0 +1,7 @@
+// zIndex.scss
+@for $z-index from 1 through $z-indexs {
+  $indexValue: $z-index * 1000;
+  .z-index-#{$indexValue} {
+    z-index: $indexValue;
+  }
+}
