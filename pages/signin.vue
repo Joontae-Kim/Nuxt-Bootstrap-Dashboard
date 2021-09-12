@@ -53,7 +53,7 @@
           />
         </b-form-group>
 
-        <b-form-row class="mb-5">
+        <b-form-row class="">
           <b-col cols="6">
             <b-form-checkbox v-model="form.rememberme" name="check-button" switch>
               Remember Me
@@ -66,7 +66,15 @@
           </b-col>
         </b-form-row>
 
-        <b-button type="submit" variant="primary" size="lg" block class="py-3">Login</b-button>
+        <b-button type="submit" variant="primary" size="lg" class="py-3 mt-5 mb-3" block>Login</b-button>
+
+        <b-form-row>
+          <b-col cols>
+            <div class="text-center text-secondary">
+              <NuxtLink :to="{ name: 'signup'}">Go to Sign Up Page</NuxtLink>
+            </div>
+          </b-col>
+        </b-form-row>
       </b-form>
     </b-col>
   </b-row>
