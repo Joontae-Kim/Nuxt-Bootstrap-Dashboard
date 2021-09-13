@@ -1,14 +1,6 @@
 @use "sass:math";
 @import './variables.scss';
 
-html,
-body,
-#__nuxt,
-#__layout {
-  height: 100%;
-}
-
-
 .circle {
   position: absolute;
 }
@@ -27,7 +19,6 @@ body,
       height: $height;
       width: $circle-default-width * $index * 0.75;
       border-radius: 0 100% 0 0;
-      z-index: $circlesCount - $index;
       box-shadow: inset -25px 0px 0rem 0px darken($circle, 5%) !important;
     } @else {
       $reverseIndex: abs($index - $circlesCount) + 1;
@@ -40,7 +31,6 @@ body,
       height: $height;
       width: $circle-default-width * $reverseIndex * 0.75;
       border-radius: 0 0 0 100%;
-      z-index: $circlesCount - $reverseIndex;
       box-shadow: inset 25px 0px 0px darken($circle, 5%) !important;
     }
   }

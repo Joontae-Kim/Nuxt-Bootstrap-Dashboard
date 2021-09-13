@@ -1,5 +1,5 @@
 <template>
-  <b-row class="h-100 z-index-1000 rounded overflow-auto" cols="1" align-h="center" align-v="center" no-gutters>
+  <b-row class="h-100 rounded overflow-auto" cols="1" align-h="center" align-v="center" no-gutters>
     <b-col
       cols
       md="8"
