@@ -1,5 +1,5 @@
 <template>
-  <b-row class="h-100 z-index-1000 rounded" cols="1" align-h="center" align-v="center" no-gutters>
+  <b-row class="h-100 z-index-1000 rounded overflow-auto" cols="1" align-h="center" align-v="center" no-gutters>
     <b-col
       cols
       md="8"
@@ -8,12 +8,12 @@
       xxl="4"
       class="z-index-1000 shadow border-light"
     >
-      <div class="p-4 text-white rounded-top">
+      <div class="px-4 py-3 rounded-top text-white">
         <h1 class="mb-4">Create new Account!</h1>
-        <p class="text-light font-weight-normal fs-6 mb-1 font-italic">
+        <p class="font-weight-normal fs-6 mb-1 font-italic text-white-30">
           Please sign up to use
         </p>
-        <p class="text-light font-weight-bold font-italic fs-6 mb-0">
+        <p class="font-weight-bold font-italic fs-6 mb-0 text-white-30">
           Nuxt Admin Dashboard with Bootstrap !
         </p>
       </div>
@@ -105,11 +105,6 @@
         </b-form-row>
       </b-form>
     </b-col>
-    <!-- <b-col cols>
-      <div class="text-center text-secondary">
-        <NuxtLink :to="{ name: 'signin'}">Go to Sign In Page</NuxtLink>
-      </div>
-    </b-col> -->
   </b-row>
 </template>
 
