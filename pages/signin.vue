@@ -193,7 +193,6 @@ export default {
       }
 
       // Test Password validation
-      console.log(`this.form.pwsd => ${this.form.pwsd} // this.form.pwsd.length => ${this.form.pwsd.length}, ${this.form.pwsd.length < 8}`)
       if (this.form.pwsd.length < 8) {
         validationChecker.form.push({ name: 'pwsd', message: 'Please write at least 8 characters.' })
       } else if (this.form.pwsd.search(/\s/) !== -1) {
