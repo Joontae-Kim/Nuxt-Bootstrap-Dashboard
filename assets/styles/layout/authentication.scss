@@ -1,4 +1,13 @@
+@use "sass:math";
 @import './variables.scss';
+
+html,
+body,
+#__nuxt,
+#__layout {
+  height: 100%;
+}
+
 
 .circle {
   position: absolute;
@@ -36,3 +45,128 @@
     }
   }
 };
+
+.bar {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+  @media (max-width: 575.98px) {
+    margin: $bar-axis-outer-spacing-mobile;
+    border-left: $bar-axis-line-mobile;
+    border-top: $bar-axis-line-mobile;
+  }
+
+  @media (min-width: 576px) {
+    margin: $bar-axis-outer-spacing;
+    border-left: $bar-axis-line;
+    border-top: $bar-axis-line;
+  }
+
+  &::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+
+    @media (max-width: 575.98px) {
+      top: -1 * $bar-axis-border-width-mobile;
+      left: -10 * $bar-axis-outer-spacing;
+      border-top: $bar-axis-line-mobile;
+    }
+
+    @media (min-width: 576px) {
+      top: -1 * $bar-axis-border-width;
+      left: -10 * $bar-axis-outer-spacing;
+      border-top: $bar-axis-line;
+    }
+  }
+  &::after {
+    position: absolute;
+    content: "";
+    top: -100%;
+    height: 100%;
+    width: 100%;
+
+    @media (max-width: 575.98px) {
+      border-left: $bar-axis-line-mobile;
+      left: -1 * $bar-axis-border-width-mobile;
+    }
+
+    @media (min-width: 576px) {
+      border-left: $bar-axis-line;
+      left: -1 * $bar-axis-border-width;
+    }
+  }
+
+  &__ticks {
+    position: absolute;
+
+    @media (max-width: 575.98px) {
+      top: 15px;
+      width: 3vh;
+      border: 2px solid $bar-tick-border-color;
+    }
+
+    @media (min-width: 576px) and (max-width: 1199.98px) {
+      top: 25px;
+      width: 6vh;
+      border: 2px solid $bar-tick-border-color;
+    }
+
+    @media (min-width: 1200px) {
+      top: 25px;
+      width: 10vh;
+      border: 1px solid $bar-tick-border-color;
+    }
+
+    border-radius: 55px;
+  }
+
+  @each $circle in $circles {
+    $index: index($circles, $circle);
+    $left: ($index * 5);
+    @if $index > 1 {
+      $left: 5 + (($index - 1) * 7) + (($index - 1) * 9)
+    }
+    .bar__ticks--#{$index} {
+      $tick_height: 0;
+
+      // Mobile devices
+      @media (max-width: 575.98px) {
+        $tick_height: math.random($bar-tick-min-height-mobile);
+        @if $tick_height < $bar-tick-min-height-mobile {
+          $tick_height: $tick_height + $bar-tick-min-height-mobile;
+        }
+        left: #{$left + 1}vw;
+        max-height: calc(100% - 1vh);
+        box-shadow: 10px 0px 0px darken($circle, 5%) !important;
+      }
+
+      // Small devices (landscape phones, 576px and up)
+      @media (min-width: 576px) and (max-width: 991.98px) {
+        $tick_height: math.random($bar-tick-min-height-tablet);
+        @if $tick_height < $bar-tick-min-height-tablet {
+          $tick_height: $tick_height + $bar-tick-min-height-tablet;
+        }
+        left: #{$left}vw;
+        max-height: calc(100% - 3vh);
+        box-shadow: 8px 0px 0px darken($circle, 5%) !important;
+      }
+
+      // Large devices
+      @media (min-width: 992px) {
+        $tick_height: math.random($bar-tick-min-height);
+        @if $tick_height < $bar-tick-min-height {
+          $tick_height: $tick_height + $bar-tick-min-height;
+        }
+        left: #{$left}vw;
+        max-height: calc(100% - 3vh);
+        min-width: 50px;
+        min-height: 200px;
+        box-shadow: 15px 0px 0px darken($circle, 5%) !important;
+      }
+      height: #{$tick_height}vh;
+      background-color: $circle;
+    }
+  }
+}
