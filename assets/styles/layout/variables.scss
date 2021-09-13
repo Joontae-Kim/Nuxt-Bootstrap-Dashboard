@@ -4,3 +4,15 @@ $circlesMiddle: round($circlesCount / 2);
 $circle-default-heigth: 37.5%;
 $circle-default-width: 17.5%;
 $circle-darken-amount: 3%;
+
+
+$bar-axis-outer-spacing: 15px;
+$bar-axis-outer-spacing-mobile: 25px;
+$bar-axis-border-width: 10px;
+$bar-axis-border-width-mobile: 5px;
+$bar-axis-line: $bar-axis-border-width solid white;
+$bar-axis-line-mobile: $bar-axis-border-width-mobile solid white;
+$bar-tick-border-color: #adb5bd;
+$bar-tick-min-height: 45;
+$bar-tick-min-height-tablet: 30;
+$bar-tick-min-height-mobile: 50;
