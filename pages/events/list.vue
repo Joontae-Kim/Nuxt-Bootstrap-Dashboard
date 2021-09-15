@@ -1,5 +1,10 @@
 <template>
   <b-container fluid>
+    <dash-header
+      title="Event List"
+      description="There are no open events."
+    />
+    </dash-header>
     <EventStatics />
     <b-row class="mb-4">
       <b-col cols>
@@ -409,7 +414,8 @@ export default {
         thClass: 'text-center',
         tdClass: 'w-50 align-middle text-center'
       }
-    ]
+    ],
+    contentHeaderDesc: null
   }),
   async fetch () {
     const querySet = {}

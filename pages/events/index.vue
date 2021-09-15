@@ -1,5 +1,10 @@
 <template>
   <b-container fluid>
+    <dash-header
+      title="Event Analytics"
+      :description="`Today has no event. Total Sales is $ ${totalSales.index} and increased by ${totalSales.rate} % over the past 30 days.`"
+    />
+
     <EventStatics />
     <b-row class="mb-4 h-100">
       <b-col cols="12" md="5" lg="4" class="h-100">
@@ -8,16 +13,16 @@
             <dash-card
               title="Total Sales"
               icon="cash-stack"
-              :index="`$ ${totalSales}`"
-              :guide="null"
+              :index="`$ ${totalSales.index}`"
+              :rate="totalSales.rate"
             />
           </b-col>
           <b-col cols class="my-4">
             <dash-card
               title="Average of Sales"
               icon="cash"
-              :index="`$ ${avrSales}`"
-              :guide="null"
+              :index="`$ ${avrSales.index}`"
+              :rate="avrSales.rate"
             />
           </b-col>
           <b-col cols>
@@ -235,12 +240,16 @@ export default {
   }),
   async fetch () {
     const res = await this.$axios.$get('/api/event/statics')
+    console.log('res: ', res)
     const sortedSalesSegment = res.salesSegment.sort((b, a) => a.total - b.total)
     const totalSales = sortedSalesSegment.reduce((totalSales, { total }) => totalSales + total, 0)
     this.salesSegment = sortedSalesSegment.map((sale, s) => ({ ...sale, rank: s + 1, dis_total: this.formatNumber(sale.total), percent: Number(Number((sale.total / totalSales) * 100).toFixed(1)) }))
     this.topSalesSegment = this.salesSegment[0]
-    this.totalSales = this.formatNumber(totalSales)
-    this.avrSales = this.formatNumber(Math.floor(totalSales / res.salesSegment.length))
+    this.avrSales = {
+      index: this.formatNumber(Math.floor(totalSales / res.salesSegment.length)),
+      rate: Number(Math.random() * 10).toFixed(1)
+    }
+    this.totalSales = { index: this.formatNumber(totalSales), rate: Number((Math.random() * 10) + 10).toFixed(1) }
     this.eventTraffics = {
       labels: res.eventDailyTraffic.dates,
       datasets: res.eventDailyTraffic.traffics.map(({ source, data }) => ({ label: source, data, fill: false }))
