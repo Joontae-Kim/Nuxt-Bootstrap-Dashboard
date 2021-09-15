@@ -5,9 +5,11 @@
         <h1 class="header-title text-white">
           {{ title }}
         </h1>
-        <p class="header-subtitle text-white">
-          {{ description }}
-        </p>
+        <slot name="description">
+          <p v-if="description" class="header-subtitle text-white">
+            {{ description }}
+          </p>
+        </slot>
       </div>
     </b-col>
   </b-row>
