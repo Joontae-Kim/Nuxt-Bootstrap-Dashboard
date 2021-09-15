@@ -31,7 +31,7 @@
             label="Email address:"
             label-for="input-email"
             label-size="sm"
-            description="We'll never share your email with anyone else."
+            :description="state.email !== null ? '' : 'We\'ll never share your email with anyone else.'"
             class="mb-4"
             :invalid-feedback="invalid.email"
           >
@@ -184,8 +184,8 @@ export default {
     checkFormValidation () {
       // validationChecker.form: [{ name: null, message: null }]
       const validationChecker = { state: true, form: [] }
-      const regex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
-      const validationEmail = regex.test(this.form.email)
+      const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,5}|[0-9]{2,4})(\]?)$/
+      const validationEmail = emailRegex.test(this.form.email)
 
       // Test E-mail validation
       if (!validationEmail) {
