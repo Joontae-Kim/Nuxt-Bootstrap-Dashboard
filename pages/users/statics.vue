@@ -1,5 +1,9 @@
 <template>
   <b-container fluid>
+    <dash-header
+      title="User Analytics"
+      :description="contentHeaderDes"
+    />
     <b-row class="mb-4">
       <b-col cols lg="4" xxl="12" class="mb-4 mb-lg-0">
         <b-row class="flex-lg-column flex-xxl-row mb-xxl-4">
@@ -17,6 +21,7 @@
               :index="newUsers.value"
               :rate="newUsers.rate"
               class="d-none d-xxl-flex"
+              guide="Since last week"
             />
           </b-col>
           <b-col cols sm="6" lg="12" xxl="4" class="d-block d-xxl-none py-4 py-sm-0 py-lg-4">
@@ -25,6 +30,7 @@
               icon="person-check-fill"
               :index="newUsers.value"
               :rate="newUsers.rate"
+              guide="Since last week"
             />
           </b-col>
           <b-col cols>
@@ -128,7 +134,8 @@ export default {
     weekTrafficDataset: [],
     timeTrafficDataset: {},
     payments: [],
-    authentications: []
+    authentications: [],
+    contentHeaderDes: null
   }),
   async fetch () {
     try {
@@ -163,6 +170,8 @@ export default {
       }
       this.authentications = statics.data.authentications
       this.payments = statics.data.payments
+      const todaySales = Object.values(statics.data.weekSerial[statics.data.weekSerial.length - 1])[0]
+      this.contentHeaderDes = `Today Sales is $ ${todaySales}. and New Users Rate increased by ${this.newUsers.rate}% over the past 7 days`
     } catch (err) {
       console.log(err)
       console.log(err.message)

@@ -1,5 +1,14 @@
 <template>
   <b-container fluid>
+    <dash-header
+      title="User List"
+    >
+      <template #description>
+        <dash-header-description>
+          {{ `Active Users rate increased by ${activeUsers.rate}% over the past 7 days.` }}
+        </dash-header-description>
+      </template>
+    </dash-header>
     <b-row class="mb-4">
       <b-col cols md="4" class="mb-4 mb-md-0">
         <dash-card
@@ -15,6 +24,7 @@
           icon="person-plus-fill"
           :index="newUsers.value"
           :rate="newUsers.rate"
+          guide="Since last week"
         />
       </b-col>
       <b-col cols="6" md="4">
@@ -23,7 +33,7 @@
           icon="person-check-fill"
           :index="activeUsers.value"
           :rate="activeUsers.rate"
-          class=""
+          guide="Since last week"
         />
       </b-col>
     </b-row>
