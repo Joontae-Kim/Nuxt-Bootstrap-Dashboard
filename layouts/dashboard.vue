@@ -37,7 +37,7 @@ export default {
   beforeDestroy () {},
   methods: {
     collapsed (state = !this.collapsedSidebar) {
-      this.collapsedSidebar = !this.collapsedSidebar
+      this.collapsedSidebar = state
     }
   }
 }
