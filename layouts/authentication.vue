@@ -10,12 +10,28 @@
             <div :key="index + 3" :class="`circle circle-layer-${index + 3}`" />
           </template>
         </template>
-        <template v-else>
+        <template v-else-if="$route.name === 'signup'">
           <div class="bar">
             <template v-for="index in 6">
               <div :key="index" :class="`bar__ticks bar__ticks--${index}`" />
             </template>
           </div>
+        </template>
+        <template v-else>
+          <b-row class="doughnuts h-100 w-100">
+            <b-col
+              v-for="r in 6"
+              :key="r"
+              cols
+              sm="4"
+              md="6"
+              lg="4"
+              class="d-flex"
+              align-self="center"
+            >
+              <div :class="['doughnut', `doughnut--${r}`, 'my-4 mx-auto m-sm-auto my-md-4 m-lg-auto']" />
+            </b-col>
+          </b-row>
         </template>
         <transition name="fade" mode="out-in">
           <Nuxt class="rounded z-index-1000" />

@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:list";
 @import './variables.scss';
 
 .circle {
@@ -157,6 +158,101 @@
       }
       height: #{$tick_height}vh;
       background-color: $circle;
+    }
+  }
+}
+
+$doughnut-size: 10;
+
+.doughnuts {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.doughnut {
+  position: relative;
+  border-radius: 50%;
+  width: 60vw;
+  height: 60vw;
+
+  @media (min-width: 576px) {
+    width: 22vw;
+    height: 22vw;
+  }
+
+  @media (min-width: 768px) {
+    width: 30vw;
+    height: 30vw;
+  }
+
+  @media (min-width: 992px) {
+    width: 22vw;
+    height: 22vw;
+  }
+
+  @media (min-width: 1200px) {
+    width: 25vw;
+    height: 25vw;
+  }
+  
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 2;
+    clip: rect(0, 29.5vw, 29.5vw, 0);
+
+    @media (min-width: 480px) {
+      clip: rect(0, 10.9vw, 10.9vw, 0);
+    }
+
+    @media (min-width: 768px) {
+      clip: rect(0, 14.9vw, 14.9vw, 0);
+    }
+
+    @media (min-width: 992px) {
+      clip: rect(0, 10.9vw, 10.9vw, 0);
+    }
+
+    @media (min-width: 1200px) {
+      clip: rect(0, 12.5vw, 12.5vw, 0);
+    }
+  }
+}
+
+$wheel: 15em;
+@each $circle in $circles {
+  $index: index($circles, $circle);
+  $color_2nd: $circle;
+  $color_3rd: $circle;
+
+  @if $index < length($circles) - 1 {
+    $color_2nd: list.nth($circles, $index + 1);
+    $color_3rd: list.nth($circles, $index + 2);
+  } @else {
+    $color_2nd: list.nth($circles, 1);
+    $color_3rd: list.nth($circles, 2);
+  }
+  
+  .doughnut--#{$index} {
+    background: $circle;
+    border: 1px solid darken($circle, 5%);
+    box-shadow: 15px -5px 0px darken($circle, 5%) !important;
+
+    &::before {
+      top: 0px;
+      background-color: $color_2nd;
+    }
+    &::after {
+      bottom: 0px;
+      background-color: $color_3rd;
+      transform: rotate(180deg);
     }
   }
 }
