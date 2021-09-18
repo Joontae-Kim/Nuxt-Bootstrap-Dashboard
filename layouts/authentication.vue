@@ -29,7 +29,9 @@
               class="d-flex"
               align-self="center"
             >
-              <div :class="['doughnut', `doughnut--${r}`, 'my-4 mx-auto m-sm-auto my-md-4 m-lg-auto']" />
+              <div :class="['doughnut', `doughnut--${r}`, 'my-4 mx-auto m-sm-auto my-md-4 m-lg-auto']">
+                <div class="doughnut__punch" />
+              </div>
             </b-col>
           </b-row>
         </template>
