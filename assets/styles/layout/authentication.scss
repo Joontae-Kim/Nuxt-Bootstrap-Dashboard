@@ -196,33 +196,41 @@ $doughnut-size: 10;
     height: 25vw;
   }
   
-
   &::before,
   &::after {
     content: '';
     position: absolute;
-    left: 0px;
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
+  }
+
+  &::before {
+    top: -1px;
+    bottom: auto;
+    right: auto;
+    left: 0;
+    border-radius: 13em 0 0 0;
+  }
+
+  &::after {
+    top: auto;
+    bottom: -1px;
+    right: 0;
+    left: auto;
+    border-radius: 0 0 13em 0;
+  }
+
+  &__punch {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 33.3%;
+    height: 33.3%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
     border-radius: 50%;
-    z-index: 2;
-    clip: rect(0, 29.5vw, 29.5vw, 0);
-
-    @media (min-width: 480px) {
-      clip: rect(0, 10.9vw, 10.9vw, 0);
-    }
-
-    @media (min-width: 768px) {
-      clip: rect(0, 14.9vw, 14.9vw, 0);
-    }
-
-    @media (min-width: 992px) {
-      clip: rect(0, 10.9vw, 10.9vw, 0);
-    }
-
-    @media (min-width: 1200px) {
-      clip: rect(0, 12.5vw, 12.5vw, 0);
-    }
+    border: 3px solid white;
   }
 }
 
@@ -243,16 +251,25 @@ $wheel: 15em;
   .doughnut--#{$index} {
     background: $circle;
     border: 1px solid darken($circle, 5%);
-    box-shadow: 15px -5px 0px darken($circle, 5%) !important;
-
+    box-shadow: 14px -1px 0px 0px darken($circle, 5%) !important;
+    $layer-border: 3px solid white;
+    
     &::before {
-      top: 0px;
+      border-right: $layer-border;
+      border-bottom: $layer-border;
       background-color: $color_2nd;
     }
+    
     &::after {
-      bottom: 0px;
       background-color: $color_3rd;
-      transform: rotate(180deg);
+      border-left: $layer-border;
+      border-top: $layer-border;
+      box-shadow: 16px 0px 0px -1px darken($color_3rd, 5%) !important;
+    }
+
+    > .doughnut__punch {
+      background-color: $circle;
+      box-shadow: inset 17px 0px 0px 0px darken($circle, 5%) !important;
     }
   }
 }
