@@ -76,8 +76,8 @@
               </b-form-checkbox>
             </b-col>
             <b-col cols="6">
-              <div class="text-right text-secondary">
-                Forget Password?
+              <div class="text-right">
+                <NuxtLink :to="{ name: 'resetpassword'}">Go to Reset Password</NuxtLink>
               </div>
             </b-col>
           </b-form-row>
