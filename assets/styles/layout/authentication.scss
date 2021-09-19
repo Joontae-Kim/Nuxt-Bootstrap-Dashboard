@@ -174,10 +174,10 @@ $doughnut-size: 10;
 .doughnut {
   position: relative;
   border-radius: 50%;
-  width: 60vw;
-  height: 60vw;
+  width: 30vw;
+  height: 30vw;
 
-  @media (min-width: 576px) {
+  @media (min-width: 480px) {
     width: 22vw;
     height: 22vw;
   }
@@ -252,8 +252,15 @@ $wheel: 15em;
   .doughnut--#{$index} {
     background: $circle;
     border: 1px solid darken($circle, 5%);
-    box-shadow: 14px -1px 0px 0px darken($circle, 5%) !important;
     $layer-border: 3px solid white;
+    
+    @media (max-width: 767.98px) {
+      box-shadow: 5px -1px 0px 0px darken($circle, 7%) !important;
+    }
+
+    @media (min-width: 768px) {
+      box-shadow: 14px -1px 0px 0px darken($circle, 7%) !important;
+    }
     
     &::before {
       border-right: $layer-border;
@@ -265,12 +272,19 @@ $wheel: 15em;
       background-color: $color_3rd;
       border-left: $layer-border;
       border-top: $layer-border;
-      box-shadow: 16px 0px 0px -1px darken($color_3rd, 5%) !important;
+
+      @media (max-width: 767.98px) {
+        box-shadow: 7px 0px 0px -1px darken($color_3rd, 7%) !important;
+      }
+  
+      @media (min-width: 768px) {
+        box-shadow: 16px 0px 0px -1px darken($color_3rd, 7%) !important;
+      }
     }
 
     > .doughnut__punch {
       background-color: $circle;
-      box-shadow: inset 17px 0px 0px 0px darken($circle, 5%) !important;
+      box-shadow: inset 17px 0px 0px 0px darken($circle, 7%) !important;
     }
   }
 }

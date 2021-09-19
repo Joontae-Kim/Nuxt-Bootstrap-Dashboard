@@ -18,11 +18,11 @@
           </div>
         </template>
         <template v-else>
-          <b-row class="doughnuts h-100 w-100">
+          <b-row class="doughnuts h-100">
             <b-col
               v-for="r in 6"
               :key="r"
-              cols
+              cols="6"
               sm="4"
               md="6"
               lg="4"
