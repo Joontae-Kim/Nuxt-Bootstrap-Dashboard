@@ -168,6 +168,7 @@ $doughnut-size: 10;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
 }
 
 .doughnut {
@@ -209,7 +210,7 @@ $doughnut-size: 10;
     bottom: auto;
     right: auto;
     left: 0;
-    border-radius: 13em 0 0 0;
+    border-radius: 100% 0 0 0;
   }
 
   &::after {
@@ -217,7 +218,7 @@ $doughnut-size: 10;
     bottom: -1px;
     right: 0;
     left: auto;
-    border-radius: 0 0 13em 0;
+    border-radius: 0 0 100% 0;
   }
 
   &__punch {
@@ -228,9 +229,9 @@ $doughnut-size: 10;
     width: 33.3%;
     height: 33.3%;
     transform: translate(-50%, -50%);
-    z-index: 3;
     border-radius: 50%;
     border: 3px solid white;
+    z-index: 1;
   }
 }
 
