@@ -1,5 +1,5 @@
 <template>
-  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: !collapsed }]">
+  <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: collapsed }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         LOGO
@@ -59,20 +59,15 @@
 </template>
 
 <script>
-import checkResolution from '~/mixins/checkResolution'
 
 export default {
-  mixins: [
-    checkResolution
-  ],
   props: {
     collapsed: {
       type: Boolean,
-      required: true
-    },
-    pageMovePending: {
-      type: Boolean,
-      required: true
+      required: true,
+      default: (collapsedProps) => {
+        return typeof collapsedProps === 'undefined' ? false : collapsedProps
+      }
     }
   },
   data: () => ({
@@ -81,41 +76,20 @@ export default {
     isPageMove: false
   }),
   watch: {
-    isMobile (aft, prev) {
-      if (!this.pageMovePending && aft !== prev && prev !== null) {
-        if ((aft && this.collapsed) || (!aft && !this.collapsed)) {
-          this.$emit('toggleSidebar')
-        }
-      }
-    },
-    pageMovePending (prev, current) {
-      if (prev && !current && this.collapsed && this.isPageMove && this.isMobile) {
-        setTimeout(() => {
-          this.$emit('toggleSidebar')
-        }, 2500)
-        this.$nextTick(() => { this.isPageMove = false })
-      }
-    },
-    $route: {
-      deep: true,
-      handler (from, to) {
-        if (this.isMobile && from.name !== to.name) {
-          this.$nextTick(() => { this.isPageMove = true })
-        }
-      }
-    },
     '$route.meta': {
       immediate: true,
       deep: true,
       handler (val) {
         if (!!val.parent && ['users', 'events'].includes(val.parent)) {
-          if (val.parent === 'users') {
-            this.usersNestedToggled = true
-            this.eventsNestedToggled = false
-          } else if (val.parent === 'events') {
-            this.eventsNestedToggled = true
-            this.usersNestedToggled = false
-          }
+          this.$nextTick(() => {
+            if (val.parent === 'users') {
+              this.usersNestedToggled = true
+              this.eventsNestedToggled = false
+            } else if (val.parent === 'events') {
+              this.eventsNestedToggled = true
+              this.usersNestedToggled = false
+            }
+          })
         } else {
           this.$nextTick(() => {
             this.eventsNestedToggled = false
@@ -126,23 +100,11 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('mouseup', this.handleSidebar)
-  },
-  beforeDestroy () {
-    window.removeEventListener('mouseup', this.handleSidebar)
+    this.$forceUpdate()
   },
   methods: {
     toggleSidebar () {
       this.$emit('toggleSidebar')
-    },
-    handleSidebar (event) {
-      if (this.isMobile && this.collapsed) {
-        const headerChildEle = event.target.closest('#dash-nav')
-        const sidebarChildEle = event.target.closest('#dash-sidebar')
-        if (!this.isPageMove && !sidebarChildEle && !headerChildEle) {
-          this.$emit('toggleSidebar', true)
-        }
-      }
     }
   }
 }
