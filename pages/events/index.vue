@@ -240,7 +240,6 @@ export default {
   }),
   async fetch () {
     const res = await this.$axios.$get('/api/event/statics')
-    console.log('res: ', res)
     const sortedSalesSegment = res.salesSegment.sort((b, a) => a.total - b.total)
     const totalSales = sortedSalesSegment.reduce((totalSales, { total }) => totalSales + total, 0)
     this.salesSegment = sortedSalesSegment.map((sale, s) => ({ ...sale, rank: s + 1, dis_total: this.formatNumber(sale.total), percent: Number(Number((sale.total / totalSales) * 100).toFixed(1)) }))
