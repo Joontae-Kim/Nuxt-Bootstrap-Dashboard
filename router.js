@@ -26,19 +26,22 @@ export function extendRoutes (routes, resolve) {
       name: 'signin',
       path: '/signin',
       component: resolve(__dirname, 'pages/signin.vue'),
-      chunkName: 'pages/signin'
+      chunkName: 'pages/signin',
+      meta: { parent: 'authentication' }
     },
     {
       name: 'signup',
       path: '/signup',
       component: resolve(__dirname, 'pages/signup.vue'),
-      chunkName: 'pages/signup'
+      chunkName: 'pages/signup',
+      meta: { parent: 'authentication' }
     },
     {
       name: 'resetpassword',
       path: '/resetpassword',
       component: resolve(__dirname, 'pages/resetPassword.vue'),
-      chunkName: 'pages/resetPassword'
+      chunkName: 'pages/resetPassword',
+      meta: { parent: 'authentication' }
     },
     {
       name: '404',
