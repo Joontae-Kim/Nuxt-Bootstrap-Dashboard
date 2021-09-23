@@ -32,8 +32,10 @@
     }
 
     @media (min-width: 576px) {
-      border-left: 5px solid #002966;
-      border-top: 5px solid #002966;
+      border-left: 5px solid #234B84;
+      border-top: 5px solid #234B84;
+      border-bottom: 10px solid #234B84;
+      border-right: 10px solid #234B84;
       box-shadow: #002966 14px 10px 1px 9px;
     }
   }
