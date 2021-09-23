@@ -1,0 +1,44 @@
+.utility {
+  &__title {
+    @media (max-width: 575.98px) {
+      font-size: 3rem;
+    }
+    @media (min-width: 576px) {
+      font-size: 5rem;
+    }
+  }
+
+  &__message {
+    @media (max-width: 575.98px) {
+      font-size: 2.5rem;
+    }
+    @media (min-width: 576px) {
+      font-size: 3.5rem;
+    }
+  }
+
+  &__title,
+  &__message {
+    text-shadow: 7px 7px #002966;
+  }
+
+  &__icon {
+    color: #153d77;
+    background-color: var(--light);
+    border-radius: 50%;
+
+    @media (max-width: 575.98px) {
+      box-shadow: 7px 7px #002966;
+    }
+
+    @media (min-width: 576px) {
+      border-left: 5px solid #002966;
+      border-top: 5px solid #002966;
+      box-shadow: #002966 14px 10px 1px 9px;
+    }
+  }
+
+  &__link {
+    box-shadow: 7px 7px #002966;
+  }
+}
