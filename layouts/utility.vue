@@ -17,15 +17,11 @@ export default {
   mounted () {
     this.setDomHeight()
     this.$nextTick(() => { this.showContent = true })
-    console.log(process)
-  },
-  updated () {
-    this.setDomHeight()
   },
   destroyed () {
-    // setTimeout(() => {
-    //   this.destractDomHeight()
-    // }, 1200)
+    setTimeout(() => {
+      this.destractDomHeight()
+    }, 1200)
   },
   methods: {
     setDomHeight () {
