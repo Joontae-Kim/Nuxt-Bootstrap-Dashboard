@@ -1,8 +1,8 @@
 <template>
   <transition name="fade" mode="out-in">
     <div v-show="showContent" class="wrapper wrapper--utility">
-      <b-container class="h-100">
-        <Nuxt class="" />
+      <b-container class="h-100 px-0" fluid>
+        <Nuxt />
       </b-container>
     </div>
   </transition>
