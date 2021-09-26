@@ -3,17 +3,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const index = () => import('~/pages/index')
-const overview = () => import('~/pages/overview')
-const page404 = () => import('~/pages/404')
-const page500 = () => import('~/pages/500')
-const events = () => import('~/pages/event/index')
-const event = () => import('~/pages/event/_id')
-const users = () => import('~/pages/users/index')
-const userStatics = () => import('~/pages/users/statics')
-const usersList = () => import('~/pages/users/list')
-const user = () => import('~/pages/users/_id')
-
 export function extendRoutes (routes, resolve) {
   return [
     {
@@ -102,67 +91,16 @@ export function extendRoutes (routes, resolve) {
       component: resolve(__dirname, 'pages/users/_id'),
       chunkName: 'pages/users/_id',
       meta: { parent: 'users' }
+    },
+    {
+      name: 'notFound',
+      path: '/404',
+      component: resolve(__dirname, 'pages/404.vue')
+    },
+    {
+      name: 'serverError',
+      path: '/500',
+      component: resolve(__dirname, 'pages/404.vue')
     }
   ]
-}
-
-export function createRouter () {
-  return new Router({
-    base: '/',
-    mode: 'history',
-    linkActiveClass: 'nuxt-link-active',
-    linkExactActiveClass: 'nuxt-link-exact-active',
-    routes: [
-      {
-        name: 'index',
-        path: '/',
-        component: index
-      },
-      {
-        name: '404',
-        path: '/404',
-        component: overview
-      },
-      {
-        name: '500',
-        path: '/500',
-        component: page500
-      },
-      {
-        name: 'overview',
-        path: '/overview',
-        component: page404
-      },
-      {
-        name: 'events',
-        path: '/events',
-        component: events
-      },
-      {
-        name: 'eventDetails',
-        path: '/event/:id',
-        component: event
-      },
-      {
-        name: 'users',
-        path: '/users',
-        component: users
-      },
-      {
-        name: 'userStatics',
-        path: '/users/statics',
-        component: userStatics
-      },
-      {
-        name: 'usersList',
-        path: '/users/list',
-        component: usersList
-      },
-      {
-        name: 'userDetails',
-        path: '/user/:id',
-        component: user
-      }
-    ]
-  })
 }
