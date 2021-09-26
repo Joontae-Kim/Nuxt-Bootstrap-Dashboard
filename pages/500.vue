@@ -1,17 +1,16 @@
 <template>
-  <b-row class="h-100" align-v="center">
-    <b-col cols="12" class="d-block d-sm-none text-center mt-auto mb-5">
-      <b-icon icon="exclamation" font-scale="7" class="utility__icon" />
+  <b-row class="align-items-baseline align-items-sm-center h-100" no-gutters>
+    <b-col cols="12" sm="6" class="d-flex align-items-end align-items-sm-center justify-content-center mt-auto mt-sm-0">
+      <div class="position-relative utility__icon">!</div>
     </b-col>
-    <b-col order="1" order-md="2" cols="12" md="6" class="d-none d-md-block text-center">
-      <b-icon icon="exclamation" font-scale="20" class="utility__icon" />
-    </b-col>
-    <b-col cols="12" md="6" order="2" order-md="1" class="text-white text-center text-md-center mt-sm-auto mt-md-0 mb-auto mb-md-0">
+    <b-col
+      cols="12"
+      sm="6"
+      class="text-white text-center mb-5 mb-sm-0"
+    >
       <h1 class="utility__title">500</h1>
-      <h2 class="utility__message mb-4 mb-md-5">Internal Server Error.</h2>
-      <div>
-        <b-btn variant="light" class="rounded-0 utility__link" :to="{ name: 'overview' }">Return to Dashboard</b-btn>
-      </div>
+      <h2 class="utility__message mb-4 mb-sm-5">Internal Server Error</h2>
+      <b-btn variant="light" :to="{ name: 'overview' }" class="utility__link" pill>Return to Dashboard</b-btn>
     </b-col>
   </b-row>
 </template>
@@ -24,6 +23,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../assets/styles/layout/utility.scss';
 </style>
