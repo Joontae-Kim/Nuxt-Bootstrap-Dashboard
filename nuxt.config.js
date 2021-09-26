@@ -57,7 +57,12 @@ export default {
   ],
 
   // Extend Router
-  router: { extendRoutes },
+  router: {
+    extendRoutes,
+    middleware: [
+      'checkRoute'
+    ]
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
