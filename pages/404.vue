@@ -9,8 +9,8 @@
       class="text-white text-center mb-5 mb-sm-0"
     >
       <h1 class="utility__title">404</h1>
-      <h2 class="utility__message mb-4 mb-sm-5">Page not found</h2>
-      <b-btn variant="light" :to="{ name: 'overview' }" class="utility__link" pill>Return to Dashboard</b-btn>
+      <h2 class="utility__message mb-4 mb-sm-5">{{ getNotFoundMessage.message }}</h2>
+      <b-btn variant="light" class="utility__link" pill @click="goToDashboard">{{ getNotFoundMessage.buttonText }}</b-btn>
     </b-col>
   </b-row>
 </template>
@@ -19,7 +19,28 @@
 export default {
   name: 'NotFound',
   layout: 'utility',
-  data: () => ({})
+  data: () => ({}),
+  computed: {
+    getNotFoundMessage () {
+      return !this.$route.query
+        ? { message: 'Page not found', buttonText: 'Return to Dashboard' }
+        : this.$route.query._org === 'usr'
+          ? { message: 'Oops, No User searched.', buttonText: 'Return to User List Page' }
+          : this.$route.query._org === 'evt'
+            ? { message: 'Oops, No Event searched.', buttonText: 'Return to Event List Page' }
+            : { message: 'Sorry, No Results', buttonText: 'Return to Dashboard' }
+    }
+  },
+  methods: {
+    goToDashboard () {
+      const replacePath = !this.$route.query
+        ? { name: 'overview' }
+        : this.$route.query._org === 'usr'
+          ? { name: 'usersList' }
+          : { name: 'eventsList' }
+      this.$router.replace(replacePath)
+    }
+  }
 }
 </script>
 
