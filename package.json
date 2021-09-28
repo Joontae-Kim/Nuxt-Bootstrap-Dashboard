@@ -2,6 +2,10 @@
   "name": "nuxt-bootstrap-dashboard",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "dev": "nodemon --watch mixins --watch api --watch env --exec \"NODE_ENV=development nuxt\"",
     "build": "nuxt build",
