@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser'
 import { extendRoutes } from './router'
+const processEnv = require('dotenv').config({ path: `./env/.env.${process.env.NODE_ENV}` }).parsed
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -53,11 +54,13 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/moment'
+    '@nuxtjs/moment',
+    ['@nuxtjs/dotenv', { filename: `./env/.env.${process.env.NODE_ENV}`, systemvars: true }]
   ],
 
   // Extend Router
   router: {
+    base: processEnv.ROUTER_BASEURL,
     extendRoutes,
     middleware: [
       'checkRoute'
@@ -72,7 +75,7 @@ export default {
   ],
 
   axios: {
-    baseURL: process.env.baseURL || 'http://localhost:3000' // Used as fallback if no runtime config is provided
+    baseURL: processEnv.AXIOS_BASEURL
   },
 
   bootstrapVue: {
@@ -87,7 +90,7 @@ export default {
   serverMiddleware: [
     bodyParser.json(),
     { path: '/test', handler: '~/api/test.js' },
-    { path: '/over', handler: '~/api/over.js' },
+    { path: '/api/over', handler: '~/api/over.js' },
     { path: '/api/event', handler: '~/api/event.js' },
     { path: '/api/users', handler: '~/api/users.js' }
   ],
