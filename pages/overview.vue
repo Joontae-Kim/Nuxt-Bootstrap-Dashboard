@@ -212,7 +212,7 @@ export default {
     ]
   }),
   async fetch () {
-    const res = await this.$axios.$get('/over/')
+    const res = await this.$axios.$get('/api/over/')
     this.res = res
     this.totalVists = { ...res.total, visits: this.formatNumber(res.total.visits) }
     this.newUsers = { ...res.newUser, users: this.formatNumber(res.newUser.users) }
