@@ -29,7 +29,8 @@ export default {
     '~/plugins/axios',
     '~/plugins/chartjs',
     '~/plugins/createChartData',
-    '~/plugins/formatCurrency'
+    '~/plugins/formatCurrency',
+    '~/plugins/importBootstrapVueIcons'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -81,7 +82,7 @@ export default {
   bootstrapVue: {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
-    icons: true,
+    icons: false,
     config: {
       breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
     }
