@@ -6,7 +6,7 @@
           <b-navbar-nav fill class="align-items-center">
             <b-nav-text class="mr-3">
               <div id="header-sidebar-toggle" class="dashNav__btn-sidebarToogle" @click="toggleSidebar">
-                <b-icon-list font-scale="1.5" aria-hidden="true" />
+                <b-icon icon="list" font-scale="1.5" aria-hidden="true" />
               </div>
             </b-nav-text>
 
