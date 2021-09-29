@@ -83,6 +83,36 @@ export default {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
     icons: false,
+    componentPlugins: [
+      'BadgePlugin',
+      'ButtonPlugin',
+      'ButtonGroupPlugin',
+      'CardPlugin',
+      'DropdownPlugin',
+      'FormPlugin',
+      'FormCheckboxPlugin',
+      'FormDatepickerPlugin',
+      'FormGroupPlugin',
+      'FormInputPlugin',
+      'FormRadioPlugin',
+      'FormSelectPlugin',
+      'FormSpinbuttonPlugin',
+      'ImagePlugin',
+      'InputGroupPlugin',
+      'LayoutPlugin',
+      'LinkPlugin',
+      'ListGroupPlugin',
+      'NavPlugin',
+      'NavbarPlugin',
+      'OverlayPlugin',
+      'PaginationPlugin',
+      'ProgressPlugin',
+      'SpinnerPlugin',
+      'TablePlugin'
+    ],
+    directivePlugins: [
+      'VBTogglePlugin'
+    ],
     config: {
       breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
     }
