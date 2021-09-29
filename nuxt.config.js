@@ -126,8 +126,15 @@ export default {
     { path: '/api/users', handler: '~/api/users.js' }
   ],
 
+  // buildDir Configuration: https://nuxtjs.org/docs/configuration-glossary/configuration-builddir
+  buildDir: process.env.ANALYZE === 'false' ? processEnv.BUILD_DIR : processEnv.BUILD_ANALYZE_DIR,
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    babel: {
+      compact: true
+    },
+    devtools: processEnv.NODE_ENV !== 'production',
     analyze: {
       analyzerMode: 'server',
       analyzerHost: '0',
