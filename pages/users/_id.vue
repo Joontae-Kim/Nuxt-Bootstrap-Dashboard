@@ -64,9 +64,17 @@
       <b-col cols md="4" class="mb-3 mb-md-0">
         <dash-card
           title="Information"
-          icon="info-circle-fill"
           custom
+          class="p-3"
         >
+          <template #header-right>
+            <b-icon
+              icon="info-circle"
+              class="dsCard__icon"
+              font-scale="1.5"
+              aria-hidden="true"
+            />
+          </template>
           <b-row>
             <b-col cols>
               <b-row no-gutters :class="informationClass.titleRow">
