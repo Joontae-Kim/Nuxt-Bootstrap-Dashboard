@@ -2,6 +2,10 @@ import bodyParser from 'body-parser'
 import { extendRoutes } from './router'
 const processEnv = require('dotenv').config({ path: `./env/.env.${process.env.NODE_ENV}` }).parsed
 
+if (process.env.NODE_ENV !== 'production') {
+  console.log(`process.env.NODE_ENV => ${process.env.NODE_ENV}`)
+}
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -127,7 +131,7 @@ export default {
   ],
 
   // buildDir Configuration: https://nuxtjs.org/docs/configuration-glossary/configuration-builddir
-  buildDir: process.env.ANALYZE === 'false' ? processEnv.BUILD_DIR : processEnv.BUILD_ANALYZE_DIR,
+  buildDir: process.env.BUILD_ANALYZE_DIR === 'null' ? processEnv.BUILD_DIR : processEnv.BUILD_ANALYZE_DIR,
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -135,10 +139,12 @@ export default {
       compact: true
     },
     devtools: processEnv.NODE_ENV !== 'production',
-    analyze: {
-      analyzerMode: 'server',
-      analyzerHost: '0',
-      openAnalyzer: true
-    }
+    analyze: process.env.BUILD_ANALYZE_DIR === 'null'
+      ? false
+      : {
+          analyzerMode: 'server',
+          analyzerHost: '0',
+          openAnalyzer: process.env.BUILD_ANALYZE_DIR !== 'false'
+        }
   }
 }
