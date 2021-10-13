@@ -1,6 +1,8 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="dark" class="shadow">
-    <b-navbar-brand href="#">LOGO</b-navbar-brand>
+  <b-navbar toggleable="lg" variant="transparent" type="light" class="shadow">
+    <b-navbar-brand :to="{ name: 'overview' }">
+      <img src="~/static/nuxt-bootstrap-logo.svg" alt="nuxt dashboard with bootstrap 4" height="30">
+    </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse" />
 
