@@ -2,7 +2,9 @@
   <nav id="dash-sidebar" :class="['d-flex flex-column sidebar', { collapsed: collapsed }]">
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
-        LOGO
+        <nuxt-link :to="{ name: 'index' }">
+          <img src="~/static/nuxt-bootstrap-logo.svg" alt="nuxt dashboard with bootstrap 4" height="30">
+        </nuxt-link>
       </div>
     </div>
     <div class="sidebar__body py-2">
@@ -67,7 +69,7 @@
         </b-nav-item>
       </b-nav>
       <div class="sidebar__close cursor-pointer ml-auto" @click="toggleSidebar">
-        <template v-if="!collapsed">
+        <template v-if="collapsed">
           <b-icon icon="arrow-bar-right" font-scale="1.5" title="Open Sidebar" aria-hidden="true" shift-v="-1" />
         </template>
         <template v-else>
