@@ -1,0 +1,44 @@
+.landingIntro {
+  position: relative;
+  background: linear-gradient(45deg, #153D77, #2F70AF);
+  
+  @media (max-width: 575.98px) {
+    height: 34rem;
+  }
+
+  @media (min-width: 576px) and (max-width: 991.98px) {
+    height: 24rem;
+  }
+
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    height: 30rem;
+  }
+
+  @media (min-width: 1200px) {
+    height: 37rem;
+  }
+
+  margin-bottom: 2rem;
+
+  &::after {
+    content: " ";
+    position: absolute;
+    right: 0;
+    bottom: -2rem;
+    background-color: #fafbfe;
+    height: 5rem;
+    width: 100%;
+    transform: skewY(-2.9deg);
+  }
+
+  &__screenshot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    border-radius: 3px 0 0 3px;
+    margin: 0;
+    padding: 0 15px;
+  }
+}
