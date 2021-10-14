@@ -1,13 +1,11 @@
 <template>
   <fragment>
-    <b-row class="mx-0 py-md-5 landingIntro">
-      <b-col cols="12" md="6" class="text-white align-self-center h-md-100">
-        <div class="d-flex flex-column justify-content-md-center h-100 pb-md-5">
-          <h1 class="">It's Nuxt Dashboard Propject</h1>
-          <h3 class="font-weight-light">
-            with Bootstrap and BootstrapVue
-          </h3>
-        </div>
+    <b-row class="mx-0 py-md-5 landingIntro mb-3">
+      <b-col cols="12" md="6" class="text-white align-self-center pt-4 pb-5 py-lg-0">
+        <h1 class="">It's Nuxt Dashboard Propject</h1>
+        <h3 class="font-weight-light">
+          with Bootstrap and BootstrapVue
+        </h3>
       </b-col>
       <b-col
         cols="12"
