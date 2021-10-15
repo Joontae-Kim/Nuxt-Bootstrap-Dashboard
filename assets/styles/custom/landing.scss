@@ -18,3 +18,18 @@
     border-radius: 3px;
   }
 }
+
+
+.landingText {
+  &--light {
+    color: #2F70AF;
+  }
+
+  &--normal {
+    color: #153D77;
+  }
+
+  &--heavy {
+    color: #002966;
+  }
+}
