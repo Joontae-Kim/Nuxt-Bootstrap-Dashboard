@@ -1,14 +1,14 @@
 .landingIntro {
   position: relative;
   background: linear-gradient(45deg, #153D77, #2F70AF);
-  padding: 3rem 0rem 6rem;
-  margin-bottom: 5rem;
+  padding: 4rem 0rem 6rem;
+  margin-bottom: 4rem;
 
   &::before {
     content: " ";
     position: absolute;
-    bottom: 0rem;
-    height: 7rem;
+    bottom: -0.1rem;
+    height: 4.5rem;
     width: 100%;
     background: linear-gradient(-2.9deg, #fafbfe 49.7%, transparent 49.99%);
   }
@@ -31,5 +31,62 @@
 
   &--heavy {
     color: #002966;
+  }
+}
+
+.landingFeature {
+  position: relative;
+  overflow: hidden;
+
+  &__body {
+    z-index: 1;
+  }
+
+  &::before {
+    position: absolute;
+    content: " ";
+    background: linear-gradient(135deg, #153D77, #2F70AF);
+    border-radius: 0 0 30rem 0;
+    left: 0;
+    box-shadow: 4px 0.5rem 0.25rem rgb(0 0 0 / 8%);
+
+    @media (max-width: 575.98px) {
+      top: 11rem;
+      padding: 10rem 17rem 17rem 6.5rem;
+    }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+      top: 0rem;
+      padding: 9.5rem;
+    }
+
+    @media (min-width: 992px) {
+      top: 0rem;
+      padding: 12rem;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    content: " ";
+    background: linear-gradient(135deg, #2F70AF, #153D77);
+    border-radius: 30rem 0 0 0;
+    right: 0;
+    box-shadow: -4px -0.5rem 0.25rem rgb(0 0 0 / 8%);
+    
+    @media (max-width: 575.98px) {
+      bottom: 0rem;
+      padding: 10rem 13.5rem 10rem 10rem;
+    }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+      bottom: 0;
+      padding: 5rem;
+    }
+
+    @media (min-width: 992px) {
+      bottom: 0;
+      padding: 6.5rem;
+    }
   }
 }
