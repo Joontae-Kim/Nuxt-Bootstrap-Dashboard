@@ -31,9 +31,9 @@
           <p>The clean and well commented code allows easy customization of the theme.It's designed for describing your app, agency or business.</p>
         </b-col>
       </b-row>
-      <b-row class="flex-column py-5 bg-white landingFeature">
+      <b-row class="flex-column py-5 mb-5 bg-white landingFeature">
         <b-col class="text-center mb-5 mb-md-4" cols>
-          <h4>Featured By</h4>
+          <h2>Featured By</h2>
         </b-col>
         <b-col cols class="landingFeature__body">
           <b-row class="justify-content-md-center mb-md-4">
@@ -96,6 +96,35 @@
           </b-row>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col class="text-center mb-5 mb-md-4" cols="12">
+          <h2>Project Pages</h2>
+        </b-col>
+      </b-row>
+      <b-row class="mb-4" align-h="center">
+        <b-col
+          v-for="(page, index) in pagesGrp.grp1"
+          :key="index"
+          cols
+          md="4"
+          lg="3"
+        >
+          <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
+          <p class="text-secondary text-center mb-0">{{ page.type }}</p>
+        </b-col>
+      </b-row>
+      <b-row align-h="center" class="mb-5">
+        <b-col
+          v-for="(page, index) in pagesGrp.grp1"
+          :key="index"
+          cols
+          md="4"
+          lg="3"
+        >
+          <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
+          <p class="text-secondary text-center font-weight-bold mb-0">{{ page.type }}</p>
+        </b-col>
+      </b-row>
     </b-container>
   </fragment>
 </template>
@@ -111,6 +140,20 @@ export default {
     BIconLayoutWtf
   },
   layout: null,
+  data: () => ({
+    pagesGrp: {
+      grp1: [
+        { src: 'overview_page.png', type: 'Dashboard Page', title: 'Overview', routeName: 'overview' },
+        { src: 'eventsList_page.png', type: 'List Page', title: 'Events List', routeName: 'eventsList' },
+        { src: 'usersStatics_page.png', type: 'Analytics Page', title: 'Users Statics', routeName: 'userStatics' }
+      ],
+      grp2: [
+        { src: 'userDetailed_page.png', type: 'Information Details Page', title: 'User Detail', routeName: null },
+        { src: 'signup_page.png', type: 'Authentication Type Page', title: 'Sign Up', routeName: 'signin' },
+        { src: '404_page.png', type: 'Utility Page', title: '404 Page', routeName: 'notFound' }
+      ]
+    }
+  }),
   async created () {
     // await this.callAPITest()
   },
