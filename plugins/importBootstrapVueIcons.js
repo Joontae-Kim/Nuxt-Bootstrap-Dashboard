@@ -6,6 +6,7 @@ import {
   BIconArrowBarRight,
   BIconArrowClockwise,
   BIconArrowLeftSquare,
+  BIconArrowLeftRight,
   BIconBellFill,
   BIconCash,
   BIconCashStack,
@@ -18,6 +19,7 @@ import {
   BIconClockHistory,
   BIconCodeSlash,
   BIconCreditCardFill,
+  BIconDisplay,
   BIconEyeFill,
   BIconEnvelopeFill,
   BIconFilter,
@@ -32,9 +34,12 @@ import {
   BIconPersonBoundingBox,
   BIconPersonCheckFill,
   BIconPersonPlusFill,
+  BIconPhone,
   BIconPlus,
   BIconPlusCircleFill,
   BIconTools,
+  BIconTablet,
+  BIconTabletLandscape,
   BIconTrash
 } from 'bootstrap-vue'
 
@@ -46,6 +51,7 @@ const icons = {
   BIconArrowBarRight,
   BIconArrowClockwise,
   BIconArrowLeftSquare,
+  BIconArrowLeftRight,
   BIconBellFill,
   BIconCalendarCheck,
   BIconCash,
@@ -58,6 +64,7 @@ const icons = {
   BIconClockHistory,
   BIconCodeSlash,
   BIconCreditCardFill,
+  BIconDisplay,
   BIconEyeFill,
   BIconEnvelopeFill,
   BIconFilter,
@@ -72,9 +79,12 @@ const icons = {
   BIconPersonBoundingBox,
   BIconPersonCheckFill,
   BIconPersonPlusFill,
+  BIconPhone,
   BIconPlus,
   BIconPlusCircleFill,
   BIconTools,
+  BIconTablet,
+  BIconTabletLandscape,
   BIconTrash
 }
 
