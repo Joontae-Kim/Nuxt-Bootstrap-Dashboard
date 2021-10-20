@@ -96,33 +96,149 @@
           </b-row>
         </b-col>
       </b-row>
-      <b-row>
-        <b-col class="text-center mb-5 mb-md-4" cols="12">
+      <!-- Fully Responsive Layout -->
+      <b-row class="mb-5 py-5" align-h="center">
+        <b-col cols="12" class="text-center mb-4">
+          <h2 class="mb-0">Responsive Layout & Mobile Friendly Interface</h2>
+        </b-col>
+        <b-col cols="12" md="10">
+          <b-row no-gutters class="d-flex d-md-none">
+            <b-col cols>
+              <b-card no-body :class="[responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-4']">
+                Common Message Zone on mobile
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row class="">
+            <b-col cols md="10" class="d-flex flex-column">
+              <b-row class="mb-4 h-100">
+                <b-col cols md="10" class="mb-4">
+                  <b-card no-body :class="responsiveLayoutClass.card">
+                    <img src="1-pc-xxl.png" alt="" :class="responsiveLayoutClass.img">
+                    <p :class="responsiveLayoutClass.caption">Large Scale Display</p>
+                  </b-card>
+                </b-col>
+                <b-col cols md="2" class="d-flex align-items-center justify-content-center my-4 my-md-0">
+                  <div class="d-flex justify-content-md-center justify-content-lg-between align-items-center w-100">
+                    <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                    <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5">
+                      <b-icon icon="circle-fill" variant="dark" />
+                      <b-icon icon="arrow-left-right" font-scale="0.5" shift-v="-8" shift-h="8" variant="white" />
+                    </b-iconstack>
+                    <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                  </div>
+                </b-col>
+                <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-around">
+                  <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5">
+                    <b-icon icon="circle-fill" variant="dark" />
+                    <b-icon
+                      icon="arrow-left-right"
+                      font-scale="0.5"
+                      shift-v="-8"
+                      shift-h="8"
+                      variant="white"
+                      rotate="-90"
+                    />
+                  </b-iconstack>
+                  <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                </b-col>
+                <b-col cols md="7" offset-md="1">
+                  <b-card no-body :class="['d-none d-md-flex', responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-5']">
+                    Common Message Zone on md size device
+                  </b-card>
+                </b-col>
+              </b-row>
+            </b-col>
+            <b-col cols md="2" class="d-flex flex-column align-items-end mb-md-1">
+              <div class="w-100">
+                <b-card no-body :class="responsiveLayoutClass.card">
+                  <img src="4-1-mobile-xs.png" alt="" :class="responsiveLayoutClass.img">
+                  <p :class="responsiveLayoutClass.caption">Mobile</p>
+                </b-card>
+              </div>
+              <div class="d-none d-md-flex align-items-center justify-content-md-between justify-content-xl-around my-4 my-md-auto w-100">
+                <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5">
+                  <b-icon icon="circle-fill" variant="dark" />
+                  <b-icon
+                    icon="arrow-left-right"
+                    font-scale="0.5"
+                    shift-v="-8"
+                    shift-h="8"
+                    variant="white"
+                    rotate="-90"
+                  />
+                </b-iconstack>
+                <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+              </div>
+              <div class="d-block d-md-none text-center my-4 w-100">
+                <span class="text-center">icon</span>
+              </div>
+            </b-col>
+            <b-col cols md="12">
+              <b-row>
+                <b-col cols md="6">
+                  <b-card no-body :class="responsiveLayoutClass.card">
+                    <img src="2-tablet-md.png" alt="" :class="responsiveLayoutClass.img">
+                    <p :class="responsiveLayoutClass.caption">Tablet with Landscape</p>
+                  </b-card>
+                </b-col>
+                <b-col cols md="2" class="d-flex align-items-center justify-content-between my-4 my-md-0">
+                  <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5">
+                    <b-icon icon="circle-fill" variant="dark" />
+                    <b-icon
+                      icon="arrow-left-right"
+                      font-scale="0.5"
+                      shift-v="-8"
+                      shift-h="8"
+                      variant="white"
+                    />
+                  </b-iconstack>
+                  <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                </b-col>
+                <b-col cols md="4">
+                  <b-card no-body :class="responsiveLayoutClass.card">
+                    <img src="3-tablet-md.png" alt="" :class="responsiveLayoutClass.img">
+                    <p :class="responsiveLayoutClass.caption">Tablet with Portrait</p>
+                  </b-card>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+      <!-- Project Pages -->
+      <b-row align-h="center" class="flex-column bg-white mb-5 py-5">
+        <b-col cols="12" class="text-center mb-5 mb-md-4">
           <h2>Project Pages</h2>
         </b-col>
-      </b-row>
-      <b-row class="mb-4" align-h="center">
-        <b-col
-          v-for="(page, index) in pagesGrp.grp1"
-          :key="index"
-          cols
-          md="4"
-          lg="3"
-        >
-          <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
-          <p class="text-secondary text-center mb-0">{{ page.type }}</p>
-        </b-col>
-      </b-row>
-      <b-row align-h="center" class="mb-5">
-        <b-col
-          v-for="(page, index) in pagesGrp.grp1"
-          :key="index"
-          cols
-          md="4"
-          lg="3"
-        >
-          <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
-          <p class="text-secondary text-center font-weight-bold mb-0">{{ page.type }}</p>
+        <b-col cols="12">
+          <b-row align-h="center" class="mb-4">
+            <b-col
+              v-for="(page, index) in pagesGrp.grp1"
+              :key="index"
+              cols
+              md="4"
+              lg="3"
+            >
+              <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
+              <p class="text-secondary text-center mb-0">{{ page.type }}</p>
+            </b-col>
+          </b-row>
+          <b-row align-h="center">
+            <b-col
+              v-for="(page, index) in pagesGrp.grp1"
+              :key="index"
+              cols
+              md="4"
+              lg="3"
+            >
+              <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
+              <p class="text-secondary text-center font-weight-bold mb-0">{{ page.type }}</p>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
     </b-container>
@@ -141,6 +257,11 @@ export default {
   },
   layout: null,
   data: () => ({
+    responsiveLayoutClass: {
+      card: 'shadow-sm border-light',
+      img: 'w-100 rounded-top border-bottom border-light', // w-100 mb-3 shadow
+      caption: 'text-secondary px-3 py-2 mb-0 font-italic' // mb-3  // 'text-secondary text-center mb-0'
+    },
     pagesGrp: {
       grp1: [
         { src: 'overview_page.png', type: 'Dashboard Page', title: 'Overview', routeName: 'overview' },
