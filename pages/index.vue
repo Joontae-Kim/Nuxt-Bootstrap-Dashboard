@@ -97,97 +97,7 @@
         </b-col>
       </b-row>
       <!-- Fully Responsive Layout -->
-      <b-row class="mb-5 py-5" align-h="center">
-        <b-col cols="12" class="text-center mb-4">
-          <h2 class="mb-0">Responsive Layout & Mobile Friendly Interface</h2>
-        </b-col>
-        <b-col cols="12" md="10">
-          <b-row no-gutters class="d-flex d-md-none">
-            <b-col cols>
-              <b-card no-body :class="[responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-4']">
-                Common Message Zone on mobile
-              </b-card>
-            </b-col>
-          </b-row>
-          <b-row class="">
-            <b-col cols md="10" class="d-flex flex-column">
-              <b-row class="mb-4 h-100">
-                <b-col cols md="9" class="mb-4">
-                  <b-card no-body :class="responsiveLayoutClass.card">
-                    <img src="1-pc-xxl.png" alt="" :class="responsiveLayoutClass.img">
-                  </b-card>
-                </b-col>
-                <b-col cols md="3" class="d-flex align-items-center justify-content-center my-4 my-md-0">
-                  <layoutTransform class="justify-content-xl-around">
-                    <template #left-icon>
-                      <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                    </template>
-                    <template #right-icon>
-                      <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                    </template>
-                  </layoutTransform>
-                </b-col>
-                <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-center">
-                  <layoutTransform class="justify-content-xl-around" :vertical="true">
-                    <template #left-icon>
-                      <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                    </template>
-                    <template #right-icon>
-                      <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                    </template>
-                  </layoutTransform>
-                </b-col>
-                <b-col cols md="7" offset-md="1">
-                  <b-card no-body :class="['d-none d-md-flex', responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-5']">
-                    Common Message Zone on md size device
-                  </b-card>
-                </b-col>
-              </b-row>
-            </b-col>
-            <b-col cols md="2" class="d-flex flex-column align-items-end mb-4 mb-md-0">
-              <div class="mb-4 mb-md-0 w-100">
-                <b-card no-body :class="responsiveLayoutClass.card">
-                  <img src="4-1-mobile-xs.png" alt="" :class="responsiveLayoutClass.img">
-                </b-card>
-              </div>
-              <layoutTransform class="justify-content-xl-around my-4 my-md-auto my-xl-4 w-100" :vertical="true">
-                <template #left-icon>
-                  <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                </template>
-                <template #right-icon>
-                  <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                </template>
-              </layoutTransform>
-            </b-col>
-            <b-col cols md="12">
-              <b-row>
-                <b-col cols md="4" class="mb-4 mb-md-0">
-                  <b-card no-body :class="responsiveLayoutClass.card">
-                    <img src="3-tablet-md.png" alt="" :class="responsiveLayoutClass.img">
-                  </b-card>
-                </b-col>
-                <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0">
-                  <layoutTransform class="">
-                    <template #left-icon>
-                      <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-none d-lg-inline-block" />
-                      <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-inline-block d-md-none" />
-                    </template>
-                    <template #right-icon>
-                      <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-none d-lg-inline-block" />
-                      <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-inline-block d-md-none" />
-                    </template>
-                  </layoutTransform>
-                </b-col>
-                <b-col cols md="6">
-                  <b-card no-body :class="responsiveLayoutClass.card">
-                    <img src="2-tablet-md.png" alt="" :class="responsiveLayoutClass.img">
-                  </b-card>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
+      <layoutSection />
       <!-- Project Pages -->
       <b-row align-h="center" class="flex-column bg-white mb-5 py-5">
         <b-col cols="12" class="text-center mb-5 mb-md-4">
@@ -227,21 +137,17 @@
 <script>
 import { Fragment } from 'vue-fragment'
 import { BIconLayoutTextWindowReverse, BIconLayoutWtf } from "bootstrap-vue"
-import layoutTransform from "~/components/landing/layout-section"
+import layoutSection from "~/components/landing/layout-section"
 
 export default {
   components: {
     Fragment,
     BIconLayoutTextWindowReverse,
     BIconLayoutWtf,
-    layoutTransform
+    layoutSection
   },
   layout: null,
   data: () => ({
-    responsiveLayoutClass: {
-      card: 'shadow border-0',
-      img: 'w-100 rounded'
-    },
     pagesGrp: {
       grp1: [
         { src: 'overview_page.png', type: 'Dashboard Page', title: 'Overview', routeName: 'overview' },
