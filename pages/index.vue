@@ -117,39 +117,25 @@
                     <img src="1-pc-xxl.png" alt="" :class="responsiveLayoutClass.img">
                   </b-card>
                 </b-col>
-                <b-col cols md="3" class="d-flex align-items-center justify-content-around justify-content-md-center justify-content-lg-around my-4 my-md-0">
-                  <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5" class="d-none d-md-inline-block">
-                    <b-icon icon="circle-fill" variant="dark" />
-                    <b-icon icon="arrow-left-right" font-scale="0.5" shift-v="-8" shift-h="8" variant="white" />
-                  </b-iconstack>
-                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5" class="d-md-none">
-                    <b-icon icon="circle-fill" variant="dark" />
-                    <b-icon
-                      icon="arrow-left-right"
-                      font-scale="0.5"
-                      shift-v="-8"
-                      shift-h="8"
-                      variant="white"
-                      rotate="-90"
-                    />
-                  </b-iconstack>
-                  <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                <b-col cols md="3" class="d-flex align-items-center justify-content-center my-4 my-md-0">
+                  <layoutTransform class="justify-content-xl-around">
+                    <template #left-icon>
+                      <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                    </template>
+                    <template #right-icon>
+                      <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                    </template>
+                  </layoutTransform>
                 </b-col>
-                <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-around">
-                  <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5">
-                    <b-icon icon="circle-fill" variant="dark" />
-                    <b-icon
-                      icon="arrow-left-right"
-                      font-scale="0.5"
-                      shift-v="-8"
-                      shift-h="8"
-                      variant="white"
-                      rotate="-90"
-                    />
-                  </b-iconstack>
-                  <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-center">
+                  <layoutTransform class="justify-content-xl-around" :vertical="true">
+                    <template #left-icon>
+                      <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                    </template>
+                    <template #right-icon>
+                      <b-icon icon="display" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                    </template>
+                  </layoutTransform>
                 </b-col>
                 <b-col cols md="7" offset-md="1">
                   <b-card no-body :class="['d-none d-md-flex', responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-5']">
@@ -158,27 +144,20 @@
                 </b-col>
               </b-row>
             </b-col>
-            <b-col cols md="2" class="d-flex flex-column align-items-end mb-4 mb-md-1">
+            <b-col cols md="2" class="d-flex flex-column align-items-end mb-4 mb-md-0">
               <div class="mb-4 mb-md-0 w-100">
                 <b-card no-body :class="responsiveLayoutClass.card">
                   <img src="4-1-mobile-xs.png" alt="" :class="responsiveLayoutClass.img">
                 </b-card>
               </div>
-              <div class="d-flex align-items-center justify-content-around justify-content-md-center justify-content-lg-between justify-content-xl-around my-4 my-md-auto my-xl-4 w-100">
-                <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5">
-                  <b-icon icon="circle-fill" variant="dark" />
-                  <b-icon
-                    icon="arrow-left-right"
-                    font-scale="0.5"
-                    shift-v="-8"
-                    shift-h="8"
-                    variant="white"
-                    rotate="-90"
-                  />
-                </b-iconstack>
-                <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-              </div>
+              <layoutTransform class="justify-content-xl-around my-4 my-md-auto my-xl-4 w-100" :vertical="true">
+                <template #left-icon>
+                  <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                </template>
+                <template #right-icon>
+                  <b-icon icon="phone" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                </template>
+              </layoutTransform>
             </b-col>
             <b-col cols md="12">
               <b-row>
@@ -187,24 +166,17 @@
                     <img src="3-tablet-md.png" alt="" :class="responsiveLayoutClass.img">
                   </b-card>
                 </b-col>
-                <b-col cols md="2" class="d-flex align-items-center justify-content-around justify-content-md-center justify-content-lg-between py-4 mb-4 my-md-0">
-                  <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
-                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5" class="d-none d-md-inline-block">
-                    <b-icon icon="circle-fill" variant="dark" />
-                    <b-icon icon="arrow-left-right" font-scale="0.5" shift-v="-8" shift-h="8" variant="white" />
-                  </b-iconstack>
-                  <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="2.5" class="d-md-none">
-                    <b-icon icon="circle-fill" variant="dark" />
-                    <b-icon
-                      icon="arrow-left-right"
-                      font-scale="0.5"
-                      shift-v="-8"
-                      shift-h="8"
-                      variant="white"
-                      rotate="-90"
-                    />
-                  </b-iconstack>
-                  <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-md-none d-lg-inline-block" />
+                <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0">
+                  <layoutTransform class="">
+                    <template #left-icon>
+                      <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-none d-lg-inline-block" />
+                      <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-inline-block d-md-none" />
+                    </template>
+                    <template #right-icon>
+                      <b-icon icon="tablet-landscape" font-scale="1.7" variant="secondary" class="d-none d-lg-inline-block" />
+                      <b-icon icon="tablet" font-scale="1.7" variant="secondary" class="d-inline-block d-md-none" />
+                    </template>
+                  </layoutTransform>
                 </b-col>
                 <b-col cols md="6">
                   <b-card no-body :class="responsiveLayoutClass.card">
@@ -255,12 +227,14 @@
 <script>
 import { Fragment } from 'vue-fragment'
 import { BIconLayoutTextWindowReverse, BIconLayoutWtf } from "bootstrap-vue"
+import layoutTransform from "~/components/landing/layout-section"
 
 export default {
   components: {
     Fragment,
     BIconLayoutTextWindowReverse,
-    BIconLayoutWtf
+    BIconLayoutWtf,
+    layoutTransform
   },
   layout: null,
   data: () => ({
