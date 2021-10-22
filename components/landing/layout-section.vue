@@ -6,9 +6,7 @@
     <b-col cols="12" md="10">
       <b-row no-gutters class="d-flex d-md-none">
         <b-col cols>
-          <b-card no-body :class="[responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-4']">
-            Common Message Zone on mobile
-          </b-card>
+          <layoutHeader />
         </b-col>
       </b-row>
       <b-row class="">
@@ -25,10 +23,8 @@
             <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-center layoutWrapper">
               <layoutTransform class="justify-content-xl-around" left-icon="tablet" right-icon="display" :vertical="true" />
             </b-col>
-            <b-col cols md="7" offset-md="1">
-              <b-card no-body :class="['d-none d-md-flex', responsiveLayoutClass.card, 'flex-grow-1', 'p-3 my-5']">
-                Common Message Zone on md size device
-              </b-card>
+            <b-col class="d-none d-md-block" cols md="9" lg="7" offset-lg="1">
+              <layoutHeader />
             </b-col>
           </b-row>
         </b-col>
@@ -77,34 +73,39 @@
 </template>
 
 <script>
+
 import layoutTransform from "~/components/landing/ui/layout-transform"
+import layoutHeader from "~/components/landing/layout-header"
 
 export default {
   name: 'LayoutSection',
   components: {
-    layoutTransform
+    layoutTransform,
+    layoutHeader
   },
   data: () => ({
     responsiveLayoutClass: {
       card: 'shadow border-0',
       img: 'w-100 rounded'
+    },
+    iconArrowLeftRightStackProps: {
+      fontScale: 1.2,
+      class: 'my-auto mx-4'
+    },
+    iconArrowLeftRightProps: {
+      icon: 'arrow-left-right',
+      fontScale: 0.45,
+      shiftV: -10,
+      shiftH: 10,
+      variant: 'white'
     }
   })
 }
 </script>
 
 <style lang="scss" scoped>
-$layout-transfer-color: #1b4c8c; // #1b4d8d;
-$layout-device-color: #adb5bd;
-
-.layout {
-  &__device {
-    color: $layout-device-color;
-  }
-  &__transfer {
-    color: $layout-transfer-color;
-  }
-}
+$layout-transfer-color: #1b4c8c;
+$layout-device-color: #ced4da;
 
 .layoutWrapper::v-deep .layout__component {
   .layout {
@@ -116,4 +117,5 @@ $layout-device-color: #adb5bd;
     }
   }
 }
+
 </style>
