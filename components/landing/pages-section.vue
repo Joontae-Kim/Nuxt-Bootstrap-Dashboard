@@ -3,16 +3,16 @@
     <b-col cols="12" class="text-center mb-5 mb-md-4">
       <h2>Project Pages</h2>
     </b-col>
-    <b-col cols md="12" lg="11" xl="11" xxl="10">
+    <b-col cols md="12" lg="11">
       <b-row align-h="center">
         <b-col
           v-for="(page, index) in pagesGrp.grp1"
           :key="`page-group1-${index}`"
           cols
           md="6"
-          lg="4"
+          lg="6"
           xl="4"
-          class="mb-4 mb-sm-0 mb-md-4"
+          class="mb-4"
         >
           <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 rounded mb-3 pageList__ele">
           <h5 :class="titleClass">{{ page.type }}</h5>
@@ -23,9 +23,9 @@
           :key="`page-group2-${index}`"
           cols
           md="6"
-          lg="4"
+          lg="6"
           xl="4"
-          class="mb-4 mb-sm-0"
+          class="mb-4 mb-lg-0"
         >
           <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 rounded mb-3 pageList__ele">
           <h5 :class="titleClass">{{ page.type }}</h5>
