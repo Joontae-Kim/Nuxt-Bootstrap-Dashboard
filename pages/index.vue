@@ -31,120 +31,28 @@
           <p>The clean and well commented code allows easy customization of the theme.It's designed for describing your app, agency or business.</p>
         </b-col>
       </b-row>
-      <b-row class="flex-column py-5 mb-5 bg-white landingFeature">
-        <b-col class="text-center mb-5 mb-md-4" cols>
-          <h2>Featured By</h2>
-        </b-col>
-        <b-col cols class="landingFeature__body">
-          <b-row class="justify-content-md-center mb-md-4">
-            <b-col cols md="4" lg="3" class="mb-3 mb-md-0">
-              <b-card no-body class="align-items-start p-3 h-100 shadow-sm border-light">
-                <img src="~/static/nuxt_svg.svg" title="Nuxt.js" alt="Nuxt.js" height="40" class="mb-3 mb-md-auto">
-                <div class="d-flex flex-column">
-                  <h5 class="mb-1 text-dark">Nuxt.js</h5>
-                  <em class="text-secondary">Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components.</em>
-                </div>
-              </b-card>
-            </b-col>
-            <b-col cols md="4" lg="3" class="mb-3 mb-md-0">
-              <b-card no-body class="align-items-start p-3 h-100 shadow-sm border-light">
-                <img src="~/static/bootstrapVue_svg.svg" title="BootstrapVue" alt="BootstrapVue" height="40" class="mb-3">
-                <div class="d-flex flex-column">
-                  <h5 class="mb-1 text-dark">BootstrapVue</h5>
-                  <em class="text-secondary">Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components.</em>
-                </div>
-              </b-card>
-            </b-col>
-            <b-col cols md="4" lg="3" class="mb-3 mb-md-0">
-              <b-card no-body class="align-items-start p-3 h-100 shadow-sm border-light">
-                <img src="~/static/expressjs.svg" title="Express.js" alt="Express.js" height="30" class="mb-3 mb-md-auto">
-                <div class="d-flex flex-column">
-                  <h5 class="mb-1 text-dark">Express.js</h5>
-                  <em class="text-secondary">Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components.</em>
-                </div>
-              </b-card>
-            </b-col>
-          </b-row>
-          <b-row class="justify-content-md-center">
-            <b-col cols md="4" lg="3" class="mb-3 mb-md-0">
-              <b-card no-body class="align-items-start p-3 h-100 shadow-sm border-light">
-                <img src="~/static/AxiosModule_svg.svg" title="Axios Module for Nuxt.js" alt="Axios Module for Nuxt.js" height="20" class="mb-3 mb-md-auto">
-                <div class="d-flex flex-column">
-                  <h5 class="mb-1 text-dark">Axios Module for Nuxt.js</h5>
-                  <em class="text-secondary">Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components.</em>
-                </div>
-              </b-card>
-            </b-col>
-            <b-col cols md="4" lg="3" class="mb-3 mb-md-0">
-              <b-card no-body class="align-items-start p-3 h-100 shadow-sm border-light">
-                <BIconLayoutTextWindowReverse title="Layout with Sidebar and Nav" font-scale="2" variant="dark" class="mb-3" />
-                <div class="d-flex flex-column">
-                  <h5 class="mb-1 text-dark">Layout with Sidebar and Nav</h5>
-                  <em class="text-secondary">Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components.</em>
-                </div>
-              </b-card>
-            </b-col>
-            <b-col cols md="4" lg="3" class="mb-3 mb-md-0">
-              <b-card no-body class="align-items-start p-3 h-100 shadow-sm border-light">
-                <BIconLayoutWtf title="Responsive Design" font-scale="2" variant="dark" class="mb-3 mb-md-auto" />
-                <div class="d-flex flex-column">
-                  <h5 class="mb-1 text-dark">Responsive Design</h5>
-                  <em class="text-secondary">Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components.</em>
-                </div>
-              </b-card>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
+      <!-- Features -->
+      <featuresSection />
       <!-- Fully Responsive Layout -->
       <layoutSection />
       <!-- Project Pages -->
-      <b-row align-h="center" class="flex-column bg-white mb-5 py-5">
-        <b-col cols="12" class="text-center mb-5 mb-md-4">
-          <h2>Project Pages</h2>
-        </b-col>
-        <b-col cols="12">
-          <b-row align-h="center" class="mb-4">
-            <b-col
-              v-for="(page, index) in pagesGrp.grp1"
-              :key="index"
-              cols
-              md="4"
-              lg="3"
-            >
-              <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
-              <p class="text-secondary text-center mb-0">{{ page.type }}</p>
-            </b-col>
-          </b-row>
-          <b-row align-h="center">
-            <b-col
-              v-for="(page, index) in pagesGrp.grp1"
-              :key="index"
-              cols
-              md="4"
-              lg="3"
-            >
-              <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 shadow-sm rounded-sm mb-3">
-              <p class="text-secondary text-center font-weight-bold mb-0">{{ page.type }}</p>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
+      <pagesSection />
     </b-container>
   </fragment>
 </template>
 
 <script>
 import { Fragment } from 'vue-fragment'
-import { BIconLayoutTextWindowReverse, BIconLayoutWtf } from "bootstrap-vue"
 import layoutSection from "~/components/landing/layout-section"
+import pagesSection from "~/components/landing/pages-section"
+import featuresSection from "~/components/landing/features-section"
 
 export default {
   components: {
     Fragment,
-    BIconLayoutTextWindowReverse,
-    BIconLayoutWtf,
-    layoutSection
+    layoutSection,
+    pagesSection,
+    featuresSection
   },
   layout: null,
   data: () => ({
