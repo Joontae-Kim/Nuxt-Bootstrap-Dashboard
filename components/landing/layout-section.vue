@@ -3,7 +3,7 @@
     <b-col cols="12" class="text-center mb-4">
       <h2 class="mb-0">Responsive Layout & Mobile Friendly Interface</h2>
     </b-col>
-    <b-col cols="12" md="10">
+    <b-col cols="12" md="12" lg="11" xl="10">
       <b-row no-gutters class="d-flex d-md-none">
         <b-col cols>
           <layoutHeader />
