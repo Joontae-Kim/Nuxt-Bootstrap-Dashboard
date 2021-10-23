@@ -12,7 +12,7 @@
       class="landingFeature__body"
     >
       <b-row>
-        <b-col cols v-bind="featureColumns" class="mb-md-4">
+        <b-col cols v-bind="featureColumns" class="mb-4">
           <feature
             title="Nuxt.js"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
@@ -20,7 +20,7 @@
             <img src="~/static/nuxt_svg.svg" title="Nuxt.js" alt="Nuxt.js" height="40" class="mb-3 mb-md-auto">
           </feature>
         </b-col>
-        <b-col cols v-bind="featureColumns" class="mb-md-4">
+        <b-col cols v-bind="featureColumns" class="mb-4">
           <feature
             title="BootstrapVue"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
@@ -28,7 +28,7 @@
             <img src="~/static/bootstrapVue_svg.svg" title="BootstrapVue" alt="BootstrapVue" height="40" class="mb-3">
           </feature>
         </b-col>
-        <b-col cols v-bind="featureColumns" class="mb-md-4">
+        <b-col cols v-bind="featureColumns" class="mb-4">
           <feature
             title="Express.js"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
@@ -36,7 +36,7 @@
             <img src="~/static/expressjs.svg" title="Express.js" alt="Express.js" height="30" class="mb-3 mb-lg-auto">
           </feature>
         </b-col>
-        <b-col cols v-bind="featureColumns" class="mb-md-4 mb-lg-0">
+        <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0">
           <feature
             title="Axios Module for Nuxt.js"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
@@ -44,7 +44,7 @@
             <img src="~/static/AxiosModule_svg.svg" title="Axios Module for Nuxt.js" alt="Axios Module for Nuxt.js" height="20" class="mb-3 mb-lg-auto">
           </feature>
         </b-col>
-        <b-col cols v-bind="featureColumns" class="mb-lg-0">
+        <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0">
           <feature
             title="Layout with Sidebar and Nav"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
@@ -52,7 +52,7 @@
             <BIconLayoutTextWindowReverse title="Layout with Sidebar and Nav" font-scale="2" variant="dark" class="mb-3" />
           </feature>
         </b-col>
-        <b-col cols v-bind="featureColumns" class="">
+        <b-col cols v-bind="featureColumns" class="mb-sm-4 mb-lg-0">
           <feature
             title="Responsive Design"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
@@ -78,7 +78,7 @@ export default {
   },
   data: () => ({
     featureColumns: {
-      md: '6 ',
+      sm: '6',
       lg: '4',
       xl: '4'
     },
@@ -108,7 +108,7 @@ export default {
     box-shadow: 4px 0.5rem 0.25rem rgb(0 0 0 / 8%);
 
     @media (max-width: 575.98px) {
-      top: 11rem;
+      top: 7rem;
       padding: 10rem 17rem 17rem 6.5rem;
     }
 
