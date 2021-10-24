@@ -1,6 +1,6 @@
 <template>
-  <b-row align-h="center" class="flex-column align-items-center bg-white mb-5 py-5">
-    <b-col cols="12" class="text-center mb-5 mb-md-4">
+  <b-row align-h="center" class="flex-column align-items-center bg-white py-5">
+    <b-col cols="12" class="text-center mb-5">
       <h2>Project Pages</h2>
     </b-col>
     <b-col cols md="12" lg="11">
