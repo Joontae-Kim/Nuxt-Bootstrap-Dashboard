@@ -1,6 +1,6 @@
 <template>
   <b-row class="mb-5 py-5" align-h="center">
-    <b-col cols="12" class="text-center mb-4">
+    <b-col cols="12" class="text-center mb-5">
       <h2 class="mb-0">Responsive Layout & Mobile Friendly Interface</h2>
     </b-col>
     <b-col cols="12" md="12" lg="11" xl="10">

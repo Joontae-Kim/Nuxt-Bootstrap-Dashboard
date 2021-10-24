@@ -1,6 +1,6 @@
 <template>
   <b-row class="py-5 mb-5 bg-white landingFeature justify-content-center">
-    <b-col class="text-center mb-5 mb-md-4" cols="12">
+    <b-col class="text-center mb-5" cols="12">
       <h2>Featured By</h2>
     </b-col>
     <b-col
