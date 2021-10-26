@@ -1,0 +1,8 @@
+.lazyImage {
+  opacity: 0;
+  transition: opacity .3s;
+  
+  &.active {
+    opacity: 1;
+  }
+}
