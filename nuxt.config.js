@@ -66,6 +66,9 @@ export default {
   // Extend Router
   router: {
     base: processEnv.ROUTER_BASEURL,
+    scrollBehavior: (to, from, savedPosition) => {
+      return { x: 0, y: 0 }
+    },
     extendRoutes,
     middleware: [
       'checkRoute'
