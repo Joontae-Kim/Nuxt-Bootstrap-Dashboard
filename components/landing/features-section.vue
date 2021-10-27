@@ -1,9 +1,6 @@
 <template>
   <b-row id="featureSection" class="py-5 mb-5 bg-white landingFeature justify-content-center">
     <b-col class="text-center mb-5" cols="12">
-      <!-- <transition name="fade" mode="in-out">
-        <h2 v-show="isShowTitle" class="featureSection__title">Featured By</h2>
-      </transition> -->
       <h2 class="featureSection__title">Featured By</h2>
     </b-col>
     <b-col
@@ -20,15 +17,12 @@
             title="Nuxt.js"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
           >
-            <!-- src="~/static/nuxt_svg.svg" -->
             <img
-              src="~/static/nuxt_svg.svg"
               title="Nuxt.js"
               alt="Nuxt.js"
               height="40"
               class="mb-3 mb-md-auto"
               data-src="/nuxt_svg.svg"
-              data-rd-md="container"
               data-loaded="false"
             >
           </feature>
@@ -38,15 +32,12 @@
             title="BootstrapVue"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
           >
-            <!-- src="~/static/bootstrapVue_svg.svg" -->
             <img
-              src="~/static/bootstrapVue_svg.svg"
               title="BootstrapVue"
               alt="BootstrapVue"
               height="40"
               class="mb-3"
               data-src="/bootstrapVue_svg.svg"
-              data-rd-md="container"
               data-loaded="false"
             >
           </feature>
@@ -57,13 +48,11 @@
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
           >
             <img
-              src="~/static/expressjs.svg"
               title="Express.js"
               alt="Express.js"
               height="30"
               class="mb-3 mb-lg-auto"
               data-src="/expressjs.svg"
-              data-rd-md="container"
               data-loaded="false"
             >
           </feature>
@@ -73,15 +62,12 @@
             title="Axios Module for Nuxt.js"
             description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
           >
-            <!-- src="~/static/AxiosModule_svg.svg" -->
             <img
-              src="~/static/AxiosModule_svg.svg"
               title="Axios Module for Nuxt.js"
               alt="Axios Module for Nuxt.js"
               height="20"
               class="mb-3 mb-lg-auto"
               data-src="/AxiosModule_svg.svg"
-              data-rd-md="container"
               data-loaded="false"
             >
           </feature>
