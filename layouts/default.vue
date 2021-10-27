@@ -24,6 +24,7 @@
               data-src="/overview-page.png"
               data-active-container="#target"
               data-loaded="false"
+              data-rd-md="container"
               alt="overview page"
               class="shadow landingIntro__screenshot"
             >
