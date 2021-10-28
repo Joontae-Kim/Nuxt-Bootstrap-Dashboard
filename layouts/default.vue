@@ -1,7 +1,7 @@
 <template>
   <fragment>
     <BaseHeader />
-    <div :class="[loading ? 'd-flex' : 'd-none', 'align-items-center justify-content-center vh-100 vw-100 bg-light']">
+    <div :class="[loading ? 'd-flex' : 'd-none', 'align-items-center justify-content-center vh-100 vw-100 bg-light overflow-hidden']">
       Loading
     </div>
     <transition name="fade" mode="out-in">
@@ -74,12 +74,14 @@ export default {
           target.src = target.dataset.src
           target.dataset.src = ''
           if (target.dataset.loaded === 'false') {
-            const activeContainer = document.querySelector(target.dataset.activeContainer)
-            activeContainer.classList.add('active')
             target.dataset.loaded = true
+            if (target.dataset.activeContainer) {
+              const activeContainer = document.querySelector(target.dataset.activeContainer)
+              activeContainer.classList.add('active')
+            }
           }
         }
-        if (target.dataset.loaded === 'true') {
+        if (target.dataset.loaded === 'true' && !!target.dataset.activeContainer) {
           const activeContainer = document.querySelector(target.dataset.activeContainer)
           if (isIntersecting) {
             activeContainer.classList.add('active')
