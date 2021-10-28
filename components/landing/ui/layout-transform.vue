@@ -3,7 +3,7 @@
     <slot name="left-icon">
       <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="d-md-none d-lg-inline-block layout__device" />
     </slot>
-    <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="3" class="">
+    <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="3" class="layout__transferWrapper">
       <b-icon icon="circle-fill" class="layout__transfer" />
       <template v-if="!vertical">
         <b-icon
