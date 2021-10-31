@@ -1,24 +1,19 @@
 <template>
   <div class="d-flex align-items-center justify-content-around justify-content-md-center justify-content-lg-between flex-grow-1 layout__component">
     <slot name="left-icon">
-      <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="d-md-none d-lg-inline-block layout__device" />
+      <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
     </slot>
-    <b-iconstack font-scale="1.6" shift-h="-3.5" shift-v="3" class="layout__transferWrapper">
-      <b-icon icon="circle-fill" class="layout__transfer" />
-      <template v-if="!vertical">
-        <b-icon
-          v-bind="iconArrowLeftRightProps"
-          class="d-none d-md-inline-block "
-        />
-      </template>
-      <b-icon
-        v-bind="iconArrowLeftRightProps"
-        rotate="-90"
-        :class="!vertical ? 'd-md-none' : ''"
-      />
-    </b-iconstack>
+    <b-icon
+      v-bind="iconArrowLeftRightProps"
+      class="d-none d-md-inline-block"
+    />
+    <b-icon
+      v-bind="iconArrowLeftRightProps"
+      class="d-md-none"
+      rotate="-90"
+    />
     <slot name="right-icon">
-      <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="d-md-none d-lg-inline-block layout__device" />
+      <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="layout__device" />
     </slot>
   </div>
 </template>
@@ -43,13 +38,12 @@ export default {
   data: () => ({
     iconArrowLeftRightProps: {
       icon: 'arrow-left-right',
-      fontScale: 0.45,
-      shiftV: -10,
-      shiftH: 10,
-      variant: 'white'
+      fontScale: 1.2,
+      shiftV: -1,
+      class: 'layout__transfer'
     },
     iconDevice: {
-      scale: 1.5
+      scale: 1.7
     }
   })
 }
