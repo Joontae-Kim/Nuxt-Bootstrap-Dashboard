@@ -13,7 +13,7 @@
         <b-col cols md="10" class="d-flex flex-column">
           <b-row class="mb-4 h-100">
             <b-col cols md="9" class="mb-4">
-              <b-card id="responsive-lg" no-body :class="responsiveLayoutClass.card">
+              <b-card id="responsive-lg" no-body :class="[responsiveLayoutClass.card, 'left']">
                 <img
                   alt=""
                   :class="responsiveLayoutClass.img"
@@ -37,7 +37,7 @@
         </b-col>
         <b-col cols md="2" class="d-flex flex-column align-items-end mb-4 mb-md-0 layoutTranformWrapper">
           <div class="mb-4 mb-md-0 w-100">
-            <b-card id="responsive-mobile" no-body :class="responsiveLayoutClass.card">
+            <b-card id="responsive-mobile" no-body :class="[responsiveLayoutClass.card, 'right']">
               <img
                 alt=""
                 :class="responsiveLayoutClass.img"
@@ -58,7 +58,7 @@
         <b-col cols md="12">
           <b-row>
             <b-col cols md="4" class="mb-4 mb-md-0">
-              <b-card id="responsive-tablet" no-body :class="responsiveLayoutClass.card">
+              <b-card id="responsive-tablet" no-body :class="[responsiveLayoutClass.card, 'left']">
                 <img
                   alt=""
                   :class="responsiveLayoutClass.img"
@@ -82,7 +82,7 @@
               </layoutTransform>
             </b-col>
             <b-col cols md="6">
-              <b-card id="responsive-tablet-landscape" no-body :class="responsiveLayoutClass.card">
+              <b-card id="responsive-tablet-landscape" no-body :class="[responsiveLayoutClass.card, 'right']">
                 <img
                   alt=""
                   :class="responsiveLayoutClass.img"
@@ -113,8 +113,7 @@ export default {
   },
   data: () => ({
     responsiveLayoutClass: {
-      // shadow border-0
-      card: 'layoutDeviceWrapper border-0',
+      card: 'layoutDeviceWrapper',
       img: 'w-100 rounded'
     },
     iconArrowLeftRightStackProps: {
@@ -134,7 +133,7 @@ export default {
   }),
   created () {},
   mounted () {
-    // this.layoutImags = document.querySelectorAll('#layoutSection img')
+    this.layoutImags = document.querySelectorAll('#layoutSection img')
     this.observeLayoutSection()
     this.observeLayoutImgs()
     this.observeTransforms()
@@ -144,7 +143,7 @@ export default {
       const fsection = document.getElementById('layoutSection')
       this.LSObserver = new IntersectionObserver(
         this.onLayoutSectionObserved,
-        { rootMargin: '50px 0px', threshold: 0 }
+        { rootMargin: '70px 0px', threshold: 0 }
       )
       this.LSObserver.observe(fsection)
     },
@@ -155,58 +154,45 @@ export default {
           layoutImags.forEach((img) => {
             img.src = img.dataset.src
             img.removeAttribute('data-src')
-            setTimeout(() => {
-              const imgContainer = document.querySelector(img.dataset.activeTarget)
-              img.dataset.loaded = true
-              imgContainer.dataset.loaded = true
-            }, 500)
+            img.dataset.loaded = true
+            const imgContainer = document.querySelector(img.dataset.activeTarget)
+            imgContainer.dataset.loaded = true
           })
           observer.unobserve(target)
         }
       })
     },
     observeLayoutImgs () {
-      const layoutImagsWrapperObserver = document.querySelectorAll('.layoutDeviceWrapper')
+      const layoutImagsWrapperObserver = document.querySelectorAll('.layoutDeviceWrapper img')
       this.layoutImagsObserver = new IntersectionObserver(
         this.onLayoutImgsHandler,
-        { rootMargin: '-30px', threshold: 0.5 }
+        { rootMargin: '0px', threshold: 0.5 }
       )
       layoutImagsWrapperObserver.forEach(wrapper => this.layoutImagsObserver.observe(wrapper))
     },
     onLayoutImgsHandler (entries, observer) {
-      console.log(`onTransformElehandler ~ `)
-      // console.log(` ~ `)
       entries.forEach(({ target, isIntersecting }) => {
         if (isIntersecting) {
-          console.log(` ~ isIntersecting => ${isIntersecting}`)
-          console.log(` ~ target => `, target)
-          target.classList.add('active')
-        } else {
-          target.classList.remove('active')
+          const imgContainer = document.querySelector(target.dataset.activeTarget)
+          imgContainer.classList.add('active')
+          observer.unobserve(target)
         }
       })
     },
     observeTransforms () {
-      const transfers = document.querySelectorAll('.layoutTranformWrapper .layout__component')
+      const transfers = document.querySelectorAll('.layout__component')
+      console.log(` ~ transfers => `, transfers)
       this.TransderObserver = new IntersectionObserver(
         this.onTransformsHandler,
-        { rootMargin: '-50px 0px', threshold: 1 }
+        { rootMargin: '0px', threshold: 1 }
       )
       transfers.forEach(transfer => this.TransderObserver.observe(transfer))
     },
     onTransformsHandler (entries, observer) {
-      console.log('onTransformElehandler ~ ')
       entries.forEach(({ target, isIntersecting }) => {
-        // console.log(` ~ `)
-        console.log(` ~ target => `, target)
-        console.log(` ~ isIntersecting => `, isIntersecting)
         if (isIntersecting) {
           target.classList.add('active')
-          if (!target.dataset.loaded) {
-            target.dataset.loaded = 'loaded'
-          }
-        } else {
-          target.classList.remove('active')
+          observer.unobserve(target)
         }
       })
     }
@@ -215,91 +201,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// $layout-transfer-color: #1b4c8c;
-$layout-transfer-color: #6a99d7;
-$layout-transfer-color-hover: #145DBB;
-$layout-device-color: #ced4da;
-$layout-device-color-hover: #343a40;
+@use "sass:map";
+
+$layout-device-color: #adb5bd;
+$layout-transfer-color: #adb5bd;
+$layout-transfer-color-observed-0: #495057;
+$layout-transfer-color-observed-1: #343a40;
 
 .layoutDeviceWrapper {
-  // transition-property: opacity, box-shadow;
-  // transition-duration: .1s;
-  transition: opacity .4s;
-
+  transition: opacity .3s ease-in-out, transform 500ms ease-in-out 25ms;
   &[data-loaded="false"] {
     opacity: 0;
   }
 
   &[data-loaded="true"] {
-    opacity: 1;
-    transition: box-shadow, opacity .3s;
-    // transition-delay: .3s;
-
     &:not(.active) {
-      opacity: .7;
-      box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
-      border: 1px solid #f1f1ff !important;
+      opacity: 0;
+      box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 15%);
+      &.right {
+        transform: translateX(7rem);
+      }
+      &.left {
+        transform: translateX(-7rem);
+      }
     }
 
     &.active {
       opacity: 1;
       box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
-      // border: 0px solid;
+      transform: translateX(0rem);
     }
   }
 }
 
 .layoutTranformWrapper::v-deep .layout__component {
-  transition-property: opacity;
-  transition-duration: 0.5s;
-  transition-delay: 1s;
+  transition: opacity .5s ease-in-out .5s;
 
-  &:not([data-loaded="loaded"]) {
+  &:not(.active) {
     opacity: 0;
   }
 
-  &[data-loaded="loaded"] {
+  &.active {
     opacity: 1;
-
-    .layout__device,
-    .layout__transfer {
-      transition-property: color;
-      transition-delay: 0.5s;
-      transition-duration: 0.3s;
-    }
-
-    .layout__transferWrapper {
-      transition-property: box-shadow;
-      transition-delay: 0.5s;
-      transition-duration: 0.3s;
-    }
   }
 
-  &[data-loaded="loaded"]:not(.active) {
-    .layout {
-      &__device {
-        color: $layout-device-color;
-      }
-
-      &__transfer {
-        color: $layout-transfer-color;
-      }
-    }
+  .layout__device {
+    color: $layout-device-color;
   }
 
-  &[data-loaded="loaded"].active {
-    .layout {
-      &__device {
-        color: $layout-device-color-hover;
-      }
-
-      &__transferWrapper {
-        box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
-      }
-
-      &__transfer {
-        color: $layout-transfer-color-hover;
-      }
+  .layout__transfer {
+    &:not(.observed) {
+      color: $layout-transfer-color;
+    }
+    &.observed {
+      color: $layout-transfer-color-observed-1;
     }
   }
 }
