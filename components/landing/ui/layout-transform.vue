@@ -3,7 +3,7 @@
     <slot name="left-icon">
       <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
     </slot>
-    <b-icon
+    <!-- <b-icon
       v-bind="iconArrowLeftRightProps"
       class="d-none d-md-inline-block"
     />
@@ -11,6 +11,17 @@
       v-bind="iconArrowLeftRightProps"
       class="d-md-none"
       rotate="-90"
+    /> -->
+    <template v-if="!vertical">
+      <b-icon
+        v-bind="iconArrowLeftRightProps"
+        class="d-none d-md-inline-block layout__transfer"
+      />
+    </template>
+    <b-icon
+      v-bind="iconArrowLeftRightProps"
+      rotate="-90"
+      :class="[!vertical ? 'd-md-none' : '', 'layout__transfer']"
     />
     <slot name="right-icon">
       <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="layout__device" />
@@ -38,9 +49,8 @@ export default {
   data: () => ({
     iconArrowLeftRightProps: {
       icon: 'arrow-left-right',
-      fontScale: 1.2,
-      shiftV: -1,
-      class: 'layout__transfer'
+      fontScale: 1.0,
+      shiftV: -1
     },
     iconDevice: {
       scale: 1.7
