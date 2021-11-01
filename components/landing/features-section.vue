@@ -1,7 +1,8 @@
 <template>
-  <b-row id="featureSection" class="py-5 mb-5 bg-white landingFeature justify-content-center">
+  <b-row id="featureSection" class="pt-5 pb-sm-5 mb-5 bg-white landingFeature justify-content-center">
     <b-col class="text-center mb-5" cols="12">
-      <h2 class="featureSection__title">Featured By</h2>
+      <h2 class="d-none d-sm-block">Featured By</h2>
+      <h2 class="d-sm-none text-white">Featured By</h2>
     </b-col>
     <b-col
       cols="12"
@@ -126,7 +127,7 @@ export default {
       const fsection = document.getElementById('featureSection')
       this.FSObserver = new IntersectionObserver(
         this.onFTSectionObserved,
-        { rootMargin: '50px 0px', threshold: 0 }
+        { rootMargin: '0px', threshold: 0.5 }
       )
       this.FSObserver.observe(fsection)
     },
@@ -134,19 +135,15 @@ export default {
       entries.forEach(({ target, isIntersecting }) => {
         if (isIntersecting) {
           target.classList.add('active')
-        } else {
-          target.classList.remove('active')
+          observer.unobserve(target)
         }
       })
-    },
-    observeFeatureEle () {}
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-$transition-time-featureSection: 0.5s;
-
 .landingFeature {
   position: relative;
   overflow: hidden;
@@ -160,38 +157,52 @@ $transition-time-featureSection: 0.5s;
     position: absolute;
     content: " ";
     padding: 0;
-    transition-property: padding;
-    transition-delay: $transition-time-featureSection;
-    transition-duration: $transition-time-featureSection;
-    transition-timing-function: ease-in-out;
+    @media (min-width: 576px) {
+      transition: padding 0.5s ease-in-out 0.7s;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    &::before {
+      transition: padding 0.5s ease-in-out;
+    }
+    &::after {
+      transition: padding 0.5s ease-in-out 1.5s;
+    }
   }
 
   &::before {
-    background: linear-gradient(135deg, #153D77, #2F70AF);
-    border-radius: 0 0 30rem 0;
+    top: 0;
     left: 0;
+    border-radius: 0 0 30rem 0;
     box-shadow: 4px 0.5rem 0.25rem rgb(0 0 0 / 8%);
     @media (max-width: 575.98px) {
-      top: 7rem;
+      background: linear-gradient(180deg, #153D77, #2F70AF);
     }
 
     @media (min-width: 576px) {
-      top: 0rem;
+      background: linear-gradient(135deg, #153D77, #2F70AF);
     }
   }
 
   &::after {
-    background: linear-gradient(135deg, #2F70AF, #153D77);
-    border-radius: 30rem 0 0 0;
     right: 0;
+    bottom: 0;
+    border-radius: 30rem 0 0 0;
     box-shadow: -4px -0.5rem 0.25rem rgb(0 0 0 / 8%);
-    bottom: 0rem;
+    @media (max-width: 575.98px) {
+      background: linear-gradient(180deg, #2F70AF, #153D77);
+    }
+
+    @media (min-width: 576px) {
+      background: linear-gradient(135deg, #2F70AF, #153D77);
+    }
   }
 
   &.active {
     &::before {
       @media (max-width: 575.98px) {
-        padding: 10rem 17rem 17rem 6.5rem;
+        padding: 25rem 17rem 17rem 6.5rem;
       }
 
       @media (min-width: 576px) and (max-width: 991.98px) {
@@ -205,7 +216,7 @@ $transition-time-featureSection: 0.5s;
 
     &::after {
       @media (max-width: 575.98px) {
-        padding: 10rem 13.5rem 10rem 10rem;
+        padding: 17rem 13.5rem 25rem 10rem;
       }
 
       @media (min-width: 576px) and (max-width: 991.98px) {
@@ -220,17 +231,17 @@ $transition-time-featureSection: 0.5s;
 }
 
 .featureEle {
-  transition-property: opacity,;
-  transition-delay: $transition-time-featureSection * 1.3;
-  transition-duration: $transition-time-featureSection + 0.5ms;
+  transition: opacity 0.5s ease-in-out;
   margin-bottom: 3.5rem;
 }
 
-.landingFeature:not(.active) .featureEle {
-  opacity: 0.3;
-}
+.landingFeature {
+  &:not(.active) .featureEle {
+    opacity: 0;
+  }
 
-.landingFeature.active .featureEle {
-  opacity: 1;
+  .active .featureEle {
+    opacity: 1;
+  }
 }
 </style>

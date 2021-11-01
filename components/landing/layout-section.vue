@@ -195,8 +195,6 @@ export default {
           }
           target.classList.add('observed')
           observer.unobserve(target)
-        } else {
-          target.classList.remove('observed')
         }
       })
     }
@@ -209,8 +207,7 @@ export default {
 
 $layout-device-color: #adb5bd;
 $layout-transfer-color: #adb5bd;
-$layout-transfer-color-observed-0: #7c7c7c; // #495057;
-$layout-transfer-color-observed-1: #343a40;
+$layout-transfer-color-observed: #343a40;
 
 .layoutDeviceWrapper {
   transition: opacity .3s ease-in-out, transform 500ms ease-in-out 25ms;
@@ -298,7 +295,7 @@ $layout-transfer-color-observed-1: #343a40;
       @media (max-width: 575.98px) {
         font-size: 140% !important;
       }
-      color: $layout-transfer-color-observed-1;
+      color: $layout-transfer-color-observed;
     }
   }
 }
