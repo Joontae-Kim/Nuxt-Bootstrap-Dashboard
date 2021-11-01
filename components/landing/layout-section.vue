@@ -181,7 +181,6 @@ export default {
     },
     observeTransforms () {
       const transfers = document.querySelectorAll('.layout__component')
-      console.log(` ~ transfers => `, transfers)
       this.TransderObserver = new IntersectionObserver(
         this.onTransformsHandler,
         { rootMargin: '0px', threshold: 1 }
@@ -191,8 +190,13 @@ export default {
     onTransformsHandler (entries, observer) {
       entries.forEach(({ target, isIntersecting }) => {
         if (isIntersecting) {
-          target.classList.add('active')
+          if (!target.classList.contains('active')) {
+            target.classList.add('active')
+          }
+          target.classList.add('observed')
           observer.unobserve(target)
+        } else {
+          target.classList.remove('observed')
         }
       })
     }
@@ -205,7 +209,7 @@ export default {
 
 $layout-device-color: #adb5bd;
 $layout-transfer-color: #adb5bd;
-$layout-transfer-color-observed-0: #495057;
+$layout-transfer-color-observed-0: #7c7c7c; // #495057;
 $layout-transfer-color-observed-1: #343a40;
 
 .layoutDeviceWrapper {
@@ -245,15 +249,55 @@ $layout-transfer-color-observed-1: #343a40;
     opacity: 1;
   }
 
+  $layout__ele-common-transition: .5s ease-in-out;
   .layout__device {
-    color: $layout-device-color;
+    @media (max-width: 575.98px) {
+      transition: border-radius, background, color .3s ease-in-out .3s,
+        font-size, padding, box-shadow #{$layout__ele-common-transition} .5s;
+    }
+    @media (min-width: 576px) {
+      transition: color 0.1s ease-in-out,
+        border-radius, font-size 0.3s ease-in-out,
+        padding, background, box-shadow #{$layout__ele-common-transition} 0.5s;
+    }
   }
 
   .layout__transfer {
-    &:not(.observed) {
+    transition: font-size, color #{$layout__ele-common-transition} 0.3s;
+  }
+
+  &:not(.observed) {
+    .layout__device {
+      color: $layout-device-color;
+    }
+
+    .layout__transfer {
       color: $layout-transfer-color;
     }
-    &.observed {
+  }
+
+  &.observed {
+    .layout__device {
+      color: #ffffff !important;
+      background: linear-gradient(135deg, #153D77, #2F70AF);
+      border-radius: 25px;
+      box-shadow: 0 0.125rem 0.25rem #ced4da;
+
+      @media (max-width: 575.98px) {
+        font-size: 300% !important;
+        padding: 0.70rem;
+      }
+
+      @media (min-width: 576px) {
+        font-size: 250% !important;
+        padding: 0.55rem;
+      }
+    }
+
+    .layout__transfer {
+      @media (max-width: 575.98px) {
+        font-size: 140% !important;
+      }
       color: $layout-transfer-color-observed-1;
     }
   }
