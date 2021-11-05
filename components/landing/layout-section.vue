@@ -20,7 +20,6 @@
                   data-src="/1-pc-xxl.png"
                   data-loaded="false"
                   data-active-target="#responsive-lg"
-                  data-rd-md="container"
                 >
               </b-card>
             </b-col>
@@ -44,7 +43,6 @@
                 data-src="/4-1-mobile-xs.png"
                 data-loaded="false"
                 data-active-target="#responsive-mobile"
-                data-rd-md="container"
               >
             </b-card>
           </div>
@@ -65,7 +63,6 @@
                   data-src="3-tablet-md.png"
                   data-loaded="false"
                   data-active-target="#responsive-tablet"
-                  data-rd-md="container"
                 >
               </b-card>
             </b-col>
@@ -89,7 +86,6 @@
                   data-src="2-tablet-md.png"
                   data-loaded="false"
                   data-active-target="#responsive-tablet-landscape"
-                  data-rd-md="container"
                 >
               </b-card>
             </b-col>
@@ -116,57 +112,28 @@ export default {
       card: 'layoutDeviceWrapper',
       img: 'w-100 rounded'
     },
-    iconArrowLeftRightStackProps: {
-      fontScale: 1.2,
-      class: 'my-auto mx-4'
-    },
-    iconArrowLeftRightProps: {
-      icon: 'arrow-left-right',
-      fontScale: 0.45,
-      shiftV: -10,
-      shiftH: 10,
-      variant: 'white'
-    },
     LSObserver: null,
     TransderObserver: null,
     layoutImagsWrapperObserver: null
   }),
+  computed: {
+    observeLayoutImgsConfig () {
+      return window.innerWidth > 576
+        ? { rootMargin: '0px', threshold: 0.3 }
+        : { rootMargin: '30px', threshold: [0, 0.3] }
+    }
+  },
   created () {},
   mounted () {
-    this.layoutImags = document.querySelectorAll('#layoutSection img')
-    this.observeLayoutSection()
     this.observeLayoutImgs()
     this.observeTransforms()
   },
   methods: {
-    observeLayoutSection () {
-      const fsection = document.getElementById('layoutSection')
-      this.LSObserver = new IntersectionObserver(
-        this.onLayoutSectionObserved,
-        { rootMargin: '70px 0px', threshold: 0 }
-      )
-      this.LSObserver.observe(fsection)
-    },
-    onLayoutSectionObserved (entries, observer) {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          const layoutImags = document.querySelectorAll('#layoutSection img')
-          layoutImags.forEach((img) => {
-            img.src = img.dataset.src
-            img.removeAttribute('data-src')
-            img.dataset.loaded = true
-            const imgContainer = document.querySelector(img.dataset.activeTarget)
-            imgContainer.dataset.loaded = true
-          })
-          observer.unobserve(target)
-        }
-      })
-    },
     observeLayoutImgs () {
       const layoutImagsWrapperObserver = document.querySelectorAll('.layoutDeviceWrapper img')
       this.layoutImagsObserver = new IntersectionObserver(
         this.onLayoutImgsHandler,
-        { rootMargin: '0px', threshold: 0.5 }
+        this.observeLayoutImgsConfig
       )
       layoutImagsWrapperObserver.forEach(wrapper => this.layoutImagsObserver.observe(wrapper))
     },
@@ -210,15 +177,19 @@ $layout-transfer-color: #adb5bd;
 $layout-transfer-color-observed: #343a40;
 
 .layoutDeviceWrapper {
-  transition: opacity .3s ease-in-out, transform 500ms ease-in-out 25ms;
+  transition: opacity 0.3s ease-in-out 1s, transform 1s ease-in-out 1s;
   &[data-loaded="false"] {
     opacity: 0;
   }
 
-  &[data-loaded="true"] {
-    &:not(.active) {
-      opacity: 0;
-      box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 15%);
+  &:not(.active) {
+    opacity: 0;
+    box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 15%);
+    @media (max-width: 575.98px) {
+      transform: translateY(1.5rem);
+    }
+
+    @media (min-width: 576px) {
       &.right {
         transform: translateX(7rem);
       }
@@ -226,10 +197,15 @@ $layout-transfer-color-observed: #343a40;
         transform: translateX(-7rem);
       }
     }
+  }
 
-    &.active {
-      opacity: 1;
-      box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  &.active {
+    opacity: 1;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+    @media (max-width: 575.98px) {
+      transform: translateY(0rem);
+    }
+    @media (min-width: 576px) {
       transform: translateX(0rem);
     }
   }
