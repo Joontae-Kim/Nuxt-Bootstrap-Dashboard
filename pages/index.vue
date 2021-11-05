@@ -57,7 +57,6 @@ export default {
   methods: {
     observeImgHandler () {
       const images = document.querySelectorAll('img:not([data-rd-md="container"])')
-      console.log('images: ', images)
       this.imagesObserver = new IntersectionObserver(
         this.onImgElementsObserved,
         { rootMargin: '0px', threshold: 0 }
