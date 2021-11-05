@@ -3,15 +3,6 @@
     <slot name="left-icon">
       <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
     </slot>
-    <!-- <b-icon
-      v-bind="iconArrowLeftRightProps"
-      class="d-none d-md-inline-block"
-    />
-    <b-icon
-      v-bind="iconArrowLeftRightProps"
-      class="d-md-none"
-      rotate="-90"
-    /> -->
     <template v-if="!vertical">
       <b-icon
         v-bind="iconArrowLeftRightProps"
