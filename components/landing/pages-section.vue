@@ -12,9 +12,16 @@
           md="6"
           lg="6"
           xl="4"
-          class="mb-4"
+          class="mb-4 pageList__ele"
+          name="project-pages"
         >
-          <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 rounded mb-3 pageList__ele">
+          <img
+            :title="page.title"
+            :alt="page.title"
+            class="w-100 rounded mb-3 pageList__img"
+            :data-src="page.src"
+            data-loaded="false"
+          >
           <h5 :class="titleClass">{{ page.type }}</h5>
           <p :class="subtitleClass">{{ page.title }}</p>
         </b-col>
@@ -25,9 +32,16 @@
           md="6"
           lg="6"
           xl="4"
-          class="mb-4 mb-lg-0"
+          class="mb-4 mb-lg-0 pageList__ele"
+          name="project-pages"
         >
-          <img :src="page.src" :title="page.title" :alt="page.title" class="w-100 rounded mb-3 pageList__ele">
+          <img
+            :title="page.title"
+            :alt="page.title"
+            class="w-100 rounded mb-3 pageList__img"
+            :data-src="page.src"
+            data-loaded="false"
+          >
           <h5 :class="titleClass">{{ page.type }}</h5>
           <p :class="subtitleClass">{{ page.title }}</p>
         </b-col>
@@ -54,19 +68,41 @@ export default {
         { src: '404_page.png', type: 'Utility Page', title: '404 Page', routeName: 'notFound' }
       ]
     }
-  })
+  }),
+  mounted () {
+    this.observePagesImgs()
+  },
+  methods: {
+    observePagesImgs () {
+      const projectImages = document.querySelectorAll('[name="project-pages"]')
+      const PSObserver = new IntersectionObserver(
+        this.onPageImgObserved,
+        { rootMargin: '30px 0px', threshold: 0 }
+      )
+      projectImages.forEach((img) => {
+        PSObserver.observe(img)
+      })
+    },
+    onPageImgObserved (entries, observer) {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) {
+          target.classList.add('active')
+          observer.unobserve(target)
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .pageList {
   &__ele {
-    border: 1px solid white;
-    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
-    transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
-    &:hover {
-      border-color: #dee2e6 !important;
-      box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+    opacity: 0;
+    transition: opacity .3s ease-in-out .3s;
+
+    &.active {
+      opacity: 1;
     }
   }
 
@@ -78,4 +114,18 @@ export default {
     color: #adb5bd;
   }
 }
+
+.pageList__ele .pageList__img {
+  transition: border, box-shadow .3s ease-in-out;
+  border: 1px solid white;
+}
+
+.pageList__ele.active .pageList__img.active {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+  &:hover {
+    border: 1px solid #dee2e6;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
+  }
+}
+
 </style>
