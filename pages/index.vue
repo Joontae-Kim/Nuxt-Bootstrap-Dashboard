@@ -47,24 +47,16 @@ export default {
     },
     imagesObserver: null
   }),
-  // async created () {
-  //   // await this.callAPITest()
-  // },
   created () {},
   mounted () {
-    // this.observeImgHandler()
-    // this.$nuxt.$emit('pageLoading', false)
-    // setTimeout(() => {
-    //   this.$nuxt.$emit('pageLoading', false)
-    // }, 2000)
+    this.observeImgHandler()
   },
   beforeDestroy () {
-    // this.imagesObserver.disconnect()
-    // this.headerObserver.disconnect()
+    this.imagesObserver.disconnect()
   },
   methods: {
     observeImgHandler () {
-      const images = document.getElementsByTagName('img')
+      const images = document.querySelectorAll('img:not([data-rd-md="container"])')
       console.log('images: ', images)
       this.imagesObserver = new IntersectionObserver(
         this.onImgElementsObserved,
@@ -77,12 +69,7 @@ export default {
       })
     },
     onImgElementsObserved (entries, observer) {
-      console.log(`onHeaderElementObserved ~ `)
-      // console.log(` ~ `)
       entries.forEach(({ target, isIntersecting }) => {
-        console.log(` ~ isIntersecting => `, isIntersecting)
-        console.log(` ~ target => `, target)
-        console.log(` ~ target.dataset => `, target.dataset)
         if (target.dataset.src && isIntersecting) {
           target.src = target.dataset.src
           setTimeout(() => {
@@ -93,9 +80,10 @@ export default {
               target.classList.add('active')
             }
             observer.unobserve(target)
+            target.dataset.src = ''
+            target.dataset.loaded = true
           }, 1000)
         }
-        console.log(`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`)
       })
     }
   }
