@@ -59,7 +59,7 @@ export default {
       const images = document.querySelectorAll('img:not([data-rd-md="container"])')
       this.imagesObserver = new IntersectionObserver(
         this.onImgElementsObserved,
-        { rootMargin: '0px', threshold: 0 }
+        { rootMargin: '50px 0px', threshold: 0.5 }
       )
       images.forEach((img) => {
         if (img.dataset.lazy !== 'false') {
@@ -78,9 +78,9 @@ export default {
             } else {
               target.classList.add('active')
             }
-            observer.unobserve(target)
-            target.dataset.src = ''
+            target.removeAttribute('data-src')
             target.dataset.loaded = true
+            observer.unobserve(target)
           }, 1000)
         }
       })
