@@ -77,7 +77,7 @@ export default {
       const projectImages = document.querySelectorAll('[name="project-pages"]')
       const PSObserver = new IntersectionObserver(
         this.onPageImgObserved,
-        { rootMargin: '30px 0px', threshold: 0 }
+        { rootMargin: '30px 0px', threshold: 0.5 }
       )
       projectImages.forEach((img) => {
         PSObserver.observe(img)
