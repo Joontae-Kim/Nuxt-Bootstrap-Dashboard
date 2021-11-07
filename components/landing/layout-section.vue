@@ -24,12 +24,17 @@
               </b-card>
             </b-col>
             <b-col cols md="3" class="d-flex align-items-center justify-content-center my-4 my-md-0 layoutTranformWrapper">
-              <layoutTransform class="justify-content-xl-around" left-icon="display" right-icon="phone" />
+              <layoutTransform class="flex-md-column-reverse justify-content-sm-around" left-icon="phone" right-icon="display" />
             </b-col>
             <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-center layoutTranformWrapper">
-              <layoutTransform class="justify-content-xl-around" left-icon="tablet" right-icon="display" :vertical="true" />
+              <layoutTransform
+                class="flex-sm-column-reverse justify-content-lg-between justify-content-xl-around"
+                left-icon="tablet"
+                right-icon="display"
+                :vertical="true"
+              />
             </b-col>
-            <b-col class="d-none d-md-block" cols md="9" lg="7" offset-lg="1">
+            <b-col class="d-none d-md-block mx-md-auto" cols md="8" lg="7" offset-lg="1">
               <layoutHeader />
             </b-col>
           </b-row>
@@ -46,9 +51,9 @@
               >
             </b-card>
           </div>
-          <layoutTransform class="my-4 my-md-auto my-xl-4 w-100" right-icon="phone" :vertical="true">
+          <layoutTransform class="flex-md-column-reverse justify-content-lg-between my-4 my-md-auto my-xl-4 w-100" right-icon="phone" :vertical="true">
             <template #left-icon>
-              <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
+              <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-md-inline-block layout__device" />
               <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-md-none layout__device" />
             </template>
           </layoutTransform>
@@ -67,14 +72,14 @@
               </b-card>
             </b-col>
             <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0 layoutTranformWrapper">
-              <layoutTransform>
+              <layoutTransform class="flex-sm-column-reverse justify-content-lg-between">
                 <template #left-icon>
                   <b-icon icon="tablet" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
-                  <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-md-none layout__device" />
+                  <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
                 </template>
                 <template #right-icon>
                   <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
-                  <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-md-none layout__device" />
+                  <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
                 </template>
               </layoutTransform>
             </b-col>

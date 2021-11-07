@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-items-center justify-content-around justify-content-md-center justify-content-lg-between flex-grow-1 layout__component">
+  <div class="d-flex flex-lg-row align-items-center justify-content-around justify-content-sm-around flex-grow-1 h-sm-100 h-lg-auto layout__component">
     <slot name="left-icon">
       <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
     </slot>
