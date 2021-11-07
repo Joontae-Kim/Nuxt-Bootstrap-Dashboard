@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body :class="['d-flex', 'align-items-center', 'p-4 py-md-3 px-3 mb-5 my-md-5', 'shadow-lg border-0', 'layoutGuide']">
+  <b-card no-body :class="['d-flex', 'align-items-center', 'p-4 py-md-3 px-3 mb-5 my-md-3 my-lg-4', 'shadow-lg border-0', 'layoutGuide']">
     <h3 class="d-none d-xl-block text-white mt-2 mb-0">Fully Responsive & Flexible Layout</h3>
     <h4 class="d-xl-none text-light mb-4 mb-xl-0">Responsive & Flexible Layout</h4>
     <div class="d-flex align-items-center justify-content-around justify-content-md-between mb-4 mb-lg-4 my-xl-5">
