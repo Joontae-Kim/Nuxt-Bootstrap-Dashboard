@@ -7,9 +7,8 @@
     <b-navbar-toggle target="nav-collapse" />
 
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item :to="{ name: 'signin' }" title="Sign In">Sign In</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -31,8 +30,9 @@
 </template>
 
 <script>
-export default {
 
+export default {
+  name: 'Nav'
 }
 </script>
 
