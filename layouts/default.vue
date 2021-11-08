@@ -1,6 +1,6 @@
 <template>
   <fragment>
-    <BaseHeader />
+    <BaseNav />
     <main>
       <b-row id="header" :class="['mx-0 landingIntro', { loaded }]">
         <b-col
