@@ -5,10 +5,10 @@
       <b-row id="header" :class="['mx-0 landingIntro', { loaded }]">
         <b-col
           cols="12"
-          v-bind="loaded ? {md: 7, lg: 6} : {md: 12}"
+          v-bind="loaded ? {md: 6, lg: 6} : {md: 12}"
           :class="['align-self-center text-white pt-4 pb-5 py-sm-0 landingIntro__content', { loaded }]"
         >
-          <h1 class="landingIntro__heading mb-4">
+          <h1 class="landingIntro__heading">
             <span class="font-weight-light">Welcome to</span>
             <span class="landingIntro__service">Nuxtrap</span>
             <span class="font-weight-light">.</span>
@@ -22,7 +22,7 @@
         <template v-if="imgloaded.status">
           <b-col
             cols="12"
-            v-bind="imgloaded.status ? {md: 5, lg: 6} : {md: 12}"
+            v-bind="imgloaded.status ? {md: 6, lg: 6} : {md: 12}"
             :class="['landingIntro__img', imgloaded.class]"
           >
             <img
