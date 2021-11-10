@@ -8,10 +8,16 @@
           v-bind="loaded ? {md: 7, lg: 6} : {md: 12}"
           :class="['align-self-center text-white pt-4 pb-5 py-sm-0 landingIntro__content', { loaded }]"
         >
-          <h1 class="">It's Nuxt Dashboard Propject</h1>
-          <h3 class="font-weight-light mb-1">
-            with Bootstrap and BootstrapVue
-          </h3>
+          <h1 class="landingIntro__heading mb-4">
+            <span class="font-weight-light">Welcome to</span>
+            <span class="landingIntro__service">Nuxtrap</span>
+            <span class="font-weight-light">.</span>
+          </h1>
+          <div class="d-none d-md-block text-light">
+            <h3 class="font-weight-light mb-1 landingIntro__description">Developed Admin Dashboard Propject</h3>
+            <h3 class="font-weight-light mb-2 mb-md-0 landingIntro__description">with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
+          </div>
+          <h3 class="d-block d-md-none font-weight-light text-light mb-2 mb-md-0 landingIntro__description" style="">Developed Admin Dashboard Propject with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
         </b-col>
         <template v-if="imgloaded.status">
           <b-col
@@ -182,6 +188,30 @@ export default {
       }
     }
   }
+}
+
+.landingIntro__heading {
+  margin-bottom: 2.5rem;
+  @media (max-width: 1199.98px) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 3.5rem;
+  }
+}
+
+.landingIntro__service {
+  color: #5c8fc3;
+  border-bottom: 5px solid;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  padding-bottom: 3px;
+}
+
+.landingIntro__description {
+  color: #e1e1e1;
+  font-size: 1.25rem !important;
 }
 
 .landingText {
