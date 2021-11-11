@@ -1,8 +1,11 @@
 <template>
   <b-row id="featureSection" class="pt-5 pb-sm-5 mb-5 bg-white landingFeature justify-content-center">
-    <b-col class="text-center mb-5" cols="12">
-      <h2 class="d-none d-sm-block">Featured By</h2>
-      <h2 class="d-sm-none text-white">Featured By</h2>
+    <b-col class="text-center text-dark mb-5" cols="12">
+      <!-- <div class="fs-2 text-dark">
+        Developed <span class="font-weight-bold mx-2">"Nuxtrap"</span> with ...
+      </div> -->
+      <h2 class="d-none d-sm-block">Developed Nuxtrap with ...</h2>
+      <h2 class="d-sm-none text-white">Developed Nuxtrap with ...</h2>
     </b-col>
     <b-col
       cols="12"
@@ -16,7 +19,7 @@
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--1">
           <feature
             title="Nuxt.js"
-            description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
+            description="Nuxt.js is a free and open source web application framework based on Vue.js, Node.js, Webpack and Babel.js."
           >
             <img
               title="Nuxt.js"
@@ -31,7 +34,7 @@
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--2">
           <feature
             title="BootstrapVue"
-            description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
+            description="BootstrapVue provides one of the most comprehensive implementations of the Bootstrap v4 component and grid system available for Vue.js v2.6."
           >
             <img
               title="BootstrapVue"
@@ -46,7 +49,7 @@
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--3">
           <feature
             title="Express.js"
-            description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
+            description="the most popular Node web framework, and is the underlying library for a number of other popular Node web frameworks."
           >
             <img
               title="Express.js"
@@ -61,13 +64,13 @@
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--1">
           <feature
             title="Axios Module for Nuxt.js"
-            description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
+            description="Secure and easy Axios integration for Nuxt."
           >
             <img
               title="Axios Module for Nuxt.js"
               alt="Axios Module for Nuxt.js"
               height="20"
-              class="mb-3 mb-lg-auto"
+              class="mt-2 mb-4"
               data-src="/AxiosModule_svg.svg"
               data-loaded="false"
             >
@@ -75,18 +78,32 @@
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--2">
           <feature
-            title="Layout with Sidebar and Nav"
-            description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
+            title="Sass"
+            description="Sass is the most mature, stable, and powerful professional grade CSS extension language in the world."
           >
-            <BIconLayoutTextWindowReverse title="Layout with Sidebar and Nav" font-scale="2" variant="dark" class="mb-3" />
+            <img
+              title="Sass"
+              alt="Sass"
+              width="45"
+              class="mb-3"
+              data-src="/Sass.svg"
+              data-loaded="false"
+            >
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-sm-4 mb-lg-0 featureEle featureEle--3">
           <feature
-            title="Responsive Design"
-            description="Landkit is built to make your life easier. Variables, build tooling, documentation, and reusable components."
+            title="Chart.js"
+            description="Simple yet flexible JavaScript charting for designers & developers."
           >
-            <BIconLayoutWtf title="Responsive Design" font-scale="2" variant="dark" class="mb-3 mb-md-auto" />
+            <img
+              title="Chart.js"
+              alt="Chart.js"
+              width="30"
+              class="mb-3"
+              data-src="/chartjs.svg"
+              data-loaded="false"
+            >
           </feature>
         </b-col>
       </b-row>
@@ -95,14 +112,11 @@
 </template>
 
 <script>
-import { BIconLayoutTextWindowReverse, BIconLayoutWtf } from "bootstrap-vue"
 import feature from '~/components/landing/ui/feature'
 
 export default {
   name: 'LandingFeature',
   components: {
-    BIconLayoutTextWindowReverse,
-    BIconLayoutWtf,
     feature
   },
   data: () => ({
