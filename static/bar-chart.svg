@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="7px" viewBox="0 0 8 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Path</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="88.28125%" x2="98.1841216%" y2="13.1090319%" id="linearGradient-1">
+            <stop stop-color="#0F75C8" offset="0%"></stop>
+            <stop stop-color="#153D77" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="svgexport-4" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <path d="M5.5,0.5 C5.5,0.223857625 5.72385763,0 6,0 L7,0 C7.27614237,0 7.5,0.223857625 7.5,0.5 L7.5,6.5 L7.75,6.5 C7.88807119,6.5 8,6.61192881 8,6.75 C8,6.88807119 7.88807119,7 7.75,7 L0.25,7 C0.111928813,7 1.69088438e-17,6.88807119 0,6.75 C-1.69088438e-17,6.61192881 0.111928813,6.5 0.25,6.5 L0.5,6.5 L0.5,5 C0.5,4.72385763 0.723857625,4.5 1,4.5 L2,4.5 C2.27614237,4.5 2.5,4.72385763 2.5,5 L2.5,6.5 L3,6.5 L3,3 C3,2.72385763 3.22385763,2.5 3.5,2.5 L4.5,2.5 C4.77614237,2.5 5,2.72385763 5,3 L5,6.5 L5.5,6.5 L5.5,0.5 Z" id="Path"></path>
+        </g>
+    </g>
+</svg>
