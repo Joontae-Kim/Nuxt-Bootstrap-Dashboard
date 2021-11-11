@@ -214,17 +214,4 @@ export default {
   font-size: 1.25rem !important;
 }
 
-.landingText {
-  &--light {
-    color: #2F70AF;
-  }
-
-  &--normal {
-    color: #153D77;
-  }
-
-  &--heavy {
-    color: #002966;
-  }
-}
 </style>

@@ -1,16 +1,7 @@
 <template>
   <b-container fluid tag="section">
-    <b-row class="mb-5" align-h="center">
-      <b-col md="10" lg="9" class="text-center">
-        <div class="mb-4">
-          <b-icon icon="person-bounding-box" font-scale="2.5" class="landingText--normal" />
-          <b-icon icon="plus" font-scale="2" class="mx-3" variant="secondary" />
-          <b-icon icon="code-slash" font-scale="2.5" class="landingText--normal" />
-        </div>
-        <h4>The admin is fully responsive and easy to customize</h4>
-        <p>The clean and well commented code allows easy customization of the theme.It's designed for describing your app, agency or business.</p>
-      </b-col>
-    </b-row>
+    <!-- flex-column -->
+    <subHeadingSection />
     <!-- Features -->
     <featuresSection />
     <!-- Fully Responsive Layout -->
@@ -21,12 +12,14 @@
 </template>
 
 <script>
+import subHeadingSection from "~/components/landing/subHeading-section"
 import layoutSection from "~/components/landing/layout-section"
 import pagesSection from "~/components/landing/pages-section"
 import featuresSection from "~/components/landing/features-section"
 
 export default {
   components: {
+    subHeadingSection,
     layoutSection,
     pagesSection,
     featuresSection
@@ -89,6 +82,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
 </style>
