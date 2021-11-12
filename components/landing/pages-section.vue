@@ -138,7 +138,6 @@ export default {
   }
 
   &__subtitle {
-    // color: #adb5bd;
     color: #ffffff;
     background-color: #adb5bd;
     padding: 1px 10px;
