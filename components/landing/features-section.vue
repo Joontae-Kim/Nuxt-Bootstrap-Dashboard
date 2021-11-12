@@ -1,9 +1,6 @@
 <template>
   <b-row id="featureSection" class="pt-5 pb-sm-5 mb-5 bg-white landingFeature justify-content-center">
     <b-col class="text-center text-dark mb-5" cols="12">
-      <!-- <div class="fs-2 text-dark">
-        Developed <span class="font-weight-bold mx-2">"Nuxtrap"</span> with ...
-      </div> -->
       <h2 class="d-none d-sm-block">Developed Nuxtrap with ...</h2>
       <h2 class="d-sm-none text-white">Developed Nuxtrap with ...</h2>
     </b-col>
