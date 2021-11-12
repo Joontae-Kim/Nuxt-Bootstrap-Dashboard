@@ -25,7 +25,7 @@
               title="Nuxt.js"
               alt="Nuxt.js"
               height="40"
-              class="mb-3 mb-md-auto"
+              class="mb-3 mb-lg-auto"
               data-src="/nuxt_svg.svg"
               data-loaded="false"
             >
@@ -70,7 +70,7 @@
               title="Axios Module for Nuxt.js"
               alt="Axios Module for Nuxt.js"
               height="20"
-              class="mt-2 mb-4"
+              class="mt-lg-2 mb-4"
               data-src="/AxiosModule_svg.svg"
               data-loaded="false"
             >

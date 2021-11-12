@@ -23,7 +23,15 @@
             data-loaded="false"
           >
           <h5 :class="titleClass">{{ page.type }}</h5>
-          <p :class="subtitleClass">{{ page.title }}</p>
+          <b-btn
+            variant="link"
+            :class="subtitleClass"
+            size="sm"
+            @click="openProjectPage(page.routeName)"
+          >
+            {{ page.path }}
+            <BIconBoxArrowUpRight font-scale="0.8" shift-v="5" class="text-black-50 ml-1" />
+          </b-btn>
         </b-col>
         <b-col
           v-for="(page, index) in pagesGrp.grp2"
@@ -43,7 +51,15 @@
             data-loaded="false"
           >
           <h5 :class="titleClass">{{ page.type }}</h5>
-          <p :class="subtitleClass">{{ page.title }}</p>
+          <b-btn
+            variant="link"
+            :class="subtitleClass"
+            size="sm"
+            @click="openProjectPage(page.routeName)"
+          >
+            {{ page.path }}
+            <BIconBoxArrowUpRight font-scale="0.8" shift-v="5" class="text-black-50 ml-1" />
+          </b-btn>
         </b-col>
       </b-row>
     </b-col>
@@ -51,25 +67,31 @@
 </template>
 
 <script>
+import { BIconBoxArrowUpRight } from 'bootstrap-vue'
+
 export default {
   name: 'PageLists',
+  components: {
+    BIconBoxArrowUpRight
+  },
   data: () => ({
-    titleClass: 'pageList__title text-center mb-',
-    subtitleClass: 'pageList__subtitle text-center mb-0',
+    titleClass: 'pageList__title text-center',
+    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light',
     pagesGrp: {
       grp1: [
-        { src: 'overview_page.png', type: 'Default Page', title: 'Overview', routeName: 'overview' },
-        { src: 'eventsList_page.png', type: 'List Page', title: 'Events List', routeName: 'eventsList' },
-        { src: 'usersStatics_page.png', type: 'Analytics Page', title: 'Users Statics', routeName: 'userStatics' }
+        { src: 'overview_page.png', type: 'Default Page', title: 'Overview', routeName: 'overview', path: '/overview' },
+        { src: 'eventsList_page.png', type: 'List Page', title: 'Events List', routeName: 'eventsList', path: '/events/list' },
+        { src: 'usersStatics_page.png', type: 'Analytics Page', title: 'Users Statics', routeName: 'userStatics', path: '/users/statics' }
       ],
       grp2: [
-        { src: 'userDetailed_page.png', type: 'Information Details Page', title: 'User Detail', routeName: null },
-        { src: 'signup_page.png', type: 'Authentication Type Page', title: 'Sign Up', routeName: 'signin' },
-        { src: '404_page.png', type: 'Utility Page', title: '404 Page', routeName: 'notFound' }
+        { src: 'userDetailed_page.png', type: 'Information Details Page', title: 'User Detail', routeName: 'usersList', path: '/users/list' },
+        { src: 'signup_page.png', type: 'Authentication Type Page', title: 'Sign Up', routeName: 'signin', path: '/signin' },
+        { src: '404_page.png', type: 'Utility Page', title: '404 Page', routeName: 'notFound', path: '/404' }
       ]
     }
   }),
   mounted () {
+    console.log(this.$route)
     this.observePagesImgs()
   },
   methods: {
@@ -90,6 +112,10 @@ export default {
           observer.unobserve(target)
         }
       })
+    },
+    openProjectPage (routename) {
+      const routeData = this.$router.resolve({ name: routename })
+      window.open(routeData.href, '_blank')
     }
   }
 }
@@ -100,6 +126,7 @@ export default {
   &__ele {
     opacity: 0;
     transition: opacity .3s ease-in-out .3s;
+    text-align: center;
 
     &.active {
       opacity: 1;
@@ -111,7 +138,11 @@ export default {
   }
 
   &__subtitle {
-    color: #adb5bd;
+    // color: #adb5bd;
+    color: #ffffff;
+    background-color: #adb5bd;
+    padding: 1px 10px;
+    border-radius: 3px;
   }
 }
 
