@@ -72,7 +72,7 @@
       <b-col cols>
         <dash-card title="Total Event Traffic" class="h-100 pb-2">
           <b-row id="traffic-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols md="10" class="chart-container chart-h-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250">
+            <b-col cols md="12" xxl="10" order-xxl="2" class="chart-container chart-range-h-250 chart-range-h-lg-300 chart-range-h-xl-350">
               <LazyLineChart
                 canvas-id="traffic-chart"
                 :data="eventTraffics"
@@ -88,11 +88,10 @@
                 :custom-legend-click="trafficLegendClick"
                 :tooltip="trafficTooltipOpt"
                 responsive
-                class="pb-xxl-3"
               />
             </b-col>
-            <b-col cols md="2" class="mt-3 mt-md-0">
-              <div id="traffic-chart-lengend" class="d-flex justify-content-around flex-md-column" />
+            <b-col cols md="12" xxl="1" class="mt-3 my-md-2" order-xxl="1">
+              <div id="traffic-chart-lengend" class="d-flex justify-content-around flex-xxl-column chart-range-h-xxl-200 px-md-5 pl-xxl-4 pl-sxl-4 pr-xxl-0 pl-sxl-5" />
             </b-col>
           </b-row>
         </dash-card>
@@ -102,7 +101,7 @@
       <b-col cols="12" md="6" class="mb-4 mb-md-0">
         <dash-card title="Event Open Segment - Chart" class="h-100 pb-2">
           <b-row id="openSegment-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-lg-40 chart-range-h-200 chart-range-h-250 chart-range-h-md-200 chart-range-h-lg-250">
+            <b-col cols class="chart-container chart-range-h-200 chart-range-h-250 chart-range-h-md-200 chart-range-h-lg-250 chart-range-h-xl-350">
               <LazyBarChart
                 canvas-id="openSegment-chart"
                 :data="openMonthSegment"
@@ -130,7 +129,7 @@
                 responsive
                 hover
                 small
-                table-class=""
+                table-class="h-100"
                 class="mb-0 h-100"
               >
                 <template #cell(total)="data">
@@ -220,7 +219,7 @@ export default {
         key: 'label',
         sortable: true,
         thClass: 'text-nowrap pl-3',
-        tdClass: 'text-gray-600 py- pl-3 align-middle'
+        tdClass: 'text-gray-600 py-2 pl-3 align-middle'
       },
       {
         label: 'Sales',
@@ -318,7 +317,7 @@ export default {
       const legendGroup = datasets.reduce((group, dataset, d) => {
         const backgroundColor = dataset.borderColor
         group.push(`
-        <div id="traffic-legend-${d}" data-legend-role="parent" data-chart-dataset="${d}" class="d-inline-flex d-md-flex align-items-center mb-2 user-select-none" style="color:${backgroundColor}; font-size: 0.8rem">
+        <div id="traffic-legend-${d}" data-legend-role="parent" data-chart-dataset="${d}" class="d-inline-flex d-md-flex align-items-center user-select-none" style="color:${backgroundColor}; font-size: 0.8rem">
           <div data-legend-parent="traffic-legend-${d}" class="legend-content">
             <span class="legend-dot legend-dot--circle" style="background-color:${backgroundColor}"></span>
             <span class="ml-2">${dataset.label}</span>

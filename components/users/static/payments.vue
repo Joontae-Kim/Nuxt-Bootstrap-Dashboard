@@ -3,7 +3,7 @@
     <b-col cols md="5" class="mb-4 mb-md-0">
       <dash-card title="Payment - Chart" class="h-100 pb-3 pb-lg-0">
         <b-row id="payment-amount-chart-wrapper" align-v="center" class="flex-column h-100 px-md-3 pt-md-3" no-gutters>
-          <b-col v-if="rawData.length" cols class="chart-container chart-h-20 chart-range-h-200">
+          <b-col v-if="rawData.length" cols class="chart-container chart-h-20 chart-range-h-200 chart-range-h-sxl-350 position-relative">
             <LazyPieChart
               canvas-id="payment-amount-chart"
               :data="dataSet"
@@ -21,7 +21,7 @@
             />
           </b-col>
           <b-col cols>
-            <div id="payment-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 py-md-3 px-md-0" />
+            <div id="payment-chart-lengend" class="d-flex flex-wrap justify-content-between align-content-around h-100 py-md-3 px-md-0 pt-xxl-0 pb-xxl-3 chart-range-h-xxl-100" />
           </b-col>
         </b-row>
       </dash-card>
@@ -36,7 +36,8 @@
           head-variant="light"
           responsive
           hover
-          class="mb-0"
+          class="mb-0 h-100"
+          table-class="h-100"
         >
           <template #cell(amount)="data">
             {{ data.value }}
@@ -77,35 +78,35 @@ export default {
         key: 'payment',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-nowrap text-gray-600'
+        tdClass: 'text-nowrap text-gray-600 align-middle'
       },
       {
         label: 'Amount',
         key: 'amount',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-nowrap text-gray-600'
+        tdClass: 'text-nowrap text-gray-600 align-middle'
       },
       {
         label: '- Share',
         key: 'amountPercent',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-nowrap text-gray-600'
+        tdClass: 'text-nowrap text-gray-600 align-middle'
       },
       {
         label: 'Count',
         key: 'count',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-nowrap text-gray-600'
+        tdClass: 'text-nowrap text-gray-600 align-middle'
       },
       {
         label: '- Share',
         key: 'countPercent',
         sortable: true,
         thClass: 'text-nowrap',
-        tdClass: 'text-nowrap text-gray-600'
+        tdClass: 'text-nowrap text-gray-600 align-middle'
       }
     ]
   }),

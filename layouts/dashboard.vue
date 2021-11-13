@@ -61,7 +61,7 @@ export default {
       this.collapsedSidebar = state
     },
     handleSidebar (event) {
-      if (this.isMobile && !this.collapsed) {
+      if (this.isMobile && !this.collapsedSidebar) {
         const headerChildEle = event.target.closest('#dash-nav')
         const sidebarChildEle = event.target.closest('#dash-sidebar')
         if (!this.isChildPending && !sidebarChildEle && !headerChildEle) {

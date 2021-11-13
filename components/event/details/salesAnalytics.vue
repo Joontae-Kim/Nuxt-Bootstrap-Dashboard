@@ -28,7 +28,7 @@
           <b-col cols class="flex-grow-0">
             <div id="salesAnalytics-chart-lengend" class="d-flex justify-content-around w-50 mx-auto" />
           </b-col>
-          <b-col cols class="chart-container chart-h-10 chart-h-md-20 chart-h-lg-30 chart-range-h-200 chart-range-h-md-250">
+          <b-col cols class="chart-container chart-range-h-300 chart-range-h-md-250">
             <client-only>
               <LazyBarChart
                 canvas-id="salesAnalytics-chart"
