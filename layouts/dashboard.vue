@@ -7,7 +7,7 @@
         <div v-show="!isChildPending" class="content">
           <div class="dash-nav-virtual-divider" />
           <dash-nav class="mb-0 mb-md-5" :collapsed="!collapsedSidebar" @toggleSidebar="collapseSidebar" />
-          <Nuxt id="content-body" class="content-body" />
+          <Nuxt id="content-body" class="content-body px-sxl-5" />
         </div>
       </transition>
     </div>

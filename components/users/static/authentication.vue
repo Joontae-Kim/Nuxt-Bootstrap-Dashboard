@@ -3,7 +3,7 @@
     <b-col cols md="5" class="mb-4 mb-md-0">
       <dash-card title="Authentication - Chart" class="h-100 pb-3 pb-lg-0">
         <b-row id="authShare-chart-wrapper" align-v="center" class="flex-column h-100 p-lg-3" no-gutters>
-          <b-col v-if="rawData.length" cols class="chart-container chart-h-20 chart-range-h-200 chart-range-h-sxl-350">
+          <b-col v-if="rawData.length" cols class="chart-container chart-h-20 chart-range-h-200 chart-range-h-xl-300 chart-range-h-sxl-350">
             <LazyPieChart
               canvas-id="authShare-chart"
               :data="dataSet"

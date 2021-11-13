@@ -13,7 +13,12 @@ $dashNav-prefix: '.dashNav';
 
     margin-left: auto;
     &.collapsed {
-      width: calc(100% - 260px);
+      @media (max-width: 1679.98px) {
+        width: calc(100% - #{$sidebar-width});
+      }
+      @media (min-width: 1680px) {
+        width: calc(100% - #{$sidebar-width-sxl});
+      }
     }
     &:not(.collapsed) {
       width: 100%;

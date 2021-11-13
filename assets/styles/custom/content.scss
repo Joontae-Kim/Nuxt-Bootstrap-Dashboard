@@ -16,7 +16,12 @@
     }
     
     &.collapsed {
-      margin-left: $sidebar-width;
+      @media (max-width: 1679.98px) {
+        margin-left: $sidebar-width;
+      }
+      @media (min-width: 1680px) {
+        margin-left: $sidebar-width-sxl;
+      }
     }
   }
 }
