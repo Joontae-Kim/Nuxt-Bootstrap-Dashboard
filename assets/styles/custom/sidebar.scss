@@ -10,7 +10,12 @@
   box-shadow: $sidebar-shadow;
 
   &:not(.collapsed) {
-    width: $sidebar-width;
+    @media (max-width: 1679.98px) {
+      width: $sidebar-width;
+    }
+    @media (min-width: 1680px) {
+      width: $sidebar-width-sxl;
+    }
   }
 
   &.collapsed {

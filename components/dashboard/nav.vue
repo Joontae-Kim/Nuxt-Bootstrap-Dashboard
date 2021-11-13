@@ -1,5 +1,5 @@
 <template>
-  <b-navbar id="dash-nav" type="dark" :class="['dashNav', { collapsed }, { scrolled }]" fixed="top">
+  <b-navbar id="dash-nav" type="dark" :class="['dashNav', 'px-sxl-5', { collapsed }, { scrolled }]" fixed="top">
     <b-container fluid>
       <b-row no-gutters class="position-relative flex-grow-1">
         <b-col cols="12" md="6" class="">
