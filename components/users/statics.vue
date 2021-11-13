@@ -28,7 +28,7 @@
         </b-col>
         <b-col cols>
           <dash-card title="Group by Status" class="h-100" table>
-            <b-list-group class="rounded-0" flush>
+            <b-list-group class="rounded-0 h-100" flush>
               <b-list-group-item class="d-flex align-items-center">
                 <div class="w-50 text-gray-800 font-weight-bold">
                   Status
@@ -41,7 +41,7 @@
                 </div>
               </b-list-group-item>
               <template v-for="({ name, value, percent }, g) of grouping">
-                <b-list-group-item :key="g" class="d-flex align-items-center">
+                <b-list-group-item :key="g" class="d-flex align-items-center h-100">
                   <div class="w-50 text-gray-700">
                     {{ name }}
                   </div>

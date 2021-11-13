@@ -68,7 +68,7 @@
               </b-col>
             </template>
             <template v-else>
-              <b-col cols class="chart-container chart-h-30 chart-h-md-30 chart-h-lg-40 chart-h-xl-25 chart-range-h-250 chart-range-h-xxl-300 chart-range-h-sxl-250">
+              <b-col cols class="chart-container chart-range-h-250 chart-range-h-xxl-300 mb-sxl-2">
                 <LazyLineChart
                   canvas-id="sales-chart"
                   :data="sales"
@@ -77,7 +77,7 @@
                   :tooltip="salesTooltipOpt"
                   responsive
                   compute-scale-axe="Y"
-                  class="pb-xxl-3 w-100"
+                  class="w-100"
                 />
               </b-col>
             </template>
@@ -89,7 +89,7 @@
       <b-col cols="12" md="6" class="mb-4 mb-md-0">
         <dash-card title="Traffic Channels" class="h-100 pb-3">
           <b-row id="trafficChannel-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols class="chart-container chart-h-30 chart-h-md-20 chart-h-lg-40 chart-range-h-200 chart-range-h-250 chart-range-h-md-200 chart-range-h-lg-250">
+            <b-col cols class="chart-container chart-range-h-200 chart-range-h-250 chart-range-h-md-300 chart-range-h-xxl-350">
               <LazyBarChart
                 canvas-id="trafficChannel-chart"
                 :data="channels"
@@ -105,7 +105,7 @@
       <b-col cols="12" md="6">
         <dash-card title="Visit by Notification" class="h-100 pb-3">
           <b-row id="noti-chart-wrapper" align-v="center" class="h-100">
-            <b-col cols sm="6" lg="6" class="chart-container chart-h-30 chart-h-md-15 chart-h-lg-30 chart-h-xl-20 chart-range-h-200 chart-range-h-md-150 chart-range-h-xl-200 chart-range-h-xxl-200 chart-range-h-sxl-250 mx-md-0">
+            <b-col cols sm="6" md="12" xl="7" class="chart-container chart-range-h-200 chart-range-h-md-250 chart-range-h-xl-250 chart-range-h-sxl-350 mx-md-0 mb-2 mb-xl-auto">
               <LazyPolarArea
                 canvas-id="noti-chart"
                 :data="noti"
@@ -123,12 +123,12 @@
             <b-col
               cols
               sm="5"
-              md="6"
-              offset-xxl="1"
+              md="12"
+              xl="4"
               xxl="4"
-              class="h-sm-100 chart-range-h-sm-150"
+              class=""
             >
-              <div id="noti-chart-lengend" class="h-md-100 d-flex flex-sm-column justify-content-between mt-4 my-sm-0 h-100" />
+              <div id="noti-chart-lengend" class="h-md-100 d-flex flex-xl-column justify-content-between h-100 chart-range-h-xl-200" />
             </b-col>
           </b-row>
         </dash-card>
@@ -370,10 +370,10 @@ export default {
         `<div id="noti-legend-${d}"
           data-chart-dataset="0" data-chart-idx="${d}" data-legend-role="parent"
           data-legend-parent="noti-legend-${d}"
-          class="d-flex flex-column flex-sm-row align-items-center user-select-none"
+          class="d-flex flex-column flex-xl-row align-items-center user-select-none"
           style="font-size: 0.8rem;color:${ds.backgroundColor[d]};"
         >
-          <div class="d-flex align-items-center mt-2 mt-sm-0" data-legend-parent="noti-legend-${d}">
+          <div class="d-flex align-items-center mt-2 mt-xl-0" data-legend-parent="noti-legend-${d}">
             <span class="legend-icon mr-2 mr-md-0">${icons[labels[d]]}</span>
             <span class="ml-md-2">${labels[d]}</span>
           </div>
