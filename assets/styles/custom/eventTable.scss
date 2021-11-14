@@ -1,0 +1,12 @@
+.eventTable {
+  &__column {
+    &-title {
+      @media (max-width: 991.98px) {
+        min-width: 16rem;
+      }
+      @media (min-width: 992px) {
+        width: 75%;
+      }
+    }
+  }
+}

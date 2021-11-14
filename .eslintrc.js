@@ -14,5 +14,11 @@ module.exports = {
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    'no-console': 'off',
+    'no-empty': 'error',
+    'singleline-html-element-content-newline': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    quotes: ['off', 'single']
+  }
 }

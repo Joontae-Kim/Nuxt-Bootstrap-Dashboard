@@ -1,0 +1,22 @@
+@import '_variables';
+@import 'wrapper';
+@import 'sidebar';
+@import 'content';
+@import 'fade';
+@import 'dsCard';
+@import 'chart';
+@import 'legend';
+@import 'loadingCircle';
+@import 'dash-nav.scss';
+@import 'zIndex.scss';
+@import 'lazyImage.scss';
+
+body {
+  background-color: #fafbfe;
+}
+
+.cursor {
+  &-pointer {
+    cursor: pointer;
+  }
+}

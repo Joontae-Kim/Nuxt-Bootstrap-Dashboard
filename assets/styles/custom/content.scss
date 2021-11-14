@@ -1,0 +1,32 @@
+.content-page {
+  overflow: hidden;
+  min-height: 100vh;
+
+  @include media-breakpoint-down(lg) {
+    &.collapsed {
+      z-index: 0;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    transition: margin-left .3s ease-in-out,left .3s ease-in-out;
+
+    &:not(.collapsed) {
+      margin-left: 0;
+    }
+    
+    &.collapsed {
+      @media (max-width: 1679.98px) {
+        margin-left: $sidebar-width;
+      }
+      @media (min-width: 1680px) {
+        margin-left: $sidebar-width-sxl;
+      }
+    }
+  }
+}
+
+.content-body {
+  margin-top: 6rem;
+  margin-bottom: 1.5rem;
+}

@@ -1,0 +1,26 @@
+.wrapper {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+
+
+  &--dashboard {
+    &::before {
+      background: $app-primary;
+      content: " ";
+      height: 264px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+
+  &--authentication {
+    background-color: $app-primary;
+  }
+
+  &--utility {
+    background: linear-gradient(125deg , #0086D0, #006DB5, #00559A, #003E7F, #002966, #00154D);
+  }
+}

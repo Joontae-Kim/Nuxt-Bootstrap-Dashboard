@@ -1,0 +1,44 @@
+$circle-border: $gray-600;
+$circle-color: $gray-700;
+$circle-size: 25px;
+
+div.throb {
+  border: 3px solid $circle-border;
+  background-color: $circle-color;
+  height: $circle-size;
+  width: $circle-size;
+  animation: pulsate .75s ease-in-out infinite alternate;
+  border-radius: 50%;
+  z-index: 999;
+  display: inline-block;
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+
+  &.throb1 {
+    animation-delay: 0s;
+  }
+  
+  &.throb2 {
+    animation-delay: .15s;
+  }
+  
+  &.throb3 {
+    animation-delay: .3s;
+  }  
+};
+
+@keyframes pulsate {
+  0% {
+    opacity: .5;
+    -webkit-transform: scale(.5);
+    transform: scale(.5)
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1)
+  }
+}
+

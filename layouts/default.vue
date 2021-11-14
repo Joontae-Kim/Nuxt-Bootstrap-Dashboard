@@ -1,62 +1,217 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <fragment>
+    <BaseNav />
+    <main>
+      <b-row id="header" :class="['mx-0 landingIntro', { loaded }]">
+        <b-col
+          cols="12"
+          v-bind="loaded ? {md: 6, lg: 6} : {md: 12}"
+          :class="['align-self-center text-white pt-4 pb-5 py-sm-0 landingIntro__content', { loaded }]"
+        >
+          <h1 class="landingIntro__heading">
+            <span class="font-weight-light">Welcome to</span>
+            <span class="landingIntro__service">Nuxtrap</span>
+            <span class="font-weight-light">.</span>
+          </h1>
+          <div class="d-none d-md-block text-light">
+            <h3 class="font-weight-light mb-1 landingIntro__description">Developed Admin Dashboard Propject</h3>
+            <h3 class="font-weight-light mb-2 mb-md-0 landingIntro__description">with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
+          </div>
+          <h3 class="d-block d-md-none font-weight-light text-light mb-2 mb-md-0 landingIntro__description" style="">Developed Admin Dashboard Propject with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
+        </b-col>
+        <template v-if="imgloaded.status">
+          <b-col
+            cols="12"
+            v-bind="imgloaded.status ? {md: 6, lg: 6} : {md: 12}"
+            :class="['landingIntro__img', imgloaded.class]"
+          >
+            <img
+              id="header-snapshot"
+              src="/overview-page.png"
+              data-active-container="#header"
+              :data-loaded="imgloaded.status"
+              data-rd-md="container"
+              alt="overview page"
+              class="shadow landingIntro__screenshot"
+            >
+          </b-col>
+        </template>
+      </b-row>
+      <Nuxt />
+    </main>
+    <BaseFooter />
+  </fragment>
 </template>
 
-<style>
-html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+import { Fragment } from 'vue-fragment'
+
+export default {
+  components: {
+    Fragment
+  },
+  data: () => ({
+    loaded: false,
+    imgloaded: {
+      status: false,
+      class: null
+    },
+    headerObserver: null
+  }),
+  created () {},
+  mounted () {
+    document.body.classList.add('overflow-hidden')
+    setTimeout(() => {
+      this.loaded = true
+    }, 1500)
+    setTimeout(() => {
+      this.imgloaded.status = true
+      this.imgloaded.class = 'loading'
+    }, 1700)
+    setTimeout(() => {
+      this.imgloaded.class = 'loaded'
+      this.$nextTick(() => {
+        this.observeHeroImgHandler()
+        document.body.classList.remove('overflow-hidden')
+      })
+    }, 1800)
+  },
+  beforeDestroy () {
+    this.headerObserver.disconnect()
+  },
+  methods: {
+    observeHeroImgHandler () {
+      this.headerObserver = new IntersectionObserver(
+        this.onHeaderElementObserved,
+        { rootMargin: '-50px', threshold: 0.5 }
+      )
+      const header = document.getElementById('header-snapshot')
+      this.headerObserver.observe(header)
+    },
+    onHeaderElementObserved (entries) {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) {
+          target.classList.remove('unseen')
+        } else {
+          target.classList.add('unseen')
+        }
+      })
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.landingIntro {
+  position: relative;
+  background: linear-gradient(45deg, #002966, #153D77, #2F70AF);
+  margin-bottom: 4rem;
+  overflow: hidden;
+  padding: 2rem 0rem;
+  height: 100%;
+  transition: min-height 1.5s ease-out;
+
+  &.loaded {
+    min-height: 1vh;
+  }
+
+  &:not(.loaded) {
+    min-height: 100vh;
+  }
+
+  &__content {
+    transition: text-align 0.3s ease-in,
+      max-width  0.5s ease-in-out;
+
+    &:not(.loaded) {
+      text-align: center;
+    }
+
+    &.loaded {
+      text-align: left;
+    }
+  }
+
+  &__img {
+    opacity: 0;
+    max-height: 0vh;
+    transition: max-width, max-height 0.5s ease-in-out .5s,
+      opacity 1s ease-in-out;
+
+    &.loading {
+      max-height: 100vh;
+      @media (max-width: 639.8px) {
+        height: 50%;
+      }
+
+      @media (min-width: 640px) {
+        height: 100%;
+      }
+    }
+
+    &.loaded {
+      opacity: 1;
+      max-height: 100vh;
+      @media (max-width: 639.8px) {
+        height: 50%;
+      }
+
+      @media (min-width: 640px) {
+        height: 100%;
+      }
+    }
+  }
+
+  &__screenshot {
+    width: 100%;
+    border-radius: 3px;
+    transition: transform .5s ease-in-out;
+
+    &[data-loaded="true"] {
+      box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+      @media (max-width: 575.98px) {
+        transform: translateY(-0.5rem);
+      }
+
+      @media (min-width: 1200px) {
+        transform: translateY(0rem);
+      }
+
+      &.unseen {
+        @media (max-width: 767.98px) {
+          transform: translateY(3.5rem);
+        }
+
+        @media (min-width: 768px) {
+          transform: translateY(4rem);
+        }
+      }
+    }
+  }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
+.landingIntro__heading {
+  margin-bottom: 2.5rem;
+  @media (max-width: 1199.98px) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 3.5rem;
+  }
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.landingIntro__service {
+  color: #5c8fc3;
+  border-bottom: 5px solid;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  padding-bottom: 3px;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+.landingIntro__description {
+  color: #e1e1e1;
+  font-size: 1.25rem !important;
 }
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
 </style>

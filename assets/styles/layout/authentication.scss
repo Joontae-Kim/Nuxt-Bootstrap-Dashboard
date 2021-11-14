@@ -1,0 +1,290 @@
+@use "sass:math";
+@use "sass:list";
+@import './variables.scss';
+
+.circle {
+  position: absolute;
+}
+
+@each $circle in $circles {
+  $index: index($circles, $circle);
+  .circle-layer-#{$index} {
+    background-color: $circle;
+    @if $index <= $circlesMiddle {
+      $height: ($circle-default-heigth * $index) - 10;
+      left: 0;
+      bottom: 0;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $index * 0.75;
+      border-radius: 0 100% 0 0;
+      box-shadow: inset -25px 0px 0rem 0px darken($circle, 5%) !important;
+    } @else {
+      $reverseIndex: abs($index - $circlesCount) + 1;
+      $height: ($circle-default-heigth * $reverseIndex) - 10;
+      top: 0;
+      right: 0;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $reverseIndex * 0.75;
+      border-radius: 0 0 0 100%;
+      box-shadow: inset 25px 0px 0px darken($circle, 5%) !important;
+    }
+  }
+};
+
+.bar {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+  @media (max-width: 575.98px) {
+    margin: $bar-axis-outer-spacing-mobile;
+    border-left: $bar-axis-line-mobile;
+    border-top: $bar-axis-line-mobile;
+  }
+
+  @media (min-width: 576px) {
+    margin: $bar-axis-outer-spacing;
+    border-left: $bar-axis-line;
+    border-top: $bar-axis-line;
+  }
+
+  &::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+
+    @media (max-width: 575.98px) {
+      top: -1 * $bar-axis-border-width-mobile;
+      left: -10 * $bar-axis-outer-spacing;
+      border-top: $bar-axis-line-mobile;
+    }
+
+    @media (min-width: 576px) {
+      top: -1 * $bar-axis-border-width;
+      left: -10 * $bar-axis-outer-spacing;
+      border-top: $bar-axis-line;
+    }
+  }
+  &::after {
+    position: absolute;
+    content: "";
+    top: -100%;
+    height: 100%;
+    width: 100%;
+
+    @media (max-width: 575.98px) {
+      border-left: $bar-axis-line-mobile;
+      left: -1 * $bar-axis-border-width-mobile;
+    }
+
+    @media (min-width: 576px) {
+      border-left: $bar-axis-line;
+      left: -1 * $bar-axis-border-width;
+    }
+  }
+
+  &__ticks {
+    position: absolute;
+
+    @media (max-width: 575.98px) {
+      top: 15px;
+      width: 3vh;
+      border: 2px solid $bar-tick-border-color;
+    }
+
+    @media (min-width: 576px) and (max-width: 1199.98px) {
+      top: 25px;
+      width: 6vh;
+      border: 2px solid $bar-tick-border-color;
+    }
+
+    @media (min-width: 1200px) {
+      top: 25px;
+      width: 10vh;
+      border: 1px solid $bar-tick-border-color;
+    }
+
+    border-radius: 55px;
+  }
+
+  @each $circle in $circles {
+    $index: index($circles, $circle);
+    $left: ($index * 5);
+    @if $index > 1 {
+      $left: 5 + (($index - 1) * 7) + (($index - 1) * 9)
+    }
+    .bar__ticks--#{$index} {
+      $tick_height: 0;
+
+      // Mobile devices
+      @media (max-width: 575.98px) {
+        $tick_height: math.random($bar-tick-min-height-mobile);
+        @if $tick_height < $bar-tick-min-height-mobile {
+          $tick_height: $tick_height + $bar-tick-min-height-mobile;
+        }
+        left: #{$left + 1}vw;
+        max-height: calc(100% - 1vh);
+        box-shadow: 10px 0px 0px darken($circle, 5%) !important;
+      }
+
+      // Small devices (landscape phones, 576px and up)
+      @media (min-width: 576px) and (max-width: 991.98px) {
+        $tick_height: math.random($bar-tick-min-height-tablet);
+        @if $tick_height < $bar-tick-min-height-tablet {
+          $tick_height: $tick_height + $bar-tick-min-height-tablet;
+        }
+        left: #{$left}vw;
+        max-height: calc(100% - 3vh);
+        box-shadow: 8px 0px 0px darken($circle, 5%) !important;
+      }
+
+      // Large devices
+      @media (min-width: 992px) {
+        $tick_height: math.random($bar-tick-min-height);
+        @if $tick_height < $bar-tick-min-height {
+          $tick_height: $tick_height + $bar-tick-min-height;
+        }
+        left: #{$left}vw;
+        max-height: calc(100% - 3vh);
+        min-width: 50px;
+        min-height: 200px;
+        box-shadow: 15px 0px 0px darken($circle, 5%) !important;
+      }
+      height: #{$tick_height}vh;
+      background-color: $circle;
+    }
+  }
+}
+
+$doughnut-size: 10;
+
+.doughnuts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.doughnut {
+  position: relative;
+  border-radius: 50%;
+  width: 30vw;
+  height: 30vw;
+
+  @media (min-width: 480px) {
+    width: 22vw;
+    height: 22vw;
+  }
+
+  @media (min-width: 768px) {
+    width: 30vw;
+    height: 30vw;
+  }
+
+  @media (min-width: 992px) {
+    width: 22vw;
+    height: 22vw;
+  }
+
+  @media (min-width: 1200px) {
+    width: 25vw;
+    height: 25vw;
+  }
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 50%;
+  }
+
+  &::before {
+    top: -1px;
+    bottom: auto;
+    right: auto;
+    left: 0;
+    border-radius: 100% 0 0 0;
+  }
+
+  &::after {
+    top: auto;
+    bottom: -1px;
+    right: 0;
+    left: auto;
+    border-radius: 0 0 100% 0;
+  }
+
+  &__punch {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 33.3%;
+    height: 33.3%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 3px solid white;
+    z-index: 1;
+  }
+}
+
+$wheel: 15em;
+@each $circle in $circles {
+  $index: index($circles, $circle);
+  $color_2nd: $circle;
+  $color_3rd: $circle;
+
+  @if $index < length($circles) - 1 {
+    $color_2nd: list.nth($circles, $index + 1);
+    $color_3rd: list.nth($circles, $index + 2);
+  } @else {
+    $color_2nd: list.nth($circles, 1);
+    $color_3rd: list.nth($circles, 2);
+  }
+  
+  .doughnut--#{$index} {
+    background: $circle;
+    border: 1px solid darken($circle, 5%);
+    $layer-border: 3px solid white;
+    
+    @media (max-width: 767.98px) {
+      box-shadow: 5px -1px 0px 0px darken($circle, 7%) !important;
+    }
+
+    @media (min-width: 768px) {
+      box-shadow: 14px -1px 0px 0px darken($circle, 7%) !important;
+    }
+    
+    &::before {
+      border-right: $layer-border;
+      border-bottom: $layer-border;
+      background-color: $color_2nd;
+    }
+    
+    &::after {
+      background-color: $color_3rd;
+      border-left: $layer-border;
+      border-top: $layer-border;
+
+      @media (max-width: 767.98px) {
+        box-shadow: 7px 0px 0px -1px darken($color_3rd, 7%) !important;
+      }
+  
+      @media (min-width: 768px) {
+        box-shadow: 16px 0px 0px -1px darken($color_3rd, 7%) !important;
+      }
+    }
+
+    > .doughnut__punch {
+      background-color: $circle;
+      box-shadow: inset 17px 0px 0px 0px darken($circle, 7%) !important;
+    }
+  }
+}

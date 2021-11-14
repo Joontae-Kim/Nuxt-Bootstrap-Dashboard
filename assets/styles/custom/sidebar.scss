@@ -1,0 +1,76 @@
+.sidebar {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  z-index: 2000;
+  transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  background: $sidebar-backgroundColor;
+  box-shadow: $sidebar-shadow;
+
+  &:not(.collapsed) {
+    @media (max-width: 1679.98px) {
+      width: $sidebar-width;
+    }
+    @media (min-width: 1680px) {
+      width: $sidebar-width-sxl;
+    }
+  }
+
+  &.collapsed {
+    width: 0;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: $sidebar-spacing;
+  }
+
+  a {
+    text-decoration: none;
+    color: $sidebar-link;
+    transition: color $sidebar-text-transition-time;
+    white-space: nowrap;
+
+    &:hover,
+    &.active {
+      color: $sidebar-link-active;
+    }
+  }
+
+  &__parentlink:hover,
+  &__parentlink.active {
+    .nav-item > a,
+    > button.sidebar__toggle {
+      color: $sidebar-link-active !important;
+    }
+  }
+
+  &__toggle {
+    text-decoration: none;
+    color: $sidebar-link;
+    box-shadow: none !important;
+  }
+
+  &__footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: $sidebar-spacing;
+    border-top: 1px solid $gray-300;
+    margin-top: auto;
+  }
+
+  &__close svg {
+    color: $sidebar-link;
+    transition: color $sidebar-text-transition-time;
+
+    &:hover {
+      color: $sidebar-link-active;
+    }
+  }
+}

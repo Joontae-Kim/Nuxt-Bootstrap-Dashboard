@@ -1,0 +1,38 @@
+// Global
+$app-primary: #153d77;
+
+// Sidebar
+$sidebar-width: 260px;
+$sidebar-width-sxl: 320px;
+$sidebar-spacing: 0.95rem;
+$sidebar-text-transition-time: 0.3s;
+$sidebar-backgroundColor: #fff;
+$sidebar-borderColor: #f1f4f8;
+$sidebar-shadow: 0 0 2rem 0 rgb(0 0 0 / 5%);
+$sidebar-link: $gray-500;
+$sidebar-link-active: $gray-800;
+
+// DashCard
+$dscard-radius: .15rem !important;
+$dscard-shadow: 0 0.125rem 0.125rem rgb(0 0 0 / 3%) !important;
+$dscard-title-color: $gray-600;
+$dscard-title-size: 0.85rem;
+$dscard-title-weight: 400;
+$dscard-index-color: $gray-800;
+
+// Chart
+$chart-container-position: relative;
+$chart-container-sizes: () !default;
+$chart-container-sizes: map-merge(
+  (
+    10: 10vh,
+    20: 20vh,
+    30: 30vh,
+    40: 40vh,
+    50: 50vh
+  ),
+  $chart-container-sizes
+);
+
+$chart-container-maxSizes: 100, 200, 300, 400, 500;
+$z-indexs: 6;

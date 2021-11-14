@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="7px" height="7px" viewBox="0 0 7 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>svgexport-5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="43.0352972%" y1="100%" x2="43.0352972%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#789DC2" offset="0%"></stop>
+            <stop stop-color="#144989" offset="27.1165806%"></stop>
+            <stop stop-color="#144989" offset="53.3821124%"></stop>
+            <stop stop-color="#144989" offset="77.2026665%"></stop>
+            <stop stop-color="#7A9EC2" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="svgexport-5" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <path d="M1,1.5 L6,1.5 C6.55228475,1.5 7,1.94771525 7,2.5 L7,4 C7,4.55228475 6.55228475,5 6,5 L1,5 C0.44771525,5 1.11022302e-16,4.55228475 0,4 L0,2.5 C-5.55111512e-17,1.94771525 0.44771525,1.5 1,1.5 Z M0,0.4 C0,0.1790861 0.111928813,0 0.25,0 L6.75,0 C6.88807119,0 7,0.1790861 7,0.4 C7,0.6209139 6.88807119,0.8 6.75,0.8 L0.25,0.8 C0.111928813,0.8 0,0.6209139 0,0.4 Z M0,6.4 C0,6.1790861 0.111928813,6 0.25,6 L6.75,6 C6.88807119,6 7,6.1790861 7,6.4 C7,6.6209139 6.88807119,6.8 6.75,6.8 L0.25,6.8 C0.111928813,6.8 0,6.6209139 0,6.4 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

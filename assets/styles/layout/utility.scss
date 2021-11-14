@@ -1,0 +1,74 @@
+@use "sass:math";
+@use "sass:color";
+@import './variables.scss';
+
+
+.utility {
+  &__icon {
+    color: white;
+    font-size: 30vw;
+    z-index: 1;
+    text-shadow: 4px 4px #0f3060;
+
+    @media (min-width: 992px) {
+      font-size: 36vw;
+    }
+
+    &::before {
+      content: " ";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 30vw;
+      height: 30vw;
+      border-radius: 50%;
+      z-index: -1;
+      background-color: rgb(0 0 0 / 10%);
+      box-shadow: 4px 4px rgb(0 0 0 / 20%);
+
+      @media (min-width: 992px) {
+        transform: translate(-50%, -45%);
+        width: 24vw;
+        height: 24vw;
+      }
+    }
+  }
+
+  &__title {
+    @media (max-width: 991.9px) {
+      font-size: 5rem;
+    }
+    @media (min-width: 992px) {
+      font-size: 7.5rem;
+    }
+    @media (min-width: 1366px) {
+      font-size: 10.5rem;
+    }
+  }
+
+  &__message {
+    font-weight: 300;
+    
+    @media (max-width: 991.9px) {
+      font-size: 2.0rem;
+    }
+
+    @media (min-width: 992px) {
+      font-size: 3.5rem;
+    }
+
+    @media (min-width: 1366px) {
+      font-size: 4.5rem;
+    }
+  }
+
+  &__title,
+  &__message {
+    text-shadow: 7px 7px #002966;
+  }
+
+  &__link {
+    box-shadow: 7px 7px #002966;
+  }
+}

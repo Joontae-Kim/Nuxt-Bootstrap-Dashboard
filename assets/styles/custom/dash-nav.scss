@@ -1,0 +1,243 @@
+$dashNav-prefix: '.dashNav';
+
+.dashNav {
+  transition: background-color 1s ease-in-out;
+
+  @include media-breakpoint-down(lg) {
+    width: 100%;
+    transition: margin-top .1s ease-in-out;
+  }
+
+  @include media-breakpoint-up(lg) {
+    transition: margin-top .1s ease-in-out, margin-left .25s ease-in-out, width .3s ease-in-out;
+
+    margin-left: auto;
+    &.collapsed {
+      @media (max-width: 1679.98px) {
+        width: calc(100% - #{$sidebar-width});
+      }
+      @media (min-width: 1680px) {
+        width: calc(100% - #{$sidebar-width-sxl});
+      }
+    }
+    &:not(.collapsed) {
+      width: 100%;
+    }
+  }
+
+  &.scrolled {
+    margin-top: 0;
+    background-color: $sidebar-backgroundColor;
+    box-shadow: 5px 0rem 0.35rem rgb(0 0 0 / 8%) !important;
+  }
+
+  &:not(.scrolled) {
+    margin-top: 0.5rem;
+    background-color: transparent;
+  }
+
+  &__btn-sidebarToogle {
+    cursor: pointer;
+  }
+
+  &__search {
+    @include media-breakpoint-down(md) {
+      width: 100% !important;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 70% !important;
+    }
+  }
+
+  &__search,
+  &__search:-webkit-autofill,
+  &__search:autofill {
+    border-color: transparent;
+
+    &::placeholder {
+      color: $gray-500;
+      font-size: 13px;
+    }
+  }
+
+  &__toolWrapper {
+    @include media-breakpoint-down(sm) {
+      position: absolute;
+      width: 100%;
+      top: 3.5rem;
+      visibility: hidden;
+
+      &:not(.active) {
+        animation: slide-up 0.3s linear both;
+      }
+
+      &.active {
+        animation: slide-down 0.3s linear both;
+      }
+    }
+  }
+
+  &__tool {
+    @include media-breakpoint-down(sm) {
+      background-color: rgb(206 212 218 / 90%);
+
+      button {
+        color: rgb(108 117 125 / 0.7);
+    
+        &:hover,
+        &:focus {
+          color: $gray-700 !important;
+        }
+      }
+    }
+
+    button {
+      &:hover,
+      &:focus {
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+.dashNav:not(.scrolled) {
+  input#{$dashNav-prefix}__btn-sidebarToogle {
+    color: $light;
+
+    &:hover {
+      color: $secondary !important; 
+    }
+  }
+
+  #{$dashNav-prefix}__search {
+    background-color: rgb(255 255 255 / 5%);
+    color: $light;
+
+    &:hover,
+    &:focus {
+      background-color: rgb(255 255 255 / 15%) !important;
+      border-color: #798ea2 !important;
+      box-shadow: 0 0 0 0.2rem rgb(255 255 255 / 25%) !important;
+    }    
+  }
+
+  input#{$dashNav-prefix}__search:-webkit-autofill,
+  input#{$dashNav-prefix}__search:-webkit-autofill:focus,
+  input#{$dashNav-prefix}__search:-webkit-autofill:hover {
+    color: #e9ecef !important;
+    box-shadow: 0 0 0 30px rgb(18 59 121 / 82%) inset !important;
+    -webkit-text-fill-color: #e9ecef !important;
+  }
+
+  #{$dashNav-prefix}__btn-toggle-tool {
+    background-color: rgb(108 117 125 / 15%);
+    border: 1px solid #ced4da;
+
+    button {
+      color: $gray-500;
+  
+      &:hover,
+      &:focus {
+        color: $gray-500 !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  #{$dashNav-prefix}__tool {
+    @include media-breakpoint-up(sm) {
+      background-color: rgb(108 117 125 / 15%);
+
+      button {
+        color: $gray-500;
+    
+        &:hover,
+        &:focus {
+          box-shadow: none;
+          color: $white !important;
+        }
+      }
+    }
+  }
+}
+
+.dashNav.scrolled {
+  #{$dashNav-prefix}__btn-sidebarToogle {
+    color: $secondary;
+
+    &:hover {
+      color: $dark !important;
+    }
+  }
+
+  input#{$dashNav-prefix}__search {
+    background-color: rgb(108 117 125 / 15%);
+    color: $gray-700;
+
+    &:hover,
+    &:focus {
+      border-color: $gray-500 !important;
+      box-shadow: 0 0 0 0.2rem rgb(108 117 125 / 25%) !important;
+    }    
+  }
+
+  input#{$dashNav-prefix}__search:-webkit-autofill,
+  input#{$dashNav-prefix}__search:-webkit-autofill:focus,
+  input#{$dashNav-prefix}__search:-webkit-autofill:hover {
+    color: $gray-700;
+    box-shadow: 0 0 0 30px #e9eaec inset !important;
+    -webkit-text-fill-color: $gray-700 !important;
+  }
+
+  #{$dashNav-prefix}__btn-toggle-tool {
+    border: 1px solid #ced4da;
+    background-color: rgb(108 117 125 / 15%);
+
+    button {
+      color: $gray-500;
+  
+      &:hover,
+      &:focus {
+        box-shadow: none !important;
+        color: $gray-700 !important;
+      }
+    }
+  }
+
+  #{$dashNav-prefix}__tool {
+    @include media-breakpoint-up(sm) {
+      background-color: rgb(108 117 125 / 15%);
+
+      button {
+        color: $gray-500;
+
+        &:hover,
+        &:focus {
+          color: $gray-700 !important;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slide-down {
+  from {
+    visibility: hidden;
+    height: 0;
+  } to {
+    visibility: visible;
+    height: 56px;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    visibility: visible;
+    height: 56px;
+  } to {
+    visibility: hidden;
+    height: 0;
+  }
+}

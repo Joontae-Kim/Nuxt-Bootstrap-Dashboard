@@ -1,0 +1,59 @@
+.chart {
+  &-container {
+    position: relative;
+    margin: auto;
+
+    canvas {
+      min-width: 0;
+    }
+  }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @each $size, $length in $chart-container-sizes {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+      $half: $size - 5;
+      $half-length: #{$size - 5}vh;
+      .chart-h#{$infix}-#{$half} { height: $half-length !important; }
+      .chart-h#{$infix}-#{$size} { height: $length !important; }
+    }
+  }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @each $size in $chart-container-maxSizes {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+      $half: $size - 50;
+      .chart-range-h#{$infix}-#{$half} {
+        min-height: #{$half}px !important;
+        max-height: #{$half}px !important;
+      }
+      .chart-range-h#{$infix}-#{$size} {
+        min-height: #{$size}px !important;
+        max-height: #{$size}px !important;
+      }
+    }
+  }
+}
+
+.chartTooltip {
+  position: absolute;
+  pointer-events: none;
+  white-space: nowrap;
+  background-color: rgb(255, 255, 255);
+  border-radius: 4px;
+  padding: 10px; // 7px 10px;
+  border: 1px solid #cbd3da;
+  font-size: 12px;
+  font-style: normal;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  transition: all 0.25s ease-in-out;
+  opacity: 0;
+
+  &.active {
+    opacity: 1 !important;
+    transition: opacity 0.3s ease-in-out;
+  }
+}

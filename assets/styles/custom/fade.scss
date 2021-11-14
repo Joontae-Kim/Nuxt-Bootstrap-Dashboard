@@ -1,0 +1,19 @@
+// fade transition for default
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+// fade transition for dashboard content
+.dashboard-fade-enter-active {
+  transition: opacity 1s;
+}
+
+.dashboard-fade-enter,
+.dashboard-fade-leave {
+  opacity: 0;
+}
