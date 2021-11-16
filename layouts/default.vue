@@ -5,34 +5,36 @@
       <b-row id="header" :class="['mx-0 landingIntro', { loaded }]">
         <b-col
           cols="12"
-          v-bind="loaded ? {md: 6, lg: 6} : {md: 12}"
-          :class="['align-self-center text-white pt-4 pb-5 py-sm-0 landingIntro__content', { loaded }]"
+          :class="['text-white pt-4 pb-5 py-sm-0', 'landingIntro__content', { collapsed: collpased.column1 }]"
         >
-          <h1 class="landingIntro__heading">
-            <span class="font-weight-light">Welcome to</span>
-            <span class="landingIntro__service">Nuxtrap</span>
-            <span class="font-weight-light">.</span>
-          </h1>
-          <div class="d-none d-md-block text-light">
-            <h3 class="font-weight-light mb-1 landingIntro__description">Developed Admin Dashboard Propject</h3>
-            <h3 class="font-weight-light mb-2 mb-md-0 landingIntro__description">with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
+          <div class="mx-auto">
+            <h1 :class="['landingIntro__title landingIntro__text', { collapsed: collpased.column1 }]">
+              <span class="font-weight-light">Welcome to</span>
+              <span class="landingIntro__service">Nuxtrap</span>
+            </h1>
+            <div :class="['d-none d-md-block text-light landingIntro__text', { collapsed: collpased.column1 }]">
+              <h3 class="font-weight-light mb-1 landingIntro__description">Developed Admin Dashboard Propject</h3>
+              <h3 class="font-weight-light mb-2 mb-md-0 landingIntro__description">with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
+            </div>
+            <h3 :class="['d-block d-md-none font-weight-light text-light mb-2 mb-md-0 landingIntro__description landingIntro__text', { collapsed: collpased.column1 }]">
+              Developed Admin Dashboard Propject with <i>Nuxt.js</i> and <i>Bootstrap</i>.
+            </h3>
           </div>
-          <h3 class="d-block d-md-none font-weight-light text-light mb-2 mb-md-0 landingIntro__description" style="">Developed Admin Dashboard Propject with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
         </b-col>
-        <template v-if="imgloaded.status">
+        <template v-if="collpased.column2">
           <b-col
             cols="12"
-            v-bind="imgloaded.status ? {md: 6, lg: 6} : {md: 12}"
-            :class="['landingIntro__img', imgloaded.class]"
+            md="6"
+            :class="['landingIntro__img', 'ml-md-auto', imgloaded.class]"
           >
             <img
               id="header-snapshot"
               src="/overview-page.png"
               data-active-container="#header"
-              :data-loaded="imgloaded.status"
               data-rd-md="container"
+              :data-loaded="imgloaded.status"
               alt="overview page"
-              class="shadow landingIntro__screenshot"
+              class="shadow landingIntro__screenshot w-100"
             >
           </b-col>
         </template>
@@ -52,6 +54,10 @@ export default {
   },
   data: () => ({
     loaded: false,
+    collpased: {
+      column1: false,
+      column2: false
+    },
     imgloaded: {
       status: false,
       class: null
@@ -62,19 +68,21 @@ export default {
   mounted () {
     document.body.classList.add('overflow-hidden')
     setTimeout(() => {
-      this.loaded = true
+      this.collpased.column1 = true
     }, 1500)
     setTimeout(() => {
-      this.imgloaded.status = true
+      this.collpased.column2 = true
       this.imgloaded.class = 'loading'
-    }, 1700)
+    }, 2500)
     setTimeout(() => {
+      this.imgloaded.status = true
       this.imgloaded.class = 'loaded'
-      this.$nextTick(() => {
-        this.observeHeroImgHandler()
-        document.body.classList.remove('overflow-hidden')
-      })
-    }, 1800)
+    }, 3000)
+    setTimeout(() => {
+      this.loaded = true
+      this.observeHeroImgHandler()
+      document.body.classList.remove('overflow-hidden')
+    }, 4000)
   },
   beforeDestroy () {
     this.headerObserver.disconnect()
@@ -109,37 +117,60 @@ export default {
   overflow: hidden;
   padding: 2rem 0rem;
   height: 100%;
-  transition: min-height 1.5s ease-out;
+  transition: min-height 1.5s ease-in-out;
+
+  &:not(.loaded) {
+    min-height: calc(100vh - 56.77px);
+  }
 
   &.loaded {
     min-height: 1vh;
   }
 
-  &:not(.loaded) {
-    min-height: 100vh;
-  }
-
   &__content {
-    transition: text-align 0.3s ease-in,
-      max-width  0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: margin-left 1s ease-in-out,
+      max-width 1s ease-in-out,
+      flex 1s ease-in-out;
 
-    &:not(.loaded) {
-      text-align: center;
+    @media (max-width: 479.98px) {
+      height: 100%;
     }
 
-    &.loaded {
-      text-align: left;
+    @media (min-width: 480px) and (max-width: 991.98px) {
+      flex: 0 0 50%;
+      max-width: 50%;
+      margin-left: 26.5vw;
+    }
+
+    @media (min-width: 992px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    &.collapsed {
+      @media (min-width: 480px) {
+        margin-left: 0vw;
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+
+      @media (min-width: 1200px) {
+        flex: 0 0 41.6666666667%;
+        max-width: 41.6666666667%;
+      }
     }
   }
 
   &__img {
     opacity: 0;
-    max-height: 0vh;
-    transition: max-width, max-height 0.5s ease-in-out .5s,
-      opacity 1s ease-in-out;
+    align-self: center;
+    transition: opacity 1s ease-in-out;
 
-    &.loading {
-      max-height: 100vh;
+    &.loading,
+    &.loaded {
       @media (max-width: 639.8px) {
         height: 50%;
       }
@@ -151,14 +182,6 @@ export default {
 
     &.loaded {
       opacity: 1;
-      max-height: 100vh;
-      @media (max-width: 639.8px) {
-        height: 50%;
-      }
-
-      @media (min-width: 640px) {
-        height: 100%;
-      }
     }
   }
 
@@ -190,7 +213,7 @@ export default {
   }
 }
 
-.landingIntro__heading {
+.landingIntro__title {
   margin-bottom: 2.5rem;
   @media (max-width: 1199.98px) {
     font-size: 3rem;
