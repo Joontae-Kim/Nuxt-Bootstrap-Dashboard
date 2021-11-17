@@ -79,8 +79,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    '@nuxtjs/axios',
-    '@nuxt/image'
+    '@nuxtjs/axios'
   ],
 
   axios: {
@@ -123,18 +122,6 @@ export default {
     ],
     config: {
       breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
-    }
-  },
-
-  image: {
-    screens: {
-      xs: 479.98,
-      sm: 639.98,
-      md: 991.98,
-      lg: 1119.98,
-      xl: 1679.98,
-      xxl: 2559.98,
-      sxl: 2560
     }
   },
 
