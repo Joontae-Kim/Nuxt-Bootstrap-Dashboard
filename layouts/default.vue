@@ -29,7 +29,7 @@
           >
             <nuxt-img
               id="header-snapshot"
-              src="/images/overview-page_test_3333.png"
+              src="/images/overview-page.png"
               data-active-container="#header"
               data-rd-md="container"
               :data-loaded="imgloaded.status"
