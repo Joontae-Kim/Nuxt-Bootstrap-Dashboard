@@ -73,18 +73,10 @@ export default {
       this.collpased.column1 = true
     }, 1500)
     setTimeout(() => {
-      // Original
-      // this.imgloaded.class = 'loading'
-      // Temporary Test Code
       this.collpased.column2 = true
       this.imgloaded.status = true
       this.imgloaded.class = 'loaded'
     }, 2500)
-    // // Original
-    // setTimeout(() => {
-    //   this.imgloaded.status = true
-    //   this.imgloaded.class = 'loaded'
-    // }, 3000)
     setTimeout(() => {
       this.loaded = true
       this.observeHeroImgHandler()
@@ -174,22 +166,7 @@ export default {
   &__img {
     opacity: 0;
     align-self: center;
-    // Original
-    // transition: opacity 1s ease-in-out;
 
-    // // Original
-    // &.loading,
-    // &.loaded {
-    //   @media (max-width: 639.8px) {
-    //     height: 50%;
-    //   }
-
-    //   @media (min-width: 640px) {
-    //     height: 100%;
-    //   }
-    // }
-
-    // // Temporary Test Code
     &.loaded {
       @media (max-width: 639.8px) {
         height: 50%;
@@ -201,7 +178,6 @@ export default {
     }
 
     &.loaded {
-      // opacity: 1;
       animation-name: fade-in;
       animation-delay: 1s;
       animation-duration: 1s;
