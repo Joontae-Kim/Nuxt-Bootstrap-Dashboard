@@ -29,7 +29,7 @@
           >
             <nuxt-img
               id="header-snapshot"
-              src="/images/overview-page.png"
+              src="/images/overview-page_test_3333.png"
               data-active-container="#header"
               data-rd-md="container"
               :data-loaded="imgloaded.status"
@@ -73,18 +73,23 @@ export default {
       this.collpased.column1 = true
     }, 1500)
     setTimeout(() => {
+      // Original
+      // this.imgloaded.class = 'loading'
+      // Temporary Test Code
       this.collpased.column2 = true
-      this.imgloaded.class = 'loading'
-    }, 2500)
-    setTimeout(() => {
       this.imgloaded.status = true
       this.imgloaded.class = 'loaded'
-    }, 3000)
+    }, 2500)
+    // // Original
+    // setTimeout(() => {
+    //   this.imgloaded.status = true
+    //   this.imgloaded.class = 'loaded'
+    // }, 3000)
     setTimeout(() => {
       this.loaded = true
       this.observeHeroImgHandler()
       document.body.classList.remove('overflow-hidden')
-    }, 4000)
+    }, 3000)
   },
   beforeDestroy () {
     this.headerObserver.disconnect()
@@ -169,9 +174,22 @@ export default {
   &__img {
     opacity: 0;
     align-self: center;
-    transition: opacity 1s ease-in-out;
+    // Original
+    // transition: opacity 1s ease-in-out;
 
-    &.loading,
+    // // Original
+    // &.loading,
+    // &.loaded {
+    //   @media (max-width: 639.8px) {
+    //     height: 50%;
+    //   }
+
+    //   @media (min-width: 640px) {
+    //     height: 100%;
+    //   }
+    // }
+
+    // // Temporary Test Code
     &.loaded {
       @media (max-width: 639.8px) {
         height: 50%;
@@ -183,7 +201,11 @@ export default {
     }
 
     &.loaded {
-      opacity: 1;
+      // opacity: 1;
+      animation-name: fade-in;
+      animation-delay: 1s;
+      animation-duration: 1s;
+      animation-fill-mode: both;
     }
   }
 
@@ -237,6 +259,15 @@ export default {
 .landingIntro__description {
   color: #e1e1e1;
   font-size: 1.25rem !important;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 </style>
