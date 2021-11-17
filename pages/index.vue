@@ -13,9 +13,9 @@
 
 <script>
 import subHeadingSection from "~/components/landing/subHeading-section"
+import featuresSection from "~/components/landing/features-section"
 import layoutSection from "~/components/landing/layout-section"
 import pagesSection from "~/components/landing/pages-section"
-import featuresSection from "~/components/landing/features-section"
 
 export default {
   components: {
