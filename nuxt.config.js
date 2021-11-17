@@ -3,6 +3,7 @@ import { extendRoutes } from './router'
 const processEnv = require('dotenv').config({ path: `./env/.env.${process.env.NODE_ENV}` }).parsed
 
 if (process.env.NODE_ENV !== 'production') {
+  console.log('processEnv: ', processEnv)
   console.log(`process.env.NODE_ENV => ${process.env.NODE_ENV}`)
 }
 
@@ -54,14 +55,6 @@ export default {
       '~/components/common'
     ]
   },
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/moment',
-    ['@nuxtjs/dotenv', { filename: `./env/.env.${process.env.NODE_ENV}`, systemvars: true }]
-  ],
 
   // Extend Router
   router: {
@@ -144,6 +137,15 @@ export default {
     { path: '/api/over', handler: '~/api/over.js' },
     { path: '/api/event', handler: '~/api/event.js' },
     { path: '/api/users', handler: '~/api/users.js' }
+  ],
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/moment',
+    ['@nuxtjs/dotenv', { filename: `./env/.env.${process.env.NODE_ENV}`, systemvars: true }],
+    '@nuxtjs/svg'
   ],
 
   // buildDir Configuration: https://nuxtjs.org/docs/configuration-glossary/configuration-builddir
