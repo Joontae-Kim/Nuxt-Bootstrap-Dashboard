@@ -29,7 +29,7 @@
           >
             <nuxt-img
               id="header-snapshot"
-              src="/overview-page.png"
+              src="/images/overview-page.png"
               data-active-container="#header"
               data-rd-md="container"
               :data-loaded="imgloaded.status"
@@ -37,7 +37,6 @@
               class="shadow landingIntro__screenshot"
               sizes="xs:120vw xl:150vw"
               quality="70"
-              @load="doSomethingOnLoad"
             />
           </b-col>
         </template>
@@ -91,11 +90,6 @@ export default {
     this.headerObserver.disconnect()
   },
   methods: {
-    doSomethingOnLoad (event) {
-      console.log(`doSomethingOnLoad ~ `)
-      // console.log(` ~ `)
-      // console.log(` ~ event => `, event)
-    },
     observeHeroImgHandler () {
       this.headerObserver = new IntersectionObserver(
         this.onHeaderElementObserved,
