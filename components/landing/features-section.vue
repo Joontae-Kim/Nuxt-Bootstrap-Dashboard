@@ -18,14 +18,16 @@
             title="Nuxt.js"
             description="Nuxt.js is a free and open source web application framework based on Vue.js, Node.js, Webpack and Babel.js."
           >
-            <img
+            <!-- <img
               title="Nuxt.js"
               alt="Nuxt.js"
               height="40"
               class="mb-3 mb-lg-auto"
               data-src="/nuxt_svg.svg"
               data-loaded="false"
-            >
+            > -->
+            <!-- height="50" -->
+            <NuxtLogo alt="Nuxt.js" class="mb-3" style="height:40px;width:auto;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--2">
@@ -33,14 +35,15 @@
             title="BootstrapVue"
             description="BootstrapVue provides one of the most comprehensive implementations of the Bootstrap v4 component and grid system available for Vue.js v2.6."
           >
-            <img
+            <!-- <img
               title="BootstrapVue"
               alt="BootstrapVue"
               height="40"
               class="mb-3"
               data-src="/bootstrapVue_svg.svg"
               data-loaded="false"
-            >
+            > -->
+            <bootstrapVueLogo alt="Nuxt.js" class="mb-3" style="height:40px;width:auto;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--3">
@@ -48,14 +51,15 @@
             title="Express.js"
             description="the most popular Node web framework, and is the underlying library for a number of other popular Node web frameworks."
           >
-            <img
+            <!-- <img
               title="Express.js"
               alt="Express.js"
               height="30"
               class="mb-3 mb-lg-auto"
               data-src="/expressjs.svg"
               data-loaded="false"
-            >
+            > -->
+            <expressjsLogo alt="Nuxt.js" class="mb-3" style="height:30px;width:auto;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--1">
@@ -63,14 +67,15 @@
             title="Axios Module for Nuxt.js"
             description="Secure and easy Axios integration for Nuxt."
           >
-            <img
+            <!-- <img
               title="Axios Module for Nuxt.js"
               alt="Axios Module for Nuxt.js"
               height="20"
               class="mt-lg-2 mb-4"
               data-src="/AxiosModule_svg.svg"
               data-loaded="false"
-            >
+            > -->
+            <AxiosModuleLogo class="mt-lg-2 mb-4" style="height:20px;width:auto;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--2">
@@ -78,14 +83,15 @@
             title="Sass"
             description="Sass is the most mature, stable, and powerful professional grade CSS extension language in the world."
           >
-            <img
+            <!-- <img
               title="Sass"
               alt="Sass"
               width="45"
               class="mb-3"
               data-src="/Sass.svg"
               data-loaded="false"
-            >
+            > -->
+            <SassLogo class="mb-3" style="width:45px;height:auto;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-sm-4 mb-lg-0 featureEle featureEle--3">
@@ -93,14 +99,15 @@
             title="Chart.js"
             description="Simple yet flexible JavaScript charting for designers & developers."
           >
-            <img
+            <!-- <img
               title="Chart.js"
               alt="Chart.js"
               width="30"
               class="mb-3"
               data-src="/chartjs.svg"
               data-loaded="false"
-            >
+            > -->
+            <chartjsLogo class="mb-3" style="width:30px;height:auto;" />
           </feature>
         </b-col>
       </b-row>
@@ -109,11 +116,23 @@
 </template>
 
 <script>
+import NuxtLogo from "~/assets/svgs/nuxt.svg?inline"
+import bootstrapVueLogo from "~/assets/svgs/bootstrapVue.svg?inline"
+import expressjsLogo from "~/assets/svgs/expressjs.svg?inline"
+import AxiosModuleLogo from "~/assets/svgs/AxiosModule.svg?inline"
+import SassLogo from "~/assets/svgs/sass.svg?inline"
+import chartjsLogo from "~/assets/svgs/chartjs.svg?inline"
 import feature from '~/components/landing/ui/feature'
 
 export default {
   name: 'LandingFeature',
   components: {
+    NuxtLogo,
+    bootstrapVueLogo,
+    expressjsLogo,
+    AxiosModuleLogo,
+    SassLogo,
+    chartjsLogo,
     feature
   },
   data: () => ({
