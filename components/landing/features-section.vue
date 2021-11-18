@@ -18,16 +18,7 @@
             title="Nuxt.js"
             description="Nuxt.js is a free and open source web application framework based on Vue.js, Node.js, Webpack and Babel.js."
           >
-            <!-- <img
-              title="Nuxt.js"
-              alt="Nuxt.js"
-              height="40"
-              class="mb-3 mb-lg-auto"
-              data-src="/nuxt_svg.svg"
-              data-loaded="false"
-            > -->
-            <!-- height="50" -->
-            <NuxtLogo alt="Nuxt.js" class="mb-3" style="height:40px;width:auto;" />
+            <NuxtLogo alt="Nuxt.js" class="mb-3" style="font-size: 280%" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--2">
@@ -35,15 +26,7 @@
             title="BootstrapVue"
             description="BootstrapVue provides one of the most comprehensive implementations of the Bootstrap v4 component and grid system available for Vue.js v2.6."
           >
-            <!-- <img
-              title="BootstrapVue"
-              alt="BootstrapVue"
-              height="40"
-              class="mb-3"
-              data-src="/bootstrapVue_svg.svg"
-              data-loaded="false"
-            > -->
-            <bootstrapVueLogo alt="Nuxt.js" class="mb-3" style="height:40px;width:auto;" />
+            <bootstrapVueLogo alt="Nuxt.js" class="mb-3 mb-md-auto" style="font-size: 280%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--3">
@@ -51,15 +34,7 @@
             title="Express.js"
             description="the most popular Node web framework, and is the underlying library for a number of other popular Node web frameworks."
           >
-            <!-- <img
-              title="Express.js"
-              alt="Express.js"
-              height="30"
-              class="mb-3 mb-lg-auto"
-              data-src="/expressjs.svg"
-              data-loaded="false"
-            > -->
-            <expressjsLogo alt="Nuxt.js" class="mb-3" style="height:30px;width:auto;" />
+            <expressjsLogo alt="Nuxt.js" class="mb-3" style="font-size: 280%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--1">
@@ -67,15 +42,7 @@
             title="Axios Module for Nuxt.js"
             description="Secure and easy Axios integration for Nuxt."
           >
-            <!-- <img
-              title="Axios Module for Nuxt.js"
-              alt="Axios Module for Nuxt.js"
-              height="20"
-              class="mt-lg-2 mb-4"
-              data-src="/AxiosModule_svg.svg"
-              data-loaded="false"
-            > -->
-            <AxiosModuleLogo class="mt-lg-2 mb-4" style="height:20px;width:auto;" />
+            <AxiosModuleLogo class="mb-3" style="font-size: 280%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--2">
@@ -83,15 +50,7 @@
             title="Sass"
             description="Sass is the most mature, stable, and powerful professional grade CSS extension language in the world."
           >
-            <!-- <img
-              title="Sass"
-              alt="Sass"
-              width="45"
-              class="mb-3"
-              data-src="/Sass.svg"
-              data-loaded="false"
-            > -->
-            <SassLogo class="mb-3" style="width:45px;height:auto;" />
+            <SassLogo class="mb-3" style="font-size: 280%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-sm-4 mb-lg-0 featureEle featureEle--3">
@@ -99,15 +58,7 @@
             title="Chart.js"
             description="Simple yet flexible JavaScript charting for designers & developers."
           >
-            <!-- <img
-              title="Chart.js"
-              alt="Chart.js"
-              width="30"
-              class="mb-3"
-              data-src="/chartjs.svg"
-              data-loaded="false"
-            > -->
-            <chartjsLogo class="mb-3" style="width:30px;height:auto;" />
+            <chartjsLogo class="mb-3" style="font-size: 280%;" />
           </feature>
         </b-col>
       </b-row>
