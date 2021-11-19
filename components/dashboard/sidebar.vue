@@ -3,7 +3,7 @@
     <div class="sidebar__header">
       <div class="sidebar__logo cursor-pointer">
         <nuxt-link :to="{ name: 'index' }">
-          <img src="~/static/nuxt-bootstrap-logo.svg" alt="nuxt dashboard with bootstrap 4" height="30">
+          <img src="~/assets/images/nuxtstrap-logo.png" alt="Nuxtrap" height="30">
         </nuxt-link>
       </div>
     </div>
