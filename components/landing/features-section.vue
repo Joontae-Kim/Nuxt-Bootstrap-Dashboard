@@ -34,7 +34,7 @@
             title="Express.js"
             description="the most popular Node web framework, and is the underlying library for a number of other popular Node web frameworks."
           >
-            <expressjsLogo alt="Nuxt.js" class="mb-3" style="font-size: 280%;" />
+            <expressjsLogo alt="Nuxt.js" class="mb-3" style="font-size: 250%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--1">
