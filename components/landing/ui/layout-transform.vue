@@ -1,7 +1,9 @@
 <template>
   <div class="d-flex flex-lg-row align-items-center justify-content-around justify-content-sm-around flex-grow-1 h-sm-100 h-lg-auto layout__component">
     <slot name="left-icon">
-      <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
+      <div class="layout__deviceWrapper">
+        <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
+      </div>
     </slot>
     <template v-if="!vertical">
       <b-icon
@@ -15,7 +17,9 @@
       :class="[!vertical ? 'd-md-none' : '', 'layout__transfer']"
     />
     <slot name="right-icon">
-      <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="layout__device" />
+      <div class="layout__deviceWrapper">
+        <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="layout__device" />
+      </div>
     </slot>
   </div>
 </template>

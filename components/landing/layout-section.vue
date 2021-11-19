@@ -53,8 +53,10 @@
           </div>
           <layoutTransform class="flex-md-column-reverse justify-content-lg-between my-4 my-md-auto my-xl-4 w-100" right-icon="phone" :vertical="true">
             <template #left-icon>
-              <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-md-inline-block layout__device" />
-              <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-md-none layout__device" />
+              <div class="layout__deviceWrapper">
+                <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-md-inline-block layout__device" />
+                <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-md-none layout__device" />
+              </div>
             </template>
           </layoutTransform>
         </b-col>
@@ -74,12 +76,18 @@
             <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0 layoutTranformWrapper">
               <layoutTransform class="flex-sm-column-reverse justify-content-lg-between">
                 <template #left-icon>
-                  <b-icon icon="tablet" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
-                  <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
+                  <!-- <div class="layout__deviceWrapper"></div> -->
+                  <div class="layout__deviceWrapper">
+                    <b-icon icon="tablet" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
+                    <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
+                  </div>
                 </template>
                 <template #right-icon>
-                  <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
-                  <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
+                  <!-- <div class="layout__deviceWrapper"></div> -->
+                  <div class="layout__deviceWrapper">
+                    <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
+                    <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
+                  </div>
                 </template>
               </layoutTransform>
             </b-col>
@@ -228,7 +236,28 @@ $layout-transfer-color-observed: #343a40;
   }
 
   $layout__ele-common-transition: .5s ease-in-out;
+
+  .layout__deviceWrapper {
+    background: linear-gradient(135deg, #153D77, #2F70AF);
+    border-radius: 25px;
+    box-shadow: 0 0.125rem 0.25rem #ced4da;
+    @media (max-width: 575.98px) {
+      width: 50px;
+      height: 50px;
+    }
+
+    @media (min-width: 576px) {
+      width: 40px;
+      height: 40px;
+    }
+    position: relative;
+  }
+
   .layout__device {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     @media (max-width: 575.98px) {
       transition: border-radius, background, color .3s ease-in-out .3s,
         font-size, padding, box-shadow #{$layout__ele-common-transition} .5s;
@@ -257,18 +286,13 @@ $layout-transfer-color-observed: #343a40;
   &.observed {
     .layout__device {
       color: #ffffff !important;
-      background: linear-gradient(135deg, #153D77, #2F70AF);
-      border-radius: 25px;
-      box-shadow: 0 0.125rem 0.25rem #ced4da;
 
       @media (max-width: 575.98px) {
-        font-size: 300% !important;
-        padding: 0.70rem;
+        font-size: 170% !important;
       }
 
       @media (min-width: 576px) {
-        font-size: 250% !important;
-        padding: 0.55rem;
+        font-size: 140% !important;
       }
     }
 
