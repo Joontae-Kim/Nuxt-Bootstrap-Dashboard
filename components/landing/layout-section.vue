@@ -15,11 +15,13 @@
             <b-col cols md="9" class="mb-4">
               <b-card id="responsive-lg" no-body :class="[responsiveLayoutClass.card, 'left']">
                 <img
-                  alt=""
-                  :class="responsiveLayoutClass.img"
-                  data-src="/1-pc-xxl.png"
+                  :data-src="largeScale_srcset.src"
+                  :sizes="largeScale_srcset.sizes"
+                  :srcset="largeScale_srcset.srcset"
                   data-loaded="false"
                   data-active-target="#responsive-lg"
+                  :class="responsiveLayoutClass.img"
+                  alt=""
                 >
               </b-card>
             </b-col>
@@ -43,11 +45,13 @@
           <div class="mb-4 mb-md-0 w-100">
             <b-card id="responsive-mobile" no-body :class="[responsiveLayoutClass.card, 'right']">
               <img
-                alt=""
-                :class="responsiveLayoutClass.img"
-                data-src="/4-1-mobile-xs.png"
+                :data-src="mobile_srcset.src"
+                :sizes="mobile_srcset.sizes"
+                :srcset="mobile_srcset.srcset"
                 data-loaded="false"
                 data-active-target="#responsive-mobile"
+                :class="responsiveLayoutClass.img"
+                alt=""
               >
             </b-card>
           </div>
@@ -65,25 +69,25 @@
             <b-col cols md="4" class="mb-4 mb-md-0">
               <b-card id="responsive-tablet" no-body :class="[responsiveLayoutClass.card, 'left']">
                 <img
-                  alt=""
-                  :class="responsiveLayoutClass.img"
-                  data-src="3-tablet-md.png"
+                  :data-src="tablePortrait_srcset.src"
+                  :sizes="tablePortrait_srcset.sizes"
+                  :srcset="tablePortrait_srcset.srcset"
                   data-loaded="false"
                   data-active-target="#responsive-tablet"
+                  :class="responsiveLayoutClass.img"
+                  alt=""
                 >
               </b-card>
             </b-col>
             <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0 layoutTranformWrapper">
               <layoutTransform class="flex-sm-column-reverse justify-content-lg-between">
                 <template #left-icon>
-                  <!-- <div class="layout__deviceWrapper"></div> -->
                   <div class="layout__deviceWrapper">
                     <b-icon icon="tablet" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
                     <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
                   </div>
                 </template>
                 <template #right-icon>
-                  <!-- <div class="layout__deviceWrapper"></div> -->
                   <div class="layout__deviceWrapper">
                     <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
                     <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
@@ -94,11 +98,13 @@
             <b-col cols md="6">
               <b-card id="responsive-tablet-landscape" no-body :class="[responsiveLayoutClass.card, 'right']">
                 <img
-                  alt=""
-                  :class="responsiveLayoutClass.img"
-                  data-src="2-tablet-md.png"
+                  :data-src="tableLandscape_srcset.src"
+                  :sizes="tableLandscape_srcset.sizes"
+                  :srcset="tableLandscape_srcset.srcset"
                   data-loaded="false"
                   data-active-target="#responsive-tablet-landscape"
+                  :class="responsiveLayoutClass.img"
+                  alt=""
                 >
               </b-card>
             </b-col>
@@ -127,9 +133,36 @@ export default {
     },
     LSObserver: null,
     TransderObserver: null,
-    layoutImagsWrapperObserver: null
+    layoutImagsWrapperObserver: null,
+    imgSrcset_commonConfig: {
+      modifiers: { format: 'png', quality: 80 }
+    }
   }),
   computed: {
+    largeScale_srcset () {
+      return this.$img.getSizes('/images/landing/layout-largeScale.png', {
+        sizes: 'xs:150vw sm:100vw xxl:120vw',
+        modifiers: this.imgSrcset_commonConfig.modifiers
+      })
+    },
+    mobile_srcset () {
+      return this.$img.getSizes('/images/landing/layout-mobile.png', {
+        sizes: 'xs:80vw sm:100vw',
+        modifiers: this.imgSrcset_commonConfig.modifiers
+      })
+    },
+    tablePortrait_srcset () {
+      return this.$img.getSizes('/images/landing/layout-tablet-portrait.png', {
+        sizes: 'xs:120vw sm:120vw lg:80vw',
+        modifiers: this.imgSrcset_commonConfig.modifiers
+      })
+    },
+    tableLandscape_srcset () {
+      return this.$img.getSizes('/images/landing/layout-tablet-landscape.png', {
+        sizes: 'xs:120vw sm:120vw lg:150vw',
+        modifiers: this.imgSrcset_commonConfig.modifiers
+      })
+    },
     observeLayoutImgsConfig () {
       return window.innerWidth > 576
         ? { rootMargin: '0px', threshold: 0.3 }
