@@ -271,7 +271,7 @@ export default {
   }
 }
 
-.layoutIcon::v-deep .layout__icon-component {
+.layoutIcon::v-deep .layout__component {
   .layoutIcon__deviceWrapper {
     position: relative;
     @media (max-width: 575.98px) {
