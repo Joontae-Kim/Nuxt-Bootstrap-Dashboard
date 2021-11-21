@@ -13,22 +13,21 @@
         <b-col cols md="10" class="d-flex flex-column">
           <b-row class="mb-4 h-100">
             <b-col cols md="9" class="mb-4">
-              <b-card id="responsive-lg" no-body :class="[responsiveLayoutClass.card, 'left']">
+              <b-card id="responsive-lg" no-body :class="[responsiveLayoutClass.card, 'layout--lg']">
                 <img
                   :data-src="largeScale_srcset.src"
                   :sizes="largeScale_srcset.sizes"
                   :srcset="largeScale_srcset.srcset"
                   data-loaded="false"
-                  data-active-target="#responsive-lg"
-                  :class="responsiveLayoutClass.img"
+                  :class="[responsiveLayoutClass.img, 'layout--left']"
                   alt=""
                 >
               </b-card>
             </b-col>
-            <b-col cols md="3" class="d-flex align-items-center justify-content-center my-4 my-md-0 layoutTranformWrapper">
+            <b-col cols md="3" class="d-flex align-items-center justify-content-center my-4 my-md-0 layoutIcon">
               <layoutTransform class="flex-md-column-reverse justify-content-sm-around" left-icon="phone" right-icon="display" />
             </b-col>
-            <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-center layoutTranformWrapper">
+            <b-col cols md="3" class="d-none d-md-flex align-items-center justify-content-center layoutIcon">
               <layoutTransform
                 class="flex-sm-column-reverse justify-content-lg-between justify-content-xl-around"
                 left-icon="tablet"
@@ -41,25 +40,24 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col cols md="2" class="d-flex flex-column align-items-end mb-4 mb-md-0 layoutTranformWrapper">
+        <b-col cols md="2" class="d-flex flex-column align-items-end mb-4 mb-md-0 layoutIcon">
           <div class="mb-4 mb-md-0 w-100">
-            <b-card id="responsive-mobile" no-body :class="[responsiveLayoutClass.card, 'right']">
+            <b-card id="responsive-mobile" no-body :class="[responsiveLayoutClass.card, 'layout--xs']">
               <img
                 :data-src="mobile_srcset.src"
                 :sizes="mobile_srcset.sizes"
                 :srcset="mobile_srcset.srcset"
                 data-loaded="false"
-                data-active-target="#responsive-mobile"
-                :class="responsiveLayoutClass.img"
+                :class="[responsiveLayoutClass.img, 'layout--right']"
                 alt=""
               >
             </b-card>
           </div>
           <layoutTransform class="flex-md-column-reverse justify-content-lg-between my-4 my-md-auto my-xl-4 w-100" right-icon="phone" :vertical="true">
             <template #left-icon>
-              <div class="layout__deviceWrapper">
-                <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-md-inline-block layout__device" />
-                <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-md-none layout__device" />
+              <div class="layoutIcon__deviceWrapper">
+                <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-md-inline-block layoutIcon__device" />
+                <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-md-none layoutIcon__device" />
               </div>
             </template>
           </layoutTransform>
@@ -67,43 +65,41 @@
         <b-col cols md="12">
           <b-row>
             <b-col cols md="4" class="mb-4 mb-md-0">
-              <b-card id="responsive-tablet" no-body :class="[responsiveLayoutClass.card, 'left']">
+              <b-card id="responsive-tablet" no-body :class="[responsiveLayoutClass.card, 'layout--md']">
                 <img
                   :data-src="tablePortrait_srcset.src"
                   :sizes="tablePortrait_srcset.sizes"
                   :srcset="tablePortrait_srcset.srcset"
                   data-loaded="false"
-                  data-active-target="#responsive-tablet"
-                  :class="responsiveLayoutClass.img"
+                  :class="[responsiveLayoutClass.img, 'layout--left']"
                   alt=""
                 >
               </b-card>
             </b-col>
-            <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0 layoutTranformWrapper">
+            <b-col cols md="2" class="d-flex align-items-center py-4 mb-4 my-md-0 layoutIcon">
               <layoutTransform class="flex-sm-column-reverse justify-content-lg-between">
                 <template #left-icon>
-                  <div class="layout__deviceWrapper">
-                    <b-icon icon="tablet" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
-                    <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
+                  <div class="layoutIcon__deviceWrapper">
+                    <b-icon icon="tablet" font-scale="1.5" class="d-none d-lg-inline-block layoutIcon__device" />
+                    <b-icon icon="tablet-landscape" font-scale="1.5" class="d-inline-block d-lg-none layoutIcon__device" />
                   </div>
                 </template>
                 <template #right-icon>
-                  <div class="layout__deviceWrapper">
-                    <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layout__device" />
-                    <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-lg-none layout__device" />
+                  <div class="layoutIcon__deviceWrapper">
+                    <b-icon icon="tablet-landscape" font-scale="1.5" class="d-none d-lg-inline-block layoutIcon__device" />
+                    <b-icon icon="tablet" font-scale="1.5" class="d-inline-block d-lg-none layoutIcon__device" />
                   </div>
                 </template>
               </layoutTransform>
             </b-col>
             <b-col cols md="6">
-              <b-card id="responsive-tablet-landscape" no-body :class="[responsiveLayoutClass.card, 'right']">
+              <b-card id="responsive-tablet-landscape" no-body :class="[responsiveLayoutClass.card, 'layout--md']">
                 <img
                   :data-src="tableLandscape_srcset.src"
                   :sizes="tableLandscape_srcset.sizes"
                   :srcset="tableLandscape_srcset.srcset"
                   data-loaded="false"
-                  data-active-target="#responsive-tablet-landscape"
-                  :class="responsiveLayoutClass.img"
+                  :class="[responsiveLayoutClass.img, 'layout--right']"
                   alt=""
                 >
               </b-card>
@@ -128,8 +124,8 @@ export default {
   },
   data: () => ({
     responsiveLayoutClass: {
-      card: 'layoutDeviceWrapper',
-      img: 'w-100 rounded'
+      card: 'layout',
+      img: 'layout__img w-100 rounded'
     },
     LSObserver: null,
     TransderObserver: null,
@@ -176,7 +172,7 @@ export default {
   },
   methods: {
     observeLayoutImgs () {
-      const layoutImagsWrapperObserver = document.querySelectorAll('.layoutDeviceWrapper img')
+      const layoutImagsWrapperObserver = document.querySelectorAll('.layout__img')
       this.layoutImagsObserver = new IntersectionObserver(
         this.onLayoutImgsHandler,
         this.observeLayoutImgsConfig
@@ -186,8 +182,7 @@ export default {
     onLayoutImgsHandler (entries, observer) {
       entries.forEach(({ target, isIntersecting }) => {
         if (isIntersecting) {
-          const imgContainer = document.querySelector(target.dataset.activeTarget)
-          imgContainer.classList.add('active')
+          target.classList.add('active')
           observer.unobserve(target)
         }
       })
@@ -196,17 +191,18 @@ export default {
       const transfers = document.querySelectorAll('.layout__component')
       this.TransderObserver = new IntersectionObserver(
         this.onTransformsHandler,
-        { rootMargin: '0px', threshold: 1 }
+        { rootMargin: '-25px 0px', threshold: 1 }
       )
       transfers.forEach(transfer => this.TransderObserver.observe(transfer))
     },
     onTransformsHandler (entries, observer) {
       entries.forEach(({ target, isIntersecting }) => {
         if (isIntersecting) {
-          if (!target.classList.contains('active')) {
-            target.classList.add('active')
-          }
-          target.classList.add('observed')
+          target.children.forEach((child) => {
+            if (child.classList.contains('layoutIcon__deviceWrapper')) {
+              child.classList.add('observed')
+            }
+          })
           observer.unobserve(target)
         }
       })
@@ -218,62 +214,66 @@ export default {
 <style lang="scss" scoped>
 @use "sass:map";
 
-$layout-device-color: #adb5bd;
-$layout-transfer-color: #adb5bd;
-$layout-transfer-color-observed: #343a40;
+.layout {
+  border-width: 0px;
 
-.layoutDeviceWrapper {
-  transition: opacity 0.3s ease-in-out 1s, transform 1s ease-in-out 1s;
-  &[data-loaded="false"] {
-    opacity: 0;
+  &--xs {
+    background: linear-gradient(180deg, rgba(18,59,121,0.3) 10% , #f5f5f5 30%);
   }
 
-  &:not(.active) {
-    opacity: 0;
-    box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 15%);
-    @media (max-width: 575.98px) {
-      transform: translateY(1.5rem);
-    }
+  &--md {
+    background: linear-gradient(180deg, rgba(18, 59, 121, 0.35) 3.3%, #f5f5f5 20%);
+  }
 
-    @media (min-width: 576px) {
-      &.right {
-        transform: translateX(7rem);
-      }
-      &.left {
-        transform: translateX(-7rem);
-      }
+  &--lg {
+    position: relative;
+    background: linear-gradient(180deg, rgba(18,59,121,0.3) , #f5f5f5 30%);
+    &::before {
+      content: ' ';
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 20%;
+      height: 100%;
+      background: linear-gradient(270deg, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.03) 0%);
     }
   }
 
-  &.active {
-    opacity: 1;
+  &__img {
+    opacity: 0;
+  }
+
+  &__img.active {
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
     @media (max-width: 575.98px) {
-      transform: translateY(0rem);
+      animation-name: move-up;
+      animation-timing-function: ease-in-out;
+      animation-duration: 1s;
+      animation-fill-mode: both;
     }
+
     @media (min-width: 576px) {
-      transform: translateX(0rem);
+      &.layout--right,
+      &.layout--right {
+        animation-name: move-in-right;
+      }
+      &.layout--left {
+        animation-name: move-in-left;
+      }
     }
+  }
+
+  &--left,
+  &--right {
+    animation-timing-function: ease-in-out;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
   }
 }
 
-.layoutTranformWrapper::v-deep .layout__component {
-  transition: opacity .5s ease-in-out .5s;
-
-  &:not(.active) {
-    opacity: 0;
-  }
-
-  &.active {
-    opacity: 1;
-  }
-
-  $layout__ele-common-transition: .5s ease-in-out;
-
-  .layout__deviceWrapper {
-    background: linear-gradient(135deg, #153D77, #2F70AF);
-    border-radius: 25px;
-    box-shadow: 0 0.125rem 0.25rem #ced4da;
+.layoutIcon::v-deep .layout__icon-component {
+  .layoutIcon__deviceWrapper {
+    position: relative;
     @media (max-width: 575.98px) {
       width: 50px;
       height: 50px;
@@ -283,58 +283,90 @@ $layout-transfer-color-observed: #343a40;
       width: 40px;
       height: 40px;
     }
-    position: relative;
+    border-radius: 25px;
+    background: #e5e5e5;
   }
 
-  .layout__device {
+  .layoutIcon__deviceWrapper.observed::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    animation-name: device-icon-activate;
+    animation-timing-function: ease-in-out;
+    animation-duration: 1.5s;
+    animation-fill-mode: both;
+  }
+
+  .layoutIcon__device {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: #ffffff !important;
     @media (max-width: 575.98px) {
-      transition: border-radius, background, color .3s ease-in-out .3s,
-        font-size, padding, box-shadow #{$layout__ele-common-transition} .5s;
+      font-size: 170% !important;
     }
+
     @media (min-width: 576px) {
-      transition: color 0.1s ease-in-out,
-        border-radius, font-size 0.3s ease-in-out,
-        padding, background, box-shadow #{$layout__ele-common-transition} 0.5s;
+      font-size: 140% !important;
     }
   }
 
   .layout__transfer {
-    transition: font-size, color #{$layout__ele-common-transition} 0.3s;
+    @media (max-width: 575.98px) {
+      font-size: 140% !important;
+    }
+    color: #6c757d;
   }
+}
 
-  &:not(.observed) {
-    .layout__device {
-      color: $layout-device-color;
-    }
-
-    .layout__transfer {
-      color: $layout-transfer-color;
-    }
+@keyframes move-up {
+  0% {
+    opacity: 0;
+    transform: translateY(1.5rem);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0rem);
+  }
+}
 
-  &.observed {
-    .layout__device {
-      color: #ffffff !important;
+@keyframes move-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0rem);
+  }
+}
 
-      @media (max-width: 575.98px) {
-        font-size: 170% !important;
-      }
+@keyframes move-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0rem);
+  }
+}
 
-      @media (min-width: 576px) {
-        font-size: 140% !important;
-      }
-    }
-
-    .layout__transfer {
-      @media (max-width: 575.98px) {
-        font-size: 140% !important;
-      }
-      color: $layout-transfer-color-observed;
-    }
+@keyframes device-icon-activate {
+  0% {
+    opacity: 0;
+    box-shadow: 0 0 0 #ced4da;
+    background: linear-gradient(135deg, #e5e5e5, #e5e5e5);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0.125rem 0.25rem #ced4da;
+    background: linear-gradient(135deg, #153D77, #2F70AF);
   }
 }
 

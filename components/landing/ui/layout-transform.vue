@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex flex-lg-row align-items-center justify-content-around justify-content-sm-around flex-grow-1 h-sm-100 h-lg-auto layout__component">
+  <div class="d-flex flex-lg-row align-items-center justify-content-around justify-content-sm-around flex-grow-1 h-sm-100 h-lg-auto layout__component layout__icon-component">
     <slot name="left-icon">
-      <div class="layout__deviceWrapper">
-        <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layout__device" />
+      <div class="layoutIcon__deviceWrapper layout__deviceWrapper">
+        <b-icon :icon="leftIcon" :font-scale="iconDevice.scale" class="layoutIcon__device layout__device" />
       </div>
     </slot>
     <template v-if="!vertical">
@@ -17,8 +17,8 @@
       :class="[!vertical ? 'd-md-none' : '', 'layout__transfer']"
     />
     <slot name="right-icon">
-      <div class="layout__deviceWrapper">
-        <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="layout__device" />
+      <div class="layoutIcon__deviceWrapper layout__deviceWrapper">
+        <b-icon :icon="rightIcon" :font-scale="iconDevice.scale" class="layoutIcon__device layout__device" />
       </div>
     </slot>
   </div>
