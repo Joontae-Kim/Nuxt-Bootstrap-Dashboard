@@ -16,11 +16,12 @@
           name="project-pages"
         >
           <img
+            :data-src="page.img.src"
+            :sizes="page.img.sizes"
+            :srcset="page.img.srcset"
             :title="page.title"
             :alt="page.title"
             class="w-100 rounded mb-3 pageList__img"
-            :data-src="page.src"
-            data-loaded="false"
           >
           <h5 :class="titleClass">{{ page.type }}</h5>
           <b-btn
@@ -44,11 +45,13 @@
           name="project-pages"
         >
           <img
+            :data-src="page.img.src"
+            :sizes="page.img.sizes"
+            :srcset="page.img.srcset"
+            data-loaded="false"
             :title="page.title"
             :alt="page.title"
             class="w-100 rounded mb-3 pageList__img"
-            :data-src="page.src"
-            data-loaded="false"
           >
           <h5 :class="titleClass">{{ page.type }}</h5>
           <b-btn
@@ -76,20 +79,34 @@ export default {
   },
   data: () => ({
     titleClass: 'pageList__title text-center',
-    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light',
-    pagesGrp: {
-      grp1: [
-        { src: 'overview_page.png', type: 'Default Page', title: 'Overview', routeName: 'overview', path: '/overview' },
-        { src: 'eventsList_page.png', type: 'List Page', title: 'Events List', routeName: 'eventsList', path: '/events/list' },
-        { src: 'usersStatics_page.png', type: 'Analytics Page', title: 'Users Statics', routeName: 'userStatics', path: '/users/statics' }
-      ],
-      grp2: [
-        { src: 'userDetailed_page.png', type: 'Information Details Page', title: 'User Detail', routeName: 'usersList', path: '/users/list' },
-        { src: 'signup_page.png', type: 'Authentication Type Page', title: 'Sign Up', routeName: 'signin', path: '/signin' },
-        { src: '404_page.png', type: 'Utility Page', title: '404 Page', routeName: 'notFound', path: '/404' }
-      ]
-    }
+    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light'
   }),
+  computed: {
+    pagesGrp () {
+      const imgOpt = {
+        sizes: 'xs:100vw md:120vw lg:150vw',
+        modifiers: { format: 'png', quality: 70 }
+      }
+      const overviewImg = this.$img.getSizes('/images/landing/overview_page.png', imgOpt)
+      const eventsListImg = this.$img.getSizes('/images/landing/eventsList_page.png', imgOpt)
+      const usersStaticsImg = this.$img.getSizes('/images/landing/usersStatics_page.png', imgOpt)
+      const userDetailedImg = this.$img.getSizes('/images/landing/userDetailed_page.png', imgOpt)
+      const signupImg = this.$img.getSizes('/images/landing/signup_page.png', imgOpt)
+      const Page404Img = this.$img.getSizes('/images/landing/404_page.png', imgOpt)
+      return {
+        grp1: [
+          { img: overviewImg, type: 'Default Page', title: 'Overview', routeName: 'overview', path: '/overview' },
+          { img: eventsListImg, type: 'List Page', title: 'Events List', routeName: 'eventsList', path: '/events/list' },
+          { img: usersStaticsImg, type: 'Analytics Page', title: 'Users Statics', routeName: 'userStatics', path: '/users/statics' }
+        ],
+        grp2: [
+          { img: userDetailedImg, type: 'Information Details Page', title: 'User Detail', routeName: 'usersList', path: '/users/list' },
+          { img: signupImg, type: 'Authentication Type Page', title: 'Sign Up', routeName: 'signin', path: '/signin' },
+          { img: Page404Img, type: 'Utility Page', title: '404 Page', routeName: 'notFound', path: '/404' }
+        ]
+      }
+    }
+  },
   mounted () {
     console.log(this.$route)
     this.observePagesImgs()
