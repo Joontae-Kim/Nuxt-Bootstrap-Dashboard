@@ -51,6 +51,7 @@
 import { Fragment } from 'vue-fragment'
 
 export default {
+  name: "Default",
   components: {
     Fragment
   },
@@ -66,9 +67,13 @@ export default {
     },
     headerObserver: null
   }),
+  head: {
+    link: [
+      { rel: "stylesheet", href: "/styles/default.css" }
+    ]
+  },
   created () {},
   mounted () {
-    document.body.classList.add('overflow-hidden')
     setTimeout(() => {
       this.collpased.column1 = true
     }, 1500)
@@ -79,12 +84,17 @@ export default {
     }, 2500)
     setTimeout(() => {
       this.loaded = true
-      this.observeHeroImgHandler()
-      document.body.classList.remove('overflow-hidden')
+      this.$nextTick(() => {
+        document.body.dataset.pageLandingLoaded = true
+        this.observeHeroImgHandler()
+      })
     }, 3000)
   },
   beforeDestroy () {
-    this.headerObserver.disconnect()
+    delete document.body.dataset.pageLandingLoaded
+    if (this.headerObserver) {
+      this.headerObserver.disconnect()
+    }
   },
   methods: {
     observeHeroImgHandler () {
@@ -93,7 +103,9 @@ export default {
         { rootMargin: '-50px', threshold: 0.5 }
       )
       const header = document.getElementById('header-snapshot')
-      this.headerObserver.observe(header)
+      if (header) {
+        this.headerObserver.observe(header)
+      }
     },
     onHeaderElementObserved (entries) {
       entries.forEach(({ target, isIntersecting }) => {

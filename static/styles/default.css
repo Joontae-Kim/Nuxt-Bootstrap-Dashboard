@@ -1,0 +1,8 @@
+body:not([data-page-landing-loaded]) {
+  overflow: hidden;
+}
+
+body[data-page-landing-loaded="true"],
+body[data-page-landing-loaded] {
+  overflow: auto;
+}
