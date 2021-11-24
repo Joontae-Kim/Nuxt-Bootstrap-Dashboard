@@ -25,19 +25,20 @@
           <b-col
             cols="12"
             md="6"
-            :class="['landingIntro__img', 'ml-md-auto', imgloaded.class]"
+            :class="['landingIntro__img', 'ml-md-auto', { loaded: imgloaded.status }]"
           >
-            <nuxt-img
+            <img
               id="header-snapshot"
-              src="/images/overview-page.png"
+              :data-src="landingScreenshotImg.src"
+              :sizes="landingScreenshotImg.sizes"
+              :srcset="landingScreenshotImg.srcset"
               data-active-container="#header"
               data-rd-md="container"
               :data-loaded="imgloaded.status"
-              alt="overview page"
               class="shadow landingIntro__screenshot"
-              sizes="xs:120vw xl:150vw"
-              quality="70"
-            />
+              alt="overview page"
+              @load="headingScreenshotImgOnLoad"
+            >
           </b-col>
         </template>
       </b-row>
@@ -62,8 +63,7 @@ export default {
       column2: false
     },
     imgloaded: {
-      status: false,
-      class: null
+      status: false
     },
     headerObserver: null
   }),
@@ -72,23 +72,22 @@ export default {
       { rel: "stylesheet", href: "/styles/default.css" }
     ]
   },
+  computed: {
+    landingScreenshotImg () {
+      return this.$img.getSizes('/images/overview-page.png', {
+        sizes: 'xs:120vw xl:150vw',
+        modifiers: { quality: 70 }
+      })
+    }
+  },
   created () {},
   mounted () {
     setTimeout(() => {
       this.collpased.column1 = true
-    }, 1500)
+    }, 1000)
     setTimeout(() => {
       this.collpased.column2 = true
-      this.imgloaded.status = true
-      this.imgloaded.class = 'loaded'
-    }, 2500)
-    setTimeout(() => {
-      this.loaded = true
-      this.$nextTick(() => {
-        document.body.dataset.pageLandingLoaded = true
-        this.observeHeroImgHandler()
-      })
-    }, 3000)
+    }, 2000)
   },
   beforeDestroy () {
     delete document.body.dataset.pageLandingLoaded
@@ -97,6 +96,16 @@ export default {
     }
   },
   methods: {
+    headingScreenshotImgOnLoad () {
+      this.imgloaded.status = true
+      setTimeout(() => {
+        this.loaded = true
+      }, 2000)
+      setTimeout(() => {
+        document.body.dataset.pageLandingLoaded = true
+        this.observeHeroImgHandler()
+      }, 2500)
+    },
     observeHeroImgHandler () {
       this.headerObserver = new IntersectionObserver(
         this.onHeaderElementObserved,
@@ -176,7 +185,6 @@ export default {
   }
 
   &__img {
-    opacity: 0;
     align-self: center;
 
     &.loaded {
@@ -191,7 +199,6 @@ export default {
 
     &.loaded {
       animation-name: fade-in;
-      animation-delay: 1s;
       animation-duration: 1s;
       animation-fill-mode: both;
     }
@@ -200,10 +207,12 @@ export default {
   &__screenshot {
     width: 100%;
     border-radius: 3px;
-    transition: transform .5s ease-in-out;
+    opacity: 0;
+    transition: opacity 1s ease-in-out 1s, transform .5s ease-in-out;
 
     &[data-loaded="true"] {
       box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+      opacity: 1;
       @media (max-width: 575.98px) {
         transform: translateY(-0.5rem);
       }
