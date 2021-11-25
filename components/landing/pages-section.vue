@@ -79,7 +79,8 @@ export default {
   },
   data: () => ({
     titleClass: 'pageList__title text-center',
-    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light'
+    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light',
+    PSObserver: null
   }),
   computed: {
     pagesGrp () {
@@ -111,15 +112,20 @@ export default {
     console.log(this.$route)
     this.observePagesImgs()
   },
+  beforeDestroy () {
+    if (this.PSObserver) {
+      this.PSObserver.disconnect()
+    }
+  },
   methods: {
     observePagesImgs () {
       const projectImages = document.querySelectorAll('[name="project-pages"]')
-      const PSObserver = new IntersectionObserver(
+      this.PSObserver = new IntersectionObserver(
         this.onPageImgObserved,
         { rootMargin: '50px 0px', threshold: 0.35 }
       )
       projectImages.forEach((img) => {
-        PSObserver.observe(img)
+        this.PSObserver.observe(img)
       })
     },
     onPageImgObserved (entries, observer) {
@@ -142,7 +148,7 @@ export default {
 .pageList {
   &__ele {
     opacity: 0;
-    transition: opacity .3s ease-in-out .3s;
+    transition: opacity .5s ease-in-out;
     text-align: center;
 
     &.active {
@@ -163,7 +169,9 @@ export default {
 }
 
 .pageList__ele .pageList__img {
-  transition: border, box-shadow .3s ease-in-out;
+  transition-property: border, box-shadow;
+  transition-duration: .3s;
+  transition-timing-function: ease;
   border: 1px solid white;
 }
 
