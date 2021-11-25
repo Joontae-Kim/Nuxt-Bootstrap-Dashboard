@@ -3,26 +3,26 @@
     <h3 class="d-none d-xl-block text-white mt-2 mb-0">Fully Responsive & Flexible Layout</h3>
     <h4 class="d-xl-none text-light mb-4 mb-xl-0">Responsive & Flexible Layout</h4>
     <div class="d-flex align-items-center justify-content-around justify-content-md-between mb-4 mb-lg-4 my-xl-5">
-      <b-iconstack font-scale="2.5">
-        <BIconDisplayFill font-scale="0.45" class="layoutGuide__device" />
-        <BIconSquareFill font-scale="0.2" shift-h="3" shift-v="-7.5" class="layoutGuide__devicebg" />
-        <BIconSquareFill font-scale="0.2" shift-h="17" shift-v="-7.5" class="layoutGuide__devicebg" />
+      <b-iconstack font-scale="3">
+        <BIconDisplayFill stacked scale="1" class="layoutGuide__device" />
+        <BIconSquareFill stacked scale="0.5" shift-v="1.0" shift-h="3" class="layoutGuide__devicebg" />
+        <BIconSquareFill stacked scale="0.5" shift-v="1.0" shift-h="-3" class="layoutGuide__devicebg" />
       </b-iconstack>
       <b-icon v-bind="iconArrowLeftRightStackProps" />
       <b-iconstack font-scale="2.5">
-        <BIconTabletFill font-scale="0.45" class="layoutGuide__device" />
-        <BIconSquareFill font-scale="0.255" shift-h="6" shift-v="-3" class="layoutGuide__devicebg" />
+        <BIconTabletFill stacked scale="1" class="layoutGuide__device" />
+        <BIconSquareFill stacked scale="0.6" shift-h="0" shift-v="2" class="layoutGuide__devicebg" />
       </b-iconstack>
       <b-icon v-bind="iconArrowLeftRightStackProps" />
       <b-iconstack font-scale="2.5">
-        <BIconTabletLandscapeFill font-scale="0.45" class="layoutGuide__device" />
-        <BIconSquareFill font-scale="0.255" shift-h="3" shift-v="-6" class="layoutGuide__devicebg" />
+        <BIconTabletLandscapeFill stacked scale="1" class="layoutGuide__device" />
+        <BIconSquareFill stacked scale="0.6" shift-h="-2" shift-v="" class="layoutGuide__devicebg" />
       </b-iconstack>
       <b-icon v-bind="iconArrowLeftRightStackProps" />
-      <b-iconstack font-scale="2.5">
-        <BIconPhoneFill font-scale="0.45" class="layoutGuide__device" />
-        <BIconSquareFill font-scale="0.19" shift-h="11" shift-v="-3.5" class="layoutGuide__devicebg" />
-        <BIconSquareFill font-scale="0.19" shift-h="11" shift-v="-10.5" class="layoutGuide__devicebg" />
+      <b-iconstack font-scale="2.0">
+        <BIconPhoneFill stacked scale="1" class="layoutGuide__device" />
+        <BIconSquareFill stacked scale="0.5" shift-h="0" shift-v="1" class="layoutGuide__devicebg" />
+        <BIconSquareFill stacked scale="0.5" shift-h="0" shift-v="3" class="layoutGuide__devicebg" />
       </b-iconstack>
     </div>
     <p class="d-none d-lg-block text-center text-light mb-2 font-italic font-weight-normal">With mobile, tablet & desktop support <br> it doesn't matter what device you're using.</p>
@@ -66,7 +66,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// $layout-transfer-color: #1b4c8c;
 $layout-transfer-color: #fff;
 $layout-device-color: #ced4da;
 
