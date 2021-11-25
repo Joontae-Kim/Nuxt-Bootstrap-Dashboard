@@ -285,20 +285,14 @@ export default {
     }
     border-radius: 25px;
     background: #e5e5e5;
-  }
 
-  .layoutIcon__deviceWrapper.observed::before {
-    content: ' ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 25px;
-    animation-name: device-icon-activate;
-    animation-timing-function: ease-in-out;
-    animation-duration: 1.5s;
-    animation-fill-mode: both;
+    &.observed {
+      animation-name: device-icon-activate;
+      animation-timing-function: cubic-bezier(.19,.58,.83,.67);
+      animation-duration: 1.5s;
+      animation-delay: .5s;
+      animation-fill-mode: forwards;
+    }
   }
 
   .layoutIcon__device {
@@ -359,10 +353,10 @@ export default {
 
 @keyframes device-icon-activate {
   0% {
-    opacity: 0;
+    opacity: 0.5;
     box-shadow: 0 0 0 #ced4da;
-    background: linear-gradient(135deg, #e5e5e5, #e5e5e5);
   }
+
   100% {
     opacity: 1;
     box-shadow: 0 0.125rem 0.25rem #ced4da;
