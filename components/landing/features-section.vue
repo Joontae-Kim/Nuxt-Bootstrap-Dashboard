@@ -1,8 +1,8 @@
 <template>
   <b-row id="featureSection" class="pt-5 pb-sm-5 mb-5 bg-white landingFeature justify-content-center">
     <b-col class="text-center text-dark mb-5" cols="12">
-      <h2 class="d-none d-sm-block">Developed Nuxtrap with ...</h2>
-      <h2 class="d-sm-none text-white">Developed Nuxtrap with ...</h2>
+      <h2 class="d-none d-lg-block">Developed Nuxtrap with ...</h2>
+      <h2 class="d-lg-none text-white">Developed Nuxtrap with ...</h2>
     </b-col>
     <b-col
       cols="12"
@@ -10,7 +10,7 @@
       lg="11"
       xl="9"
       xxl="8"
-      class="landingFeature__body"
+      class="landingFeature__body mb-md-5"
     >
       <b-row>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--1">
@@ -18,7 +18,7 @@
             title="Nuxt.js"
             description="Nuxt.js is a free and open source web application framework based on Vue.js, Node.js, Webpack and Babel.js."
           >
-            <NuxtLogo alt="Nuxt.js" class="mb-3" style="font-size: 280%" />
+            <NuxtLogo alt="Nuxt.js" class="mb-3" style="font-size: 390%" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--2">
@@ -26,7 +26,7 @@
             title="BootstrapVue"
             description="BootstrapVue provides one of the most comprehensive implementations of the Bootstrap v4 component and grid system available for Vue.js v2.6."
           >
-            <bootstrapVueLogo alt="Nuxt.js" class="mb-3 mb-md-auto" style="font-size: 280%;" />
+            <bootstrapVueLogo alt="Nuxt.js" class="mb-3" style="font-size: 255%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 featureEle featureEle--3">
@@ -34,7 +34,7 @@
             title="Express.js"
             description="the most popular Node web framework, and is the underlying library for a number of other popular Node web frameworks."
           >
-            <expressjsLogo alt="Nuxt.js" class="mb-3" style="font-size: 250%;" />
+            <expressjsLogo alt="Nuxt.js" class="mb-3" style="font-size: 170%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--1">
@@ -42,7 +42,7 @@
             title="Axios Module for Nuxt.js"
             description="Secure and easy Axios integration for Nuxt."
           >
-            <AxiosModuleLogo class="mb-3" style="font-size: 280%;" />
+            <AxiosModuleLogo class="mb-3" style="font-size: 255%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-4 mb-lg-0 featureEle featureEle--2">
@@ -50,7 +50,7 @@
             title="Sass"
             description="Sass is the most mature, stable, and powerful professional grade CSS extension language in the world."
           >
-            <SassLogo class="mb-3" style="font-size: 280%;" />
+            <SassLogo class="mb-3" style="font-size: 255%;" />
           </feature>
         </b-col>
         <b-col cols v-bind="featureColumns" class="mb-sm-4 mb-lg-0 featureEle featureEle--3">
@@ -58,7 +58,7 @@
             title="Chart.js"
             description="Simple yet flexible JavaScript charting for designers & developers."
           >
-            <chartjsLogo class="mb-3" style="font-size: 280%;" />
+            <chartjsLogo class="mb-3" style="font-size: 255%;" />
           </feature>
         </b-col>
       </b-row>
@@ -99,16 +99,28 @@ export default {
     FSObserver: null,
     isShowTitle: false
   }),
+  computed: {
+    featureSectionObserveOption () {
+      return window.innerWidth > 992
+        ? { rootMargin: '0px', threshold: 0.5 }
+        : { rootMargin: '0px', threshold: 0.3 }
+    }
+  },
   created () {},
   mounted () {
     this.observeFeatureSection()
+  },
+  beforeDestroy () {
+    if (this.FSObserver) {
+      this.FSObserver.disconnect()
+    }
   },
   methods: {
     observeFeatureSection () {
       const fsection = document.getElementById('featureSection')
       this.FSObserver = new IntersectionObserver(
         this.onFTSectionObserved,
-        { rootMargin: '0px', threshold: 0.5 }
+        this.featureSectionObserveOption
       )
       this.FSObserver.observe(fsection)
     },
@@ -137,74 +149,80 @@ export default {
   &::after {
     position: absolute;
     content: " ";
-    padding: 0;
-    @media (min-width: 576px) {
-      transition: padding 0.5s ease-in-out 0.7s;
+    @media (max-width: 991.98px) {
+      width: 0%;
+      height: 0%;
+      transition-property: width, height;
+      transition-duration: 0.5s;
+      transition-timing-function: ease-in-out;
     }
-  }
 
-  @media (max-width: 575.98px) {
-    &::before {
-      transition: padding 0.5s ease-in-out;
-    }
-    &::after {
-      transition: padding 0.5s ease-in-out 1.5s;
+    @media (min-width: 992px) {
+      padding: 0;
+      transition: padding 0.5s ease-in-out 0.7s;
     }
   }
 
   &::before {
     top: 0;
     left: 0;
-    border-radius: 0 0 30rem 0;
     box-shadow: 4px 0.5rem 0.25rem rgb(0 0 0 / 8%);
-    @media (max-width: 575.98px) {
-      background: linear-gradient(180deg, #153D77, #2F70AF);
+    background: linear-gradient(135deg, #153D77, #2F70AF);
+
+    @media (max-width: 479.98px) {
+      border-radius: 0 0 15rem 0;
     }
 
-    @media (min-width: 576px) {
-      background: linear-gradient(135deg, #153D77, #2F70AF);
+    @media (min-width: 480px) {
+      border-radius: 0 0 30rem 0;
     }
   }
 
   &::after {
-    right: 0;
     bottom: 0;
-    border-radius: 30rem 0 0 0;
+    right: 0;
     box-shadow: -4px -0.5rem 0.25rem rgb(0 0 0 / 8%);
-    @media (max-width: 575.98px) {
-      background: linear-gradient(180deg, #2F70AF, #153D77);
+    background: linear-gradient(180deg, #2F70AF, #153D77);
+    @media (max-width: 991.98px) {
+      transition-delay: 1.5s;
     }
 
-    @media (min-width: 576px) {
-      background: linear-gradient(135deg, #2F70AF, #153D77);
+    @media (max-width: 479.98px) {
+      border-radius: 15rem 0 0 0;
+    }
+
+    @media (min-width: 480px) {
+      border-radius: 30rem 0 0 0;
     }
   }
 
   &.active {
-    &::before {
-      @media (max-width: 575.98px) {
-        padding: 25rem 17rem 17rem 6.5rem;
-      }
-
-      @media (min-width: 576px) and (max-width: 991.98px) {
-        padding: 9.5rem;
-      }
-
-      @media (min-width: 992px) {
-        padding: 12rem;
+    @media (max-width: 479.98px) {
+      &::before,
+      &::after {
+        width: 100%;
+        height: 50%;
       }
     }
 
-    &::after {
-      @media (max-width: 575.98px) {
-        padding: 17rem 13.5rem 25rem 10rem;
+    @media (min-width: 480px) and (max-width: 991.98px) {
+      &::before {
+        width: 85%;
+        height: 55%;
       }
 
-      @media (min-width: 576px) and (max-width: 991.98px) {
-        padding: 5rem;
+      &::after {
+        width: 55%;
+        height: 30%;
+      }
+    }
+
+    @media (min-width: 992px) {
+      &::before {
+        padding: 9.5rem;
       }
 
-      @media (min-width: 992px) {
+      &::after {
         padding: 6.5rem;
       }
     }
