@@ -71,21 +71,24 @@
 
 <script>
 import { BIconBoxArrowUpRight } from 'bootstrap-vue'
+import lazyLoad from '~/mixins/lazyLoad'
 
 export default {
   name: 'PageLists',
   components: {
     BIconBoxArrowUpRight
   },
+  mixins: [
+    lazyLoad
+  ],
   data: () => ({
     titleClass: 'pageList__title text-center',
-    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light',
-    PSObserver: null
+    subtitleClass: 'pageList__subtitle text-decoration-none text-center font-weight-light'
   }),
   computed: {
     pagesGrp () {
       const imgOpt = {
-        sizes: 'xs:100vw md:120vw lg:150vw',
+        sizes: 'xs:100vw md:120vw lg:80vw',
         modifiers: { format: 'png', quality: 70 }
       }
       const overviewImg = this.$img.getSizes('/images/landing/overview_page.png', imgOpt)
@@ -109,33 +112,13 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route)
-    this.observePagesImgs()
-  },
-  beforeDestroy () {
-    if (this.PSObserver) {
-      this.PSObserver.disconnect()
-    }
+    this.createLazyload(
+      target => target.classList.add('active'),
+      { rootMargin: '30px 0px', threshold: 0.5 },
+      document.querySelectorAll('[name="project-pages"]')
+    )
   },
   methods: {
-    observePagesImgs () {
-      const projectImages = document.querySelectorAll('[name="project-pages"]')
-      this.PSObserver = new IntersectionObserver(
-        this.onPageImgObserved,
-        { rootMargin: '50px 0px', threshold: 0.35 }
-      )
-      projectImages.forEach((img) => {
-        this.PSObserver.observe(img)
-      })
-    },
-    onPageImgObserved (entries, observer) {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          target.classList.add('active')
-          observer.unobserve(target)
-        }
-      })
-    },
     openProjectPage (routename) {
       const routeData = this.$router.resolve({ name: routename })
       window.open(routeData.href, '_blank')
@@ -169,13 +152,7 @@ export default {
 }
 
 .pageList__ele .pageList__img {
-  transition-property: border, box-shadow;
-  transition-duration: .3s;
-  transition-timing-function: ease;
   border: 1px solid white;
-}
-
-.pageList__ele.active .pageList__img.active {
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
   &:hover {
     border: 1px solid #dee2e6;

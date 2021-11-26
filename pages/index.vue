@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import lazyLoad from '~/mixins/lazyLoad'
 import subHeadingSection from "~/components/landing/subHeading-section"
 import featuresSection from "~/components/landing/features-section"
 import layoutSection from "~/components/landing/layout-section"
@@ -24,6 +25,9 @@ export default {
     pagesSection,
     featuresSection
   },
+  mixins: [
+    lazyLoad
+  ],
   layout: null,
   data: () => ({
     pagesGrp: {
@@ -37,29 +41,24 @@ export default {
         { src: 'signup_page.png', type: 'Authentication Type Page', title: 'Sign Up', routeName: 'signin' },
         { src: '404_page.png', type: 'Utility Page', title: '404 Page', routeName: 'notFound' }
       ]
-    },
-    imagesObserver: null
+    }
   }),
   created () {},
   mounted () {
-    this.observeImgHandler()
-  },
-  beforeDestroy () {
-    this.imagesObserver.disconnect()
+    this.createLazyload(
+      null,
+      { rootMargin: '50px 0px', threshold: 0.5 },
+      document.querySelectorAll('img:not([data-rd-md="container"])'),
+      (entries, observer) => this.onImgElementsObserved(entries, observer),
+      (entries, observer) => this.onImgElementsObserved_Support(entries, observer),
+      (targets) => {
+        targets.forEach((img) => {
+          if (img.dataset.lazy !== 'false') { this.lazyLoader.observe(img) }
+        })
+      }
+    )
   },
   methods: {
-    observeImgHandler () {
-      const images = document.querySelectorAll('img:not([data-rd-md="container"])')
-      this.imagesObserver = new IntersectionObserver(
-        this.onImgElementsObserved,
-        { rootMargin: '50px 0px', threshold: 0.5 }
-      )
-      images.forEach((img) => {
-        if (img.dataset.lazy !== 'false') {
-          this.imagesObserver.observe(img)
-        }
-      })
-    },
     onImgElementsObserved (entries, observer) {
       entries.forEach(({ target, isIntersecting }) => {
         if (target.dataset.src && isIntersecting) {
@@ -74,6 +73,23 @@ export default {
             target.removeAttribute('data-src')
             target.dataset.loaded = true
             observer.unobserve(target)
+          }, 1000)
+        }
+      })
+    },
+    onImgElementsObserved_Support (entries) {
+      entries.forEach(({ target }) => {
+        if (target.dataset.src) {
+          target.src = target.dataset.src
+          setTimeout(() => {
+            if (target.dataset.activeTarget) {
+              const activeTarget = document.querySelector(target.dataset.activeTarget)
+              activeTarget.classList.add('active')
+            } else {
+              target.classList.add('active')
+            }
+            target.removeAttribute('data-src')
+            target.dataset.loaded = true
           }, 1000)
         }
       })
