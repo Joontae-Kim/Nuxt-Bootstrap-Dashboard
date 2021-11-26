@@ -50,12 +50,16 @@
 
 <script>
 import { Fragment } from 'vue-fragment'
+import lazyLoad from '~/mixins/lazyLoad'
 
 export default {
   name: "Default",
   components: {
     Fragment
   },
+  mixins: [
+    lazyLoad
+  ],
   data: () => ({
     loaded: false,
     collpased: {
@@ -64,8 +68,7 @@ export default {
     },
     imgloaded: {
       status: false
-    },
-    headerObserver: null
+    }
   }),
   head: {
     link: [
@@ -91,9 +94,6 @@ export default {
   },
   beforeDestroy () {
     delete document.body.dataset.pageLandingLoaded
-    if (this.headerObserver) {
-      this.headerObserver.disconnect()
-    }
   },
   methods: {
     headingScreenshotImgOnLoad () {
@@ -103,27 +103,22 @@ export default {
       }, 2000)
       setTimeout(() => {
         document.body.dataset.pageLandingLoaded = true
-        this.observeHeroImgHandler()
+        this.createLazyload(
+          null,
+          { rootMargin: '-50px', threshold: 0.5 },
+          document.querySelectorAll('#header-snapshot'),
+          (entries, observer) => {
+            entries.forEach(({ target, isIntersecting }) => {
+              if (isIntersecting) {
+                target.classList.remove('unseen')
+              } else {
+                target.classList.add('unseen')
+              }
+            })
+          },
+          target => target.classList.remove('unseen')
+        )
       }, 2500)
-    },
-    observeHeroImgHandler () {
-      this.headerObserver = new IntersectionObserver(
-        this.onHeaderElementObserved,
-        { rootMargin: '-50px', threshold: 0.5 }
-      )
-      const header = document.getElementById('header-snapshot')
-      if (header) {
-        this.headerObserver.observe(header)
-      }
-    },
-    onHeaderElementObserved (entries) {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          target.classList.remove('unseen')
-        } else {
-          target.classList.add('unseen')
-        }
-      })
     }
   }
 }

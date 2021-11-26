@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import lazyLoad from '~/mixins/lazyLoad'
 import NuxtLogo from "~/assets/svgs/nuxt.svg?inline"
 import bootstrapVueLogo from "~/assets/svgs/bootstrapVue.svg?inline"
 import expressjsLogo from "~/assets/svgs/expressjs.svg?inline"
@@ -86,6 +87,9 @@ export default {
     chartjsLogo,
     feature
   },
+  mixins: [
+    lazyLoad
+  ],
   data: () => ({
     featureColumns: {
       sm: '6',
@@ -96,7 +100,6 @@ export default {
       top: 'mb-md-4',
       bottom: ''
     },
-    FSObserver: null,
     isShowTitle: false
   }),
   computed: {
@@ -108,30 +111,11 @@ export default {
   },
   created () {},
   mounted () {
-    this.observeFeatureSection()
-  },
-  beforeDestroy () {
-    if (this.FSObserver) {
-      this.FSObserver.disconnect()
-    }
-  },
-  methods: {
-    observeFeatureSection () {
-      const fsection = document.getElementById('featureSection')
-      this.FSObserver = new IntersectionObserver(
-        this.onFTSectionObserved,
-        this.featureSectionObserveOption
-      )
-      this.FSObserver.observe(fsection)
-    },
-    onFTSectionObserved (entries, observer) {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          target.classList.add('active')
-          observer.unobserve(target)
-        }
-      })
-    }
+    this.createLazyload(
+      target => target.classList.add('active'),
+      this.featureSectionObserveOption,
+      document.querySelectorAll('#featureSection')
+    )
   }
 }
 </script>
