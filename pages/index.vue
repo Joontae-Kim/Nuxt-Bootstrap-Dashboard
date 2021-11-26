@@ -50,7 +50,7 @@ export default {
       { rootMargin: '50px 0px', threshold: 0.5 },
       document.querySelectorAll('img:not([data-rd-md="container"])'),
       (entries, observer) => this.onImgElementsObserved(entries, observer),
-      (entries, observer) => this.onImgElementsObserved_Support(entries, observer),
+      (entries, observer) => this.onImgElementsObserved_alt(entries, observer),
       (targets) => {
         targets.forEach((img) => {
           if (img.dataset.lazy !== 'false') { this.lazyLoader.observe(img) }
@@ -77,7 +77,7 @@ export default {
         }
       })
     },
-    onImgElementsObserved_Support (entries) {
+    onImgElementsObserved_alt (entries) {
       entries.forEach(({ target }) => {
         if (target.dataset.src) {
           target.src = target.dataset.src
