@@ -1,65 +1,67 @@
 export default {
   data: () => ({}),
   methods: {
-    computeDatasetRange (data, isBeginAtZero) {
-      let [max, min] = [Math.max.apply(null, data), Math.min.apply(null, data)]
-      const [maxWeight, minWeight] = [
-        (max % 10 === 0) ? 10 : 5,
-        (min % 10 === 0) ? 10 : 5
-      ]
-      max = Math.ceil(max / maxWeight) * maxWeight
-      min = isBeginAtZero ? 0 : Math.floor(min / minWeight) * minWeight
-      const diff = max - min
-      const [isStep5, isStep10] = [diff % 5 === 0, diff % 10 === 0]
-      return { max, min, isStep5, isStep10, isBeginAtZero, diff }
+    searchBestDistance (difference) {
+      const distanceScore = difference > 10 ? [5, 10, 15, 20, 25] : [1, 2, 3, 4, 5]
+      const distances = distanceScore.reduce((scores, distance) => [...scores, { distance, score: difference / distance }], [])
+      const scoreConditionRange = difference > 10 ? { max: 9, min: 3 } : { max: 3, min: 1 }
+      let filtered = distances.find(({ score }) => score < scoreConditionRange.max && score > scoreConditionRange.min)
+      if (!filtered) {
+        filtered = distances.sort((a, b) => b.score - a.score)[0]
+      }
+      let bestDistanceValue = filtered.distance
+      if (!Number.isInteger(filtered.score)) {
+        bestDistanceValue = Math.ceil(5 / bestDistanceValue) + bestDistanceValue
+      }
+      return bestDistanceValue
+    },
+    computeDatasetRange (data, isBeginAtZero = false) {
+      const [min, max] = [isBeginAtZero ? 0 : Math.min.apply(null, data), Math.max.apply(null, data)]
+      const bestDistanceValue = this.searchBestDistance(max - min)
+      const computedRange = {
+        min: isBeginAtZero ? 0 : Math.floor(min / bestDistanceValue) * bestDistanceValue,
+        max: Math.ceil(max / bestDistanceValue) * bestDistanceValue
+      }
+      if (Math.abs(min - computedRange.min) < 5) {
+        computedRange.min = (isBeginAtZero || computedRange.min - bestDistanceValue <= 0)
+          ? 0
+          : computedRange.min - bestDistanceValue
+      }
+      if (Math.abs(max - computedRange.max) < 5) {
+        computedRange.max = computedRange.max + bestDistanceValue
+      }
+      return { ...computedRange, bestDistanceValue, isBeginAtZero }
     },
     computingYScale (ranges) {
-      const [isAllPassStep5, isAllPassStep10] = [
-        ranges.every(({ isStep5 }) => isStep5 === true),
-        ranges.every(({ isStep10 }) => isStep10 === true)
-      ]
-
-      let commonStepWeight = null
-      if (isAllPassStep5 || isAllPassStep10) {
-        const diffs = ranges.map(({ diff }) => diff)
-        const maxDiff = Math.max.apply(null, diffs)
-        if (maxDiff >= 50) {
-          commonStepWeight = isAllPassStep5 && isAllPassStep10 ? 25 : isAllPassStep5 ? 25 : 20
-        } else if (maxDiff < 50 && maxDiff >= 10) {
-          commonStepWeight = isAllPassStep5 && isAllPassStep10 ? 5 : isAllPassStep5 ? 5 : 10
-        } else {
-          commonStepWeight = maxDiff % 5 === 0 ? 1 : maxDiff % 3 === 0 ? 3 : 2
-        }
-        const [maxs, mins] = [ranges.map(({ max }) => max), ranges.map(({ min }) => min)]
-        const [maxMax, minMin] = [Math.max.apply(null, maxs), Math.min.apply(null, mins)]
-        ranges = ranges.map(({ min, max, diff, isBeginAtZero }) => {
-          // Take the weight to max or min
-          if (maxMax === max) {
-            const weightedMax = Math.ceil(max / commonStepWeight) * commonStepWeight
-            max = weightedMax === max ? max + commonStepWeight : weightedMax
-          }
-          if (minMin === min && !isBeginAtZero && commonStepWeight < min) {
-            const weightedMin = Math.floor(min / commonStepWeight) * commonStepWeight
-            min = weightedMin === min ? min - commonStepWeight : weightedMin
-          }
-          // Re-estimate the difference
-          diff = max - min
-          const beginAtZero = isBeginAtZero && min === 0
-          const stepCount = diff / commonStepWeight
-          const stepSize = !commonStepWeight ? 0 : commonStepWeight
-          return { min, max, diff: max - min, beginAtZero, stepCount, stepSize }
-        })
+      if (ranges.length < 2) {
+        const range = ranges[0]
+        return [{
+          min: range.min,
+          max: range.max,
+          beginAtZero: range.isBeginAtZero,
+          stepSize: range.bestDistanceValue
+        }]
+      } else {
+        ranges = ranges.map(range => ({ ...range, stepCount: (range.max - range.min) / range.bestDistanceValue }))
         const stepCounts = ranges.map(({ stepCount }) => stepCount)
-        const minStepCounts = Math.min.apply(null, stepCounts)
-        ranges = ranges.map((range, r) => {
-          if (range.stepCount !== minStepCounts) {
-            range.stepSize = (range.stepCount / minStepCounts) * range.stepSize
-            range.stepCount = (range.max - range.min) / commonStepWeight
+        const minStepCount = Math.min.apply(null, stepCounts)
+        const computedRanges = ranges.map((range, r) => {
+          if (minStepCount < stepCounts[r]) {
+            range.bestDistanceValue = (range.max - range.min) / minStepCount
+            if (!Number.isInteger(range.bestDistanceValue)) {
+              range.max = Math.floor(range.max / 10) * 10
+              range.bestDistanceValue = (range.max - range.min) / minStepCount
+            }
           }
-          return range
+          return {
+            min: range.min,
+            max: range.max,
+            beginAtZero: range.isBeginAtZero,
+            stepSize: range.bestDistanceValue
+          }
         })
+        return computedRanges
       }
-      return ranges
     }
   }
 }
