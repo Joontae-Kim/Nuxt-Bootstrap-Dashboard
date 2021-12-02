@@ -139,6 +139,13 @@ export default {
     { path: '/api/users', handler: '~/api/users.js' }
   ],
 
+  // watch custom files for restarting the server.
+  watch: [
+    // '~/minxin/*.js',
+    // '~/minxin/*/*.js'
+    '~/minxin'
+  ],
+
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint

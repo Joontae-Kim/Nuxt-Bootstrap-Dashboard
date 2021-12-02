@@ -7,7 +7,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "dev": "nodemon --watch mixins --watch api --watch env --exec \"cross-env NODE_ENV=development nuxt\"",
+    "dev": "nodemon --watch api --watch env --exec \"cross-env NODE_ENV=development nuxt\"",
     "analyze": "cross-env nuxt build --analyze",
     "build": "nuxt build",
     "start": "nuxt start",
