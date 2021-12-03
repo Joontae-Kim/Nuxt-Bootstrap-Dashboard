@@ -1,8 +1,8 @@
 <template>
   <fragment>
     <BaseNav />
-    <main>
-      <b-row id="header" :class="['mx-0 landingIntro', { loaded }]">
+    <section id="jumbotron">
+      <b-row id="header" :class="['mx-0 landingIntro', { loaded }]" tag="article">
         <b-col
           cols="12"
           :class="['text-white pt-4 pb-5 py-sm-0', 'landingIntro__content', { collapsed: collpased.column1 }]"
@@ -12,13 +12,18 @@
               <span class="font-weight-light">Welcome to</span>
               <span class="landingIntro__service">Nuxtrap</span>
             </h1>
-            <div :class="['d-none d-md-block text-light landingIntro__text', { collapsed: collpased.column1 }]">
+            <div :class="['d-none d-md-block text-light landingIntro__text mb-md-5', { collapsed: collpased.column1 }]">
               <h3 class="font-weight-light mb-1 landingIntro__description">Developed Admin Dashboard Propject</h3>
               <h3 class="font-weight-light mb-2 mb-md-0 landingIntro__description">with <i>Nuxt.js</i> and <i>Bootstrap</i>.</h3>
             </div>
-            <h3 :class="['d-block d-md-none font-weight-light text-light mb-2 mb-md-0 landingIntro__description landingIntro__text', { collapsed: collpased.column1 }]">
+            <h3 :class="['d-block d-md-none font-weight-light text-light mb-4 mb-md-0 landingIntro__description landingIntro__text', { collapsed: collpased.column1 }]">
               Developed Admin Dashboard Propject with <i>Nuxt.js</i> and <i>Bootstrap</i>.
             </h3>
+            <div class="d-inline-block fs-4 text-light font-italic border py-2 px-3 border-light rounded-pill shadow-lg">
+              <nuxt-link :to="{ name: 'overview'}" class="text-light text-decoration-none">
+                Let's start explore! <BIconLightningFill />
+              </nuxt-link>
+            </div>
           </div>
         </b-col>
         <template v-if="collpased.column2">
@@ -42,20 +47,22 @@
           </b-col>
         </template>
       </b-row>
-      <Nuxt />
-    </main>
+    </section>
+    <Nuxt />
     <BaseFooter />
   </fragment>
 </template>
 
 <script>
 import { Fragment } from 'vue-fragment'
+import { BIconLightningFill } from 'bootstrap-vue'
 import lazyLoad from '~/mixins/lazyLoad'
 
 export default {
   name: "Default",
   components: {
-    Fragment
+    Fragment,
+    BIconLightningFill
   },
   mixins: [
     lazyLoad
@@ -230,7 +237,7 @@ export default {
 }
 
 .landingIntro__title {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   @media (max-width: 1199.98px) {
     font-size: 3rem;
   }
