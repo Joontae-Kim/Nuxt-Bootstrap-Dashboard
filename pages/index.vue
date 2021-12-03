@@ -1,6 +1,5 @@
 <template>
-  <b-container fluid tag="section">
-    <!-- flex-column -->
+  <b-container fluid tag="main">
     <subHeadingSection />
     <!-- Features -->
     <featuresSection />
