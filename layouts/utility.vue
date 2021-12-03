@@ -1,10 +1,8 @@
 <template>
   <transition name="fade" mode="out-in">
-    <div v-show="showContent" class="wrapper wrapper--utility">
-      <b-container class="h-100 px-0" fluid>
-        <Nuxt />
-      </b-container>
-    </div>
+    <b-container v-show="showContent" class="px-0" fluid>
+      <Nuxt class="min-vh-100" />
+    </b-container>
   </transition>
 </template>
 
@@ -15,28 +13,13 @@ export default {
     showContent: false
   }),
   mounted () {
-    this.setDomHeight()
+    document.body.classList.add('wrapper', 'wrapper--utility')
     this.$nextTick(() => { this.showContent = true })
   },
   destroyed () {
-    setTimeout(() => {
-      this.destractDomHeight()
-    }, 1200)
+    document.body.classList.remove('wrapper', 'wrapper--utility')
   },
-  methods: {
-    setDomHeight () {
-      document.getElementsByTagName('html')[0].classList.add('h-100')
-      document.body.classList.add('h-100')
-      document.getElementById('__nuxt').classList.add('h-100')
-      document.getElementById('__layout').classList.add('h-100')
-    },
-    destractDomHeight () {
-      document.getElementsByTagName('html')[0].classList.remove('h-100')
-      document.body.classList.remove('h-100')
-      document.getElementById('__nuxt').classList.remove('h-100')
-      document.getElementById('__layout').classList.remove('h-100')
-    }
-  }
+  methods: {}
 }
 </script>
 
