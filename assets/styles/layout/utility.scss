@@ -1,6 +1,5 @@
 @use "sass:math";
 @use "sass:color";
-@import './variables.scss';
 
 
 .utility {
@@ -9,10 +8,6 @@
     font-size: 30vw;
     z-index: 1;
     text-shadow: 4px 4px #0f3060;
-
-    @media (min-width: 992px) {
-      font-size: 36vw;
-    }
 
     &::before {
       content: " ";
@@ -26,22 +21,24 @@
       z-index: -1;
       background-color: rgb(0 0 0 / 10%);
       box-shadow: 4px 4px rgb(0 0 0 / 20%);
-
-      @media (min-width: 992px) {
-        transform: translate(-50%, -45%);
-        width: 24vw;
-        height: 24vw;
-      }
     }
   }
 
   &__title {
-    @media (max-width: 991.9px) {
-      font-size: 5rem;
+    line-height: 0.9;
+
+    @media (max-width: 575.98px) {
+      font-size: 7.5rem;
     }
+
+    @media (max-width: 991.98px) {
+      font-size: 7rem;
+    }
+
     @media (min-width: 992px) {
       font-size: 7.5rem;
     }
+
     @media (min-width: 1366px) {
       font-size: 10.5rem;
     }
