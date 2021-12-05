@@ -37,7 +37,7 @@ export default {
 }
 
 .loadingFade-enter-active {
-  transition: opacity 0.5s;
+  transition: opacity 0s;
 }
 
 .loadingFade-leave-active {
