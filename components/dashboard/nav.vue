@@ -57,7 +57,7 @@
                     <b-dd-divider :key="`message-divider-${m}`" />
                     <b-dd-item :key="`message-content-${m}`" link-class="bg-white" active-class="bg-light">
                       <div class="d-flex align-items-start justify-content-between mb-2">
-                        <p class="mb-0">{{ message.sender }}</p>
+                        <p class="mb-0 text-dark">{{ message.sender }}</p>
                         <b-badge variant="warning" class="text" pill>{{ message.ago }}</b-badge>
                       </div>
                       <small class="d-inline-block text-truncate mw-100 text-secondary">
@@ -101,7 +101,7 @@
                     <b-dd-divider :key="`noti-divider-${n}`" />
                     <b-dd-item :key="`noti-content-${n}`" link-class="bg-white" active-class="bg-light">
                       <div class="d-flex align-items-start justify-content-between mb-2">
-                        <p class="mb-0">{{ noti.sender }}</p>
+                        <p class="text-dark mb-0">{{ noti.sender }}</p>
                         <b-badge variant="warning" class="text" pill>{{ noti.ago }}</b-badge>
                       </div>
                       <small class="d-inline-block text-truncate mw-100 text-secondary">
