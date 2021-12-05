@@ -327,6 +327,7 @@
 import { mapGetters } from "vuex"
 import searchEvent from '~/mixins/event/searchEvent'
 import computeScheduledEvent from '~/mixins/event/computeScheduledEvent'
+import watchFetchStatePending from '~/mixins/watchFetchStatePending'
 
 export default {
   name: 'Events',
@@ -336,7 +337,8 @@ export default {
   },
   mixins: [
     searchEvent,
-    computeScheduledEvent
+    computeScheduledEvent,
+    watchFetchStatePending
   ],
   provide () {
     return {
@@ -435,16 +437,6 @@ export default {
     },
     globalDisabled () {
       return this.tableToolBarDisabled || this.isDeletingEvent
-    }
-  },
-  watch: {
-    '$fetchState.pending': {
-      immediate: true,
-      handler (state) {
-        if (typeof state !== 'undefined') {
-          this.$nuxt.$emit('pageLoading', state)
-        }
-      }
     }
   },
   created () {},

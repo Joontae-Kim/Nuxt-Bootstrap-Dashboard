@@ -151,13 +151,16 @@
 <script>
 import dayjs from "dayjs"
 import { mapGetters } from "vuex"
+import watchFetchStatePending from '~/mixins/watchFetchStatePending'
 
 export default {
   name: 'Events',
   components: {
     EventStatics: () => import('~/components/event/statics.vue')
   },
-  mixins: [],
+  mixins: [
+    watchFetchStatePending
+  ],
   provide () {
     return {
       parentRef: this.$refs
@@ -294,16 +297,6 @@ export default {
     },
     eventTrafficsCustomOpt () {
       return new Array(this.eventTraffics.datasets.length).fill({ fill: false })
-    }
-  },
-  watch: {
-    '$fetchState.pending': {
-      immediate: true,
-      handler (state) {
-        if (typeof state !== 'undefined') {
-          this.$nuxt.$emit('pageLoading', state)
-        }
-      }
     }
   },
   created () {},

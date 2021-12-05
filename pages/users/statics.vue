@@ -118,6 +118,7 @@
 <script>
 import dayjs from "dayjs"
 import { mapGetters } from "vuex"
+import watchFetchStatePending from '~/mixins/watchFetchStatePending'
 
 export default {
   name: 'UserStatics',
@@ -125,6 +126,9 @@ export default {
     UsersAuthStatics: () => import('~/components/users/static/authentication'),
     UsersPaymentsStatics: () => import('~/components/users/static/payments')
   },
+  mixins: [
+    watchFetchStatePending
+  ],
   layout: 'dashboard',
   props: {},
   data: () => ({
@@ -232,16 +236,6 @@ export default {
           beginAtZero: true
         }
       }]
-    }
-  },
-  watch: {
-    '$fetchState.pending': {
-      immediate: true,
-      handler (state) {
-        if (typeof state !== 'undefined') {
-          this.$nuxt.$emit('pageLoading', state)
-        }
-      }
     }
   },
   methods: {}
