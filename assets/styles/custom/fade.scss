@@ -9,8 +9,9 @@
 }
 
 // fade transition for dashboard content
-.dashboard-fade-enter-active {
-  transition: opacity 1s;
+.dashboard-fade-enter-active,
+.dashboard-fade-leave-active {
+  transition: opacity 0.5s;
 }
 
 .dashboard-fade-enter,
