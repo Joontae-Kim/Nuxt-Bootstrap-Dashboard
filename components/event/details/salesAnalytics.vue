@@ -160,7 +160,7 @@ export default {
             borderDash: [3, 4]
           },
           ticks: {
-            beginAtZero: true,
+            beginAtZero: false,
             callback: (value, index, values) => {
               return Math.round(value)
             }

@@ -35,18 +35,28 @@ export default {
         this.collapseSidebar(aft)
       }
     },
-    isChildPending (aft, prev) {
-      if (this.isMobile && !this.collapsedSidebar && (prev && !aft)) {
-        setTimeout(() => {
-          this.collapseSidebar(true)
-        }, 1000)
+    $route: {
+      handler (now, past) {
+        const isUseLayoutRouteWatcher = now.meta.useLayoutRouteWatcher
+        if (isUseLayoutRouteWatcher || typeof isUseLayoutRouteWatcher === 'undefined') {
+          if (now.name !== past.name) {
+            this.isChildPending = true
+            if (this.isMobile) {
+              setTimeout(() => {
+                this.collapseSidebar(true)
+              }, 500)
+            }
+          }
+        }
       }
     }
   },
   created () {
     this.$nuxt.$on('pageLoading', (status) => {
       const _status = typeof status === 'undefined' ? false : status
-      this.$set(this, 'isChildPending', _status)
+      if (!_status) {
+        this.isChildPending = _status
+      }
     })
   },
   mounted () {

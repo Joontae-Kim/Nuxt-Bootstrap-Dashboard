@@ -162,8 +162,12 @@
 </template>
 
 <script>
+import watchFetchStatePending from '~/mixins/watchFetchStatePending'
 
 export default {
+  mixins: [
+    watchFetchStatePending
+  ],
   layout: 'dashboard',
   data: () => ({
     res: null,
@@ -303,16 +307,6 @@ export default {
     trafficChannelLabelsOpt () {
       return {
         color: '#fff'
-      }
-    }
-  },
-  watch: {
-    '$fetchState.pending': {
-      immediate: true,
-      handler (state) {
-        if (typeof state !== 'undefined') {
-          this.$nuxt.$emit('pageLoading', state)
-        }
       }
     }
   },

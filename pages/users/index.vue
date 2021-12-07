@@ -161,6 +161,7 @@
 <script>
 import { mapGetters } from "vuex"
 import searchUser from '~/mixins/user/searchUser'
+import watchFetchStatePending from '~/mixins/watchFetchStatePending'
 
 export default {
   name: 'UserIdx',
@@ -169,7 +170,8 @@ export default {
     UsersFilter: () => import('~/components/users/filter')
   },
   mixins: [
-    searchUser
+    searchUser,
+    watchFetchStatePending
   ],
   provide () {
     return {
@@ -266,16 +268,6 @@ export default {
     },
     isTableBusy () {
       return this.isSearching || this.isResetting || this.isSearchingUsername || this.isResettingForm
-    }
-  },
-  watch: {
-    '$fetchState.pending': {
-      immediate: true,
-      handler (state) {
-        if (typeof state !== 'undefined') {
-          this.$nuxt.$emit('pageLoading', state)
-        }
-      }
     }
   },
   methods: {

@@ -69,7 +69,7 @@ export function extendRoutes (routes, resolve) {
       path: '/events/event/:id',
       component: resolve(__dirname, 'pages/events/_id'),
       chunkName: 'pages/event/_id',
-      meta: { parent: 'events' }
+      meta: { parent: 'events', useLayoutRouteWatcher: false }
     },
     {
       name: 'userStatics',
@@ -90,7 +90,7 @@ export function extendRoutes (routes, resolve) {
       path: '/users/user/:id',
       component: resolve(__dirname, 'pages/users/_id'),
       chunkName: 'pages/users/_id',
-      meta: { parent: 'users' }
+      meta: { parent: 'users', useLayoutRouteWatcher: false }
     },
     {
       name: 'notFound',

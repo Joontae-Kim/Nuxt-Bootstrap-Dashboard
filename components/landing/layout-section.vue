@@ -112,7 +112,7 @@
 </template>
 
 <script>
-
+import lazyLoad from '~/mixins/lazyLoad'
 import layoutTransform from "~/components/landing/ui/layout-transform"
 import layoutHeader from "~/components/landing/layout-header"
 
@@ -122,13 +122,14 @@ export default {
     layoutTransform,
     layoutHeader
   },
+  mixins: [
+    lazyLoad
+  ],
   data: () => ({
     responsiveLayoutClass: {
       card: 'layout',
       img: 'layout__img w-100 rounded'
     },
-    LSObserver: null,
-    TransderObserver: null,
     layoutImagsWrapperObserver: null,
     imgSrcset_commonConfig: {
       modifiers: { format: 'png', quality: 80 }
@@ -167,47 +168,22 @@ export default {
   },
   created () {},
   mounted () {
-    this.observeLayoutImgs()
-    this.observeTransforms()
+    this.createLazyload(
+      target => target.classList.add('active'),
+      this.observeLayoutImgsConfig,
+      document.querySelectorAll('.layout__img')
+    )
+    this.createLazyload(
+      target => target.children.forEach((child) => {
+        if (child.classList.contains('layoutIcon__deviceWrapper')) {
+          child.classList.add('observed')
+        }
+      }),
+      { rootMargin: '-25px 0px', threshold: 1 },
+      document.querySelectorAll('.layout__component')
+    )
   },
-  methods: {
-    observeLayoutImgs () {
-      const layoutImagsWrapperObserver = document.querySelectorAll('.layout__img')
-      this.layoutImagsObserver = new IntersectionObserver(
-        this.onLayoutImgsHandler,
-        this.observeLayoutImgsConfig
-      )
-      layoutImagsWrapperObserver.forEach(wrapper => this.layoutImagsObserver.observe(wrapper))
-    },
-    onLayoutImgsHandler (entries, observer) {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          target.classList.add('active')
-          observer.unobserve(target)
-        }
-      })
-    },
-    observeTransforms () {
-      const transfers = document.querySelectorAll('.layout__component')
-      this.TransderObserver = new IntersectionObserver(
-        this.onTransformsHandler,
-        { rootMargin: '-25px 0px', threshold: 1 }
-      )
-      transfers.forEach(transfer => this.TransderObserver.observe(transfer))
-    },
-    onTransformsHandler (entries, observer) {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (isIntersecting) {
-          target.children.forEach((child) => {
-            if (child.classList.contains('layoutIcon__deviceWrapper')) {
-              child.classList.add('observed')
-            }
-          })
-          observer.unobserve(target)
-        }
-      })
-    }
-  }
+  methods: {}
 }
 </script>
 
@@ -274,6 +250,7 @@ export default {
 .layoutIcon::v-deep .layout__component {
   .layoutIcon__deviceWrapper {
     position: relative;
+    z-index: 1;
     @media (max-width: 575.98px) {
       width: 50px;
       height: 50px;
@@ -286,12 +263,27 @@ export default {
     border-radius: 25px;
     background: #e5e5e5;
 
-    &.observed {
-      animation-name: device-icon-activate;
-      animation-timing-function: cubic-bezier(.19,.58,.83,.67);
-      animation-duration: 1.5s;
-      animation-delay: .5s;
-      animation-fill-mode: forwards;
+    &::after {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 25px;
+      transition: opacity 0.7s ease-out .5s;
+      box-shadow: 0 0.125rem 0.25rem #ced4da;
+      background-image: linear-gradient(135deg, #153D77, #2F70AF);
+      z-index: 2;
+      opacity: 0;
+    }
+
+    &.observed::after {
+      opacity: 1;
+    }
+
+    .layoutIcon__device {
+      z-index: 3;
     }
   }
 
@@ -348,19 +340,6 @@ export default {
   100% {
     opacity: 1;
     transform: translateX(0rem);
-  }
-}
-
-@keyframes device-icon-activate {
-  0% {
-    opacity: 0.5;
-    box-shadow: 0 0 0 #ced4da;
-  }
-
-  100% {
-    opacity: 1;
-    box-shadow: 0 0.125rem 0.25rem #ced4da;
-    background: linear-gradient(135deg, #153D77, #2F70AF);
   }
 }
 
