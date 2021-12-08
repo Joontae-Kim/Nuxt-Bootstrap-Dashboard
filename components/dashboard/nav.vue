@@ -29,7 +29,7 @@
               <b-btn variant="link" :class="iconClass" @click="refreshPage">
                 <b-icon v-bind="iconProps" icon="arrow-clockwise" />
               </b-btn>
-              <b-btn v-show="isAbletoBackButtonPage" variant="link" :class="iconClass">
+              <b-btn v-show="isAbletoBackButtonPage" variant="link" :class="iconClass" @click="goToListPage">
                 <b-icon v-bind="iconProps" icon="arrow-left-square" />
               </b-btn>
               <client-only>
@@ -228,15 +228,14 @@ export default {
         ? !this.toolboxCollapsed
         : true
     },
-    refreshPage () {
-      if (this.isAbletoBackButtonPage) {
-        this.$nuxt.$emit('pageLoading', true)
-        setTimeout(() => {
-          this.$nuxt.$emit('pageLoading', false)
-        }, 2300)
-      } else {
-        this.$nuxt.refresh()
-      }
+    async refreshPage () {
+      await this.$nuxt.refresh()
+    },
+    goToListPage () {
+      const listPageName = this.$route.name === 'eventDetails'
+        ? 'eventsList'
+        : 'usersList'
+      this.$router.push({ name: listPageName })
     },
     captureNavPosition () {
       const observer = new IntersectionObserver((entries) => {
