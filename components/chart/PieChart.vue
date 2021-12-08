@@ -3,6 +3,7 @@
 </template>
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
+import drawChart from "~/mixins/chart/drawChart"
 import circleChartProps from '~/mixins/chart/props/circle'
 import chartColorCircle from '~/mixins/chart/color/circle'
 import { tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
@@ -10,10 +11,12 @@ import { tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 export default {
   mixins: [
     defaultProps,
+    drawChart,
     circleChartProps,
     chartColorCircle
   ],
   data: () => ({
+    chartInstance: null,
     type: 'pie'
   }),
   computed: {
@@ -53,11 +56,7 @@ export default {
             ? this.dataLabelOpt
             : this.mergeOptions(this.pieDatalabels, this.dataLabelOpt)
         })
-        this.$chartjs.createChart(ctx, {
-          type: this.type,
-          data: this.data,
-          options
-        })
+        this.drawChart(ctx, options)
       } catch (err) {
         console.log(err)
       }
