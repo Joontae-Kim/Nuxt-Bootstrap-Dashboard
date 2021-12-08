@@ -3,16 +3,19 @@
 </template>
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
+import drawChart from "~/mixins/chart/drawChart"
 import chartColorCircle from '~/mixins/chart/color/circle'
 import { borderDash, ticksFontColor, zeroLineColor, tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 
 export default {
   mixins: [
     defaultProps,
+    drawChart,
     chartColorCircle
   ],
   data: () => ({
-    type: 'polarArea'
+    type: 'polarArea',
+    chartInstance: null
   }),
   computed: {
     polarAreaTooltipOpt () {
@@ -67,11 +70,7 @@ export default {
             ? this.polarAreaDatalabels
             : this.mergeOptions(this.polarAreaDatalabels, this.dataLabelOpt)
         })
-        this.$chartjs.createChart(ctx, {
-          type: this.type,
-          data: this.data,
-          options
-        })
+        this.drawChart(ctx, options)
       } catch (err) {
         console.log(err)
       }

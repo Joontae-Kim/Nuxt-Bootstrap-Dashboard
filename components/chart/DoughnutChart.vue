@@ -3,12 +3,14 @@
 </template>
 <script>
 import defaultProps from "~/mixins/chart/defaultProps"
+import drawChart from "~/mixins/chart/drawChart"
 import circleChartProps from '~/mixins/chart/props/circle'
 import chartColorCircle from '~/mixins/chart/color/circle'
 
 export default {
   mixins: [
     defaultProps,
+    drawChart,
     circleChartProps,
     chartColorCircle
   ],
@@ -30,11 +32,7 @@ export default {
         this.mergeDefaultOptions()
         const options = this.mergeOptions(this.option, this.customOpt)
         this.generateChartColor()
-        this.$chartjs.createChart(ctx, {
-          type: this.type,
-          data: this.data,
-          options
-        })
+        this.drawChart(ctx, options)
       } catch (err) {
         console.log(err)
       }

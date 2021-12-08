@@ -3,6 +3,7 @@
 </template>
 <script>
 import defaultProps from "~/mixins/chart/defaultProps_linebar"
+import drawChart from "~/mixins/chart/drawChart"
 import computingYScaleBarLine from "~/mixins/chart/computingScaleTicksBarLine"
 import { yAxesBorderColor, yAxesGridLine, yAxesTicks, xAxesGridLine, xAxesTicks, tooltipStyleObj, tooltipValueFontColor } from "~/lib/chart.lib"
 
@@ -16,6 +17,7 @@ const [
 export default {
   mixins: [
     defaultProps,
+    drawChart,
     computingYScaleBarLine
   ],
   props: {
@@ -33,6 +35,7 @@ export default {
     }
   },
   data: () => ({
+    chartInstance: null,
     type: 'line',
     optionXAxesTime: {
       type: 'time',
@@ -209,11 +212,7 @@ export default {
         }
 
         this.settingLineConfig()
-        this.$chartjs.createChart(ctx, {
-          type: this.type,
-          data: this.data,
-          options
-        })
+        this.drawChart(ctx, options)
       } catch (err) {
         console.log(err)
       }
