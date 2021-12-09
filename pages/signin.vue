@@ -1,13 +1,14 @@
 <template>
-  <b-row class="h-100 rounded overflow-auto" cols="1" align-h="center" align-v="center" no-gutters>
+  <b-row class="h-100" cols="1" align-h="center" align-v="center" no-gutters>
     <b-col
       cols
       md="8"
       lg="6"
       xl="4"
       xxl="4"
-      class="z-index-1000 shadow border-light"
+      class="shadow-lg my-3"
     >
+      <!-- overflow-auto shadow-lg -->
       <div class="p-4 text-white rounded-top">
         <h1 class="mb-4">Login</h1>
         <p class="text-light font-weight-normal fs-6 mb-1 font-italic">

@@ -1,12 +1,12 @@
 <template>
-  <b-row class="h-100 rounded overflow-auto" cols="1" align-h="center" align-v="center" no-gutters>
+  <b-row class="h-100" cols="1" align-h="center" align-v="center" no-gutters>
     <b-col
       cols
       md="8"
       lg="6"
       xl="4"
       xxl="4"
-      class="z-index-1000 shadow border-light"
+      class="shadow-lg my-3"
     >
       <div class="px-4 py-3 rounded-top text-white">
         <h1 class="mb-4">Create new Account!</h1>
