@@ -1,5 +1,5 @@
 <template>
-  <b-row class="h-100 rounded overflow-auto" cols="1" align-h="center" align-v="center" no-gutters>
+  <b-row class="h-100" cols="1" align-h="center" align-v="center" no-gutters>
     <b-col
       cols
       sm="10"
@@ -7,7 +7,7 @@
       lg="6"
       xl="5"
       xxl="4"
-      class="z-index-1000 shadow border-light"
+      class="shadow-lg my-3"
     >
       <div class="p-4 text-white rounded-top">
         <h1 class="mb-4">Reset password</h1>
