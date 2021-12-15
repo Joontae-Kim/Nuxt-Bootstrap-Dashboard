@@ -53,13 +53,11 @@ export default {
   watch: {},
   created () {},
   mounted () {
-    this.setDomHeight()
+    document.body.classList.add('vh-100', 'overflow-hidden')
     this.$nextTick(() => { this.showContent = true })
   },
   destroyed () {
-    setTimeout(() => {
-      this.destractDomHeight()
-    }, 1200)
+    document.body.classList.remove('vh-100', 'overflow-hidden')
   },
   methods: {
     setDomHeight () {
