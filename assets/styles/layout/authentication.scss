@@ -33,8 +33,8 @@
       width: $size * 1.35;
     }
     @media screen and (min-width: 1200px) {
-      height: $size;
-      width: $size;
+      height: $size * 1.5;
+      width: $size * 1.5;
     }
   }
 };
