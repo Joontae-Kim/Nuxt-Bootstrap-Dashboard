@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" mode="out-in">
-    <div v-show="showContent" class="vh-100">
-      <b-container fluid class="h-100 position-relative wrapper--authentication">
+    <div v-show="showContent" class="wrapper h-100">
+      <b-container fluid class="h-100 p-3 position-relative wrapper--authentication">
         <template v-if="$route.name === 'signin'">
           <template v-for="index in 3">
             <div :key="4 - index" :class="`circle circle-layer-${4 - index}`" />
@@ -18,7 +18,7 @@
           </div>
         </template>
         <template v-else>
-          <b-row class="overflow-hidden h-100 doughnuts">
+          <b-row class="doughnuts h-100">
             <b-col
               v-for="r in 6"
               :key="r"
@@ -36,7 +36,7 @@
           </b-row>
         </template>
         <transition name="fade" mode="out-in">
-          <Nuxt class="overflow-auto" />
+          <Nuxt class="rounded z-index-1000" />
         </transition>
       </b-container>
     </div>
@@ -53,13 +53,28 @@ export default {
   watch: {},
   created () {},
   mounted () {
-    document.body.classList.add('vh-100')
+    this.setDomHeight()
     this.$nextTick(() => { this.showContent = true })
   },
   destroyed () {
-    document.body.classList.remove('vh-100')
+    setTimeout(() => {
+      this.destractDomHeight()
+    }, 1200)
   },
-  methods: {}
+  methods: {
+    setDomHeight () {
+      document.getElementsByTagName('html')[0].classList.add('h-100')
+      document.body.classList.add('h-100')
+      document.getElementById('__nuxt').classList.add('h-100')
+      document.getElementById('__layout').classList.add('h-100')
+    },
+    destractDomHeight () {
+      document.getElementsByTagName('html')[0].classList.remove('h-100')
+      document.body.classList.remove('h-100')
+      document.getElementById('__nuxt').classList.remove('h-100')
+      document.getElementById('__layout').classList.remove('h-100')
+    }
+  }
 }
 </script>
 
