@@ -1,9 +1,8 @@
 $circles: #0086D0, #006DB5, #00559A, #003E7F, #002966, #00154D; // , #000536, #00021F; // , #000003;
-// $circles: #0086D0, #006DB5, #00559A, #00154D, #002966, #003E7F; // , #000536, #00021F; // , #000003;
 $circlesCount: length($circles);
 $circlesMiddle: round($circlesCount / 2);
-$circle-default-heigth: 11vw; // 37.5%;
-$circle-default-width: 11vw; // 17.5%;
+$circle-default-heigth: 37.5%;
+$circle-default-width: 17.5%;
 $circle-darken-amount: 3%;
 
 $bar-tick-min-height: 45;

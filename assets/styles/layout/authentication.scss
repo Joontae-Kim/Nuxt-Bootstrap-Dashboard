@@ -4,37 +4,35 @@
 
 .circle {
   position: absolute;
-  // max-height: 65%;
 }
 
 @each $circle in $circles {
   $index: index($circles, $circle);
   .circle-layer-#{$index} {
     background-color: $circle;
-    $size: 0;
     @if $index <= $circlesMiddle {
+      $height: ($circle-default-heigth * $index) - 10;
       left: 0;
-      top: 0;
-      $size: $circle-default-heigth * $index;
-      border-radius: 0 0 100% 0;
+      bottom: 0;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $index * 0.75;
+      border-radius: 0 100% 0 0;
+      box-shadow: inset -25px 0px 0rem 0px darken($circle, 5%) !important;
     } @else {
       $reverseIndex: abs($index - $circlesCount) + 1;
-      bottom: 0;
+      $height: ($circle-default-heigth * $reverseIndex) - 10;
+      top: 0;
       right: 0;
-      $size: $circle-default-heigth * $reverseIndex * 0.75;
-      border-radius: 100% 0 0 0;
-    }
-    @media screen and (max-width: 639.98px) {
-      height: $size * 2;
-      width: $size * 2;
-    }
-    @media screen and  (min-width: 640px) and (max-width: 1199.98px) {
-      height: $size * 1.35;
-      width: $size * 1.35;
-    }
-    @media screen and (min-width: 1200px) {
-      height: $size;
-      width: $size;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $reverseIndex * 0.75;
+      border-radius: 0 0 0 100%;
+      box-shadow: inset 25px 0px 0px darken($circle, 5%) !important;
     }
   }
 };
