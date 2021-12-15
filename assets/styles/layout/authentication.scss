@@ -4,37 +4,35 @@
 
 .circle {
   position: absolute;
-  // max-height: 65%;
 }
 
 @each $circle in $circles {
   $index: index($circles, $circle);
   .circle-layer-#{$index} {
     background-color: $circle;
-    $size: 0;
     @if $index <= $circlesMiddle {
+      $height: ($circle-default-heigth * $index) - 10;
       left: 0;
-      top: 0;
-      $size: $circle-default-heigth * $index;
-      border-radius: 0 0 100% 0;
+      bottom: 0;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $index * 0.75;
+      border-radius: 0 100% 0 0;
+      box-shadow: inset -25px 0px 0rem 0px darken($circle, 5%) !important;
     } @else {
       $reverseIndex: abs($index - $circlesCount) + 1;
-      bottom: 0;
+      $height: ($circle-default-heigth * $reverseIndex) - 10;
+      top: 0;
       right: 0;
-      $size: $circle-default-heigth * $reverseIndex * 0.75;
-      border-radius: 100% 0 0 0;
-    }
-    @media screen and (max-width: 639.98px) {
-      height: $size * 2;
-      width: $size * 2;
-    }
-    @media screen and  (min-width: 640px) and (max-width: 1199.98px) {
-      height: $size * 1.35;
-      width: $size * 1.35;
-    }
-    @media screen and (min-width: 1200px) {
-      height: $size * 1.5;
-      width: $size * 1.5;
+      @if $height > 100 {
+        $height: calc(100% - 10px);
+      }
+      height: $height;
+      width: $circle-default-width * $reverseIndex * 0.75;
+      border-radius: 0 0 0 100%;
+      box-shadow: inset 25px 0px 0px darken($circle, 5%) !important;
     }
   }
 };
@@ -42,38 +40,77 @@
 .bar {
   position: absolute;
   height: 100%;
-  width: calc(100vw - 25px);
-  margin-left: -1rem;
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
+
+  @media (max-width: 575.98px) {
+    margin: $bar-axis-outer-spacing-mobile;
+    border-left: $bar-axis-line-mobile;
+    border-top: $bar-axis-line-mobile;
+  }
+
+  @media (min-width: 576px) {
+    margin: $bar-axis-outer-spacing;
+    border-left: $bar-axis-line;
+    border-top: $bar-axis-line;
+  }
 
   &::before {
     position: absolute;
     content: "";
-    width: 100vw;
-    border-bottom: 10px solid white;
-    height: 40px;
-  }
+    width: 100%;
 
+    @media (max-width: 575.98px) {
+      top: -1 * $bar-axis-border-width-mobile;
+      left: -10 * $bar-axis-outer-spacing;
+      border-top: $bar-axis-line-mobile;
+    }
+
+    @media (min-width: 576px) {
+      top: -1 * $bar-axis-border-width;
+      left: -10 * $bar-axis-outer-spacing;
+      border-top: $bar-axis-line;
+    }
+  }
   &::after {
     position: absolute;
     content: "";
-    height: 100vh;
-    width: 40px;
-    border-right: 10px solid white;
+    top: -100%;
+    height: 100%;
+    width: 100%;
+
+    @media (max-width: 575.98px) {
+      border-left: $bar-axis-line-mobile;
+      left: -1 * $bar-axis-border-width-mobile;
+    }
+
+    @media (min-width: 576px) {
+      border-left: $bar-axis-line;
+      left: -1 * $bar-axis-border-width;
+    }
   }
 
   &__ticks {
-    display: inline-block;
-    width: 8vw;
-    max-height: calc(100vh - 75px);
-    min-width: 30px;
-    margin-top: 60px;
-    border-radius: 20px 20px 45px 45px;
-  }
+    position: absolute;
 
-  .bar__ticks--1 {
-    margin-left: 4rem;
+    @media (max-width: 575.98px) {
+      top: 15px;
+      width: 3vh;
+      border: 2px solid $bar-tick-border-color;
+    }
+
+    @media (min-width: 576px) and (max-width: 1199.98px) {
+      top: 25px;
+      width: 6vh;
+      border: 2px solid $bar-tick-border-color;
+    }
+
+    @media (min-width: 1200px) {
+      top: 25px;
+      width: 10vh;
+      border: 1px solid $bar-tick-border-color;
+    }
+
+    border-radius: 55px;
   }
 
   @each $circle in $circles {
@@ -91,7 +128,9 @@
         @if $tick_height < $bar-tick-min-height-mobile {
           $tick_height: $tick_height + $bar-tick-min-height-mobile;
         }
-        box-shadow: 5px 0px 0px darken($circle, 5%) !important;
+        left: #{$left + 1}vw;
+        max-height: calc(100% - 1vh);
+        box-shadow: 10px 0px 0px darken($circle, 5%) !important;
       }
 
       // Small devices (landscape phones, 576px and up)
@@ -100,6 +139,8 @@
         @if $tick_height < $bar-tick-min-height-tablet {
           $tick_height: $tick_height + $bar-tick-min-height-tablet;
         }
+        left: #{$left}vw;
+        max-height: calc(100% - 3vh);
         box-shadow: 8px 0px 0px darken($circle, 5%) !important;
       }
 
@@ -109,7 +150,11 @@
         @if $tick_height < $bar-tick-min-height {
           $tick_height: $tick_height + $bar-tick-min-height;
         }
-        box-shadow: 10px 2px 0px darken($circle, 5%) !important;
+        left: #{$left}vw;
+        max-height: calc(100% - 3vh);
+        min-width: 50px;
+        min-height: 200px;
+        box-shadow: 15px 0px 0px darken($circle, 5%) !important;
       }
       height: #{$tick_height}vh;
       background-color: $circle;
@@ -124,7 +169,6 @@ $doughnut-size: 10;
   top: 0;
   left: 0;
   z-index: 0;
-  margin: 0px;
 }
 
 .doughnut {
