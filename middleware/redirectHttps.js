@@ -17,6 +17,6 @@ export default function ({ req, redirect }) {
   if (process.env.NODE_ENV !== 'development' && !isEncrypted) {
     const redirectHTTPSURL = requestedFullURL.replace('http:', 'https:')
     console.log(`redirectHTTPSURL => ${redirectHTTPSURL}`)
-    redirect(redirectHTTPSURL)
+    // redirect(redirectHTTPSURL)
   }
 }
