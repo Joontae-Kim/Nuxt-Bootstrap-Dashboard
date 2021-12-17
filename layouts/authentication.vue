@@ -53,11 +53,11 @@ export default {
   watch: {},
   created () {},
   mounted () {
-    document.body.classList.add('vh-100', 'oveflow-hidden')
+    document.body.classList.add('vh-100', 'overflow-hidden')
     this.$nextTick(() => { this.showContent = true })
   },
   destroyed () {
-    document.body.classList.remove('vh-100', 'oveflow-hidden')
+    document.body.classList.remove('vh-100', 'overflow-hidden')
   },
   methods: {}
 }
