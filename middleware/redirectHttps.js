@@ -8,15 +8,15 @@ export default function ({ req, redirect }) {
     console.log(`isEncrypted => ${isEncrypted}`)
     console.log(`requestURL.protocol => ${requestURL.protocol}`)
   }
-  const requestedFullURL = process.server
-    ? requestURL.href
-    : window.location.href
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(`requestedFullURL => ${requestedFullURL}`)
-  }
-  if (process.env.NODE_ENV !== 'development' && !isEncrypted) {
-    const redirectHTTPSURL = requestedFullURL.replace('http:', 'https:')
-    console.log(`redirectHTTPSURL => ${redirectHTTPSURL}`)
-    // redirect(redirectHTTPSURL)
-  }
+  // const requestedFullURL = process.server
+  //   ? requestURL.href
+  //   : window.location.href
+  // if (process.env.NODE_ENV !== 'production') {
+  //   console.log(`requestedFullURL => ${requestedFullURL}`)
+  // }
+  // if (process.env.NODE_ENV !== 'development' && !isEncrypted) {
+  //   const redirectHTTPSURL = requestedFullURL.replace('http:', 'https:')
+  //   console.log(`redirectHTTPSURL => ${redirectHTTPSURL}`)
+  //   // redirect(redirectHTTPSURL)
+  // }
 }
