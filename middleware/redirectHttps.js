@@ -1,30 +1,22 @@
 export default function ({ req, redirect }) {
+  let isEncrypted = true
   if (process.server) {
+    // x-forwarded-proto
     console.log(`req.headers => `, req.headers)
-    console.log(`req.headers.host => `, req.headers.host)
+    console.log(`req.originalUrl => `, req.originalUrl)
+    isEncrypted = req.headers['x-forwarded-proto'] === 'https'
   }
 
   if (process.client) {
-    console.log(`window.location.origin => `, window.location.origin)
+    isEncrypted = new URL(window.location.origin).protocol === 'https:'
   }
-  // const requestURL = process.server
-  //   ? new URL(req.headers.referer)
-  //   : new URL(window.location.origin)
-  // const isEncrypted = requestURL.protocol === 'https:'
-  // if (process.env.NODE_ENV !== 'production') {
-  //   console.log(`requestURL => ${requestURL}`)
-  //   console.log(`isEncrypted => ${isEncrypted}`)
-  //   console.log(`requestURL.protocol => ${requestURL.protocol}`)
-  // }
-  // const requestedFullURL = process.server
-  //   ? requestURL.href
-  //   : window.location.href
-  // if (process.env.NODE_ENV !== 'production') {
-  //   console.log(`requestedFullURL => ${requestedFullURL}`)
-  // }
-  // if (process.env.NODE_ENV !== 'development' && !isEncrypted) {
-  //   const redirectHTTPSURL = requestedFullURL.replace('http:', 'https:')
-  //   console.log(`redirectHTTPSURL => ${redirectHTTPSURL}`)
-  //   // redirect(redirectHTTPSURL)
-  // }
+
+  console.log('isEncrypted: ', isEncrypted)
+  if (process.env.NODE_ENV !== 'development' && !isEncrypted) {
+    const redirectHTTPSURL = process.server
+      ? 'https://' + req.get('host') + req.originalUrl
+      : window.location.href.replace('http', 'https')
+    console.log(`redirectHTTPSURL => ${redirectHTTPSURL}`)
+    // redirect(redirectHTTPSURL)
+  }
 }
