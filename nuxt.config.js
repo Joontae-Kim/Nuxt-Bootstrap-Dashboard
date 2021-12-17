@@ -147,8 +147,6 @@ export default {
     '~/minxin'
   ],
 
-  dev: process.env.NODE_ENV !== 'development',
-
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
