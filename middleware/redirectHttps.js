@@ -14,7 +14,7 @@ export default function ({ req, redirect }) {
   console.log('isEncrypted: ', isEncrypted)
   if (process.env.NODE_ENV !== 'development' && !isEncrypted) {
     const redirectHTTPSURL = process.server
-      ? 'https://' + req.get('host') + req.originalUrl
+      ? 'https://' + req.headers.host + req.originalUrl
       : window.location.href.replace('http', 'https')
     console.log(`redirectHTTPSURL => ${redirectHTTPSURL}`)
     // redirect(redirectHTTPSURL)
