@@ -64,7 +64,8 @@ export default {
     },
     extendRoutes,
     middleware: [
-      'checkRoute'
+      'checkRoute',
+      'redirectHttps'
     ]
   },
 
@@ -145,6 +146,8 @@ export default {
     // '~/minxin/*/*.js'
     '~/minxin'
   ],
+
+  dev: process.env.NODE_ENV !== 'development',
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
