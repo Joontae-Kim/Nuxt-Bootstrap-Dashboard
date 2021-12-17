@@ -1,7 +1,7 @@
 export default function ({ req, redirect }) {
   if (process.server) {
+    console.log(`req.headers => `, req.headers)
     console.log(`req.headers.host => `, req.headers.host)
-    console.log(`req.headers.referer => `, req.headers.referer)
   }
 
   if (process.client) {
