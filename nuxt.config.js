@@ -64,7 +64,8 @@ export default {
     },
     extendRoutes,
     middleware: [
-      'checkRoute'
+      'checkRoute',
+      'redirectHttps'
     ]
   },
 
