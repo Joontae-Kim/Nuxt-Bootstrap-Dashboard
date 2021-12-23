@@ -113,9 +113,9 @@ $ npm run analyze
 ```markdown
 .
 ├── ...
-├── api                       	# ServerMiddleware - custom Endpoint API
+├── api                         # ServerMiddleware - custom Endpoint API
 ├── assets                      # Application resources
-├── components									# Reusable components
+├── components                  # Reusable components
 │   ├── base
 │   ├── chart
 │   ├── common
@@ -124,18 +124,18 @@ $ npm run analyze
 │   ├── landing
 │   ├── users
 │   └── index
-├── env													# Environment vairables
-├── layouts											# Global layouts
-├── lib													# Helper Functions 
-├── middleware									# Route middleware
-├── mixins											# Reusable module for common js feature
-├── pages												# Vue Page components template
-├── plugins											# Global js module that injected to root Vue.js Application
-├── static											# Other types static resources
-├── store												# Vuex store directory
+├── env                         # Environment vairables
+├── layouts                     # Global layouts
+├── lib                         # Helper Functions 
+├── middleware                  # Route middleware
+├── mixins                      # Reusable module for common js feature
+├── pages                       # Vue Page components template
+├── plugins                     # Global js module that injected to root Vue.js Application
+├── static                      # Other types static resources
+├── store                      	# Vuex store directory
 ├── test                        # Unit tests
 │
-│   nuxt.config.js							# Nuxt application configuration
+│   nuxt.config.js              # Nuxt application configuration
 └── ...
 ```
 
