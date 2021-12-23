@@ -36,9 +36,7 @@ $ git fetch -p origin
 $ git push --mirror
 ```
 
-
-
-### Quick Start 
+### Build Setup 
 
 ```bash
 # install dependencies
@@ -46,6 +44,10 @@ $ npm install
 
 # serve with hot reload at localhost:3000
 $ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm run start
 
 # analyze builded application size
 $ npm run analyze
@@ -62,8 +64,6 @@ $ npm run analyze
 - Integrate with the **CSS Preprocessor SCSS**
 - Optimize **images for responsive** rendering
 
-
-
 ### Details
 
 #### Integrate the UI Component Framework - Bootstrap-vue
@@ -73,10 +73,6 @@ $ npm run analyze
 #### Integrate with Chart.js
 
 #### Optimize image and svg
-
-
-
-
 
 
 ## Project Structure
@@ -140,36 +136,36 @@ $ npm run analyze
 ```
 
 
+## Supported browsers
+
+**Nuxtrap** follows the Supported browsers of the Bootstrap 4 because Nuxtrap's Design System and UI Component based on Bootstrap 4 and Bootstrap-vue.
+
+Read more https://getbootstrap.com/docs/4.5/getting-started/browsers-devices/.
+
+- Bootstrap supports the latest, stable releases of all major browsers and platforms. On Windows, we support Internet Explorer 10-11 / Microsoft Edge.
 
 
 
-## Browser Support
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>iOS Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/samsung-internet/samsung-internet_48x48.png" alt="Samsung" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Samsung | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera |
+| --------- | --------- | --------- | --------- | --------- | --------- | --------- |
+| IE >= 10, Edge >= 12 | Firefox >= 38 | Chrome >= 45 | Safari >= 9 | iOS >= 9 | Android >= 4.4 | Opera >= 30
 
 
 
 ## Production deployment
 
+> ✨ Note: If you want to use this repository to create your own project, you can change the Production deployment System and the Environment Variables.
 
 
-## Build Setup
+**Nuxtrap** use `dotenv` node package to support environments and environment variables for deployment.
 
-```bash
-# install dependencies
-$ npm install
+If `feature/` or `hotfix/` branch is merged into the `develop` branch, automatically the latest `develop` branch is deployed on **the Staging Server**. and, `develop` branch is merged into the `master` branch, automatically the latest `master` branch is deployed on **the Production Server**. 
 
-# serve with hot reload at localhost:3000
-$ npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
+| Environtment | Branch | `env` variables | Deployment |
+| ------------ | -----------| ---------- | ---------- |
+| Staging | `develop` | `/env/.env.staging` | [Heroku - Staging Server](https://nuxt-bootstrap-dashboard-stage.herokuapp.com/) |
+| Production | `master` | `/env/.env.production` | [Heroku - Production Server](https://nuxt-bootstrap-dashboard.herokuapp.com/) |
 
 
 ### Changelog
