@@ -53,27 +53,117 @@ $ npm run start
 $ npm run analyze
 ```
 
-
+<br>
 
 ## Features
 
 - **Server-side Rendered** Using Nuxt.js
 - Support Fully **Responsive Design**
 - Make **Restful API** for generating or managing dashboard contents
-- Support to draw **multiple types of charts**. - Line, Bar, Doughnut, Pie, Polar Area and mixed or complex type
+- Support to draw **multiple types of charts**. 
+  - Line, Bar, Doughnut, Pie, Polar Area and mixed or complex type
 - Integrate with the **CSS Preprocessor SCSS**
 - Optimize **images for responsive** rendering
 
 ### Details
+#### 1. Integrate the UI Component Framework - Bootstrap-vue
+We refered **the Nuxt.js module** section of [Bootstrap-vue](https://bootstrap-vue.org/docs) to customize the bootstrap and bootstrap-vue system. And configure options to use custom Bootstrap SCSS in the **bootstrapVue** property of the **nuxt.config.js**.
 
-#### Integrate the UI Component Framework - Bootstrap-vue
 
-#### Transfer data and content from server to client
+```js
+modules: ['bootstrap-vue/nuxt'],
+  bootstrapVue: {
+    bootstrapCSS: false, // Or `css: false`
+    bootstrapVueCSS: false, // Or `bvCSS: false`
+    icons: false,
+    componentPlugins: [
+      // component plugins
+    ],
+    directivePlugins: [
+      // directive plugins
+    ],
+    config: {
+      breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+    }
+  }
+```
 
-#### Integrate with Chart.js
+1. `bootstrapCSS` and `bootstrapVueCSS`
+Disable automatic inclusion of Bootstrap and BootstrapVue pre-compiled CSS files by setting the following option(s) to `false`. And, you can find bootstrap and bootstrap-vue custom stylesheet in the directory `asstes/styles/library/bootstrap` and `asstes/styles/library/bootstrapVue`. 
+Each sub-directory of the `assets/styles/library` have `blocks` directory that edited or extended from default style.
 
-#### Optimize image and svg
+2. `icons`
+Set `icon: false` to use the bootstrapVue icon and create the plugin `~/plugins/importBootstrapVueIcons` for importing independently icon components.
 
+
+3. `config.breakpoints`
+In Nuxtrap, Extend the breakpoints of the bootstrap 4. Read More the Section **Configuring defaults** and **Setting new configuration values** in https://bootstrap-vue.org/docs/reference/settings#default-bootstrapvue-configuration.
+
+```scss
+$grid-breakpoints: (
+  xs: 0,
+  sm: 480px,
+  md: 640px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1366px,
+  sxl: 1680px,
+);
+```
+
+and, extended breakpoints scss variables is placed in `/assets/styles/library/_library.scss`.
+
+
+#### 2. Transfer data and content from server to client
+Nuxtrap have custom Endpoint API in the directory `/api` and refered [configuration-servermiddleware#custom-api-endpoint](https://nuxtjs.org/docs/configuration-glossary/configuration-servermiddleware#custom-api-endpoint).
+
+Each endpoint mapped to `serverMiddleware` property in `nuxt.config.js` like `{ path, handler }`.
+
+```js
+serverMiddleware: [
+  bodyParser.json(),
+  { path: '/test', handler: '~/api/test.js' }, // for api test
+  { path: '/api/over', handler: '~/api/over.js' },
+  { path: '/api/event', handler: '~/api/event.js' },
+  { path: '/api/users', handler: '~/api/users.js' }
+],
+```
+
+In client, Use `@nuxtjs/axios` to communicate with API Endpoints and Add `@nuxtjs/axios` to `modules` property in `nuxt.config.js` and create a axiost plugin for `interceptors` feature - `/plugins/axios.js`.
+
+```js
+modules: [
+  '@nuxtjs/axios'
+],
+plugins: [
+  '~/plugins/axios'
+]
+```
+
+#### 3. Integrate with Chart.js
+For Integrating with Chart.js, create the plugin `/plugins/chartjs.js` and others.
+- `/lib/chart.lib.js`: Chart Global Configuration Variables
+- `/mixins/chart/*`: mixins for customizing chartjs js module
+    - Merge default option with option passed from chart-component's props
+    - Compute Scale Ticks for Bar and Line Chart
+    - Create a chart color-set
+    - Create a custom common style for all charts
+    - Draw and Update chart instance
+
+```js
+plugins: [
+  '~/plugins/chartjs',
+]
+```
+
+In Nuxtrap, Create reusable chart components (`/components/chart/~`).
+- Bar Chart (`/components/chart/BarChart.vue`)
+- Line Chart (`/components/chart/LineChart.vue`)
+- Doughnut Chart (`/components/chart/DoughnutChart.vue`)
+- Pie Chart (`/components/chart/PieChart.vue`)
+- PolartArea (`/components/chart/PolarArea.vue`)
+
+<br>
 
 ## Project Structure
 
@@ -135,6 +225,7 @@ $ npm run analyze
 └── ...
 ```
 
+<br>
 
 ## Supported browsers
 
@@ -150,7 +241,7 @@ Read more https://getbootstrap.com/docs/4.5/getting-started/browsers-devices/.
 | --------- | --------- | --------- | --------- | --------- | --------- | --------- |
 | IE >= 10, Edge >= 12 | Firefox >= 38 | Chrome >= 45 | Safari >= 9 | iOS >= 9 | Android >= 4.4 | Opera >= 30
 
-
+<br>
 
 ## Production deployment
 
@@ -168,8 +259,11 @@ If `feature/` or `hotfix/` branch is merged into the `develop` branch, automatic
 | Production | `master` | `/env/.env.production` | [Heroku - Production Server](https://nuxt-bootstrap-dashboard.herokuapp.com/) |
 
 
-### Changelog
+## Changelog
 
 
+<br>
 
-### License
+## License
+![license/Joontae-Kim](https://img.shields.io/github/license/Joontae-Kim/Nuxt-Bootstrap-Dashboard)
+
