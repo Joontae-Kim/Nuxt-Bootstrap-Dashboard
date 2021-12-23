@@ -18,6 +18,10 @@
     "lint": "npm run lint:js",
     "test": "jest"
   },
+  "bugs": {
+    "url": "https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard/issues"
+  },
+  "license": "MIT",
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/moment": "^1.6.1",
