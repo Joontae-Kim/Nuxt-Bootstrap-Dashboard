@@ -17,18 +17,21 @@
 
 > ✨ **Note:**  Nuxtrap is a private admin dashboard Project. But, you can use to develop your own dashaboard web application or extend by fork the repository.
 
+<br>
+
+![README_snapshot](/static/README_snapshot.png)
 
 
 ## Quick Start
 
 ### Usage Guideness of Nuxtrap
-#### 1. Just Explore
+1. Just Explore
 If you just want to explore, `git clone https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard.git`
 
-#### 2. Extend Nuxtrap
+2. Extend Nuxtrap
 If you want to extend some features or fix bugs, let's folk this repository and clone folked repository placed in your own github.
 
-#### 3. Create your own Dashboard using Nuxtrap
+1. Create your own Dashboard using Nuxtrap
 If you want to create a dashboard web application based on Nuxtrap, `git clone --mirror https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard.git` . Then, reset the repository url `git remote set-url --push origin https://github.com/[exampleuser]/Nuxt-Bootstrap-Dashboard.git`. and To update your mirror, fetch updates and push.
 
 ```shell
@@ -65,40 +68,36 @@ $ npm run analyze
 
 <br>
 
-## Integration and Configuration
-#### 1. Costomize the Bootstrap and Bootstrap-vue
+## Configuration
+#### 1. Customize the Bootstrap and Bootstrap-vue
 Configure options to customize Bootstrap SCSS in the **bootstrapVue** property of the **nuxt.config.js**. Refer **the Nuxt.js module** section of [Bootstrap-vue](https://bootstrap-vue.org/docs) to customize the bootstrap and bootstrap-vue system. 
-
 
 ```js
 modules: ['bootstrap-vue/nuxt'],
-  bootstrapVue: {
-    bootstrapCSS: false, // Or `css: false`
-    bootstrapVueCSS: false, // Or `bvCSS: false`
-    icons: false,
-    componentPlugins: [
-      // component plugins
-    ],
-    directivePlugins: [
-      // directive plugins
-    ],
-    config: {
-      breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
-    }
+bootstrapVue: {
+  bootstrapCSS: false, // Or `css: false`
+  bootstrapVueCSS: false, // Or `bvCSS: false`
+  icons: false,
+  componentPlugins: [
+    // component plugins
+  ],
+  directivePlugins: [
+    // directive plugins
+  ],
+  config: {
+    breakpoints: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
   }
+}
 ```
 
 1. `bootstrapCSS` and `bootstrapVueCSS`
-Disable automatic inclusion of Bootstrap and BootstrapVue pre-compiled CSS files by setting the following option(s) to `false`. And, you can find bootstrap and bootstrap-vue custom stylesheet in the directory `asstes/styles/library/bootstrap` and `asstes/styles/library/bootstrapVue`. 
-Each sub-directory of the `assets/styles/library` have `blocks` directory that edited or extended from default style.
-
+    - Disable automatic inclusion of Bootstrap and BootstrapVue pre-compiled CSS files by setting the following option(s) to `false`. And, you can find bootstrap and bootstrap-vue custom stylesheet in the directory `asstes/styles/library/bootstrap` and `asstes/styles/library/bootstrapVue`. 
+    - Each sub-directory of the `assets/styles/library` have `blocks` directory that edited or extended from default style.
 2. `icons`
-Set `icon: false` to use the bootstrapVue icon and create the plugin `~/plugins/importBootstrapVueIcons` for importing independently icon components.
-
-
+    - Set `icon: false` to use the bootstrapVue icon and create the plugin `~/plugins/importBootstrapVueIcons` for importing independently icon components.
 3. `config.breakpoints`
-In Nuxtrap, Extend the bootstrap 4's default breakpoints. extended breakpoints scss variables is placed in `/assets/styles/library/_library.scss`.
-Read More the Section **Configuring defaults** and **Setting new configuration values** in https://bootstrap-vue.org/docs/reference/settings#default-bootstrapvue-configuration.
+    - In Nuxtrap, Extend the bootstrap 4's default breakpoints. extended breakpoints scss variables is placed in `/assets/styles/library/_library.scss`.
+    - Read More the Section **Configuring defaults** and **Setting new configuration values** in https://bootstrap-vue.org/docs/reference/settings#default-bootstrapvue-configuration.
 
 ```scss
 $grid-breakpoints: (
@@ -113,7 +112,7 @@ $grid-breakpoints: (
 ```
 
 #### 2. Transfer data and content from server to client
-Nuxtrap have custom Endpoint API in the directory `/api` and refered [configuration-servermiddleware#custom-api-endpoint](https://nuxtjs.org/docs/configuration-glossary/configuration-servermiddleware#custom-api-endpoint). Each endpoint mapped to `serverMiddleware` property in `nuxt.config.js` like `{ path, handler }`.
+Nuxtrap have custom Endpoint API in the directory `/api`. Each endpoint mapped to `serverMiddleware` property in `nuxt.config.js` like `{ path, handler }`. Refer [configuration-servermiddleware#custom-api-endpoint](https://nuxtjs.org/docs/configuration-glossary/configuration-servermiddleware#custom-api-endpoint).
 
 ```js
 serverMiddleware: [
@@ -139,6 +138,13 @@ plugins: [
 
 #### 3. Integrate with Chart.js
 For Integrating with Chart.js, create the plugin `/plugins/chartjs.js` and others.
+
+```js
+plugins: [
+  '~/plugins/chartjs',
+]
+```
+
 - `/lib/chart.lib.js`: Chart Global Configuration Variables
 - `/mixins/chart/*`: mixins for customizing chartjs js module
   - Merge default option with option passed from chart-component's props
@@ -146,12 +152,6 @@ For Integrating with Chart.js, create the plugin `/plugins/chartjs.js` and other
   - Create a chart color-set
   - Create a custom common style for all charts
   - Draw and Update chart instance
-
-```js
-plugins: [
-  '~/plugins/chartjs',
-]
-```
 
 In Nuxtrap, Created reusable chart components (`/components/chart/~`).
 - Bar Chart (`/components/chart/BarChart.vue`)
@@ -212,7 +212,7 @@ In Nuxtrap, Created reusable chart components (`/components/chart/~`).
 - `/api`
   - This directory is [Custom API endpoint](https://nuxtjs.org/docs/configuration-glossary/configuration-servermiddleware#custom-api-endpoint) and we can use API endpoint to enroll to `serverMiddleware` property in `nuxt.config.js`
   - Read More, [custom-server-middleware](https://nuxtjs.org/docs/configuration-glossary/configuration-servermiddleware#custom-server-middleware), [custom-api-endpoint](https://nuxtjs.org/docs/configuration-glossary/configuration-servermiddleware#custom-api-endpoint)
-  - features of utility, middleware and library for API is placed inside `/api/~` directory. not `/(root)`.
+  - feature of utility, middleware and library for API is placed in `/api/~` directory. not `/(root)`.
 - `/store`
   - It contains your Vuex Store files. Every `.js` file inside the `store` directory is transformed as a [namespaced module ](http://vuex.vuejs.org/en/modules.html) (`index` being the root module).
 - `/assets`
@@ -222,7 +222,7 @@ In Nuxtrap, Created reusable chart components (`/components/chart/~`).
 
 ## Supported browsers
 
-**Nuxtrap** follows the Supported browsers of the Bootstrap 4 because Nuxtrap's Design System and UI Component based on Bootstrap 4 and Bootstrap-vue.
+Nuxtrap follows the Supported browsers of the Bootstrap 4 because Nuxtrap's Design System and UI Component based on Bootstrap 4 and Bootstrap-vue.
 
 Read more https://getbootstrap.com/docs/4.5/getting-started/browsers-devices/.
 
