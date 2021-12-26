@@ -250,6 +250,7 @@ If `feature/` or `hotfix/` branch is merged into the `develop` branch, automatic
 | Staging | `develop` | `/env/.env.staging` | [Heroku - Staging Server](https://nuxt-bootstrap-dashboard-stage.herokuapp.com/) |
 | Production | `master` | `/env/.env.production` | [Heroku - Production Server](https://nuxt-bootstrap-dashboard.herokuapp.com/) |
 
+<br>
 
 ## Changelog - Release List
 1. Release Version 1
