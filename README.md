@@ -251,8 +251,25 @@ If `feature/` or `hotfix/` branch is merged into the `develop` branch, automatic
 | Production | `master` | `/env/.env.production` | [Heroku - Production Server](https://nuxt-bootstrap-dashboard.herokuapp.com/) |
 
 
-## Changelog
-
+## Changelog - Release List
+1. Release Version 1
+   - [release-1.1.1](https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard/releases/tag/release-1.1.1)
+     - Fixed the bug of build error on the production server
+   - [release-1.2.1](https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard/releases/tag/release-1.2.1)
+     - Enhance a feature of the Section Landing
+     - Enhance a feature of handling SVG Icon
+     - Enhance a feature of lazy loading img pages using the IntersectionObserver
+     - Fix the bug of layout heading device-icon
+   - [release-1.3.1](https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard/releases/tag/release-1.3.1)
+     - Fixed the bug of the Landing Page for- the Browser compability
+     - Fixed the bug of the Layout Section
+     - Fixed the bug of computing scale axe in chart.js
+     - Enhance the feature of transition to the dashboard layout and page
+     - Fixed the bug of dashboard navigation-bar and its toolbox transition
+   - [release-1.4.1](https://github.com/Joontae-Kim/Nuxt-Bootstrap-Dashboard/releases/tag/release-1.4.1)
+     - Enhanced the authentication type page's background design
+     - Create a feature of redirect to `https` protocol on **staging** and **production** level
+     - Fixed the authentication layout and page's duplicate overflow error
 
 <br>
 
